@@ -1,13 +1,15 @@
 [user]
 	name = Henri Menke
 	email = henri@icp.uni-stuttgart.de
-        signingkey = 94742EE210DB9744
+	signingkey = 94742EE210DB9744
 [pull]
-        ff = only
+	ff = only
 [commit]
 	gpgsign = true
 [gpg]
 	program = gpg2
 [log]
 	decorate = true
-        showSignature = true
+	showSignature = true
+[status]
+	showUntrackedFiles = no
