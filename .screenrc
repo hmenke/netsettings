@@ -1,2 +1,10 @@
-startup_message  off
-caption always "%{= wk} %-w%{= KW} [%n %t] %{-}%+w %= | @%H | %l | %Y-%m-%d %c "
+startup_message off
+defutf8         on
+defscrollback   10000
+
+# Status line
+caption always "%{= wk} %-w%{= KW} [%n %t] %{-}%+w %= | @%H | %Y-%m-%d %c "
+
+# Ctrl + right and left arrows
+bindkey ^[[1;5D forward-word
+bindkey ^[[1;5C backward-word
