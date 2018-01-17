@@ -39,10 +39,11 @@ set guioptions-=r     "remove right-hand scroll bar
 set guioptions-=L     "remove left-hand scroll bar
 
 " Color theme
-if filereadable(glob("~/.vim/colors/zenburn.vim"))
+set rtp+=~/.vim/plugins/gruvbox
+if filereadable(glob("~/.vim/plugins/gruvbox/colors/gruvbox.vim"))
   if has('gui_running')
     set background=dark
-    colors zenburn
+    colors gruvbox
   endif
 endif
 

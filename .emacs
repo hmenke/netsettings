@@ -70,6 +70,9 @@
 (package-dl 'gnuplot-mode)
 (require 'gnuplot-mode)
 
+(package-dl 'gruvbox-theme)
+(load-theme 'gruvbox t)
+
 (package-dl 'haskell-mode)
 (require 'haskell-mode)
 
@@ -83,9 +86,6 @@
 
 (package-dl 'rust-mode)
 (require 'rust-mode)
-
-(package-dl 'zenburn-theme)
-(require 'zenburn-theme)
 
 
 ; TeX mode enhancements
