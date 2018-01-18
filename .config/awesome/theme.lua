@@ -8,32 +8,32 @@
 
 -- {{{ Main
 theme = {}
-theme.wallpaper_cmd = "nitrogen --set-zoom-fill " .. os.getenv"HOME" .. "/.config/awesome/backgrounds/Wallpaper.jpg"
-
+theme.wallpaper = os.getenv"HOME" .. "/.config/awesome/backgrounds/Wallpaper.jpg"
+theme.wallpaper_cmd = { "nitrogen --set-zoom-fill " .. theme.wallpaper }
 -- }}}
 
 -- {{{ Styles
 theme.font      = "DejaVu Sans Book 8"
 
 -- {{{ Colors
-theme.fg_normal = "#DCDCCC"
-theme.fg_focus  = "#F0DFAF"
-theme.fg_urgent = "#CC9393"
-theme.bg_normal = "#3F3F3F"
-theme.bg_focus  = "#1E2320"
-theme.bg_urgent = "#3F3F3F"
+theme.fg_normal = "#ebdbb2" -- fg1
+theme.fg_focus  = "#d5c4a1" -- fg2
+theme.fg_urgent = "#fb4934" -- red (9)
+theme.bg_normal = "#282828" -- bg0
+theme.bg_focus  = "#3c3836" -- bg1
+theme.bg_urgent = "#cc241d" -- red (1)
 -- }}}
 
 -- {{{ Borders
 theme.border_width  = "2"
-theme.border_normal = "#3F3F3F"
-theme.border_focus  = "#6F6F6F"
-theme.border_marked = "#CC9393"
+theme.border_normal = theme.bg_normal
+theme.border_focus  = theme.bg_focus
+theme.border_marked = theme.bg_urgent
 -- }}}
 
 -- {{{ Titlebars
-theme.titlebar_bg_focus  = "#3F3F3F"
-theme.titlebar_bg_normal = "#3F3F3F"
+theme.titlebar_bg_focus  = theme.bg_focus
+theme.titlebar_bg_normal = theme.bg_normal
 -- }}}
 
 -- There are other variable sets
@@ -58,7 +58,7 @@ theme.titlebar_bg_normal = "#3F3F3F"
 -- }}}
 
 -- {{{ Mouse finder
-theme.mouse_finder_color = "#CC9393"
+theme.mouse_finder_color = theme.fg_urgent
 -- mouse_finder_[timeout|animate_timeout|radius|factor]
 -- }}}
 
