@@ -56,7 +56,7 @@ export NO_AT_BRIDGE=1
 
 # Alias emacs for daemon
 if [ -n "$(ps aux | grep -v grep | grep 'emacs --daemon')" ]; then
-    alias emacs='emacsclient -c -a emacs'
+    alias emacs='emacsclient -n -c -a emacs'
 fi
 
 # Cropping for TeX.SX
