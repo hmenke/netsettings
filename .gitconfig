@@ -2,6 +2,8 @@
 	name = Henri Menke
 	email = henri@icp.uni-stuttgart.de
 	signingkey = 94742EE210DB9744
+[alias]
+	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
 [pull]
 	ff = only
 [commit]
