@@ -37,6 +37,7 @@ alias pylab='ipython --pylab'
 
 # TeXLive
 alias latexdef='texdef -t latex'
+alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
 
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
