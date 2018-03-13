@@ -59,7 +59,11 @@ export NO_AT_BRIDGE=1
 # Cropping for TeX.SX
 function crop {
     pdfcrop "$2" "/tmp/${2%%.pdf}-crop.pdf"
-    mudraw -r $1 -o "${2%%.pdf}.png" "/tmp/${2%%.pdf}-crop.pdf"
+    if command -v mudraw >/dev/null; then
+        mudraw -r $1 -o "${2%%.pdf}.png" "/tmp/${2%%.pdf}-crop.pdf"
+    else
+        mutool draw -r $1 -o "${2%%.pdf}.png" "/tmp/${2%%.pdf}-crop.pdf"
+    fi
 }
 
 # Search ConTeXt source tree
