@@ -37,6 +37,7 @@ alias pylab='ipython --pylab'
 
 # TeXLive
 alias latexdef='texdef -t latex'
+alias setuptex='source /opt/context/tex/setuptex'
 alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
 
 # bash completion
@@ -54,11 +55,6 @@ export GPG_TTY=`tty`
 
 # Shut up GTK!
 export NO_AT_BRIDGE=1
-
-# Alias emacs for daemon
-if [ -n "$(ps aux | grep -v grep | grep 'emacs --daemon')" ]; then
-    alias emacs='emacsclient -n -c -a emacs'
-fi
 
 # Cropping for TeX.SX
 function crop {
@@ -87,7 +83,7 @@ function ctxgrep {
             grep -r --include=*.lua "$@" $CTXPATH
             ;;
         *)
-            grep -r "$@" $CTXPATH
+            grep -r --exclude={*.mkii,*.pat} "$@" $CTXPATH
             ;;
     esac
 }
