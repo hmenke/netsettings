@@ -2,6 +2,7 @@ set nocompatible
 
 " Normal things
 set autoindent        " enable indentation
+set cindent           " enable smart indentation for C-like languages
 set nonumber          " disable line numbers
 set modeline          " execute options local to file
 syntax on             " enable synatx highlighting
@@ -12,9 +13,9 @@ nmap <Tab> ==         " In normal and visual mode
 vmap <Tab> ==         " indent selection or line
 set laststatus=2      " Display statusline
 set expandtab         " Expand tab to spaces
-set softtabstop=2     " Expand to 2 spaces
+set softtabstop=4     " Expand to 2 spaces
 set tabstop=8         " A tab is 8 spaces
-set shiftwidth=2      " Autoindent uses 2 spaces
+set shiftwidth=4      " Autoindent uses 2 spaces
 set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
 set wildmode=longest,list " Bash-like autocompletion for filenames
