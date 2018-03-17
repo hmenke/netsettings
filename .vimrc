@@ -19,6 +19,7 @@ set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
 set wildmode=longest,list " Bash-like autocompletion for filenames
 set wildmenu
+set listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<,space:␣
 
 " use system clipboard
 if has('unnamedplus')
