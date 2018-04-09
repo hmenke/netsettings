@@ -31,6 +31,7 @@ beautiful.init(os.getenv"HOME" .. "/.config/awesome/theme.lua")
 -- Turn off notification icons
 --naughty.config.default_preset.icon_size = 0
 naughty.config.icon_size = 0
+naughty.config.defaults['icon_size'] = 100
 
 -- {{{ Error handling
 -- Check if awesome encountered an error during startup and fell back to
