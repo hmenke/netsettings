@@ -103,6 +103,9 @@
 (add-to-list 'auto-mode-alist '("\\.mkii\\'" . ConTeXt-mode))
 (add-to-list 'auto-mode-alist '("\\.mkiv\\'" . ConTeXt-mode))
 (add-to-list 'auto-mode-alist '("\\.mkvi\\'" . ConTeXt-mode))
+(add-to-list 'auto-mode-alist '("\\.mpii\\'" . metapost-mode))
+(add-to-list 'auto-mode-alist '("\\.mpiv\\'" . metapost-mode))
+(add-to-list 'auto-mode-alist '("\\.mpvi\\'" . metapost-mode))
 (setq ConTeXt-Mark-version "IV")
 (with-eval-after-load "context"
   (add-to-list 'TeX-file-extensions "mkiv" t)
