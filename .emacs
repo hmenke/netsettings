@@ -19,7 +19,6 @@
 (setq c-default-style "linux" c-basic-offset 4)
 (c-set-offset 'innamespace 0)
 (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-(require 'whitespace)
 
 
 ; DocView properties
@@ -49,43 +48,26 @@
       (package-refresh-contents)
       (package-install p))))
 
-(package-dl 'auctex)
-; (require 'auctex) ; apparently not needed
-
+; Vim bindings
 (package-dl 'evil)
 (require 'evil)
 
+; Language modes
+(package-dl 'auctex)
 (package-dl 'cmake-mode)
-(require 'cmake-mode)
-
 (package-dl 'cuda-mode)
-(require 'cuda-mode)
-
 (package-dl 'cython-mode)
-(require 'cython-mode)
-
 (package-dl 'd-mode)
-(require 'd-mode)
-
 (package-dl 'gnuplot-mode)
-(require 'gnuplot-mode)
+(package-dl 'haskell-mode)
+(package-dl 'julia-mode)
+(package-dl 'lua-mode)
+(package-dl 'modern-cpp-font-lock)
+(package-dl 'rust-mode)
 
+; Theme
 (package-dl 'gruvbox-theme)
 (load-theme 'gruvbox t)
-
-(package-dl 'haskell-mode)
-(require 'haskell-mode)
-
-(package-dl 'julia-mode)
-(require 'julia-mode)
-
-(package-dl 'lua-mode)
-(require 'lua-mode)
-
-(package-dl 'modern-cpp-font-lock)
-
-(package-dl 'rust-mode)
-(require 'rust-mode)
 
 
 ; TeX mode enhancements
