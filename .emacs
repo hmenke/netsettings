@@ -97,6 +97,11 @@
             (setq TeX-command-default "ConTeXt Full")
             (setq TeX-command-Show "ConTeXt Full")))
 
+
+; Lua mode
+(setq lua-indent-level 4)
+
+
 ; Dired enhancements
 (setq dired-listing-switches
       "--group-directories-first -l --hide=*~")
