@@ -40,15 +40,6 @@ set guioptions-=T     "remove toolbar
 set guioptions-=r     "remove right-hand scroll bar
 set guioptions-=L     "remove left-hand scroll bar
 
-" Color theme
-set rtp+=~/.vim/plugins/gruvbox
-if filereadable(glob("~/.vim/plugins/gruvbox/colors/gruvbox.vim"))
-  if has('gui_running')
-    set background=dark
-    colors gruvbox
-  endif
-endif
-
 " Statusline
 set statusline=
 set statusline+=[%n]                               " buffer number
@@ -59,4 +50,14 @@ set statusline+=\ %{&ff}\                          " file format
 set statusline+=\ %=                               " right align
 set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
+
+" Plugins
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+execute pathogen#infect()
+
+" Color theme
+if has('gui_running')
+  set background=dark
+  colors gruvbox
+endif
 
