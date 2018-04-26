@@ -30,11 +30,6 @@
 (show-paren-mode 1)
 
 
-; Replacement for multiple-cursors
-(cua-selection-mode t)
-(global-set-key (kbd "C-v") 'cua-set-rectangle-mark)
-
-
 ; package archives
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
