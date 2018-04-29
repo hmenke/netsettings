@@ -22,9 +22,7 @@ local battmon = require("battmon")
 -- This is used later as the default terminal and editor to run.
 terminal = "x-terminal-emulator"
 filemgr = "caja"
-browser = "google-chrome"
-editor = "gvim"
-editor_cmd = terminal .. " -e " .. editor
+browser = "x-www-browser"
 
 -- Themes define colours, icons, and wallpapers
 beautiful.init(os.getenv"HOME" .. "/.config/awesome/theme.lua")
