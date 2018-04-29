@@ -23,20 +23,18 @@ local io = require("io")
 local string = require("string")
 local math = require("math")
 
-module("battmon")
-
 -- sound = "/usr/share/sounds/freedesktop/stereo/dialog-error.oga"
 -- loop = 3
 
-battmon = wibox.widget{ widget=wibox.widget.textbox }
+local battmon = wibox.widget{ widget=wibox.widget.textbox }
 
-function battmon_update ()
+local function battmon_update ()
    local fd=io.popen("acpi -b", "r") --list present batteries
    local line=fd:read()
    fd:close()
    if line then
       local battery_load = tonumber(string.match(line, " (%d*)%%"))
-      local time_rem = string.match(line, "(%d+\:%d+)\:%d+")
+      local time_rem = string.match(line, "(%d+:%d+):%d+")
       local color = "#DCDCCC"
 
       if string.match(line, "Discharging") ~= "Discharging" then
@@ -67,3 +65,5 @@ battmon_update()
 battmon_timer=gears.timer{timeout=10}
 battmon_timer:connect_signal("timeout", battmon_update)
 battmon_timer:start()
+
+return { battmon = battmon }

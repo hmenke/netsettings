@@ -12,14 +12,15 @@ local menubar = require("menubar")
 local hotkeys_popup = require("awful.hotkeys_popup").widget
 
 -- Load Debian menu entries
-require("debian.menu")
+-- local debian = require("debian.menu")
+-- local has_fdo, freedesktop = pcall(require, "freedesktop")
 
 -- Load my shit
 require("helpers")
 local battmon = require("battmon")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "mate-terminal"
+terminal = "x-terminal-emulator"
 filemgr = "caja"
 browser = "google-chrome"
 editor = "gvim"
@@ -59,6 +60,7 @@ end
 -- }}}
 
 -- {{{ Variable definitions
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -103,23 +105,6 @@ end
 -- }}}
 
 -- {{{ Menu
--- Create a launcher widget and a main menu
-myawesomemenu = {
-   { "hotkeys", function() return false, hotkeys_popup.show_help end},
-   { "manual", terminal .. " -e man awesome" },
-   { "edit config", editor_cmd .. " " .. awesome.conffile },
-   { "restart", awesome.restart },
-   { "quit", function() awesome.quit() end}
-}
-
-mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
-                                    { "Debian", debian.menu.Debian_menu.Debian },
-                                    { "open terminal", terminal }
-                                  }
-                        })
-
-mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-                                     menu = mymainmenu })
 
 -- Menubar configuration
 menubar.utils.terminal = terminal -- Set the terminal for applications that require it
@@ -187,8 +172,6 @@ local function set_wallpaper(s)
             wallpaper = wallpaper(s)
         end
         gears.wallpaper.maximized(wallpaper, s, true)
-    elseif beautiful.wallpaper_cmd then
-       awful.spawn(beautiful.wallpaper_cmd)
     end
 end
 
@@ -204,7 +187,7 @@ awful.screen.connect_for_each_screen(function(s)
 
     -- Create a promptbox for each screen
     s.mypromptbox = awful.widget.prompt()
-    -- Create an imagebox widget which will contains an icon indicating which layout we're using.
+    -- Create an imagebox widget which will contain an icon indicating which layout we're using.
     -- We need one layoutbox per screen.
     s.mylayoutbox = awful.widget.layoutbox(s)
     s.mylayoutbox:buttons(awful.util.table.join(
@@ -226,7 +209,6 @@ awful.screen.connect_for_each_screen(function(s)
         layout = wibox.layout.align.horizontal,
         { -- Left widgets
             layout = wibox.layout.fixed.horizontal,
-            --mylauncher,
             s.mytaglist,
             s.mypromptbox,
         },
@@ -260,8 +242,6 @@ globalkeys = awful.util.table.join(
               {description = "Raise volume", group = "client"}),
     awful.key({ }, "XF86AudioLowerVolume",    function() audioctl("-5%") end,
               {description = "Lower volume", group = "client"}),
-    -- awful.key({ }, "XF86MonBrightnessUp",     function() brightness("+10%") end),
-    -- awful.key({ }, "XF86MonBrightnessDown",   function() brightness("-10%") end),
     awful.key({ modkey,           }, "e",     function() awful.util.spawn(filemgr) end,
               {description = "Launch filemanager", group = "client"}),
     awful.key({ modkey,           }, "b",     function() awful.util.spawn(browser) end,
@@ -275,7 +255,7 @@ globalkeys = awful.util.table.join(
     awful.key({ modkey, "Control" }, "Down",  function() audioctl("-1%") end,
              {description = "Lower volume", group = "client"}),
     -- Default keybindings
-   awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
+    awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),
     awful.key({ modkey,           }, "Left",   awful.tag.viewprev,
               {description = "view previous", group = "tag"}),
@@ -403,11 +383,23 @@ clientkeys = awful.util.table.join(
             c.maximized = not c.maximized
             c:raise()
         end ,
-        {description = "maximize", group = "client"})
+        {description = "(un)maximize", group = "client"}),
+    awful.key({ modkey, "Control" }, "m",
+        function (c)
+            c.maximized_vertical = not c.maximized_vertical
+            c:raise()
+        end ,
+        {description = "(un)maximize vertically", group = "client"}),
+    awful.key({ modkey, "Shift"   }, "m",
+        function (c)
+            c.maximized_horizontal = not c.maximized_horizontal
+            c:raise()
+        end ,
+        {description = "(un)maximize horizontally", group = "client"})
 )
 
 -- Bind all key numbers to tags.
--- Be careful: we use keycodes to make it works on any keyboard layout.
+-- Be careful: we use keycodes to make it work on any keyboard layout.
 -- This should map on the top row of your keyboard, usually 1 to 9.
 for i = 1, 10 do
     globalkeys = awful.util.table.join(globalkeys,
