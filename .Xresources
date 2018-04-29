@@ -1,0 +1,41 @@
+! Xft settings
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
+Xft.autohint:   false
+Xft.lcdfilter:  lcddefault
+
+! Xterm settings
+xterm*faceName: xft:mono:medium:size=10
+
+! Urxvt settings
+URxvt*font: xft:mono:medium:size=10
+URxvt.letterSpace: -1
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.scrollBar_floating: false
+URxvt.scrollstyle: rxvt
+URxvt.perl-ext-common: default,tabbed
+
+! Color theme
+*background: #282828
+*foreground: #ebdbb2
+*color0: #282828
+*color1: #cc241d
+*color2: #98971a
+*color3: #d79921
+*color4: #458588
+*color5: #b16286
+*color6: #689d6a
+*color7: #a89984
+*color8: #928374
+*color9: #fb4934
+*color10: #b8bb26
+*color11: #fabd2f
+*color12: #83a598
+*color13: #d3869b
+*color14: #8ec07c
+*color15: #ebdbb2
+
