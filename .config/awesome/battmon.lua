@@ -1,15 +1,7 @@
 ---------------------------------------------------
 -- Licensed under the GNU General Public License v2
 --  * (c) 2012, Axel Arnold <arnolda _at_ icp.uni-stuttgart.de>
--- based on http://awesome.naquadah.org/wiki/Acpitools-based_battery_widget
----------------------------------------------------
-
----------------------------------------------------
--- a simple battery monitor, also support broken hardware
--- that does not report remaining time (HP laptops).
--- at critical level, it plays a sound periodically,
--- since I tend to overlook any visual feedback...
--- requires acpitool
+--  * (c) 2018, Henri Menke
 ---------------------------------------------------
 
 local tonumber = tonumber
@@ -23,14 +15,11 @@ local io = require("io")
 local string = require("string")
 local math = require("math")
 
--- sound = "/usr/share/sounds/freedesktop/stereo/dialog-error.oga"
--- loop = 3
-
 local battmon = wibox.widget{ widget=wibox.widget.textbox }
 
 local function battmon_update ()
-   local fd=io.popen("acpi -b", "r") --list present batteries
-   local line=fd:read()
+   local fd = io.popen("acpi -b", "r") --list present batteries
+   local line = fd:read()
    fd:close()
    if line then
       local battery_load = tonumber(string.match(line, " (%d*)%%"))
@@ -41,13 +30,13 @@ local function battmon_update ()
 	 color = "green"
       else
          if battery_load < 10 then
-	    color="red"
+	    color = "red"
 	    if battery_load < 5 then
                naughty.notify{ text="Battery level is critical! " .. battery_load .. "%",
                                timeout=10.0, fg="white", bg="red" }
 	    end
          elseif battery_load < 20 then
-	    color="orange"
+	    color = "orange"
          end
       end
       local txt = [[<span color="]] .. color .. [["> ]] .. math.ceil(battery_load) .. [[% ]]
@@ -56,8 +45,6 @@ local function battmon_update ()
       end
       txt = txt .. [[</span>]]
       battmon.markup = txt
-   else
-      battmon.text = [[<span bgcolor="red"> no battery </span>]]
    end
 end
 
@@ -67,3 +54,4 @@ battmon_timer:connect_signal("timeout", battmon_update)
 battmon_timer:start()
 
 return { battmon = battmon }
+
