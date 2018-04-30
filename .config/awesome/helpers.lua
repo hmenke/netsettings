@@ -106,8 +106,7 @@ end
 
 function finalize()
    run_once("mate-settings-daemon")
-   run_once("gnome-keyring-daemon","--start --components=gpg,pkcs11,secrets")
-   run_once("gnome-screensaver")
+   run_once("mate-screensaver")
    run_once("nm-applet")
    run_once("redshift")
    run_once("dropbox","start")
