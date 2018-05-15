@@ -16,25 +16,19 @@
 (setq-default indent-tabs-mode nil)
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))
-(setq c-default-style "linux" c-basic-offset 4)
-(c-set-offset 'innamespace 0)
-(add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-
+(defalias 'yes-or-no-p 'y-or-n-p)
 
 ; DocView properties
 (setq doc-view-continuous t)
 (setq doc-view-resolution 200)
 
-
 ; Show matching parentheses
 (show-paren-mode 1)
-
 
 ; package archives
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
-
 
 ; install not-installed packages
 (defun package-dl (p)
@@ -49,6 +43,7 @@
 
 ; Language modes
 (package-dl 'auctex)
+(package-dl 'clang-format)
 (package-dl 'cmake-mode)
 (package-dl 'cuda-mode)
 (package-dl 'cython-mode)
@@ -64,6 +59,14 @@
 (package-dl 'gruvbox-theme)
 (load-theme 'gruvbox t)
 
+; c++ mode enhancements
+(setq c-default-style "linux" c-basic-offset 4)
+(c-set-offset 'innamespace 0)
+(add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
+(add-hook 'c++-mode-hook
+          (lambda()
+            (require 'clang-format)
+            (global-set-key [C-M-tab] 'clang-format-region)))
 
 ; TeX mode enhancements
 (setq TeX-PDF-mode t)
@@ -74,7 +77,9 @@
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-auctex t)
 (setq reftex-label-alist '(AMSTeX))
-
+(eval-after-load "font-latex"
+  '(set-face-foreground 'font-latex-math-face nil))
+(setq font-latex-fontify-script nil)
 
 ; ConTeXt mode
 (add-to-list 'auto-mode-alist '("\\.mkii\\'" . ConTeXt-mode))
@@ -92,10 +97,8 @@
             (setq TeX-command-default "ConTeXt Full")
             (setq TeX-command-Show "ConTeXt Full")))
 
-
 ; Lua mode
 (setq lua-indent-level 4)
-
 
 ; Dired enhancements
 (setq dired-listing-switches
