@@ -10,3 +10,7 @@ fi
 
 # TeXLive
 export PDFVIEWER=xdg-open
+
+if command -v vim > /dev/null; then
+    export EDITOR=vim
+fi

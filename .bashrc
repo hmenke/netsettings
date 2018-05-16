@@ -4,10 +4,7 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 else
     HOST_COLOR="\[\e[1;32m\]"
 fi
-PS1="$HOST_COLOR\h \[\e[1;31m\]\w \[\e[0;94m\]\$ \[\e[0m\]"
-
-# Compatibilty with outdated shells
-PROMPT_COMMAND='echo -ne "\033]0;${USER}@${HOSTNAME}: $(pwd | sed -e 's!^/home/\"${USER}\"!~!g')\007"'
+PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\$ \[\e[0m\]"
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
