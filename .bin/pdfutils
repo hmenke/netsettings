@@ -15,10 +15,7 @@ case $1 in
   "shrink")
     $GS -q -dNOPAUSE -dBATCH -dSAFER \
     -sDEVICE=pdfwrite \
-    -dCompatibilityLevel=1.3 \
-    -dPDFSETTINGS=/screen \
-    -dEmbedAllFonts=true \
-    -dSubsetFonts=true \
+    -dColorConversionStrategy=/LeaveColorUnchanged \
     -dColorImageDownsampleType=/Bicubic \
     -dColorImageResolution=$3 \
     -dGrayImageDownsampleType=/Bicubic \
@@ -35,7 +32,6 @@ case $1 in
     -sDEVICE=pdfwrite \
     -sColorConversionStrategy=Gray \
     -dProcessColorModel=/DeviceGray \
-    -dCompatibilityLevel=1.4 \
     -sOutputFile="${2%%.*}-grayscale.pdf" \
     "$2"
     echo "Output written to ${2%%.*}-grayscale.pdf"
