@@ -70,6 +70,7 @@
 
 ; TeX mode enhancements
 (setq TeX-PDF-mode t)
+(setq TeX-quote-after-quote t)
 (setq-default TeX-engine 'luatex)
 (setq TeX-command-Show "LaTeX")
 (setq TeX-view-program-selection '((output-pdf "XDG")))
