@@ -4,13 +4,9 @@ local naughty = require("naughty")
 
 -- Helper functions
 
-function run(cmd)
-   awful.spawn.with_shell(cmd)
-end
-
 function run_once(prg,arg)
    if not prg then
-      do return nil end
+      return
    end
    if not arg then
       arg = ""
@@ -20,74 +16,55 @@ function run_once(prg,arg)
    awful.spawn.with_shell("pgrep -u $USER -x " .. prg .. " || (" .. prg .. arg .. " & )")
 end
 
-function run_w_tag(i, prg)
-   local screen = mouse.screen
-   awful.spawn(prg)
-   if tags[screen][i] then
-      awful.tag.viewonly(tags[screen][i])
-   end
-end
-
-function audioctl_alsa(cmd)
-   local fh = io.popen("amixer set Master " .. cmd)
-   local res = ""
-   for i in fh:lines() do
-      res = i
-   end
-   local s, e, vol = string.find(res, '%[(%d+)%%%]')
-   if string.find(res, '%[off%]') then
-      vol = "muted"
-   else
-      vol = vol .. "%"
-   end
-   io.close(fh)
-   naughty.notify({ text="Master " .. vol, timeout=0.5 })
-end
-
 function grep_output(cmd,str)
    local fh = io.popen(cmd)
-   local res = ""
-   for i in fh:lines() do
-      res = i
+   local out = {}
+   for line in fh:lines() do
+      local _, _, res = string.find(line, str)
+      out[#out+1] = res
    end
    io.close(fh)
-   local s, e, out = string.find(res, str)
    return out
 end
 
 function audioctl(cmd)
    -- Get current sink
-   local sink = grep_output("pacmd list-sinks | grep 'index: '",'(%d+)')
+   local sinks = grep_output("pactl list sinks | grep Sink",'(%d+)')
    -- Set volume or mute
-   if ( cmd == "toggle" ) then
-      local fh = io.popen("pactl set-sink-mute " .. sink .. " toggle")
-      io.close(fh)
-   else
-      local fh = io.popen("pactl set-sink-volume " .. sink .. " " .. cmd)
-      io.close(fh)
+   for _,sink in ipairs(sinks) do
+       if ( cmd == "toggle" ) then
+           local fh = io.popen("pactl set-sink-mute " .. sink .. " toggle")
+           io.close(fh)
+       else
+           local fh = io.popen("pactl set-sink-volume " .. sink .. " " .. cmd)
+           io.close(fh)
+       end
    end
    -- Get volume
-   local vol = grep_output("pacmd list-sinks | grep 'volume: front-left:'", '(%d+)%%')
-   if ( tonumber(vol) > 100 ) then
-      local fh = io.popen("pactl set-sink-volume " .. sink .. " 100%")
-      io.close(fh)
-      vol = "100"
-   end
-   if ( tonumber(vol) < 0 ) then
-      local fh = io.popen("pactl set-sink-volume " .. sink .. " 0%")
-      io.close(fh)
-      vol = "0"
+   local vols = grep_output("pacmd list-sinks | grep 'volume: front-left:'", '(%d+)%%')
+   for _,vol in ipairs(vols) do
+       if ( tonumber(vol) > 100 ) then
+           local fh = io.popen("pactl set-sink-volume " .. sink .. " 100%")
+           io.close(fh)
+           vol = "100"
+       end
+       if ( tonumber(vol) < 0 ) then
+           local fh = io.popen("pactl set-sink-volume " .. sink .. " 0%")
+           io.close(fh)
+           vol = "0"
+       end
    end
    -- Find if muted
-   local mute = grep_output("pacmd list-sinks | grep 'muted:'", 'muted: (.+)')
-   if ( mute == "yes" ) then
-      vol = "muted"
-   else
-      vol = vol .. "%"
+   local mutes = grep_output("pactl list sinks | grep Mute:", 'Mute: (.+)')
+   for i,mute in ipairs(mutes) do
+       if ( mute == "yes" ) then
+           vols[i] = "muted"
+       else
+           vols[i] = vols[i] .. "%"
+       end
+       naughty.notify({ text="Sink " .. sinks[i] .. " " .. vols[i], timeout=0.5 })
    end
-   naughty.notify({ text="Master " .. vol, timeout=0.5 })
 end
-
 
 function brightness(cmd)
    local op = cmd:sub(1,1)
@@ -99,10 +76,9 @@ function brightness(cmd)
       io.close(fh)
    end
 
-   local current = grep_output("xbacklight -get",'(%S+)')
+   local current = grep_output("xbacklight -get",'(%S+)')[1]
    naughty.notify({ text="Brightness " .. current, timeout=0.5 })
 end
-
 
 function finalize()
    run_once("mate-settings-daemon")
