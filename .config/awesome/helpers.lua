@@ -42,14 +42,13 @@ function audioctl(cmd)
    end
    -- Get volume
    local vols = grep_output("pacmd list-sinks | grep 'volume: front-left:'", '(%d+)%%')
-   for _,vol in ipairs(vols) do
+   for i,vol in ipairs(vols) do
        if ( tonumber(vol) > 100 ) then
-           local fh = io.popen("pactl set-sink-volume " .. sink .. " 100%")
+           local fh = io.popen("pactl set-sink-volume " .. sinks[i] .. " 100%")
            io.close(fh)
            vol = "100"
-       end
-       if ( tonumber(vol) < 0 ) then
-           local fh = io.popen("pactl set-sink-volume " .. sink .. " 0%")
+       elseif ( tonumber(vol) < 0 ) then
+           local fh = io.popen("pactl set-sink-volume " .. sinks[i] .. " 0%")
            io.close(fh)
            vol = "0"
        end
