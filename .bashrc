@@ -66,7 +66,11 @@ function crop {
 
 # Search ConTeXt source tree
 function ctxgrep {
-    CTXPATH="$(kpsexpand '$TEXMFDIST')/tex/context"
+    if [ "$(kpsexpand '$TEXMFCONTEXT')" = "\$TEXMFCONTEXT" ]; then
+        CTXPATH="$(kpsexpand '$TEXMFDIST')/tex/context"
+    else
+        CTXPATH="$(kpsexpand '$SELFAUTOPARENT')"
+    fi
     case $1 in
         "mkii")
             shift;
