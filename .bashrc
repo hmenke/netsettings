@@ -29,8 +29,9 @@ alias rm='rm -I'
 alias lp-fit='lp -o media=a4 -o sides=two-sided-long-edge -o fitplot -o collate=true'
 alias lp-fit_s='lp -o media=a4 -o sides=two-sided-short-edge -o fitplot -o collate=true'
 
-# Pylab
+# Python
 alias pylab='ipython --pylab'
+alias pg='pygmentize'
 
 # TeXLive
 alias latexdef='texdef -t latex'
