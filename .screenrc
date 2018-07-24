@@ -1,3 +1,7 @@
+# My screen quick reference
+#   C-a H : toggle logging
+#   C-a [ : selection mode
+#   C-a ? : show keybindings
 startup_message off
 defutf8         on
 defscrollback   10000
