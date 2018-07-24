@@ -9,6 +9,7 @@
                 "") ")") "")) " - Emacs"))
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
+(global-auto-revert-mode t)
 (setq line-number-mode t)
 (setq column-number-mode t)
 (setq x-select-enable-clipboard t)
