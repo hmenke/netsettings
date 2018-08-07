@@ -12,3 +12,13 @@ caption always "%{= wk} %-w%{= KW} [%n %t] %{-}%+w %= | @%H | %Y-%m-%d %c "
 # Ctrl + right and left arrows
 bindkey ^[[1;5D forward-word
 bindkey ^[[1;5C backward-word
+
+# Ctrl + Alt + right and left arrows
+bindkey ^[[1;7D next
+bindkey ^[[1;7C prev
+
+# Clear scrollback for fullscreen applications
+altscreen on
+
+# Mouse integration
+mousetrack on
