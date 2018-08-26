@@ -105,9 +105,18 @@
 ; Dired enhancements
 (setq dired-listing-switches
       "--group-directories-first -l --hide=*~")
-(add-hook 'dired-mode-hook
-  (lambda ()
-    (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)))
+(with-eval-after-load 'dired
+  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+  (define-key dired-mode-map [M-up] 'dired-up-directory)
+  (define-key dired-mode-map [M-down] 'dired-find-file)
+  (define-key dired-mode-map (kbd "M-t") 'dired-open-in-terminal))
+
+(defun dired-open-in-terminal ()
+  (interactive)
+  (let ((process-connection-type nil))
+    (start-process "" nil "x-terminal-emulator")
+    ;(concat "--working-directory=" default-directory)
+  ))
 
 (defun dired-mouse-find-file (event)
   "In Dired, visit the file or directory name you click on."
