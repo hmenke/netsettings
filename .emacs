@@ -140,3 +140,5 @@
       (select-window window)
     ; (find-file-other-window (file-name-sans-versions file t)))))
       (find-file (file-name-sans-versions file t)))))
+
+(dired ".")
