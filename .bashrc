@@ -6,6 +6,9 @@ else
 fi
 PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\$ \[\e[0m\]"
 
+# shell optional behavior
+shopt -s autocd
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
