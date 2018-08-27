@@ -19,10 +19,6 @@
       '(left-curly-arrow right-curly-arrow))
 (defalias 'yes-or-no-p 'y-or-n-p)
 
-; DocView properties
-(setq doc-view-continuous t)
-(setq doc-view-resolution 200)
-
 ; Show matching parentheses
 (show-paren-mode 1)
 
@@ -103,6 +99,10 @@
 (setq lua-indent-level 4)
 
 ; Dired enhancements
+(require 'dired-x)
+(setq dired-guess-shell-alist-user (list (list "\\.pdf$" "mupdf")))
+(add-to-list 'display-buffer-alist (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
+
 (setq dired-listing-switches
       "--group-directories-first -l --hide=*~")
 (with-eval-after-load 'dired
