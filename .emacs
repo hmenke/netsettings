@@ -100,7 +100,7 @@
 
 ; Dired enhancements
 (require 'dired-x)
-(setq dired-guess-shell-alist-user (list (list "\\.pdf$" "mupdf")))
+(setq dired-guess-shell-alist-user (list (list "\\.pdf$" "xdg-open")))
 (add-to-list 'display-buffer-alist (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
 
 (setq dired-listing-switches
