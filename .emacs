@@ -104,7 +104,7 @@
 (add-to-list 'display-buffer-alist (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
 
 (setq dired-listing-switches
-      "--group-directories-first -l --hide=*~")
+      "--group-directories-first -lh --hide=*~")
 (with-eval-after-load 'dired
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key dired-mode-map [M-up] 'dired-up-directory)
