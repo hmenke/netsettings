@@ -72,7 +72,7 @@ function ctxgrep {
     if [ "$(kpsexpand '$TEXMFCONTEXT')" = "\$TEXMFCONTEXT" ]; then
         CTXPATH="$(kpsexpand '$TEXMFDIST')/tex/context"
     else
-        CTXPATH="$(kpsexpand '$SELFAUTOPARENT')"
+        CTXPATH="$(kpsexpand '$TEXMFCONTEXT')/tex/context $(kpsexpand '$TEXMFMODULES')/tex/context"
     fi
     case $1 in
         "mkii")
@@ -95,4 +95,13 @@ function ctxgrep {
             grep -r --exclude={*.mkii,*.pat} "$@" $CTXPATH
             ;;
     esac
+}
+
+function mpgrep {
+    if [ "$(kpsexpand '$TEXMFCONTEXT')" = "\$TEXMFCONTEXT" ]; then
+        MPPATH="$(kpsexpand '$TEXMFDIST')/metapost"
+    else
+        MPPATH="$(kpsexpand '$SELFAUTOPARENT')/texmf-context/metapost"
+    fi
+    grep -r "$@" ${MPPATH}
 }
