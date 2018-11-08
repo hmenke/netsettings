@@ -79,6 +79,22 @@ function brightness(cmd)
    naughty.notify({ text="Brightness " .. current, timeout=0.5 })
 end
 
+function notify_systemd_errors()
+   local cmd = "systemctl --failed --all --no-legend --no-pager"
+   local fh = io.popen(cmd)
+   lines = {}
+   for line in fh:lines() do
+       lines[#lines+1] = line
+   end
+   local failures = table.concat(lines,"\n")
+   if failures ~= "" then
+      naughty.notify({ title="SystemD failures",
+                       text=table.concat(lines,"\n"),
+                       timeout=10.0, fg="white", bg="red" })
+   end
+   fh:close()
+end
+
 function finalize()
    run_once("mate-settings-daemon")
    run_once("mate-screensaver")
@@ -87,4 +103,5 @@ function finalize()
    run_once("dropbox","start")
    run_once("emacs","--daemon")
    run_once("xmodmap","~/.Xmodmap")
+   notify_systemd_errors()
 end
