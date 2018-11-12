@@ -4,7 +4,7 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 else
     HOST_COLOR="\[\e[1;32m\]"
 fi
-PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\$ \[\e[0m\]"
+PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\\$ \[\e[0m\]"
 
 # shell optional behavior
 shopt -s autocd
