@@ -97,11 +97,10 @@ end
 
 function finalize()
    run_once("mate-settings-daemon")
-   run_once("mate-screensaver")
+   run_once("xscreensaver","-nosplash")
    run_once("nm-applet")
    run_once("redshift")
    run_once("dropbox","start")
-   run_once("emacs","--daemon")
    run_once("xmodmap","~/.Xmodmap")
    notify_systemd_errors()
 end
