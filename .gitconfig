@@ -3,7 +3,7 @@
 	email = henri@icp.uni-stuttgart.de
 	signingkey = D65C9AFB4C224DA3
 [alias]
-	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
+	graph = -c 'log.showSignature=false' log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ar%Creset'
 	# An unsigned version of stash
 	ustash = -c commit.gpgsign=false stash
 [pull]
