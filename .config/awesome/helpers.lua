@@ -58,10 +58,12 @@ function audioctl(cmd)
    for i,mute in ipairs(mutes) do
        if ( mute == "yes" ) then
            vols[i] = "muted"
-       else
+       elseif vols[i] then
            vols[i] = vols[i] .. "%"
        end
-       naughty.notify({ text="Sink " .. sinks[i] .. " " .. vols[i], timeout=0.5 })
+       if vols[i] then
+           naughty.notify({ text="Sink " .. sinks[i] .. " " .. vols[i], timeout=0.5 })
+       end
    end
 end
 
