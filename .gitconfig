@@ -10,6 +10,7 @@
 	ff = only
 [commit]
 	gpgsign = true
+	cleanup = scissors
 [gpg]
 	program = gpg2
 [log]
