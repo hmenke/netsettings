@@ -28,42 +28,21 @@ function grep_output(cmd,str)
 end
 
 function audioctl(cmd)
-   -- Get current sink
-   local sinks = grep_output("pactl list sinks | grep Sink",'(%d+)')
    -- Set volume or mute
-   for _,sink in ipairs(sinks) do
-       if ( cmd == "toggle" ) then
-           local fh = io.popen("pactl set-sink-mute " .. sink .. " toggle")
-           io.close(fh)
-       else
-           local fh = io.popen("pactl set-sink-volume " .. sink .. " " .. cmd)
-           io.close(fh)
-       end
-   end
-   -- Get volume
-   local vols = grep_output("pacmd list-sinks | grep 'volume: front-left:'", '(%d+)%%')
-   for i,vol in ipairs(vols) do
-       if ( tonumber(vol) > 100 ) then
-           local fh = io.popen("pactl set-sink-volume " .. sinks[i] .. " 100%")
-           io.close(fh)
-           vol = "100"
-       elseif ( tonumber(vol) < 0 ) then
-           local fh = io.popen("pactl set-sink-volume " .. sinks[i] .. " 0%")
-           io.close(fh)
-           vol = "0"
-       end
+   if ( cmd == "toggle" ) then
+      local fh = io.popen("pactl set-sink-mute @DEFAULT_SINK@ toggle")
+      io.close(fh)
+   else
+      local fh = io.popen("pulsemixer --change-volume " .. cmd)
+      io.close(fh)
    end
    -- Find if muted
-   local mutes = grep_output("pactl list sinks | grep Mute:", 'Mute: (.+)')
-   for i,mute in ipairs(mutes) do
-       if ( mute == "yes" ) then
-           vols[i] = "muted"
-       elseif vols[i] then
-           vols[i] = vols[i] .. "%"
-       end
-       if vols[i] then
-           naughty.notify({ text="Sink " .. sinks[i] .. " " .. vols[i], timeout=0.5 })
-       end
+   local mute = grep_output("pulsemixer --get-mute", '(%d)')[1]
+   if ( mute == "1" ) then
+      naughty.notify({ text="muted", timeout=0.5 })
+   else
+      local vol = grep_output("pulsemixer --get-volume", '(%d+)')[1]
+      naughty.notify({ text="Volume " .. vol .. "%", timeout=0.5 })
    end
 end
 

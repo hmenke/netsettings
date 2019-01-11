@@ -236,9 +236,9 @@ globalkeys = awful.util.table.join(
     -- Custom Keybindings
     awful.key({ }, "XF86AudioMute",           function() audioctl("toggle") end,
               {description = "Mute", group = "client"}),
-    awful.key({ }, "XF86AudioRaiseVolume",    function() audioctl("+5%") end,
+    awful.key({ }, "XF86AudioRaiseVolume",    function() audioctl("+5") end,
               {description = "Raise volume", group = "client"}),
-    awful.key({ }, "XF86AudioLowerVolume",    function() audioctl("-5%") end,
+    awful.key({ }, "XF86AudioLowerVolume",    function() audioctl("-5") end,
               {description = "Lower volume", group = "client"}),
     awful.key({ modkey,           }, "e",     function() awful.util.spawn(filemgr) end,
               {description = "Launch filemanager", group = "client"}),
@@ -248,9 +248,9 @@ globalkeys = awful.util.table.join(
               {description = "Launch incognito browser", group = "client"}),
     awful.key({ modkey, "Control" }, "m",     function() audioctl("toggle") end,
              {description = "Mute", group = "client"}),
-    awful.key({ modkey, "Control" }, "Up",    function() audioctl("+1%") end,
+    awful.key({ modkey, "Control" }, "Up",    function() audioctl("+1") end,
              {description = "Raise volume", group = "client"}),
-    awful.key({ modkey, "Control" }, "Down",  function() audioctl("-1%") end,
+    awful.key({ modkey, "Control" }, "Down",  function() audioctl("-1") end,
              {description = "Lower volume", group = "client"}),
     -- Default keybindings
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
