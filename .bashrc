@@ -38,8 +38,12 @@ alias pg='pygmentize'
 
 # TeXLive
 alias latexdef='texdef -t latex'
-alias setuptex='source /opt/context/tex/setuptex'
 alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
+function setuptex {
+    TOTAL_MEM=$(cat /proc/meminfo | grep -e 'MemTotal:' | grep -oE '([0-9]+)')
+    ulimit -v $[${TOTAL_MEM}/2]
+    source /opt/context/tex/setuptex
+}
 
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
