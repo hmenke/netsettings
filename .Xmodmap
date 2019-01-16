@@ -6,3 +6,7 @@ keycode 20 = minus underscore minus underscore endash dead_belowdot endash dead_
 keycode 59 = comma less comma less rightsinglequotemark dead_cedilla rightsinglequotemark dead_cedilla
 ! Replace "dead_abovedot" with "ellipsis"
 keycode 60 = period greater period greater ellipsis dead_caron ellipsis dead_caron
+! Replace XF86Back by PgUp
+keycode 166 = Prior
+! Replace XF86Forward by PgDown
+keycode 167 = Next
