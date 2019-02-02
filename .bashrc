@@ -9,6 +9,10 @@ PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\\$ \[\e[0m\
 # shell optional behavior
 shopt -s autocd
 
+# Limit memory for processes to 80% of total RAM
+TOTAL_MEM=$(cat /proc/meminfo | grep -e 'MemTotal:' | grep -oE '([0-9]+)')
+ulimit -Sv $[8*${TOTAL_MEM}/10]
+
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
     test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
@@ -38,12 +42,8 @@ alias pg='pygmentize'
 
 # TeXLive
 alias latexdef='texdef -t latex'
+alias setuptex='source /opt/context/tex/setuptex'
 alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
-function setuptex {
-    TOTAL_MEM=$(cat /proc/meminfo | grep -e 'MemTotal:' | grep -oE '([0-9]+)')
-    ulimit -v $[${TOTAL_MEM}/2]
-    source /opt/context/tex/setuptex
-}
 
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
