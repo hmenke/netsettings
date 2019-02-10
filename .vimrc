@@ -51,10 +51,6 @@ set statusline+=\ %=                               " right align
 set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
 
-" Plugins
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-
 " Color theme
 if has('gui_running')
     set background=dark

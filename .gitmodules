@@ -1,9 +1,6 @@
 [submodule ".vim/bundle/Zenburn"]
-	path = .vim/bundle/Zenburn
+	path = .vim/pack/bundle/start/Zenburn
 	url = https://github.com/jnurmine/Zenburn.git
 [submodule ".vim/bundle/gruvbox"]
-	path = .vim/bundle/gruvbox
+	path = .vim/pack/bundle/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
-[submodule ".vim/bundle/vim-pathogen"]
-	path = .vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen.git
