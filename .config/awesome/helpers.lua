@@ -46,6 +46,13 @@ function audioctl(cmd)
    end
 end
 
+function micctl(cmd)
+   if ( cmd == "toggle" ) then
+      local fh = io.popen("pactl set-source-mute alsa_input.pci-0000_00_1b.0.analog-stereo toggle")
+      io.close(fh)
+   end
+end
+
 function brightness(cmd)
    local op = cmd:sub(1,1)
    if op == "+" or op == "-" then
