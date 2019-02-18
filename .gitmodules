@@ -4,3 +4,9 @@
 [submodule ".vim/bundle/gruvbox"]
 	path = .vim/pack/bundle/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
+[submodule ".vim/pack/bundle/start/vim-clang-format"]
+	path = .vim/pack/bundle/start/vim-clang-format
+	url = https://github.com/rhysd/vim-clang-format
+[submodule ".vim/pack/bundle/start/vim-transpose"]
+	path = .vim/pack/bundle/start/vim-transpose
+	url = https://github.com/salsifis/vim-transpose
