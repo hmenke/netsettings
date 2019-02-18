@@ -96,7 +96,7 @@ function ctxgrep {
             grep -r --include=*.lua "$@" $CTXPATH
             ;;
         *)
-            grep -r --exclude={*.mkii,*.pat} "$@" $CTXPATH
+            grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" $CTXPATH
             ;;
     esac
 }
