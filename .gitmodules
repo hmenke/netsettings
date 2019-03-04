@@ -10,3 +10,6 @@
 [submodule ".vim/pack/bundle/start/vim-transpose"]
 	path = .vim/pack/bundle/start/vim-transpose
 	url = https://github.com/salsifis/vim-transpose
+[submodule ".vim/pack/bundle/start/vim-airline"]
+	path = .vim/pack/bundle/start/vim-airline
+	url = https://github.com/vim-airline/vim-airline

@@ -61,6 +61,9 @@ export GPG_TTY=`tty`
 # Shut up GTK!
 export NO_AT_BRIDGE=1
 
+# 256 colors
+TERM=xterm-256color
+
 # Cropping for TeX.SX
 function crop {
     pdfcrop "$2" "/tmp/${2%%.pdf}-crop.pdf"
