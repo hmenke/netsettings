@@ -60,10 +60,11 @@
 (setq c-default-style "linux" c-basic-offset 4)
 (c-set-offset 'innamespace 0)
 (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-(add-hook 'c++-mode-hook
-          (lambda()
-            (require 'clang-format)
-            (global-set-key [C-M-tab] 'clang-format-region)))
+(defun enable-clang-format ()
+  (require 'clang-format)
+  (global-set-key [C-M-tab] 'clang-format-region))
+(add-hook 'c-mode-hook 'enable-clang-format)
+(add-hook 'c++-mode-hook 'enable-clang-format)
 
 ; TeX mode enhancements
 (setq TeX-PDF-mode t)
