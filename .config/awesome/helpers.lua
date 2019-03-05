@@ -90,5 +90,6 @@ function finalize()
    run_once("redshift")
    run_once("dropbox","start")
    run_once("xmodmap","~/.Xmodmap")
+   run_once("xrdb","~/.Xresources")
    notify_systemd_errors()
 end
