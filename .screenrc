@@ -20,8 +20,5 @@ bindkey ^[[1;7C prev
 # Clear scrollback for fullscreen applications
 altscreen on
 
-# Mouse integration
-mousetrack on
-
 # Enable support for 256 colors
 term "screen-256color"
