@@ -16,6 +16,7 @@ set incsearch         " Start searching before pressing enter
 set spelllang=de      " Set spellcheck to de
 set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
+set tabpagemax=100    " Allow opening up to 100 tabs
 set wildmode=longest,list " Bash-like autocompletion for filenames
 set wildmenu
 set listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<,space:␣
@@ -43,11 +44,25 @@ set guioptions-=T "remove toolbar
 set guioptions-=r "remove right-hand scroll bar
 set guioptions-=L "remove left-hand scroll bar
 
-" Statusline
+" Statusline will be overwritten by airline (if available)
 set laststatus=2
+set statusline=
+set statusline+=[%n]                               " buffer number
+set statusline+=\ %<%f\ %m%r%w                     " full file path
+set statusline+=\ %y\                              " file type
+set statusline+=\ %{''.(&fenc!=''?&fenc:&enc).''}\ " encoding
+set statusline+=\ %{&ff}\                          " file format
+set statusline+=\ %=                               " right align
+set statusline+=\ %l,%c                            " row,col
+set statusline+=\ \ %P                             " top/bot
+
+" Airline settings
 let g:airline_extensions=[]
 let g:airline_highlighting_cache=1
 
 " Color theme
-set background=dark
-colors gruvbox
+try
+    set background=dark
+    colors gruvbox
+catch
+endtry
