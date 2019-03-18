@@ -79,7 +79,7 @@ function ctxgrep {
     if [ "$(kpsexpand '$TEXMFCONTEXT')" = "\$TEXMFCONTEXT" ]; then
         CTXPATH="$(kpsexpand '$TEXMFDIST')/tex/context"
     else
-        CTXPATH="$(kpsexpand '$TEXMFCONTEXT')/tex/context $(kpsexpand '$TEXMFMODULES')/tex/context"
+        CTXPATH="$(kpsexpand '$TEXMFCONTEXT' 2>/dev/null)/tex/context $(kpsexpand '$TEXMFMODULES' 2>/dev/null)/tex/context"
     fi
     case $1 in
         "mkii")
@@ -99,7 +99,11 @@ function ctxgrep {
             grep -r --include=*.lua "$@" $CTXPATH
             ;;
         *)
-            grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" $CTXPATH
+            if command -v ag > /dev/null; then
+                ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" $CTXPATH
+            else
+                grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" $CTXPATH
+            fi
             ;;
     esac
 }
@@ -110,5 +114,9 @@ function mpgrep {
     else
         MPPATH="$(kpsexpand '$SELFAUTOPARENT')/texmf-context/metapost"
     fi
-    grep -r "$@" ${MPPATH}
+    if command -v ag > /dev/null; then
+        grep -r "$@" ${MPPATH}
+    else
+        ag "$@" ${MPPATH}
+    fi
 }
