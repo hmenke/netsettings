@@ -18,3 +18,7 @@
 	showSignature = true
 [status]
 	showUntrackedFiles = no
+[grep]
+	lineNumber = true
+[pager]
+	grep = false
