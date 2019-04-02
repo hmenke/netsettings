@@ -43,6 +43,7 @@ alias pg='pygmentize'
 # TeXLive
 alias latexdef='texdef -t latex'
 alias setuptex='source /opt/context/tex/setuptex'
+alias setuplmtx='export PATH=/opt/context-lmtx/tex/texmf-linux-64/bin${PATH:+:${PATH}}'
 alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
 
 # bash completion

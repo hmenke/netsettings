@@ -1,6 +1,6 @@
 # Add ~/.bin to $PATH
-if [ -z $(echo $PATH | grep $HOME/.bin) ]; then
-    export PATH=$HOME/.bin:$PATH
+if ! echo ${PATH} | grep -E -q "(^|:)${HOME}/.bin($|:)"; then
+    export PATH=${HOME}/.bin${PATH:+:${PATH}}
 fi
 
 # TeXLive
