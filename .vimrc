@@ -31,6 +31,11 @@ if has('unnamedplus')
     set clipboard=unnamed,unnamedplus
 endif
 
+" enabled mouse support
+if has('mouse')
+    set mouse=a
+endif
+
 " Execute local vimrc's
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
