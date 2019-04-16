@@ -22,13 +22,16 @@ set wildmenu
 set listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<,space:␣
 
 " Key mappings
-nmap <Tab> ==         " In normal and visual mode
-vmap <Tab> ==         " indent selection or line
 set ttimeoutlen=0     " eliminate delays on <esc>
+" In normal and visual mode indent selection or line
+nmap <Tab> ==
+vmap <Tab> ==
+" Map <Esc> to exit terminal-mode
+tnoremap <Esc> <C-\><C-n>
 
 " use system clipboard
 if has('unnamedplus')
-    set clipboard=unnamed,unnamedplus
+    set clipboard+=unnamedplus
 endif
 
 " enabled mouse support
