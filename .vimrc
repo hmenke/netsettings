@@ -39,6 +39,9 @@ if has('mouse')
     set mouse=a
 endif
 
+" autoread files when buffer gains focus
+au FocusGained,BufEnter * :checktime
+
 " Execute local vimrc's
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
