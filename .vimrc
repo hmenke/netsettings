@@ -73,6 +73,7 @@ let g:airline_highlighting_cache=1
 
 " Color theme
 try
+    set termguicolors
     set background=dark
     colors gruvbox
 catch
