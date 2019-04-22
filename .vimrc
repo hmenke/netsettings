@@ -13,6 +13,7 @@ syntax on             " enable synatx highlighting
 set enc=utf-8         " Set default encoding to utf-8
 set hlsearch          " Highlight search terms
 set incsearch         " Start searching before pressing enter
+set nomagic           " Disable magic regex
 set spelllang=de      " Set spellcheck to de
 set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
