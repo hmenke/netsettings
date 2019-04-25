@@ -29,6 +29,9 @@ nmap <Tab> ==
 vmap <Tab> ==
 " Map <Esc> to exit terminal-mode
 tnoremap <Esc> <C-\><C-n>
+" Selection to X clipboard in visual mode (only works in NeoVim and
+" requires 'set mouse=a')
+vmap <LeftRelease> "*ygv
 
 " use system clipboard
 if has('unnamedplus')
