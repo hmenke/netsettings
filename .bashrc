@@ -116,8 +116,8 @@ function mpgrep {
         MPPATH="$(kpsexpand '$SELFAUTOPARENT')/texmf-context/metapost"
     fi
     if command -v ag > /dev/null; then
-        grep -r "$@" ${MPPATH}
-    else
         ag "$@" ${MPPATH}
+    else
+        grep -r "$@" ${MPPATH}
     fi
 }
