@@ -46,6 +46,11 @@ alias setuptex='source /opt/context/tex/setuptex'
 alias setuplmtx='export PATH=/opt/context-lmtx/tex/texmf-linux-64/bin${PATH:+:${PATH}}'
 alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
 
+# https://sgeb.io/posts/2016/11/til-git-diff-anywhere/
+if command -v git > /dev/null; then
+    alias diff='git --no-pager diff --color=auto --no-ext-diff --no-index'
+fi
+
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
