@@ -16,3 +16,6 @@
 [submodule ".vim/pack/bundle/start/vim-fugitive"]
 	path = .vim/pack/bundle/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
+[submodule ".vim/pack/bundle/start/unicode.vim"]
+	path = .vim/pack/bundle/start/unicode.vim
+	url = https://github.com/chrisbra/unicode.vim
