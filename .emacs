@@ -22,6 +22,13 @@
 ; Show matching parentheses
 (show-paren-mode 1)
 
+; mouse integration
+(unless window-system
+  (require 'mouse)
+  (xterm-mouse-mode t)
+  (defun track-mouse (e))
+  (setq mouse-sel-mode t))
+
 ; package archives
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -51,15 +58,6 @@
 (package-dl 'lua-mode)
 (package-dl 'modern-cpp-font-lock)
 (package-dl 'rust-mode)
-(package-dl 'telephone-line)
-
-; Powerline
-(require 'telephone-line)
-(setq telephone-line-primary-left-separator 'telephone-line-flat
-      telephone-line-primary-right-separator 'telephone-line-flat
-      telephone-line-secondary-left-separator 'telephone-line-flat
-      telephone-line-secondary-right-separator 'telephone-line-flat)
-(telephone-line-mode 1)
 
 ; Theme
 (package-dl 'gruvbox-theme)
