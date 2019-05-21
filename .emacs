@@ -44,6 +44,7 @@
 ; Vim bindings
 (package-dl 'evil)
 (require 'evil)
+(evil-mode 1)
 
 ; Language modes
 (package-dl 'auctex)
