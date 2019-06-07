@@ -8,7 +8,7 @@ set softtabstop=4     " Expand to 2 spaces
 set tabstop=8         " A tab is 8 spaces
 set shiftwidth=4      " Autoindent uses 2 spaces
 set nonumber          " disable line numbers
-set modeline          " execute options local to file
+set nomodeline        " don't execute options local to file
 syntax enable         " enable synatx highlighting
 set enc=utf-8         " Set default encoding to utf-8
 set hlsearch          " Highlight search terms
