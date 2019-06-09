@@ -45,8 +45,10 @@ set mail_check = 120
 # Miscellaneous #
 #################
 
-# Fetch mail shortcut
-bind index G imap-fetch-mail
+# Let's see when I will regret this
+set delete
+unset confirmappend
+set quit
 
 # Edit headers in editor
 set edit_headers = yes
@@ -85,10 +87,15 @@ set index_format = '%4C [%Z] %D %-25.25L (%?l?%4l&%4c?) %s'
 # Keybindings
 bind index,pager R group-reply
 bind index <space> collapse-thread
+bind index G imap-fetch-mail
+macro index,pager S "<save-message>=[Gmail]/Spam<enter>" "file as Spam"
 
 ####################
 # Neomutt settings #
 ####################
+
+# Trash folder
+set trash = "+[Gmail]/Bin"
 
 # Sidebar
 set mail_check_stats
