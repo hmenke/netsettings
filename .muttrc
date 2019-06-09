@@ -39,7 +39,7 @@ unset imap_passive
 set imap_keepalive = 300
 
 # How often to check for new mail (time in seconds).
-set mail_check = 120
+set mail_check = 600
 
 #################
 # Miscellaneous #
@@ -49,6 +49,9 @@ set mail_check = 120
 set delete
 unset confirmappend
 set quit
+
+# Just marking as new is sufficient for me
+set mark_old = no
 
 # Edit headers in editor
 set edit_headers = yes
@@ -89,6 +92,8 @@ bind index,pager R group-reply
 bind index <space> collapse-thread
 bind index G imap-fetch-mail
 macro index,pager S "<save-message>=[Gmail]/Spam<enter>" "file as Spam"
+bind pager <up> previous-line
+bind pager <down> next-line
 
 ####################
 # Neomutt settings #
