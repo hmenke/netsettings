@@ -30,7 +30,7 @@ set message_cachedir = "~/.mutt/cache/bodies"
 
 # Specify where to save and/or look for postponed and sent messages.
 set postponed = "+[Gmail]/Drafts"
-set record = "+[Gmail]/Sent Mail"
+unset record # GMail copies to Sent automatically
 
 # Allow Mutt to open a new IMAP connection automatically.
 unset imap_passive
