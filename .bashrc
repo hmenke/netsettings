@@ -134,3 +134,13 @@ function mpgrep {
         grep -r "$@" ${MPPATH}
     fi
 }
+
+# Paste services
+
+function dpaste {
+    curl -s -F "syntax=${1:text}" -F "content=<-" http://dpaste.com/api/v2/
+}
+
+function termbin {
+    nc termbin.com 9999
+}
