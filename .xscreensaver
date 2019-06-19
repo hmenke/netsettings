@@ -5,8 +5,6 @@ lockTimeout: 0:00:00
 passwdTimeout: 0:00:30
 fade: False
 unfade: False
-dpmsEnabled: True
-dpmsQuickOff: True
 mode: blank
 splash: False
 newLoginCommand: dm-tool switch-to-greeter
