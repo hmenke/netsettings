@@ -242,11 +242,11 @@ globalkeys = awful.util.table.join(
               {description = "Lower volume", group = "client"}),
     awful.key({ }, "XF86AudioMicMute",    function() micctl("toggle") end,
               {description = "Mute microphone", group = "client"}),
-    awful.key({ modkey,           }, "e",     function() awful.util.spawn(filemgr) end,
+    awful.key({ modkey,           }, "e",     function() awful.spawn(filemgr) end,
               {description = "Launch filemanager", group = "client"}),
-    awful.key({ modkey,           }, "b",     function() awful.util.spawn(browser) end,
+    awful.key({ modkey,           }, "b",     function() awful.spawn(browser) end,
               {description = "Launch browser", group = "client"}),
-    awful.key({ modkey, "Shift"   }, "b",     function() awful.util.spawn(browser .. " --private-window") end,
+    awful.key({ modkey, "Shift"   }, "b",     function() awful.spawn(browser .. " --private-window") end,
               {description = "Launch incognito browser", group = "client"}),
     awful.key({ modkey, "Control" }, "m",     function() audioctl("toggle") end,
              {description = "Mute", group = "client"}),
@@ -338,7 +338,7 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",
               function ()
-                  local pid = awful.util.spawn("dmenu_run")
+                  local pid = awful.spawn("dmenu_run")
                   if not tonumber(pid) then
                       awful.screen.focused().mypromptbox:run()
                   end
