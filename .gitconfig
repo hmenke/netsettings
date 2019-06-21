@@ -23,3 +23,5 @@
 	lineNumber = true
 [pager]
 	grep = false
+[diff]
+	algorithm = histogram
