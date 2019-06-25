@@ -32,6 +32,8 @@ tnoremap <Esc> <C-\><C-n>
 " Selection to X clipboard in visual mode (only works in NeoVim and
 " requires 'set mouse=a')
 vmap <LeftRelease> "*ygv
+" Map <C-L> to clear search highlighting
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 " use system clipboard
 if has('unnamedplus')
