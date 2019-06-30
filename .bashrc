@@ -130,7 +130,7 @@ function mpgrep {
 # Paste services
 
 function dpaste {
-    curl -s -F "syntax=${1:text}" -F "content=<-" http://dpaste.com/api/v2/
+    curl -s -F "syntax=${1:-text}" -F "content=<-" http://dpaste.com/api/v2/
 }
 
 function termbin {
@@ -140,4 +140,9 @@ function termbin {
 function pass_encrypt {
     gpg -e -r F1C5760E45B99A4472E96BFBD65C9AFB4C224DA3 \
         --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent
+}
+
+function pwgen {
+    </dev/urandom tr -dc "${2:-A-Za-z0-9}" | head -c${1:-10}
+    echo
 }
