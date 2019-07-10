@@ -14,6 +14,7 @@ set enc=utf-8         " Set default encoding to utf-8
 set hlsearch          " Highlight search terms
 set incsearch         " Start searching before pressing enter
 set spelllang=de      " Set spellcheck to de
+set hidden            " Unload abandoned buffers
 set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
 set tabpagemax=100    " Allow opening up to 100 tabs
@@ -34,6 +35,9 @@ tnoremap <Esc> <C-\><C-n>
 vmap <LeftRelease> "*ygv
 " Map <C-L> to clear search highlighting
 nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+
+" Command aliases
+cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('qall'):('Q'))
 
 " use system clipboard
 if has('unnamedplus')
@@ -74,8 +78,9 @@ set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
 
 " Airline settings
-let g:airline_extensions=[]
+let g:airline_extensions=['tabline']
 let g:airline_highlighting_cache=1
+let g:airline#extensions#tabline#buffer_min_count =2
 
 " Color theme
 try
