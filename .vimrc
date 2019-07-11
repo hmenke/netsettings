@@ -17,6 +17,7 @@ set spelllang=de      " Set spellcheck to de
 set hidden            " Unload abandoned buffers
 set backup            " Create backup files
 set backupcopy=yes    " make a copy of the file and overwrite the original one
+set undofile          " Save the undo history to a file
 set tabpagemax=100    " Allow opening up to 100 tabs
 set iskeyword+=@-@    " include '@' in word search
 set wildmode=longest,list " Bash-like autocompletion for filenames
