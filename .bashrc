@@ -63,6 +63,7 @@ fi
 
 # GPG TTY
 export GPG_TTY=`tty`
+export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 
 # Shut up GTK!
 export NO_AT_BRIDGE=1
