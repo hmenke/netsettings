@@ -338,7 +338,7 @@ globalkeys = awful.util.table.join(
     -- Prompt
     awful.key({ modkey },            "r",
               function ()
-                  local pid = awful.spawn("dmenu_run")
+                  local pid = awful.spawn("dmenu_run_history")
                   if not tonumber(pid) then
                       awful.screen.focused().mypromptbox:run()
                   end
