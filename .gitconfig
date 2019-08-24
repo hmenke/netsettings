@@ -7,7 +7,8 @@
 	changelog = log --date=short --pretty=format:'%ad %an\n\n    - %s\n'
 	# An unsigned version of stash
 	ustash = -c commit.gpgsign=false stash
-        ls = !git ls-tree `git rev-parse --abbrev-ref HEAD`
+        ls = ls-tree HEAD
+        root = rev-parse --show-toplevel
 [pull]
 	ff = only
 [commit]
