@@ -19,3 +19,6 @@
 [submodule ".vim/pack/bundle/start/unicode.vim"]
 	path = .vim/pack/bundle/start/unicode.vim
 	url = https://github.com/chrisbra/unicode.vim
+[submodule ".vim/pack/bundle/start/eregex.vim"]
+	path = .vim/pack/bundle/start/eregex.vim
+	url = https://github.com/othree/eregex.vim
