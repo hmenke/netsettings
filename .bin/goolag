@@ -1,0 +1,5 @@
+#!/bin/sh
+firejail --private google-chrome \
+    --no-first-run \
+    --no-pings \
+    --no-referrers
