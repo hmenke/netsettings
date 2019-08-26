@@ -53,6 +53,9 @@ endif
 " autoread files when buffer gains focus
 au FocusGained,BufEnter * :checktime
 
+" Don't store temporary files for pass
+au BufNewFile,BufRead /dev/shm/*pass.* setlocal noswapfile nobackup noundofile
+
 " Execute local vimrc's
 set exrc   " enable per-directory .vimrc files
 set secure " disable unsafe commands in local .vimrc files
