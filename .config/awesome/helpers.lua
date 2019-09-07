@@ -33,7 +33,7 @@ function audioctl(cmd)
       local fh = io.popen("pactl set-sink-mute @DEFAULT_SINK@ toggle")
       io.close(fh)
    else
-      local fh = io.popen("pulsemixer --change-volume " .. cmd)
+      local fh = io.popen("pactl set-sink-volume @DEFAULT_SINK@ " .. cmd)
       io.close(fh)
    end
    -- Find if muted
