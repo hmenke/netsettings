@@ -138,6 +138,14 @@ mykeyboardlayout = awful.widget.keyboardlayout()
 -- {{{ Wibar
 -- Create a textclock widget
 mytextclock = wibox.widget.textclock(" %a %b %d %H:%M:%S ", 1)
+local month_calendar = awful.widget.calendar_popup.month{
+    week_numbers = true,
+    style_focus = {
+        fg_color = theme.bg_focus,
+        bg_color = theme.fg_focus
+    }
+}
+month_calendar:attach(mytextclock, "tr", { on_hover = false })
 
 -- battery widget
 batwidget = battmon.battmon
