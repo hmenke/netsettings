@@ -9,6 +9,9 @@ PS1="╭╴$HOST_COLOR\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\\$ \[\e[0m\
 # shell optional behavior
 shopt -s autocd
 
+# pass
+export PASSWORD_STORE_ENABLE_EXTENSIONS=true
+
 # Limit memory for processes to 80% of total RAM
 TOTAL_MEM=$(cat /proc/meminfo | grep -e 'MemTotal:' | grep -oE '([0-9]+)')
 ulimit -Sv $[8*${TOTAL_MEM}/10]
@@ -136,11 +139,6 @@ function dpaste {
 
 function termbin {
     nc termbin.com 9999
-}
-
-function pass_encrypt {
-    gpg -e -r F1C5760E45B99A4472E96BFBD65C9AFB4C224DA3 \
-        --quiet --yes --compress-algo=none --no-encrypt-to --batch --use-agent
 }
 
 function pwgen {

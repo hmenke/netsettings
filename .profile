@@ -9,9 +9,6 @@ if ! echo ${PATH} | grep -E -q "(^|:)/opt/texlive/2019/bin/x86_64-linux($|:)"; t
 fi
 export PDFVIEWER=xdg-open
 
-# pass
-export PASSWORD_STORE_ENABLE_EXTENSIONS=true
-
 # Prefer nvim but fall back to vim
 if command -v nvim > /dev/null; then
     export EDITOR=nvim
