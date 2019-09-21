@@ -10,6 +10,7 @@ Xft.lcdfilter:  lcddefault
 ! Xterm settings
 xterm*faceName: xft:mono:medium:size=10
 xterm*termName: xterm-256color
+xterm*metaSendsEscape: true
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
