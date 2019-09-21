@@ -81,7 +81,7 @@
 (setq TeX-view-program-selection '((output-pdf "XDG")))
 (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
 (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-auctex t)
+(setq reftex-plug-into-AUCTeX t)
 (setq reftex-label-alist '(AMSTeX))
 (eval-after-load "font-latex"
   '(set-face-foreground 'font-latex-math-face nil))
