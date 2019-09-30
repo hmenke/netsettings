@@ -291,6 +291,8 @@ globalkeys = gears.table.join(
              {description = "Raise volume", group = "client"}),
     awful.key({ modkey, "Control" }, "Down",  function() audioctl("-1") end,
              {description = "Lower volume", group = "client"}),
+    awful.key({ }, "XF86Launch1",             function() awful.spawn("systemctl hibernate") end,
+              {description = "Suspend to disk", group = "launcher"}),
     -- Default keybindings
     awful.key({ modkey,           }, "s",      hotkeys_popup.show_help,
               {description="show help", group="awesome"}),

@@ -85,6 +85,7 @@ end
 
 function finalize()
    run_once("mate-settings-daemon")
+   run_once("mate-power-manager")
    run_once("xscreensaver","-nosplash")
    run_once("nm-applet")
    run_once("redshift")
