@@ -91,6 +91,9 @@ let g:airline#extensions#tabline#left_alt_sep=''
 " Disable eregex by default
 let g:eregex_default_enable = 0
 
+" Always treat tex files as sty files
+let g:tex_stylish = 1
+
 " Color theme
 try
     set termguicolors
