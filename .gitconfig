@@ -26,3 +26,5 @@
 	grep = false
 [diff]
 	algorithm = histogram
+[credential]
+	helper= !pass-git-helper $@
