@@ -1,0 +1,85 @@
+#!/bin/bash
+
+set -eo pipefail
+
+dir="$1"
+image="$2"
+
+if ! shift; then
+    echo "usage: $0 dir image[:tag][@digest] ..."
+    echo "       $0 /tmp/old-hello-world hello-world:latest@sha256:8be990ef2aeb16dbcb9271ddfe2610fa6658d13f6dfb8bc72074cc1ca36966a7"
+    exit 1
+fi
+
+if [ -d "${dir}" ]; then
+    echo "The directory '$dir' already exists."
+    echo "Aborting..."
+    exit 1
+fi
+
+# Download the image download script from Moby if it is not there, verify and
+# patch out the unnecessary go dependence
+if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
+    curl --silent --output "${HOME}/.cache/download-frozen-image-v2.sh" \
+        https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
+    echo "1161e28cf886211f7f442bf2628fd053a21e6c0fa234532466ba55de41b5703b  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
+    cat > "${HOME}/.cache/download-frozen-image-v2.sh.patch" << 'EOF'
+--- download-frozen-image-v2.sh	2019-11-23 19:08:24.015549212 +1300
++++ download-frozen-image-v2.sh	2019-11-23 19:19:02.365983804 +1300
+@@ -8,7 +8,7 @@
+ # debian                           latest              f6fab3b798be3174f45aa1eb731f8182705555f89c9026d8c1ef230cbf8301dd   10 weeks ago        85.1 MB
+ 
+ # check if essential commands are in our PATH
+-for cmd in curl jq go; do
++for cmd in curl jq; do
+ 	if ! command -v $cmd &> /dev/null; then
+ 		echo >&2 "error: \"$cmd\" not found!"
+ 		exit 1
+@@ -36,7 +36,7 @@
+ 
+ # bash v4 on Windows CI requires CRLF separator
+ newlineIFS=$'\n'
+-if [ "$(go env GOHOSTOS)" = 'windows' ]; then
++if [ "" = 'windows' ]; then
+ 	major=$(echo ${BASH_VERSION%%[^0.9]} | cut -d. -f1)
+ 	if [ "$major" -ge 4 ]; then
+ 		newlineIFS=$'\r\n'
+@@ -235,7 +235,7 @@
+ 					for i in "${!layers[@]}"; do
+ 						layerMeta="${layers[$i]}"
+ 						maniArch="$(echo "$layerMeta" | jq --raw-output '.platform.architecture')"
+-						if [ "$maniArch" = "$(go env GOARCH)" ]; then
++						if [ "$maniArch" = "amd64" ]; then
+ 							digest="$(echo "$layerMeta" | jq --raw-output '.digest')"
+ 							# get second level single manifest
+ 							submanifestJson="$(
+EOF
+    patch --silent --directory="${HOME}/.cache" < "${HOME}/.cache/download-frozen-image-v2.sh.patch"
+    rm "${HOME}/.cache/download-frozen-image-v2.sh.patch"
+fi
+
+trap "echo \"Removing '${dir}'\"; rm -rf \"${dir}\"" err
+
+# Download Docker image
+bash "${HOME}/.cache/download-frozen-image-v2.sh" "${dir}" "${image}"
+
+# Unpack the layers in order and delete the downloaded files
+cd "$dir"
+
+for layer in $(jq --raw-output '.[0].Layers[]' manifest.json); do
+    echo "Extracting layer ${layer}"
+    tar -x -f "${layer}"
+    rm -r "$(dirname "${layer}")"
+done
+config="$(jq --raw-output '.[0].Config' manifest.json)"
+rm "${config}"
+rm "manifest.json"
+rm "repositories"
+
+# Done
+echo
+echo "Unpacking of Docker image into '$dir' complete."
+echo "Remember that these containers are not bootable!"
+echo "To start a systemd container use something like:"
+echo "  sudo systemd-nspawn -D '$dir'"
+
