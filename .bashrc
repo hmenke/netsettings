@@ -134,7 +134,7 @@ function mpgrep {
 # Paste services
 
 function dpaste {
-    curl -s -F "syntax=${1:-text}" -F "content=<-" http://dpaste.com/api/v2/
+    curl -s -F "syntax=${1:-text}" -F "expiry_days=${2:-10}" -F "content=<-" http://dpaste.com/api/v2/
 }
 
 function termbin {
