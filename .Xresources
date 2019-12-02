@@ -10,7 +10,12 @@ Xft.lcdfilter:  lcddefault
 ! Xterm settings
 xterm*faceName: xft:mono:medium:size=10
 xterm*termName: xterm-256color
+xterm*utf8: 1
 xterm*metaSendsEscape: true
+xterm*VT100.Translations: #override \
+      Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
+      Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
+      Shift Ctrl<Key>C: copy-selection(CLIPBOARD)
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
