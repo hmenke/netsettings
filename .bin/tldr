@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# Download tldr bash client
+if [ ! -f "${HOME}/.cache/tldr" ]; then
+    curl --silent --output "${HOME}/.cache/tldr" \
+        https://raw.githubusercontent.com/pepa65/tldr-bash-client/master/tldr
+    echo "e50dee184860217e7add0a2ae9a417ac021bc40996c77b24674a86f7b23762eb  ${HOME}/.cache/tldr" | sha256sum --check --quiet -
+fi
+
+bash "${HOME}/.cache/tldr" "$@"
+
