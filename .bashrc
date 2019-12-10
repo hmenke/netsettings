@@ -39,15 +39,15 @@ alias rm='rm -I'
 alias lp-fit='lp -o media=a4 -o sides=two-sided-long-edge -o fitplot -o collate=true'
 alias lp-fit_s='lp -o media=a4 -o sides=two-sided-short-edge -o fitplot -o collate=true'
 
-# Python
-alias pylab='ipython --pylab'
-alias pg='pygmentize'
-
 # TeXLive
 alias latexdef='texdef -t latex'
 alias setuptex='source /opt/context/tex/setuptex'
 alias setuplmtx='export PATH=/opt/context-lmtx/tex/texmf-linux-64/bin${PATH:+:${PATH}}'
-alias ctxdef='mtxrun --silent --script context --extra=meaning --once  --noconsole --nostatistics'
+alias ctxdef='mtxrun --silent --path=/tmp --script context --extra=meaning --once  --noconsole --nostatistics'
+
+if command -v xclip > /dev/null; then
+    alias xclipboard='xclip -selection clipboard'
+fi
 
 # https://sgeb.io/posts/2016/11/til-git-diff-anywhere/
 if command -v git > /dev/null; then
@@ -91,31 +91,11 @@ function ctxgrep {
     else
         CTXPATH="$(kpsexpand '$TEXMFCONTEXT' 2>/dev/null)/tex/context $(kpsexpand '$TEXMFMODULES' 2>/dev/null)/tex/context"
     fi
-    case $1 in
-        "mkii")
-            shift;
-            grep -r --include=*.mkii "$@" $CTXPATH
-            ;;
-        "mkiv")
-            shift;
-            grep -r --include=*.mkiv "$@" $CTXPATH
-            ;;
-        "mkvi")
-            shift;
-            grep -r --include=*.mkvi "$@" $CTXPATH
-            ;;
-        "lua")
-            shift;
-            grep -r --include=*.lua "$@" $CTXPATH
-            ;;
-        *)
-            if command -v ag > /dev/null; then
-                ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" $CTXPATH
-            else
-                grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" $CTXPATH
-            fi
-            ;;
-    esac
+    if command -v ag > /dev/null; then
+        ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" $CTXPATH
+    else
+        grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" $CTXPATH
+    fi
 }
 
 function mpgrep {
@@ -134,7 +114,8 @@ function mpgrep {
 # Paste services
 
 function dpaste {
-    curl -s -F "syntax=${1:-text}" -F "expiry_days=${2:-10}" -F "content=<-" http://dpaste.com/api/v2/
+    local URL=$(curl -s -F "syntax=${1:-text}" -F "expiry_days=${2:-10}" -F "content=<-" http://dpaste.com/api/v2/)
+    echo "${URL} (expires in ${2:-10} days)"
 }
 
 function termbin {
