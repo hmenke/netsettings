@@ -29,8 +29,11 @@ set ttimeoutlen=0     " eliminate delays on <esc>
 " In normal and visual mode indent selection or line
 nmap <Tab> ==
 vmap <Tab> ==
-" Map <Esc> to exit terminal-mode
-tnoremap <Esc> <C-\><C-n>
+try
+    " Map <Esc> to exit terminal-mode (NeoVim only)
+    tnoremap <Esc> <C-\><C-n>
+catch
+endtry
 " Selection to X clipboard in visual mode (only works in NeoVim and
 " requires 'set mouse=a')
 vmap <LeftRelease> "*ygv
