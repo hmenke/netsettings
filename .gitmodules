@@ -22,3 +22,6 @@
 [submodule ".vim/pack/bundle/start/eregex.vim"]
 	path = .vim/pack/bundle/start/eregex.vim
 	url = https://github.com/othree/eregex.vim
+[submodule ".config/shell/zsh-syntax-highlighting"]
+	path = .config/shell/zsh-syntax-highlighting
+	url = https://github.com/zsh-users/zsh-syntax-highlighting
