@@ -30,4 +30,6 @@ source ~/.config/shell/aliases.sh
 source ~/.config/shell/environment.sh
 source ~/.config/shell/functions.sh
 
+source ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+bindkey '^ ' autosuggest-accept
 source ~/.config/shell/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
