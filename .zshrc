@@ -9,14 +9,28 @@ PS1="╭╴${HOST_COLOR}%M %B%F{1}%~%f%b
 ╰╴%F{12}\$ %f"
 
 # shell optional behavior
-setopt appendhistory autocd extendedglob nomatch notify
+setopt autocd
+setopt extendedglob
+setopt nomatch
+setopt notify
+
+# history
+setopt appendhistory
+setopt hist_expire_dups_first
+setopt hist_ignore_dups
+setopt hist_ignore_space
 HISTFILE=~/.cache/zsh_history
-SAVEHIST=5000
+HISTSIZE=1000
+SAVEHIST=1000
+
+# Bash-y keybindings
 bindkey -e
 bindkey "^[[1;3C" forward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;3D" backward-word
 bindkey "^[[1;5D" backward-word
+autoload -U select-word-style
+select-word-style bash
 
 # autocompletion
 autoload -Uz compinit
