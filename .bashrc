@@ -9,6 +9,13 @@ PS1="╭╴${HOST_COLOR}\h \[\e[1;31m\]\w\[\e[0m\]\n╰╴\[\e[0;94m\]\\$ \[\e[0
 
 # shell optional behavior
 shopt -s autocd
+shopt -s extglob
+
+# history
+shopt -s histappend
+HISTFILE=~/.cache/bash_history
+HISTSIZE=1000
+HISTFILESIZE=1000
 
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
