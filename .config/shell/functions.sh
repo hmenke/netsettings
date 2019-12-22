@@ -17,9 +17,9 @@ function ctxgrep {
         CTXPATH="$(kpsexpand '$TEXMFCONTEXT' 2>/dev/null)/tex/context $(kpsexpand '$TEXMFMODULES' 2>/dev/null)/tex/context"
     fi
     if command -v ag > /dev/null; then
-        ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" "${CTXPATH}"
+        ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" ${CTXPATH}
     else
-        grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" "${CTXPATH}"
+        grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" ${CTXPATH}
     fi
 }
 

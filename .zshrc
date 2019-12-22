@@ -13,6 +13,7 @@ setopt autocd
 setopt extendedglob
 setopt nomatch
 setopt notify
+setopt shwordsplit
 
 # history
 setopt appendhistory
