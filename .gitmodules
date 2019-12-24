@@ -1,26 +1,26 @@
 [submodule ".vim/bundle/Zenburn"]
-	path = .vim/pack/bundle/start/Zenburn
+	path = .config/nvim/pack/bundle/start/Zenburn
 	url = https://github.com/jnurmine/Zenburn.git
 [submodule ".vim/bundle/gruvbox"]
-	path = .vim/pack/bundle/start/gruvbox
+	path = .config/nvim/pack/bundle/start/gruvbox
 	url = https://github.com/morhetz/gruvbox.git
 [submodule ".vim/pack/bundle/start/vim-clang-format"]
-	path = .vim/pack/bundle/start/vim-clang-format
+	path = .config/nvim/pack/bundle/start/vim-clang-format
 	url = https://github.com/rhysd/vim-clang-format
 [submodule ".vim/pack/bundle/start/vim-transpose"]
-	path = .vim/pack/bundle/start/vim-transpose
+	path = .config/nvim/pack/bundle/start/vim-transpose
 	url = https://github.com/salsifis/vim-transpose
 [submodule ".vim/pack/bundle/start/vim-airline"]
-	path = .vim/pack/bundle/start/vim-airline
+	path = .config/nvim/pack/bundle/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
 [submodule ".vim/pack/bundle/start/vim-fugitive"]
-	path = .vim/pack/bundle/start/vim-fugitive
+	path = .config/nvim/pack/bundle/start/vim-fugitive
 	url = https://github.com/tpope/vim-fugitive
 [submodule ".vim/pack/bundle/start/unicode.vim"]
-	path = .vim/pack/bundle/start/unicode.vim
+	path = .config/nvim/pack/bundle/start/unicode.vim
 	url = https://github.com/chrisbra/unicode.vim
 [submodule ".vim/pack/bundle/start/eregex.vim"]
-	path = .vim/pack/bundle/start/eregex.vim
+	path = .config/nvim/pack/bundle/start/eregex.vim
 	url = https://github.com/othree/eregex.vim
 [submodule ".config/shell/zsh-syntax-highlighting"]
 	path = .config/shell/zsh-syntax-highlighting
