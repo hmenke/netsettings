@@ -28,3 +28,6 @@
 [submodule ".config/shell/zsh-autosuggestions"]
 	path = .config/shell/zsh-autosuggestions
 	url = https://github.com/zsh-users/zsh-autosuggestions
+[submodule ".config/nvim/pack/bundle/start/vim-polyglot"]
+	path = .config/nvim/pack/bundle/start/vim-polyglot
+	url = https://github.com/sheerun/vim-polyglot
