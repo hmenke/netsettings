@@ -1,6 +1,5 @@
 # Set colorful prompt
 if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-    source ~/.profile
     HOST_COLOR="%B%F{3}"
 else
     HOST_COLOR="%B%F{2}"
