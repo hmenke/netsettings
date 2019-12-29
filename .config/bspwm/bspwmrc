@@ -1,0 +1,37 @@
+#! /bin/sh
+
+run_once() {
+    if ! pgrep -f -x "$1" > /dev/null; then
+        echo "Starting $1"
+        $1 &
+    else
+        echo "$1 is already running"
+    fi
+}
+
+bspc rule -r "*"
+
+run_once "sxhkd"
+run_once "redshift"
+run_once "mate-settings-daemon"
+run_once "xscreensaver -nosplash"
+run_once "nm-applet"
+run_once "redshift"
+run_once "dropbox start"
+run_once "setxkbmap us altgr-intl"
+run_once "xmodmap ${HOME}/.Xmodmap"
+run_once "xrdb ${HOME}/.Xresources"
+run_once "polybar default"
+
+bspc monitor -d 1 2 3 4 5 6 7 8 9 0
+bspc desktop -f 1
+
+bspc config border_width 2
+bspc config window_gap 12
+bspc config top_padding 19
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+
+bspc config focus_follows_pointer true
