@@ -378,7 +378,7 @@ globalkeys = gears.table.join(
     -- Prompt
     awful.key({ modkey },            "r",
               function ()
-                  local pid = awful.spawn("dmenu_run_history")
+                  local pid = awful.spawn(os.getenv"HOME" .. "/.bin/dmenu_run_history")
                   if not tonumber(pid) then
                       awful.screen.focused().mypromptbox:run()
                   end
