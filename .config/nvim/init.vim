@@ -85,8 +85,10 @@ set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
 
 " Airline settings
-let g:airline_extensions=['tabline']
+let g:airline_extensions=['branch', 'tabline']
 let g:airline_highlighting_cache=1
+let g:airline_powerline_fonts=0
+let g:airline#extensions#branch#enabled=1
 let g:airline#extensions#tabline#buffer_min_count=2
 let g:airline#extensions#tabline#left_sep=' '
 let g:airline#extensions#tabline#left_alt_sep=''
