@@ -45,7 +45,7 @@ border-size = 0
 border-color = #00000000
 
 padding-left = 0
-padding-right = 0
+padding-right = 1
 
 module-margin-left = 1
 module-margin-right = 1
@@ -55,7 +55,7 @@ font-1 = "DejaVu Sans:pixelsize=10;1"
 
 modules-left = bspwm xwindow 
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature 
-modules-right = xbacklight pulseaudio xkeyboard memory cpu battery date
+modules-right = xbacklight pulseaudio xkeyboard memory cpu battery weather date
 
 tray-position = right
 tray-padding = 10
@@ -75,6 +75,12 @@ scroll-down = bspwm-deskprev
 cursor-click = pointer
 ;cursor-scroll = ns-resize
 
+[module/weather]
+type = custom/script
+exec = "curl --silent 'wttr.in/?format=%C+%t+%p+%o' | xargs"
+interval = 3600
+format-underline = ${colors.primary}
+
 [module/xwindow]
 type = internal/xwindow
 label = "%{T2}%title:0:75:...%"
@@ -85,15 +91,15 @@ blacklist-0 = num lock
 
 ;format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
-format-prefix-underline = ${colors.secondary}
+format-prefix-underline = ${colors.primary}
 
 label-layout = %layout%
-label-layout-underline = ${colors.secondary}
+label-layout-underline = ${colors.primary}
 
 label-indicator-padding = 2
 label-indicator-margin = 1
-label-indicator-background = ${colors.secondary}
-label-indicator-underline = ${colors.secondary}
+label-indicator-background = ${colors.primary}
+label-indicator-underline = ${colors.primary}
 
 [module/filesystem]
 type = internal/fs
@@ -206,7 +212,7 @@ interval = 2
 ;format-prefix = " "
 format-prefix = "CPU "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${xrdb:color2:#f90000}
+format-underline = ${colors.primary}
 label = %percentage:2%%
 
 [module/memory]
@@ -215,7 +221,7 @@ interval = 2
 ;format-prefix = " "
 format-prefix = "MEM "
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${xrdb:color4:#4bffdc}
+format-underline = ${colors.primary}
 label = %percentage_used%%
 
 [module/wlan]
@@ -224,7 +230,7 @@ interface = wlp3s0
 interval = 3.0
 
 format-connected = <ramp-signal> <label-connected>
-format-connected-underline = ${xrdb:color5:#9f78e1}
+format-connected-underline = ${colors.primary}
 label-connected = %essid%
 
 format-disconnected =
@@ -246,7 +252,7 @@ type = internal/network
 interface = enp0s25
 interval = 3.0
 
-format-connected-underline = ${xrdb:color6:#55aa55}
+format-connected-underline = ${colors.primary}
 ;format-connected-prefix = " "
 format-connected-prefix = "ETH "
 format-connected-prefix-foreground = ${colors.foreground-alt}
@@ -272,7 +278,7 @@ time = "%H:%M:%S"
 
 ;format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
-format-underline = ${xrdb:color12:#0a6cf5}
+format-underline = ${colors.primary}
 
 label = "%date% %time%"
 
@@ -352,7 +358,7 @@ format-discharging-underline = ${xrdb:color9:#fb4934}
 format-full-prefix =
 label-full = "%percentage%%"
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${xrdb:color11:#fabd2f}
+format-full-underline = ${colors.primary}
 
 ;ramp-capacity-0 = 
 ;ramp-capacity-1 = 
@@ -393,7 +399,7 @@ format-warn-underline = ${self.format-underline}
 
 label = %temperature-c%
 label-warn = %temperature-c%
-label-warn-foreground = ${colors.secondary}
+label-warn-foreground = ${colors.alert}
 
 ramp-0 = 
 ramp-1 = 
@@ -409,10 +415,10 @@ format-spacing = 1
 
 ;label-open = 
 label-open = "POWER"
-label-open-foreground = ${colors.secondary}
+label-open-foreground = ${colors.primary}
 ;label-close =  cancel
 label-close = cancel
-label-close-foreground = ${colors.secondary}
+label-close-foreground = ${colors.primary}
 label-separator = |
 label-separator-foreground = ${colors.foreground-alt}
 
