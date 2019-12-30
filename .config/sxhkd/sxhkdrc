@@ -26,6 +26,9 @@ super + ctrl + r
 	pkill -USR1 -x sxhkd; \
 	polybar-msg cmd restart
 
+super + l
+	xscreensaver-command -l
+
 XF86AudioMute
 	pactl set-sink-mute @DEFAULT_SINK@ toggle
 
@@ -40,6 +43,12 @@ XF86AudioMicMute
 
 XF86Launch1
 	systemctl hibernate
+
+XF86MonBrightnessDown
+	xbacklight -dec 10
+
+XF86MonBrightnessUp
+	xbacklight -inc 10
 
 #
 # bspwm hotkeys
