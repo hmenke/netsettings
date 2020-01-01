@@ -26,5 +26,6 @@
 	grep = false
 [diff]
 	algorithm = histogram
+	ignoreSubmodules = dirty
 [credential]
 	helper= !pass-git-helper $@
