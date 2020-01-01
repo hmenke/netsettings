@@ -7,9 +7,6 @@
 [submodule ".vim/pack/bundle/start/vim-clang-format"]
 	path = .config/nvim/pack/bundle/start/vim-clang-format
 	url = https://github.com/rhysd/vim-clang-format
-[submodule ".vim/pack/bundle/start/vim-transpose"]
-	path = .config/nvim/pack/bundle/start/vim-transpose
-	url = https://github.com/salsifis/vim-transpose
 [submodule ".vim/pack/bundle/start/vim-airline"]
 	path = .config/nvim/pack/bundle/start/vim-airline
 	url = https://github.com/vim-airline/vim-airline
