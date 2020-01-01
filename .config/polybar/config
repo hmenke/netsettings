@@ -282,7 +282,7 @@ interval = 1
 
 ;date =
 ;date-alt = " %Y-%m-%d"
-date = "%Y-%m-%d"
+date = "%a %b %d"
 
 ;time = %H:%M
 ;time-alt = %H:%M:%S
