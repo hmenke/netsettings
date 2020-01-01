@@ -24,6 +24,8 @@ setopt extendedglob
 setopt nomatch
 setopt notify
 setopt shwordsplit
+unsetopt hup
+unsetopt check_jobs
 
 # history
 setopt appendhistory
