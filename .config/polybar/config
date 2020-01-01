@@ -55,7 +55,7 @@ font-1 = "DejaVu Sans:pixelsize=10;1"
 
 modules-left = bspwm xwindow 
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature 
-modules-right = xbacklight pulseaudio xkeyboard memory cpu battery weather date
+modules-right = xkeyboard xbacklight pulseaudio memory cpu battery weather date
 
 tray-position = right
 tray-padding = 10
@@ -89,6 +89,9 @@ label = "%{T2}%title:0:75:...%"
 type = internal/xkeyboard
 blacklist-0 = num lock
 
+format = <label-indicator>
+format-spacing = 0
+
 ;format-prefix = " "
 format-prefix-foreground = ${colors.foreground-alt}
 format-prefix-underline = ${colors.primary}
@@ -97,7 +100,8 @@ label-layout = %layout%
 label-layout-underline = ${colors.primary}
 
 label-indicator-padding = 2
-label-indicator-margin = 1
+label-indicator-margin = 0
+label-indicator-foreground = ${colors.background}
 label-indicator-background = ${colors.primary}
 label-indicator-underline = ${colors.primary}
 
@@ -187,8 +191,16 @@ label-song-ellipsis = true
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label> <bar>
-label = BL
+format = <label>
+label = %percentage%%
+label-foreground = ${root.foreground}
+
+format-prefix = "BL "
+format-underline = ${colors.primary}
+format-foreground = ${colors.foreground-alt}
+
+;format = <label> <bar>
+;label = BL
 
 bar-width = 10
 bar-indicator = |
@@ -274,7 +286,7 @@ date = "%Y-%m-%d"
 
 ;time = %H:%M
 ;time-alt = %H:%M:%S
-time = "%H:%M:%S"
+time = "%H:%M"
 
 ;format-prefix = 
 format-prefix-foreground = ${colors.foreground-alt}
@@ -285,12 +297,21 @@ label = "%date% %time%"
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = <label-volume> <bar-volume>
-label-volume = VOL %percentage%%
+format-volume = <label-volume>
+label-volume = %percentage%%
 label-volume-foreground = ${root.foreground}
 
-label-muted = "muted ──────────"
-label-muted-foreground = #666
+format-volume-prefix = "VOL "
+format-volume-underline = ${colors.primary}
+format-volume-foreground = ${colors.foreground-alt}
+
+;format-volume = <label-volume> <bar-volume>
+;label-volume = VOL %percentage%%
+;label-volume-foreground = ${root.foreground}
+
+label-muted = " muted "
+label-muted-background = ${colors.primary}
+label-muted-foreground = ${colors.background}
 
 bar-volume-width = 10
 bar-volume-foreground-0 = #55aa55
@@ -308,6 +329,8 @@ bar-volume-fill = ─
 bar-volume-empty = ─
 ;bar-volume-empty-font = 2
 bar-volume-empty-foreground = ${colors.foreground-alt}
+
+click-right = pavucontrol &
 
 [module/alsa]
 type = internal/alsa
