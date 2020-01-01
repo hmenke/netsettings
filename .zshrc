@@ -1,11 +1,22 @@
-# Set colorful prompt
+# Set different color for host on SSH
 if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
     HOST_COLOR="%B%F{3}"
 else
     HOST_COLOR="%B%F{2}"
 fi
-PS1="╭╴${HOST_COLOR}%M %B%F{1}%~%f%b
-╰╴%F{12}\$ %f"
+
+source ~/.config/shell/prompt.sh
+
+# Set the prompt
+__timer_reset;
+preexec() { __timer_start; }
+precmd () {
+    __last_status=$?;
+    __timer_stop;
+    __git_ps1 "╭╴${HOST_COLOR}%M %B%F{1}%~%f%b" "$(__timer_show)$(__show_status)
+╰╴%F{12}\$ %f";
+    __timer_reset;
+}
 
 # shell optional behavior
 setopt autocd
