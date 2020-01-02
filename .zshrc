@@ -44,10 +44,16 @@ bindkey "^[[1;3D" backward-word
 bindkey "^[[1;5D" backward-word
 autoload -U select-word-style
 select-word-style bash
+if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.zsh
+fi
 
 # autocompletion
 autoload -Uz compinit
 compinit
+if [ -f /usr/share/zsh/vendor-completions/_fzf ]; then
+    source /usr/share/zsh/vendor-completions/_fzf
+fi
 
 # Disable the beep
 unsetopt beep

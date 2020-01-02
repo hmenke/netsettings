@@ -25,9 +25,17 @@ HISTFILE=~/.cache/bash_history
 HISTSIZE=1000
 HISTFILESIZE=1000
 
+# Keybindings
+if [ -f /usr/share/doc/fzf/examples/key-bindings.bash ]; then
+    source /usr/share/doc/fzf/examples/key-bindings.bash
+fi
+
 # bash completion
 if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
+fi
+if [ -f /usr/share/bash-completion/completions/fzf ]; then
+    source /usr/share/bash-completion/completions/fzf
 fi
 
 # Disable the beep
