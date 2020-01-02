@@ -80,6 +80,7 @@ type = custom/script
 exec = "curl --silent 'wttr.in/?format=%C+%t+%p+%o' | xargs"
 interval = 3600
 format-underline = ${colors.primary}
+click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
 
 [module/xwindow]
 type = internal/xwindow
@@ -292,7 +293,7 @@ time = "%H:%M"
 format-prefix-foreground = ${colors.foreground-alt}
 format-underline = ${colors.primary}
 
-label = "%date% %time%"
+label = "%{A1:notify-send "$(date)" "$(cal | sed -e 's|_\(.\)_\(.\)|<u><b>\1\2</b></u>|')":}%date% %time%%{A}"
 
 [module/pulseaudio]
 type = internal/pulseaudio
