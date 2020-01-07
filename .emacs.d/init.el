@@ -45,6 +45,10 @@
 (package-dl 'evil)
 (require 'evil)
 
+; magit
+(package-dl 'magit)
+(require 'magit)
+
 ; Language modes
 (package-dl 'auctex)
 (package-dl 'clang-format)
