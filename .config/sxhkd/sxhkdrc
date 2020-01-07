@@ -4,7 +4,11 @@
 
 # terminal emulator
 super + Return
-	x-terminal-emulator
+	if [ -x "${HOME}/.local/bin/kitty" ]; then \
+		${HOME}/.local/bin/kitty; \
+	else \
+		x-terminal-emulator; \
+	fi
 
 # program launcher
 super + r
