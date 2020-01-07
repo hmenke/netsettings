@@ -8,7 +8,7 @@ super + Return
 
 # program launcher
 super + r
-	~/.bin/dmenu_run_history
+	~/.local/bin/dmenu_run_history
 
 # web browser
 super + b
