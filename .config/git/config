@@ -29,3 +29,5 @@
 	ignoreSubmodules = dirty
 [credential]
 	helper= !pass-git-helper $@
+[rerere]
+	enabled = true
