@@ -7,13 +7,12 @@
 	changelog = log --date=short --pretty=format:'%ad %an\n\n    - %s\n'
 	# An unsigned version of stash
 	ustash = -c commit.gpgsign=false stash
-        ls = ls-tree HEAD
-        root = rev-parse --show-toplevel
+	unstage = reset HEAD --
+	root = rev-parse --show-toplevel
 [pull]
 	ff = only
 [commit]
 	gpgsign = true
-	cleanup = scissors
 [gpg]
 	program = gpg2
 [log]
