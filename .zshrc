@@ -48,6 +48,11 @@ if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
     source /usr/share/doc/fzf/examples/key-bindings.zsh
 fi
 
+# edit command line in editor
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey '\C-x\C-e' edit-command-line
+
 # autocompletion
 autoload -Uz compinit
 compinit
