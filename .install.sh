@@ -10,7 +10,7 @@ fi
 
 echo "Installing config files from ${GITROOT} into ${HOME}"
 
-for file in $(git ls-tree --name-only -r HEAD); do
+for file in $(git ls-files); do
     case "${file}" in
         ".install.sh"|".gitmodules")
             echo "Skipping file ${file}"
