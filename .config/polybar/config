@@ -77,7 +77,7 @@ cursor-click = pointer
 
 [module/weather]
 type = custom/script
-exec = "curl --silent 'wttr.in/?format=%C+%t+%p+%o' | xargs"
+exec = "curl --silent 'wttr.in/?format=%C+%t+%p+%o' | head -n 1 | xargs"
 interval = 3600
 format-underline = ${colors.primary}
 click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
