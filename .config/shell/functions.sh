@@ -1,5 +1,5 @@
 # Cropping for TeX.SX
-function crop {
+crop() {
     pdfcrop "$2" "/tmp/${2%%.pdf}-crop.pdf"
     if command -v mudraw >/dev/null; then
         mudraw -r "$1" -o "${2%%.pdf}.png" "/tmp/${2%%.pdf}-crop.pdf"
@@ -9,7 +9,7 @@ function crop {
 }
 
 # Search ConTeXt source tree
-function ctxgrep {
+ctxgrep() {
     local CTXPATH CTXMODULES
     if [ "$(kpsexpand "\$TEXMFCONTEXT")" = "\$TEXMFCONTEXT" ]; then
         CTXPATH="$(kpsexpand "\$TEXMFDIST")/tex/context"
@@ -24,7 +24,7 @@ function ctxgrep {
     fi
 }
 
-function mpgrep {
+mpgrep() {
     local MPPATH
     if [ "$(kpsexpand "\$TEXMFCONTEXT")" = "\$TEXMFCONTEXT" ]; then
         MPPATH="$(kpsexpand "\$TEXMFDIST")/metapost"
@@ -40,17 +40,17 @@ function mpgrep {
 
 # Paste services
 
-function dpaste {
+dpaste() {
     local URL
     URL=$(curl -s -F "syntax=${1:-text}" -F "expiry_days=${2:-10}" -F "content=<-" http://dpaste.com/api/v2/)
     echo "${URL} (expires in ${2:-10} days)"
 }
 
-function termbin {
+termbin() {
     nc termbin.com 9999
 }
 
-function pwgen {
+pwgen() {
     </dev/urandom tr -dc "${2:-A-Za-z0-9}" | head -c "${1:-10}"
     echo
 }

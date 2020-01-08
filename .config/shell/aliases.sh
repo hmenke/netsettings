@@ -41,3 +41,6 @@ fi
 if command -v git > /dev/null; then
     alias diff="git --no-pager diff --color=auto --no-ext-diff --no-index"
 fi
+
+# GPG sign
+alias gpgsign="gpg --armor --output '-' --detach-sig"
