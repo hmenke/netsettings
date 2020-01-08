@@ -21,6 +21,7 @@
 	showUntrackedFiles = no
 [grep]
 	lineNumber = true
+	patternType = perl
 [pager]
 	grep = false
 [diff]
@@ -30,3 +31,6 @@
 	helper= !pass-git-helper $@
 [rerere]
 	enabled = true
+[color "grep"]
+	filename = magenta
+	lineNumber = green
