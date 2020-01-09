@@ -31,3 +31,6 @@
 [submodule ".config/shell/z"]
 	path = .config/shell/z
 	url = https://github.com/rupa/z
+[submodule ".config/nvim/pack/bundle/start/vim-sensible"]
+	path = .config/nvim/pack/bundle/start/vim-sensible
+	url = https://github.com/tpope/vim-sensible

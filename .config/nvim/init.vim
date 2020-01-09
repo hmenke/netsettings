@@ -26,9 +26,12 @@ set listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<,space:␣
 
 " Key mappings
 set ttimeoutlen=0     " eliminate delays on <esc>
+
 " In normal and visual mode indent selection or line
 nmap <Tab> ==
 vmap <Tab> ==
+noremap <C-q> q:i
+
 try
     " Map <Esc> to exit terminal-mode (NeoVim only)
     tnoremap <Esc> <C-\><C-n>
@@ -37,11 +40,6 @@ endtry
 " Selection to X clipboard in visual mode (only works in NeoVim and
 " requires 'set mouse=a')
 vmap <LeftRelease> "*ygv
-" Map <C-L> to clear search highlighting
-nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
-
-" Command aliases
-cnoreabbrev <expr> Q ((getcmdtype() is# ':' && getcmdline() is# 'Q')?('qall'):('Q'))
 
 " use system clipboard
 if has('unnamedplus')
