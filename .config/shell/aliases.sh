@@ -40,6 +40,7 @@ fi
 # https://sgeb.io/posts/2016/11/til-git-diff-anywhere/
 if command -v git > /dev/null; then
     alias diff="git --no-pager diff --color=auto --no-ext-diff --no-index"
+    alias gg="git grep --heading --break"
 fi
 
 # GPG sign
