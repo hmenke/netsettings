@@ -57,7 +57,7 @@ bindkey '\C-x\C-e' edit-command-line
 
 # autocompletion
 autoload -Uz compinit
-compinit
+compinit -d ~/.cache/zcompdump
 if [ -f /usr/share/zsh/vendor-completions/_fzf ]; then
     source /usr/share/zsh/vendor-completions/_fzf
 fi
