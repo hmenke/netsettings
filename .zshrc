@@ -8,15 +8,17 @@ fi
 source ~/.config/shell/prompt.sh
 
 # Set the prompt
+autoload -U add-zsh-hook
 __timer_reset;
-preexec() { __timer_start; }
-precmd () {
-    __last_status=$?;
-    __timer_stop;
+add-zsh-hook preexec __timer_start
+__draw_prompt() {
+    __last_status="$?"
+    __timer_stop
     __git_ps1 "╭╴${HOST_COLOR}%M %B%F{1}%~%f%b" "$(__timer_show)$(__show_status)
-╰╴%F{12}\$ %f";
-    __timer_reset;
+╰╴%F{12}\$ %f"
+    __timer_reset
 }
+add-zsh-hook precmd __draw_prompt
 
 # shell optional behavior
 setopt autocd

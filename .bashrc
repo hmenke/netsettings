@@ -10,10 +10,14 @@ source ~/.config/shell/prompt.sh
 # Set the prompt
 __timer_reset;
 trap '__timer_start' DEBUG
-PROMPT_COMMAND+='__last_status=$?;'
-PROMPT_COMMAND+='__timer_stop;'
-PROMPT_COMMAND+='__git_ps1 "╭╴${HOST_COLOR}\h \[\e[1;31m\]\w\[\e[0m\]" "$(__timer_show)$(__show_status)\n╰╴\[\e[0;94m\]\\$ \[\e[0m\]";'
-PROMPT_COMMAND+='__timer_reset;'
+__draw_prompt() {
+    __last_status="$?"
+    __timer_stop
+    __git_ps1 "╭╴${HOST_COLOR}\h \[\e[1;31m\]\w\[\e[0m\]" "$(__timer_show)$(__show_status)
+╰╴\[\e[0;94m\]\\$ \[\e[0m\]"
+    __timer_reset
+}
+PROMPT_COMMAND+='__draw_prompt;'
 
 # shell optional behavior
 shopt -s autocd
