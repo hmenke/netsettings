@@ -1,0 +1,19 @@
+import atexit
+import os
+import readline
+
+print(os.getenv("TERM"))
+
+history = os.path.expanduser('~/.cache/python_history')
+
+try:
+    readline.read_history_file(history)
+except IOError:
+    pass
+
+atexit.register(readline.write_history_file, history)
+
+del atexit
+del history
+del os
+del readline
