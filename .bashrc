@@ -1,8 +1,8 @@
 # Set different color for host on SSH
 if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-    HOST_COLOR="\[\e[1;33m\]"
+    HOST_COLOR="\[\e[1;93m\]"
 else
-    HOST_COLOR="\[\e[1;32m\]"
+    HOST_COLOR="\[\e[1;92m\]"
 fi
 
 source ~/.config/shell/prompt.sh
@@ -13,7 +13,7 @@ trap '__timer_start' DEBUG
 __draw_prompt() {
     __last_status="$?"
     __timer_stop
-    __git_ps1 "╭╴${HOST_COLOR}\h \[\e[1;31m\]\w\[\e[0m\]" "$(__timer_show)$(__show_status)
+    __git_ps1 "╭╴${HOST_COLOR}\h \[\e[1;91m\]\w\[\e[0m\]" "$(__timer_show)$(__show_status)
 ╰╴\[\e[0;94m\]\\$ \[\e[0m\]"
     __timer_reset
 }

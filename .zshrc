@@ -1,8 +1,8 @@
 # Set different color for host on SSH
 if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-    HOST_COLOR="%B%F{3}"
+    HOST_COLOR="%B%F{11}"
 else
-    HOST_COLOR="%B%F{2}"
+    HOST_COLOR="%B%F{10}"
 fi
 
 source ~/.config/shell/prompt.sh
@@ -14,7 +14,7 @@ add-zsh-hook preexec __timer_start
 __draw_prompt() {
     __last_status="$?"
     __timer_stop
-    __git_ps1 "╭╴${HOST_COLOR}%M %B%F{1}%~%f%b" "$(__timer_show)$(__show_status)
+    __git_ps1 "╭╴${HOST_COLOR}%M %B%F{9}%~%f%b" "$(__timer_show)$(__show_status)
 ╰╴%F{12}\$ %f"
     __timer_reset
 }
