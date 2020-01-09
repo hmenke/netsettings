@@ -28,3 +28,6 @@
 [submodule ".config/nvim/pack/bundle/start/vim-polyglot"]
 	path = .config/nvim/pack/bundle/start/vim-polyglot
 	url = https://github.com/sheerun/vim-polyglot
+[submodule ".config/shell/z"]
+	path = .config/shell/z
+	url = https://github.com/rupa/z
