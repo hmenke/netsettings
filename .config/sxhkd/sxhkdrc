@@ -30,7 +30,7 @@ super + ctrl + r
 	pkill -USR1 -x sxhkd; \
 	polybar-msg cmd restart
 
-super + l
+super + ctrl + l
 	xscreensaver-command -l
 
 XF86AudioMute
@@ -111,7 +111,7 @@ super + {Left,Right}
 	bspc desktop -f {prev,next}.local
 
 # focus the last node/desktop
-super + {grave,Tab}
+super + {Tab,grave}
 	bspc {node,desktop} -f last
 
 # focus the older or newer node in the focus history
