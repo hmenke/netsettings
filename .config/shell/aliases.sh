@@ -45,3 +45,6 @@ fi
 
 # GPG sign
 alias gpgsign="gpg --armor --output '-' --detach-sig"
+
+# netsettings
+alias netsettings='git --git-dir="${HOME}/.netsettings/" --work-tree="${HOME}"'
