@@ -16,6 +16,7 @@ __draw_prompt() {
     __git_ps1 "╭╴${HOST_COLOR}\h \[\e[1;91m\]\w\[\e[0m\]" "$(__timer_show)$(__show_status)
 ╰╴\[\e[0;94m\]\\$ \[\e[0m\]"
     __timer_reset
+    history -a
 }
 PROMPT_COMMAND+='__draw_prompt;'
 
@@ -25,6 +26,7 @@ shopt -s extglob
 
 # history
 shopt -s histappend
+HISTCONTROL=ignoreboth:erasedups
 HISTFILE=~/.cache/bash_history
 HISTSIZE=1000
 HISTFILESIZE=1000
