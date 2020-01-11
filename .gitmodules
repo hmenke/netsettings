@@ -1,36 +1,36 @@
-[submodule ".vim/bundle/Zenburn"]
+[submodule ".config/nvim/pack/bundle/Zenburn"]
 	path = .config/nvim/pack/bundle/start/Zenburn
-	url = https://github.com/jnurmine/Zenburn.git
-[submodule ".vim/bundle/gruvbox"]
+	url = git://github.com/jnurmine/Zenburn.git
+[submodule ".config/nvim/pack/bundle/gruvbox"]
 	path = .config/nvim/pack/bundle/start/gruvbox
-	url = https://github.com/morhetz/gruvbox.git
-[submodule ".vim/pack/bundle/start/vim-clang-format"]
+	url = git://github.com/morhetz/gruvbox.git
+[submodule ".config/nvim/pack/bundle/start/vim-clang-format"]
 	path = .config/nvim/pack/bundle/start/vim-clang-format
-	url = https://github.com/rhysd/vim-clang-format
-[submodule ".vim/pack/bundle/start/vim-airline"]
+	url = git://github.com/rhysd/vim-clang-format.git
+[submodule ".config/nvim/pack/bundle/start/vim-airline"]
 	path = .config/nvim/pack/bundle/start/vim-airline
-	url = https://github.com/vim-airline/vim-airline
-[submodule ".vim/pack/bundle/start/vim-fugitive"]
+	url = git://github.com/vim-airline/vim-airline.git
+[submodule ".config/nvim/pack/bundle/start/vim-fugitive"]
 	path = .config/nvim/pack/bundle/start/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive
-[submodule ".vim/pack/bundle/start/unicode.vim"]
+	url = git://github.com/tpope/vim-fugitive.git
+[submodule ".config/nvim/pack/bundle/start/unicode.vim"]
 	path = .config/nvim/pack/bundle/start/unicode.vim
-	url = https://github.com/chrisbra/unicode.vim
-[submodule ".vim/pack/bundle/start/eregex.vim"]
+	url = git://github.com/chrisbra/unicode.vim.git
+[submodule ".config/nvim/pack/bundle/start/eregex.vim"]
 	path = .config/nvim/pack/bundle/start/eregex.vim
-	url = https://github.com/othree/eregex.vim
+	url = git://github.com/othree/eregex.vim.git
 [submodule ".config/shell/zsh-syntax-highlighting"]
 	path = .config/shell/zsh-syntax-highlighting
-	url = https://github.com/zsh-users/zsh-syntax-highlighting
+	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule ".config/shell/zsh-autosuggestions"]
 	path = .config/shell/zsh-autosuggestions
-	url = https://github.com/zsh-users/zsh-autosuggestions
+	url = git://github.com/zsh-users/zsh-autosuggestions.git
 [submodule ".config/nvim/pack/bundle/start/vim-polyglot"]
 	path = .config/nvim/pack/bundle/start/vim-polyglot
-	url = https://github.com/sheerun/vim-polyglot
+	url = git://github.com/sheerun/vim-polyglot.git
 [submodule ".config/shell/z"]
 	path = .config/shell/z
-	url = https://github.com/rupa/z
+	url = git://github.com/rupa/z.git
 [submodule ".config/nvim/pack/bundle/start/vim-sensible"]
 	path = .config/nvim/pack/bundle/start/vim-sensible
-	url = https://github.com/tpope/vim-sensible
+	url = git://github.com/tpope/vim-sensible.git
