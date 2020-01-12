@@ -1,0 +1,15 @@
+#!/bin/bash
+
+set -eo pipefail
+
+# Download tldr bash client
+if [ ! -f "${HOME}/.cache/lf" ]; then
+    curl --silent --location --output "${HOME}/.cache/lf.tar.gz" \
+        'https://github.com/gokcehan/lf/releases/download/r13/lf-linux-amd64.tar.gz'
+    echo "260aaedf290fc21b2161555d35d968d4defbc667acfaba43c6616e8e6933c921  ${HOME}/.cache/lf.tar.gz" | sha256sum --check --quiet -
+    tar -C "${HOME}/.cache/" -xf "${HOME}/.cache/lf.tar.gz"
+    rm "${HOME}/.cache/lf.tar.gz"
+    chmod u+x "${HOME}/.cache/lf"
+fi
+
+exec "${HOME}/.cache/lf" "$@"
