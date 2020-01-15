@@ -122,7 +122,7 @@ user_pref("security.insecure_connection_text.pbmode.enabled", true);
 user_pref("security.mixed_content.upgrade_display_content", true);
 user_pref("security.mixed_content.block_active_content", true);
 user_pref("security.ssl.require_safe_negotiation", true);
-user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
+// user_pref("security.ssl.treat_unsafe_negotiation_as_broken", true);
 user_pref("signon.autofillForms", false);
 user_pref("signon.formlessCapture.enabled", false);
 user_pref("shield.savant.enabled", false);
