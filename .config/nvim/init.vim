@@ -102,6 +102,10 @@ let g:eregex_default_enable = 0
 " Always treat tex files as sty files
 let g:tex_stylish = 1
 
+" indentLine character
+" let g:indentLine_char_list = ['|', '¦', '┆', '┊', '│',' ⎸', '▏']
+let g:indentLine_char = '▏'
+
 " Color theme
 try
     set termguicolors
