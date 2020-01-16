@@ -48,3 +48,8 @@ alias gpgsign="gpg --armor --output '-' --detach-sig"
 
 # netsettings
 alias netsettings='git --git-dir="${HOME}/.netsettings/" --work-tree="${HOME}"'
+
+# Patch tmux to use XDG dirs
+if command -v tmux > /dev/null; then
+    alias tmux='tmux -f "${HOME}/.config/tmux/tmux.conf"'
+fi
