@@ -45,6 +45,7 @@ bindkey "^[[1;3C" forward-word
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;3D" backward-word
 bindkey "^[[1;5D" backward-word
+bindkey "^[[3~" delete-char
 autoload -U select-word-style
 select-word-style bash
 if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
