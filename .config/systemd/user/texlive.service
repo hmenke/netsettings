@@ -1,0 +1,6 @@
+[Unit]
+Description=Update TeX Live
+
+[Service]
+Type=oneshot
+ExecStart=/opt/texlive/2019/bin/x86_64-linux/tlmgr update --self --all --reinstall-forcibly-removed

@@ -1,0 +1,6 @@
+[Unit]
+Description=Update ConTeXt LMTX
+
+[Service]
+Type=oneshot
+ExecStart=/bin/bash /opt/context-lmtx/update.sh
