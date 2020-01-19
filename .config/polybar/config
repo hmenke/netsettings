@@ -55,7 +55,7 @@ font-1 = "DejaVu Sans:pixelsize=10;1"
 
 modules-left = bspwm xwindow 
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature 
-modules-right = xkeyboard xbacklight pulseaudio memory cpu battery weather date
+modules-right = xkeyboard xbacklight pulseaudio memory cpu battery newsboat weather date
 
 tray-position = right
 tray-padding = 10
@@ -81,6 +81,13 @@ exec = "curl --silent 'wttr.in/?format=%C+%t+%p+%o' | head -n 1 | xargs"
 interval = 3600
 format-underline = ${colors.primary}
 click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
+
+[module/newsboat]
+type = custom/script
+exec = "newsboat -x reload 2>&1 > /dev/null; newsboat -x print-unread"
+interval = 600
+format-underline = ${colors.primary}
+;click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
 
 [module/xwindow]
 type = internal/xwindow
@@ -382,7 +389,7 @@ format-discharging-underline = ${xrdb:color9:#fb4934}
 format-full-prefix =
 label-full = "%percentage%%"
 format-full-prefix-foreground = ${colors.foreground-alt}
-format-full-underline = ${colors.primary}
+format-full-underline = ${xrdb:color10:#ffb52a}
 
 ;ramp-capacity-0 = 
 ;ramp-capacity-1 = 

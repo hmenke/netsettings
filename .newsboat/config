@@ -1,0 +1,5 @@
+auto-reload yes
+download-full-page yes
+history-limit 10000
+notify-always yes
+notify-program "notify-send 'Newsboat' "
