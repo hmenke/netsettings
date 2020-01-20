@@ -48,8 +48,8 @@ bindkey "^[[1;5D" backward-word
 bindkey "^[[3~" delete-char
 autoload -U select-word-style
 select-word-style bash
-if [ -f /usr/share/doc/fzf/examples/key-bindings.zsh ]; then
-    source /usr/share/doc/fzf/examples/key-bindings.zsh
+if command -v fzf > /dev/null; then
+    source ~/.config/shell/fzf/key-bindings.zsh
 fi
 
 # edit command line in editor
@@ -60,8 +60,8 @@ bindkey '\C-x\C-e' edit-command-line
 # autocompletion
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
-if [ -f /usr/share/zsh/vendor-completions/_fzf ]; then
-    source /usr/share/zsh/vendor-completions/_fzf
+if command -v fzf > /dev/null; then
+    source ~/.config/shell/fzf/completion.zsh
 fi
 
 # Disable the beep
