@@ -1,0 +1,7 @@
+[Unit]
+Description=Arch Linux updates
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/checkupdates
+SuccessExitStatus=SUCCESS 2
