@@ -83,9 +83,9 @@ format-underline = ${colors.primary}
 click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
 
 [module/newsboat]
-type = custom/script
-exec = "newsboat -x reload 2>&1 > /dev/null; newsboat -x print-unread"
-interval = 600
+type = custom/ipc
+hook-0 = "newsboat -x print-unread"
+initial = 1
 format-underline = ${colors.primary}
 ;click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
 

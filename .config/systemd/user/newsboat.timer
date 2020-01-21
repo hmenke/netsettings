@@ -1,9 +1,9 @@
 [Unit]
-Description=Update TeX Live
+Description=Update news feeds
 
 [Timer]
 OnBootSec=5min
-OnUnitActiveSec=1d
+OnUnitActiveSec=5min
 Persistent=true
 
 [Install]

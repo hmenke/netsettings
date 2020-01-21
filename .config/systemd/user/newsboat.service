@@ -1,0 +1,7 @@
+[Unit]
+Description=Update news feeds
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/newsboat -x reload
+ExecStartPost=-/usr/bin/polybar-msg hook newsboat 1
