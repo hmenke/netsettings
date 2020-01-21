@@ -37,4 +37,6 @@ bspc config gapless_monocle      true
 
 bspc config focus_follows_pointer true
 
+bspc rule -a Emacs state=tiled
+
 feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
