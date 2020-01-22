@@ -52,6 +52,7 @@ module-margin-right = 1
 
 font-0 = "DejaVu Sans Mono:pixelsize=10;1"
 font-1 = "DejaVu Sans:pixelsize=10;1"
+font-2 = "Noto Color Emoji:scale=10;1"
 
 modules-left = bspwm xwindow 
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature 
@@ -84,8 +85,9 @@ click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\
 
 [module/newsboat]
 type = custom/ipc
-hook-0 = "newsboat -x print-unread"
+hook-0 = "newsboat -x print-unread | sed 's/[^0-9]//g'"
 initial = 1
+format = "%{T3}📰%{T-} <output>"
 format-underline = ${colors.primary}
 ;click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
 
