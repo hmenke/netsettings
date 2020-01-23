@@ -1,8 +1,7 @@
 import atexit
 import os
 import readline
-
-print(os.getenv("TERM"))
+import rlcompleter
 
 history = os.path.expanduser('~/.cache/python_history')
 
@@ -11,9 +10,12 @@ try:
 except IOError:
     pass
 
+readline.parse_and_bind("tab: complete")
+
 atexit.register(readline.write_history_file, history)
 
 del atexit
 del history
 del os
 del readline
+del rlcompleter
