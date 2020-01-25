@@ -4,4 +4,5 @@ Description=Arch Linux updates
 [Service]
 Type=oneshot
 ExecStart=/usr/bin/checkupdates
+ExecStartPost=-/usr/bin/polybar-msg hook checkupdates 1
 SuccessExitStatus=SUCCESS 2
