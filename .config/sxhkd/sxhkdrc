@@ -7,7 +7,7 @@ super + Return
 	x-terminal-emulator
 
 # program launcher
-super + r
+super + @r
 	~/.local/bin/dmenu_run_history
 
 # web browser
