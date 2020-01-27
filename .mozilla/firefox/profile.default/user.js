@@ -7,6 +7,7 @@ user_pref("app.normandy.enabled", false);
 user_pref("app.normandy.api_url", "");
 user_pref("app.shield.optoutstudies.enabled", false);
 user_pref("browser.aboutHomeSnippets.updateUrl", "");
+user_pref("browser.bookmarks.autoExportHTML", true);
 user_pref("browser.cache.compression_level", 1);
 user_pref("browser.cache.disk.enable", false);
 user_pref("browser.cache.disk_cache_ssl", false);
