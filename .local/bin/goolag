@@ -11,7 +11,17 @@ if [ -z "${GOOGLE_CHROME}" ]; then
     fi
 fi
 
+if ! [ -d "${TMPDIR:-/tmp}/ublock" ]; then
+    echo "Fetching uBlock origin"
+    UBLOCK_ID="cjpalhdlnbpafiamejdnhcphjbkeiagm"
+    curl --silent --location --output "${TMPDIR:-/tmp}/ublock.crx" \
+        "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${UBLOCK_ID}%26uc&prodversion=32"
+    unzip "${TMPDIR:-/tmp}/ublock.crx" -d "${TMPDIR:-/tmp}/ublock"
+    rm "${TMPDIR:-/tmp}/ublock.crx"
+fi
+
 firejail --private "${GOOGLE_CHROME}" \
     --no-first-run \
     --no-pings \
-    --no-referrers
+    --no-referrers \
+    --load-extension="${TMPDIR:-/tmp}/ublock"
