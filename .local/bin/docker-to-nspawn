@@ -20,12 +20,13 @@ fi
 # Download the image download script from Moby if it is not there, verify and
 # patch out the unnecessary go dependence
 if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
+    echo "Fetching download-frozen-image-v2.sh..."
     curl --silent --output "${HOME}/.cache/download-frozen-image-v2.sh" \
         https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
     echo "1161e28cf886211f7f442bf2628fd053a21e6c0fa234532466ba55de41b5703b  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
     cat > "${HOME}/.cache/download-frozen-image-v2.sh.patch" << 'EOF'
---- download-frozen-image-v2.sh	2019-11-23 19:08:24.015549212 +1300
-+++ download-frozen-image-v2.sh	2019-11-23 19:19:02.365983804 +1300
+--- download-frozen-image-v2.sh	2019-10-30 13:55:36.956848312 +1300
++++ download-frozen-image-v2.sh	2020-01-28 14:01:36.548303270 +1300
 @@ -8,7 +8,7 @@
  # debian                           latest              f6fab3b798be3174f45aa1eb731f8182705555f89c9026d8c1ef230cbf8301dd   10 weeks ago        85.1 MB
  
@@ -44,6 +45,15 @@ if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
  	major=$(echo ${BASH_VERSION%%[^0.9]} | cut -d. -f1)
  	if [ "$major" -ge 4 ]; then
  		newlineIFS=$'\r\n'
+@@ -155,7 +155,7 @@
+ 					continue
+ 				fi
+ 				local token="$(curl -fsSL "$authBase/token?service=$authService&scope=repository:$image:pull" | jq --raw-output '.token')"
+-				fetch_blob "$token" "$image" "$layerDigest" "$dir/$layerTar" --progress
++				fetch_blob "$token" "$image" "$layerDigest" "$dir/$layerTar" --progress-bar
+ 				;;
+ 
+ 			*)
 @@ -235,7 +235,7 @@
  					for i in "${!layers[@]}"; do
  						layerMeta="${layers[$i]}"
@@ -53,6 +63,15 @@ if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
  							digest="$(echo "$layerMeta" | jq --raw-output '.digest')"
  							# get second level single manifest
  							submanifestJson="$(
+@@ -299,7 +299,7 @@
+ 					continue
+ 				fi
+ 				token="$(curl -fsSL "$authBase/token?service=$authService&scope=repository:$image:pull" | jq --raw-output '.token')"
+-				fetch_blob "$token" "$image" "$imageLayer" "$dir/$layerId/layer.tar" --progress
++				fetch_blob "$token" "$image" "$imageLayer" "$dir/$layerId/layer.tar" --progress-bar
+ 			done
+ 			;;
+ 
 EOF
     patch --silent --directory="${HOME}/.cache" < "${HOME}/.cache/download-frozen-image-v2.sh.patch"
     rm "${HOME}/.cache/download-frozen-image-v2.sh.patch"
