@@ -55,8 +55,8 @@ font-1 = "DejaVu Sans:pixelsize=10;1"
 font-2 = "Noto Color Emoji:scale=10;1"
 
 modules-left = bspwm xwindow
-;modules-center = filesystem mpd alsa powermenu wlan eth temperature
-modules-right = xkeyboard xbacklight pulseaudio memory cpu battery newsboat checkupdates weather date
+;modules-center = filesystem mpd alsa powermenu wlan eth temperature memory cpu
+modules-right = xkeyboard xbacklight pulseaudio battery newsboat checkupdates weather date
 
 tray-position = right
 tray-padding = 10
@@ -209,11 +209,16 @@ label-song-ellipsis = true
 [module/xbacklight]
 type = internal/xbacklight
 
-format = <label>
+format = <ramp> <label>
 label = %percentage%%
 label-foreground = ${root.foreground}
 
-format-prefix = "BL "
+ramp-0 = %{T3}🌕%{T-}
+ramp-1 = %{T3}🌔%{T-}
+ramp-2 = %{T3}🌓%{T-}
+ramp-3 = %{T3}🌒%{T-}
+ramp-4 = %{T3}🌑%{T-}
+
 format-underline = ${colors.primary}
 format-foreground = ${colors.foreground-alt}
 
@@ -315,11 +320,15 @@ label = "%{A1:notify-send "$(date)" "$(cal | sed -e 's|_\(.\)_\(.\)|<u><b>\1\2
 [module/pulseaudio]
 type = internal/pulseaudio
 
-format-volume = <label-volume>
+format-volume = <ramp-volume> <label-volume>
 label-volume = %percentage%%
 label-volume-foreground = ${root.foreground}
 
-format-volume-prefix = "VOL "
+ramp-volume-0 = %{T3}🔈%{T-}
+ramp-volume-1 = %{T3}🔉%{T-}
+ramp-volume-2 = %{T3}🔊%{T-}
+
+;format-volume-prefix = "VOL "
 format-volume-underline = ${colors.primary}
 format-volume-foreground = ${colors.foreground-alt}
 
@@ -327,9 +336,11 @@ format-volume-foreground = ${colors.foreground-alt}
 ;label-volume = VOL %percentage%%
 ;label-volume-foreground = ${root.foreground}
 
-label-muted = " muted "
-label-muted-background = ${colors.primary}
-label-muted-foreground = ${colors.background}
+label-muted = %{T3}🔇%{T-} muted
+label-muted-underline = ${colors.primary}
+;label-muted-foreground = ${colors.foreground-alt}
+;label-muted-background = ${colors.primary}
+;label-muted-foreground = ${colors.background}
 
 bar-volume-width = 10
 bar-volume-foreground-0 = #55aa55
