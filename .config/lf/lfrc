@@ -30,7 +30,7 @@ set ifs "\n"
 set scrolloff 10
 
 # use enter for shell commands
-map <enter> shell
+map <enter> open
 
 # execute current file (must be executable)
 # map x $$f
