@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Google Chrome is installed under different names for different distributions.
+# Use the GOOGLE_CHROME environment variable to override.
 if [ -z "${GOOGLE_CHROME}" ]; then
     if command -v google-chrome > /dev/null; then
         GOOGLE_CHROME=google-chrome
@@ -11,16 +13,27 @@ if [ -z "${GOOGLE_CHROME}" ]; then
     fi
 fi
 
+# If it doesn't exist, download and unzip uBlock origin to /tmp/ublock
+# Requires curl and unzip
 if ! [ -d "${TMPDIR:-/tmp}/ublock" ]; then
-    echo "Fetching uBlock origin"
+    echo "Fetching uBlock origin..."
     UBLOCK_ID="cjpalhdlnbpafiamejdnhcphjbkeiagm"
     curl --silent --location --output "${TMPDIR:-/tmp}/ublock.crx" \
         "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${UBLOCK_ID}%26uc&prodversion=32"
-    unzip "${TMPDIR:-/tmp}/ublock.crx" -d "${TMPDIR:-/tmp}/ublock"
+    unzip -q "${TMPDIR:-/tmp}/ublock.crx" -d "${TMPDIR:-/tmp}/ublock"
     rm "${TMPDIR:-/tmp}/ublock.crx"
 fi
 
-firejail --private "${GOOGLE_CHROME}" \
+# Run in firejail with the following flags:
+# --no-first-run: suppress the “First Run” dialog
+# --no-pings: No hyperlink auditing pings
+# --no-referrers: Don't send referrer when clicking links
+# --load-extension: Load uncompressed extension from path
+#
+# Other flags to consider:
+# --incognito: Start in incognito mode
+# --disable-translate: Disable automatic Google Translate
+exec firejail --private "${GOOGLE_CHROME}" \
     --no-first-run \
     --no-pings \
     --no-referrers \
