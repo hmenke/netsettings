@@ -18,7 +18,7 @@ __draw_prompt() {
     __timer_reset
     history -a
 }
-PROMPT_COMMAND="${PROMPT_COMMAND:+"$PROMPT_COMMAND; "}__draw_prompt;"
+PROMPT_COMMAND="${PROMPT_COMMAND:+"${PROMPT_COMMAND%;}; "}__draw_prompt;"
 
 # shell optional behavior
 shopt -s autocd
