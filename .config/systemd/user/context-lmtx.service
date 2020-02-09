@@ -1,5 +1,6 @@
 [Unit]
 Description=Update ConTeXt LMTX
+OnFailure=notify-send@%i.service
 
 [Service]
 Type=oneshot

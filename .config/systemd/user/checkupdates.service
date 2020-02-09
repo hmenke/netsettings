@@ -1,5 +1,6 @@
 [Unit]
 Description=Arch Linux updates
+OnFailure=notify-send@%i.service
 
 [Service]
 Type=oneshot
