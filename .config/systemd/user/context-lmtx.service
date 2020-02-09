@@ -4,4 +4,7 @@ OnFailure=notify-send@%i.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /opt/context-lmtx/update.sh
+WorkingDirectory=/opt/context-lmtx
+ExecStart=/usr/bin/curl -LO http://lmtx.pragma-ade.nl/install-lmtx/context-linux-64.zip
+ExecStart=/usr/bin/unzip -o context-linux-64.zip -d /opt/context-lmtx
+ExecStart=/bin/bash install.sh

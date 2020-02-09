@@ -4,4 +4,6 @@ OnFailure=notify-send@%i.service
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash /opt/context/update.sh
+WorkingDirectory=/opt/context
+ExecStart=/usr/bin/rsync -ptv rsync://contextgarden.net/minimals/setup/first-setup.sh .
+ExecStart=/bin/bash first-setup.sh --context=beta --engine=luatex --modules=all --fonts=all
