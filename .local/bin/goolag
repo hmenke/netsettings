@@ -13,16 +13,32 @@ if [ -z "${GOOGLE_CHROME}" ]; then
     fi
 fi
 
+# Extract the major version to download the correct extension version.
+# TODO: Can this be done without launching Chrome?
+GOOGLE_CHROME_VERSION="$(firejail --quiet --private "${GOOGLE_CHROME}" --version | sed 's/^.*Google Chrome \([0-9][0-9]*\).*$/\1/g')"
+
+# Directory for extensions
+EXTDIR="${TMPDIR:-/tmp}/goolag"
+mkdir -p "${EXTDIR}"
+
 # If it doesn't exist, download and unzip uBlock origin to /tmp/ublock
 # Requires curl and unzip
-if ! [ -d "${TMPDIR:-/tmp}/ublock" ]; then
-    echo "Fetching uBlock origin..."
-    UBLOCK_ID="cjpalhdlnbpafiamejdnhcphjbkeiagm"
-    curl --silent --location --output "${TMPDIR:-/tmp}/ublock.crx" \
-        "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${UBLOCK_ID}%26uc&prodversion=32"
-    unzip -q "${TMPDIR:-/tmp}/ublock.crx" -d "${TMPDIR:-/tmp}/ublock"
-    rm "${TMPDIR:-/tmp}/ublock.crx"
-fi
+download_extension() {
+    local EXTID EXTNAME EXTNAMEPRETTY
+    EXTID="$1"
+    EXTNAME="$2"
+    EXTNAMEPRETTY="${3:-$2}"
+    if ! [ -d "${EXTDIR}/${EXTNAME}" ]; then
+        echo "Fetching ${EXTNAMEPRETTY}..."
+        curl --silent --location --output "${EXTDIR}/${EXTNAME}.crx" \
+            "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${EXTID}%26uc&prodversion=${GOOGLE_CHROME_VERSION:-80}"
+        unzip -q "${EXTDIR}/${EXTNAME}.crx" -d "${EXTDIR}/${EXTNAME}"
+        rm "${EXTDIR}/${EXTNAME}.crx"
+    fi
+}
+
+download_extension "cjpalhdlnbpafiamejdnhcphjbkeiagm" "ublock" "uBlock origin"
+#download_extension "aghfnjkcakhmadgdomlmlhhaocbkloab" "justblack" "Just Black Theme"
 
 # Run in firejail with the following flags:
 # --no-first-run: suppress the “First Run” dialog
@@ -35,6 +51,7 @@ fi
 # --disable-translate: Disable automatic Google Translate
 exec firejail --private "${GOOGLE_CHROME}" \
     --no-first-run \
+    --no-default-browser-check \
     --no-pings \
     --no-referrers \
-    --load-extension="${TMPDIR:-/tmp}/ublock"
+    --load-extension="${EXTDIR}/ublock","${EXTDIR}/justblack"
