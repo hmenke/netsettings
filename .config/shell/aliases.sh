@@ -10,11 +10,8 @@ if [ -x /usr/bin/dircolors ]; then
     alias fgrep="fgrep --color=auto"
     alias egrep="egrep --color=auto"
 fi
-alias k="ls -l --hide='*~' --group-directories-first"
-alias l="ls -la --group-directories-first"
-alias la="ls -a --group-directories-first"
-alias ll="ls -l --group-directories-first"
-alias lla="ls -la --group-directories-first"
+alias l="ls -lh --hide='*~' --group-directories-first"
+alias ll="ls -lah --group-directories-first"
 
 alias ..="cd .."
 alias ...="cd ../.."
