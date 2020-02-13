@@ -10,32 +10,38 @@ crop() {
 
 # Search ConTeXt source tree
 ctxgrep() {
-    local CTXPATH CTXMODULES
-    if [ "$(kpsexpand "\$TEXMFCONTEXT")" = "\$TEXMFCONTEXT" ]; then
-        CTXPATH="$(kpsexpand "\$TEXMFDIST")/tex/context"
+    local CTXPATH CTXMODULES SEARCHPATH
+    if [ -z "$(mtxrun --resolve-path "\$TEXMFCONTEXT")" ]; then
+        CTXPATH="$(mtxrun --resolve-path "\$TEXMFDIST")/tex/context"
     else
-        CTXPATH="$(kpsexpand "\$TEXMFCONTEXT" 2>/dev/null)/tex/context"
-        CTXMODULES="$(kpsexpand "\$TEXMFMODULES" 2>/dev/null)/tex/context"
+        CTXPATH="$(mtxrun --resolve-path "\$TEXMFCONTEXT" 2>/dev/null)/tex/context"
+        CTXMODULES="$(mtxrun --resolve-path "\$TEXMFMODULES" 2>/dev/null)/tex/context"
     fi
-    if command -v ag > /dev/null; then
-        ag --ignore='*.mkii' --ignore '*.pat' --ignore 'lang-*.lua' --ignore patterns "$@" "${CTXPATH}" "${CTXMODULES}"
-    else
-        grep -r --exclude={*.mkii,*.pat} --exclude-dir=patterns "$@" "${CTXPATH}" "${CTXMODULES}"
+    git -C / grep --color=always --heading --break "$@" -- \
+            ":${CTXPATH}/*" \
+            ':!*.mkii' \
+            ':!*.xml' \
+            ':!*.pat' \
+            ":(exclude)${CTXPATH#/}/patterns/*" \
+        | sed "s+${CTXPATH#/}+/&+g"
+    if [ -n "${CTXMODULES}" ]; then
+        git -C / grep --color=always --heading --break "$@" -- \
+                ":${CTXMODULES}/*" \
+                ':!*.mkii' \
+                ':!*.xml' \
+                ':!*.pat' \
+            | sed "s+${CTXMODULES#/}+/&+g"
     fi
 }
 
 mpgrep() {
     local MPPATH
-    if [ "$(kpsexpand "\$TEXMFCONTEXT")" = "\$TEXMFCONTEXT" ]; then
-        MPPATH="$(kpsexpand "\$TEXMFDIST")/metapost"
+    if [ -z "$(mtxrun --resolve-path "\$TEXMFCONTEXT")" ]; then
+        MPPATH="$(mtxrun --resolve-path "\$TEXMFDIST")/metapost"
     else
-        MPPATH="$(kpsexpand "\$SELFAUTOPARENT")/texmf-context/metapost"
+        MPPATH="$(mtxrun --resolve-path "\$SELFAUTOPARENT")/texmf-context/metapost"
     fi
-    if command -v ag > /dev/null; then
-        ag "$@" "${MPPATH}"
-    else
-        grep -r "$@" "${MPPATH}"
-    fi
+    git -C / grep --color=always --heading --break "$@" -- ":${MPPATH}/*" | sed "s+${MPPATH#/}+/&+g"
 }
 
 # Paste services
