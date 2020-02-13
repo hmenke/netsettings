@@ -59,7 +59,7 @@ __show_status() {
 }
 
 # Show the git branch in the prompt
-source ~/.config/shell/git-prompt/git-prompt.sh
+. ~/.config/shell/git-prompt/git-prompt.sh
 export GIT_PS1_SHOWDIRTYSTATE=1
 export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1

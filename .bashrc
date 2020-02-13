@@ -1,5 +1,5 @@
 # Set the prompt
-source ~/.config/shell/prompt.sh
+. ~/.config/shell/prompt.sh
 __setup_prompt "\h" "\w" "\\$"
 __timer_reset;
 __prompt_posthook() { history -a; }
@@ -19,7 +19,7 @@ HISTFILESIZE=1000
 
 # Keybindings
 if command -v fzf > /dev/null; then
-    source ~/.config/shell/fzf/key-bindings.bash
+    . ~/.config/shell/fzf/key-bindings.bash
 fi
 
 # bash completion
@@ -27,7 +27,7 @@ if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
     . /etc/bash_completion
 fi
 if command -v fzf > /dev/null; then
-    source ~/.config/shell/fzf/completion.bash
+    . ~/.config/shell/fzf/completion.bash
 fi
 
 # Disable the beep
@@ -36,7 +36,7 @@ if [ -n "${DISPLAY}" ]; then
 fi
 
 # Source common configuration
-source ~/.config/shell/aliases.sh
-source ~/.config/shell/environment.sh
-source ~/.config/shell/functions.sh
-source ~/.config/shell/z.sh
+. ~/.config/shell/aliases.sh
+. ~/.config/shell/environment.sh
+. ~/.config/shell/functions.sh
+. ~/.config/shell/z.sh

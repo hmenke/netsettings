@@ -3,7 +3,7 @@ _Z_CMD=_z_no_fzf
 _Z_DATA="${HOME}/.cache/z"
 touch "${_Z_DATA}"
 
-source ~/.config/shell/z/z.sh
+. ~/.config/shell/z/z.sh
 
 _z_fzf() {
     [ $# -gt 0 ] && _z "$*" && return

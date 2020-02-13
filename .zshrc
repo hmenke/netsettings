@@ -1,5 +1,5 @@
 # Set the prompt
-source ~/.config/shell/prompt.sh
+. ~/.config/shell/prompt.sh
 __setup_prompt "%M" "%~" "\$"
 __timer_reset;
 autoload -U add-zsh-hook
@@ -35,7 +35,7 @@ bindkey "^[[3~" delete-char
 autoload -U select-word-style
 select-word-style bash
 if command -v fzf > /dev/null; then
-    source ~/.config/shell/fzf/key-bindings.zsh
+    . ~/.config/shell/fzf/key-bindings.zsh
 fi
 
 # edit command line in editor
@@ -47,18 +47,18 @@ bindkey '\C-x\C-e' edit-command-line
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
 if command -v fzf > /dev/null; then
-    source ~/.config/shell/fzf/completion.zsh
+    . ~/.config/shell/fzf/completion.zsh
 fi
 
 # Disable the beep
 unsetopt beep
 
 # Source common configuration
-source ~/.config/shell/aliases.sh
-source ~/.config/shell/environment.sh
-source ~/.config/shell/functions.sh
-source ~/.config/shell/z.sh
+. ~/.config/shell/aliases.sh
+. ~/.config/shell/environment.sh
+. ~/.config/shell/functions.sh
+. ~/.config/shell/z.sh
 
-source ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
+. ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 bindkey '^ ' autosuggest-accept
-source ~/.config/shell/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh
+. ~/.config/shell/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh

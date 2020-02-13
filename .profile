@@ -1,1 +1,1 @@
-source ~/.config/shell/environment.sh
+. ~/.config/shell/environment.sh
