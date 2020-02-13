@@ -100,6 +100,7 @@ let g:eregex_default_enable = 0
 
 " Always treat tex files as sty files
 let g:tex_stylish = 1
+let g:tex_conceal = ''
 
 " indentLine character
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊', '│',' ⎸', '▏']
