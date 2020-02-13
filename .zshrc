@@ -1,23 +1,9 @@
-# Set different color for host on SSH
-if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-    HOST_COLOR="%B%F{11}"
-else
-    HOST_COLOR="%B%F{10}"
-fi
-
-source ~/.config/shell/prompt.sh
-
 # Set the prompt
-autoload -U add-zsh-hook
+source ~/.config/shell/prompt.sh
+__setup_prompt "%M" "%~" "\$"
 __timer_reset;
+autoload -U add-zsh-hook
 add-zsh-hook preexec __timer_start
-__draw_prompt() {
-    __last_status="$?"
-    __timer_stop
-    __git_ps1 "╭╴${HOST_COLOR}%M %B%F{9}%~%f%b" "$(__timer_show)$(__show_status)
-╰╴%F{12}\$ %f"
-    __timer_reset
-}
 add-zsh-hook precmd __draw_prompt
 
 # shell optional behavior
