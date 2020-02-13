@@ -94,11 +94,11 @@ click-right = polybar-msg hook newsboat 1
 
 [module/checkupdates]
 type = custom/ipc
-hook-0 = pacman -Qu --dbpath "/tmp/checkup-db-${UID}/" | wc -l
+hook-0 = pacman -Qu --dbpath "/tmp/checkup-db-$(id -u)/" | wc -l
 initial = 1
 format = "%{T3}⬆%{T-} <output>"
 format-underline = ${colors.primary}
-click-left = notify-send "Updates" "$(pacman -Qu --dbpath "/tmp/checkup-db-$UID")"
+click-left = notify-send "Updates" "$(pacman -Qu --dbpath "/tmp/checkup-db-$(id -u)")"
 click-right = polybar-msg hook checkupdates 1
 
 [module/xwindow]
