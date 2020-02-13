@@ -1,12 +1,26 @@
 # Set different color for host on SSH
 __setup_prompt() {
-    if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
-        __prompt_host="[1;93m$1[0m"
+    local b_yellow b_green b_red n_blue f_reset
+    if [[ -n ${ZSH_VERSION-} ]]; then
+        b_yellow="%B%F{11}"
+        b_green="%B%F{10}"
+        b_red="%B%F{9}"
+        n_blue="%F{12}"
+        f_reset="%f%b"
     else
-        __prompt_host="[1;92m$1[0m"
+        b_yellow="\[\e[1;93m\]"
+        b_green="\[\e[1;92m\]"
+        b_red="\[\e[1;91m\]"
+        n_blue="\[\e[0;94m\]"
+        f_reset="\[\e[0m\]"
     fi
-    __prompt_dir="[1;91m$2[0m"
-    __prompt_prompt="[0;94m$3[0m"
+    if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then
+        __prompt_host="$b_yellow$1$f_reset"
+    else
+        __prompt_host="$b_green$1$f_reset"
+    fi
+    __prompt_dir="$b_red$2$f_reset"
+    __prompt_prompt="$n_blue$3$f_reset"
 }
 
 # Print the time the last command took
