@@ -37,3 +37,9 @@
 [submodule ".config/nvim/pack/bundle/start/indentLine"]
 	path = .config/nvim/pack/bundle/start/indentLine
 	url = https://github.com/Yggdroot/indentLine.git
+[submodule ".config/nvim/pack/bundle/start/ultisnips"]
+	path = .config/nvim/pack/bundle/start/ultisnips
+	url = git://github.com/SirVer/ultisnips.git
+[submodule ".config/nvim/pack/bundle/start/vim-snippets"]
+	path = .config/nvim/pack/bundle/start/vim-snippets
+	url = git://github.com/honza/vim-snippets.git

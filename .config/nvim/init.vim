@@ -106,6 +106,12 @@ let g:tex_conceal = ''
 " let g:indentLine_char_list = ['|', '¦', '┆', '┊', '│',' ⎸', '▏']
 let g:indentLine_char = '▏'
 
+" snippets
+let g:UltiSnipsNoPythonWarning = 1
+let g:UltiSnipsExpandTrigger = '<tab>'
+let g:UltiSnipsJumpForwardTrigger = '<tab>'
+let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
 " Color theme
 try
     set termguicolors
