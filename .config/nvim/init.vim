@@ -82,6 +82,24 @@ set statusline+=\ %=                               " right align
 set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
 
+" Plugins
+call plug#begin('~/.config/nvim/plugged')
+
+Plug 'jnurmine/Zenburn'
+Plug 'morhetz/gruvbox'
+Plug 'othree/eregex.vim'
+Plug 'chrisbra/unicode.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'rhysd/vim-clang-format'
+Plug 'tpope/vim-fugitive'
+Plug 'sheerun/vim-polyglot'
+Plug 'tpope/vim-sensible'
+Plug 'Yggdroot/indentLine'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+
+call plug#end()
+
 " Airline settings
 let g:airline_highlighting_cache=1
 let g:airline_powerline_fonts=0

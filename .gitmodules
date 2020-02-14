@@ -1,45 +1,9 @@
-[submodule ".config/nvim/pack/bundle/Zenburn"]
-	path = .config/nvim/pack/bundle/start/Zenburn
-	url = git://github.com/jnurmine/Zenburn.git
-[submodule ".config/nvim/pack/bundle/gruvbox"]
-	path = .config/nvim/pack/bundle/start/gruvbox
-	url = git://github.com/morhetz/gruvbox.git
-[submodule ".config/nvim/pack/bundle/start/vim-clang-format"]
-	path = .config/nvim/pack/bundle/start/vim-clang-format
-	url = git://github.com/rhysd/vim-clang-format.git
-[submodule ".config/nvim/pack/bundle/start/vim-airline"]
-	path = .config/nvim/pack/bundle/start/vim-airline
-	url = git://github.com/vim-airline/vim-airline.git
-[submodule ".config/nvim/pack/bundle/start/vim-fugitive"]
-	path = .config/nvim/pack/bundle/start/vim-fugitive
-	url = git://github.com/tpope/vim-fugitive.git
-[submodule ".config/nvim/pack/bundle/start/unicode.vim"]
-	path = .config/nvim/pack/bundle/start/unicode.vim
-	url = git://github.com/chrisbra/unicode.vim.git
-[submodule ".config/nvim/pack/bundle/start/eregex.vim"]
-	path = .config/nvim/pack/bundle/start/eregex.vim
-	url = git://github.com/othree/eregex.vim.git
 [submodule ".config/shell/zsh-syntax-highlighting"]
 	path = .config/shell/zsh-syntax-highlighting
 	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
 [submodule ".config/shell/zsh-autosuggestions"]
 	path = .config/shell/zsh-autosuggestions
 	url = git://github.com/zsh-users/zsh-autosuggestions.git
-[submodule ".config/nvim/pack/bundle/start/vim-polyglot"]
-	path = .config/nvim/pack/bundle/start/vim-polyglot
-	url = git://github.com/sheerun/vim-polyglot.git
 [submodule ".config/shell/z"]
 	path = .config/shell/z
 	url = git://github.com/rupa/z.git
-[submodule ".config/nvim/pack/bundle/start/vim-sensible"]
-	path = .config/nvim/pack/bundle/start/vim-sensible
-	url = git://github.com/tpope/vim-sensible.git
-[submodule ".config/nvim/pack/bundle/start/indentLine"]
-	path = .config/nvim/pack/bundle/start/indentLine
-	url = https://github.com/Yggdroot/indentLine.git
-[submodule ".config/nvim/pack/bundle/start/ultisnips"]
-	path = .config/nvim/pack/bundle/start/ultisnips
-	url = git://github.com/SirVer/ultisnips.git
-[submodule ".config/nvim/pack/bundle/start/vim-snippets"]
-	path = .config/nvim/pack/bundle/start/vim-snippets
-	url = git://github.com/honza/vim-snippets.git
