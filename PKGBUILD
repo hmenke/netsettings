@@ -5,7 +5,6 @@ pkgdesc='Bootstrap all my favourite programs'
 arch=('any')
 license=('GPL')
 install=netsettings.install
-backup=('etc/pacman.conf')
 
 makedepends=('grep' 'git')
 pkgver() {
@@ -25,6 +24,7 @@ depends=(
     'dpkg'
     'emacs'
     'etckeeper'
+    'ffmpeg'
     'firejail'
     'fzf'
     'gdb'
@@ -38,18 +38,22 @@ depends=(
     'man-db'
     'man-pages'
     'mlocate'
+    'neomutt'
     'neovim'
     'networkmanager'
     'newsboat'
     'nftables'
     'openssh'
+    'p7zip'
     'pacman-contrib'
     'partclone'
     'pass'
     'pass-otp'
+    'python-matplotlib'
     'python-numpy'
-    'python-scipy'
+    'python-pynvim'
     'python-requests'
+    'python-scipy'
     'python-xdg'
     'rcs'
     'ripgrep'
@@ -66,6 +70,7 @@ depends=(
     'wget'
     'which'
     'wireguard-tools'
+    'zip'
     'zsh'
     'zsh-completions'
 
