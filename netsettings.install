@@ -1,0 +1,83 @@
+post_install() {
+cat << EOF | tee /tmp/netsettings.post_install
+[1;93m=== apparmor ===[0m
+
+Append to the kernel cmdline
+
+    apparmor=1 security=apparmor
+
+uncomment 'write_cache' in /etc/apparmor/parser.conf and enable the
+system service
+
+    # systemctl enable --now apparmor.service
+
+[1;93m=== dash ===[0m
+
+Symlink /bin/sh to dash
+
+    # ln -sfT /usr/bin/dash /usr/bin/sh
+
+[1;93m=== etckeeper ===[0m
+
+Initialize, commit and enable system timer
+
+    # git config --global user.name 'root'
+    # git config --global user.email 'root@localhost'
+    # etckeeper init
+    # etckeeper commit "Initial commit"
+    # systemctl enable --now etckeeper.timer
+
+[1;93m=== mlocate ===[0m
+
+The timer is enable by default.  To refresh the database start it
+manually
+
+    # systemctl start updatedb.timer
+
+[1;93m=== networkmanager ===[0m
+
+Enable the service
+
+    # systemctl enable --now NetworkManager.service
+
+[1;93m=== nftables ===[0m
+
+Review or install custom /etc/nftables.conf and start the service
+
+    # systemctl enable --now nftables.service
+
+[1;93m=== pacman-contrib ===[0m
+
+To clear the cache periodically enable the timer
+
+    # systemctl enable --now paccache.timer
+
+[1;93m=== sudo ===[0m
+
+Uncomment the following line to allow group wheel
+
+    %wheel ALL=(ALL) ALL
+
+Optionally add
+
+    Defaults rootpw
+    Defaults tty_tickets
+
+[1;93m=== tlp ===[0m
+
+Review or install custom /etc/tlp.conf and start the service
+
+    # systemctl enable --now tlp.service
+
+[1;93m=== yay ===[0m
+
+Clone and makepkg
+
+    $ mkdir -p ~/.cache/yay/
+    $ cd ~/.cache/yay/
+    $ git clone https://aur.archlinux.org/yay.git
+    $ cd yay
+    $ makepkg -si
+
+EOF
+}
