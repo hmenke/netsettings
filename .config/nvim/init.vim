@@ -97,6 +97,7 @@ Plug 'tpope/vim-sensible'
 Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'vim-syntastic/syntastic'
 
 call plug#end()
 
@@ -129,6 +130,17 @@ let g:UltiSnipsNoPythonWarning = 1
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+" Syntastic
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 0
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+let g:syntastic_c_checkers = ['clang_check', 'clang_tidy', 'gcc']
+let g:syntastic_cpp_checkers = ['clang_check', 'clang_tidy', 'gcc']
+let g:syntastic_python_checkers = ['pycodestyle', 'pylint']
+let g:syntastic_text_checkers = ['proselint']
+let g:syntastic_tex_checkers = ['lacheck', 'chktex', 'proselint']
 
 " Color theme
 try
