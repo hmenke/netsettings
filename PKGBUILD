@@ -30,7 +30,6 @@ depends=(
     'gdb'
     'git'
     'gnuplot'
-    'graphviz'
     'gsl'
     'jq'
     'lua'
