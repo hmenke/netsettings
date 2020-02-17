@@ -16,12 +16,14 @@ run_once "dunst"
 run_once "redshift"
 run_once "mate-settings-daemon"
 run_once "xscreensaver -nosplash"
-run_once "nm-applet"
+if systemctl is-active --quiet NetworkManager.service 2> /dev/null; then
+    run_once "nm-applet"
+fi
 run_once "redshift"
 run_once "dropbox start"
+run_once "xrdb ${HOME}/.Xresources"
 run_once "setxkbmap us altgr-intl"
 run_once "xmodmap ${HOME}/.Xmodmap"
-run_once "xrdb ${HOME}/.Xresources"
 run_once "polybar default"
 
 bspc monitor -d 1 2 3 4 5 6 7 8 9 0
