@@ -85,13 +85,9 @@ set statusline+=\ \ %P                             " top/bot
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'jnurmine/Zenburn'
 Plug 'morhetz/gruvbox'
-Plug 'othree/eregex.vim'
-Plug 'chrisbra/unicode.vim'
 Plug 'vim-airline/vim-airline'
 Plug 'rhysd/vim-clang-format'
-Plug 'tpope/vim-fugitive'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
 Plug 'Yggdroot/indentLine'
@@ -112,9 +108,6 @@ if !exists('g:airline_symbols')
     let g:airline_symbols = {}
 endif
 let g:airline_symbols.branch = '⎇'
-
-" Disable eregex by default
-let g:eregex_default_enable = 0
 
 " Always treat tex files as sty files
 let g:tex_stylish = 1
@@ -137,8 +130,3 @@ try
     colors gruvbox
 catch
 endtry
-
-" fzf
-if filereadable("/usr/share/doc/fzf/examples/fzf.vim")
-    source /usr/share/doc/fzf/examples/fzf.vim
-endif
