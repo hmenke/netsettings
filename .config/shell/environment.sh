@@ -40,10 +40,10 @@ export TERM=xterm-256color
 export SCREENRC="${HOME}/.config/screen/screenrc"
 
 # Colors in less (https://github.com/shibumi/hikari-zsh)
-export LESS_TERMCAP_mb=$'\E[01;31m'
-export LESS_TERMCAP_md=$'\E[01;31m'
-export LESS_TERMCAP_me=$'\E[0m'
-export LESS_TERMCAP_se=$'\E[0m'
-export LESS_TERMCAP_so=$'\E[01;44;33m'
-export LESS_TERMCAP_ue=$'\E[0m'
-export LESS_TERMCAP_us=$'\E[01;32m'
+export LESS_TERMCAP_mb="$(printf "\001\033[01;31m\002")"
+export LESS_TERMCAP_md="$(printf "\001\033[01;31m\002")"
+export LESS_TERMCAP_me="$(printf "\001\033[0m\002")"
+export LESS_TERMCAP_se="$(printf "\001\033[0m\002")"
+export LESS_TERMCAP_so="$(printf "\001\033[01;44;33m\002")"
+export LESS_TERMCAP_ue="$(printf "\001\033[0m\002")"
+export LESS_TERMCAP_us="$(printf "\001\033[01;32m\002")"
