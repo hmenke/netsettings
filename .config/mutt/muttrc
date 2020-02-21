@@ -1,3 +1,4 @@
+## Colors for mutt by Luke Smith
 ####################
 # Send and receive #
 ####################
@@ -56,6 +57,9 @@ set mark_old = no
 # Edit headers in editor
 set edit_headers = yes
 
+# Threaded view
+set sort=threads
+
 # do not show all headers, just a few
 ignore *
 unignore From To Cc Bcc Date Subject
@@ -63,25 +67,8 @@ unignore From To Cc Bcc Date Subject
 unhdr_order *
 hdr_order From: To: Cc: Bcc: Date: Subject:
 
-# brighten up stuff with colors, for more coloring examples see:
-# http://aperiodic.net/phil/configs/mutt/colors
-color normal      white          black
-color hdrdefault  green          default
-color quoted      green          default
-color quoted1     yellow         default
-color quoted2     red            default
-color signature   cyan           default
-color indicator   brightyellow   red
-color error       brightred      default
-color status      brightwhite    blue
-color tree        brightmagenta  black
-color tilde       blue           default
-color attachment  brightyellow   default
-color markers     brightred      default
-color message     white          black
-color search      brightwhite    magenta
-color bold        brightyellow   default
-color progress    white          black
+# Colors for mutt by Luke Smith
+source colors.muttrc
 
 # Index
 set date_format = "!%d/%m/%Y, %H:%M:%S"
