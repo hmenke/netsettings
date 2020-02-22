@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# https://en.wikipedia.org/wiki/Digital_object_identifier
+#
+# A DOI is a type of Handle System handle, which takes the form of a
+# character string divided into two parts, a prefix and a suffix, separated
+# by a slash.
+#
+#    prefix/suffix
+#
+# The prefix identifies the registrant of the identifier and the suffix is
+# chosen by the registrant and identifies the specific object associated
+# with that DOI. Most legal Unicode characters are allowed in these strings,
+# which are interpreted in a case-insensitive manner. The prefix usually
+# takes the form 10.NNNN, where NNNN is at least a four digit number greater
+# than or equal to 1000, whose limit depends only on the total number of
+# registrants. The prefix may be further subdivided with periods, like
+# 10.NNNN.N.
+doi_regex='10\.[0-9]{4}[0-9.]*/[^[:space:]]*'
+
+if [ -r "$1" ]; then
+    doi="$(pdfinfo "$1" | grep -i doi: | grep -E -m 1 -o "${doi_regex}")" ||
+        doi="$(pdftotext "$1" - | grep -i doi | grep -E -m 1 -o "${doi_regex}")" ||
+        exit 1
+elif [ -n "$1" ]; then
+    doi="$1"
+else
+    echo "Usage: getbib <file|doi>"
+    exit 1
+fi
+
+curl -LH "Accept: application/x-bibtex" "https://doi.org/${doi}"
+echo # newline seems to be missing from response
