@@ -51,11 +51,17 @@ if has('mouse')
     set mouse=a
 endif
 
-" autoread files when buffer gains focus
-au FocusGained,BufEnter * :checktime
+if has('autocmd')
+    " Open file with cursor at last position
+    au BufWinLeave *.tex,*.bib :mkview
+    au VimEnter *.tex,*.bib :silent! loadview
 
-" Don't store temporary files for pass
-au BufNewFile,BufRead /dev/shm/*pass.* setlocal noswapfile nobackup noundofile
+    " autoread files when buffer gains focus
+    au FocusGained,BufEnter * :checktime
+
+    " Don't store temporary files for pass
+    au BufNewFile,BufRead /dev/shm/*pass.* setlocal noswapfile nobackup noundofile
+endif
 
 " Execute local vimrc's
 set exrc   " enable per-directory .vimrc files
