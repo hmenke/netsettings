@@ -84,7 +84,7 @@
 (setq TeX-command-Show "LaTeX")
 (setq TeX-view-program-selection '((output-pdf "XDG")))
 (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
-(add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
 (setq reftex-plug-into-AUCTeX t)
 (setq reftex-label-alist '(AMSTeX))
 (eval-after-load "font-latex"
