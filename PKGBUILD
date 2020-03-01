@@ -14,6 +14,8 @@ pkgver() {
 # Kernel independent packages
 depends=(
     # Tools and libraries
+    'android-tools'
+    'android-udev'
     'apparmor'
     'bash-completion'
     'boost'
