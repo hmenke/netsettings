@@ -61,6 +61,7 @@ depends=(
     'python-requests'
     'python-scipy'
     'python-xdg'
+    'qpdf'
     'rcs'
     'ripgrep'
     'rsync'
