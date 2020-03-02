@@ -96,7 +96,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'rhysd/vim-clang-format'
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
-Plug 'Yggdroot/indentLine'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -118,10 +117,6 @@ let g:airline_symbols.branch = '⎇'
 " Always treat tex files as sty files
 let g:tex_stylish = 1
 let g:tex_conceal = ''
-
-" indentLine character
-" let g:indentLine_char_list = ['|', '¦', '┆', '┊', '│',' ⎸', '▏']
-let g:indentLine_char = '▏'
 
 " snippets
 let g:UltiSnipsNoPythonWarning = 1
