@@ -10,6 +10,10 @@ super + Return
 super + @r
 	~/.local/bin/dmenu_run_history
 
+# password store
+super + @p
+	~/.local/bin/passmenu
+
 # web browser
 super + b
 	x-www-browser
