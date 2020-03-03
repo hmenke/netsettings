@@ -13,6 +13,8 @@ super + @r
 # password store
 super + @p
 	~/.local/bin/passmenu
+super + shift + @p
+	~/.local/bin/passmenu --action otp
 
 # web browser
 super + b

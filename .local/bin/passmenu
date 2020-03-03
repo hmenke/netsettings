@@ -3,23 +3,33 @@
 shopt -s nullglob globstar
 
 typeit=0
-if [[ $1 == "--type" ]]; then
-	typeit=1
-	shift
-fi
+while [[ $1 ]]; do
+	if [[ $1 == "--type" ]]; then
+		typeit=1
+		shift
+	fi
+	if [[ $1 == "--action" ]]; then
+		action="$2"
+		shift 2
+	fi
+done
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
 password_files=( "$prefix"/**/*.gpg )
 password_files=( "${password_files[@]#"$prefix"/}" )
 password_files=( "${password_files[@]%.gpg}" )
 
-password=$(printf '%s\n' "${password_files[@]}" | dmenu "$@")
+password=$(printf '%s\n' "${password_files[@]}" | dmenu -p "$action" -i "$@")
 
 [[ -n $password ]] || exit
 
 if [[ $typeit -eq 0 ]]; then
-	pass show -c "$password" 2>/dev/null
+	if pass ${action:-show} -c "$password" 2>/dev/null; then
+		notify-send -t 3000 "$password" "Password copied to clipboard"
+	else
+		notify-send -t 3000 -u critical "$password" "Failed to get password!"
+	fi
 else
-	pass show "$password" | { IFS= read -r pass; printf %s "$pass"; } |
+	pass ${action:-show} "$password" | { IFS= read -r pass; printf %s "$pass"; } |
 		xdotool type --clearmodifiers --file -
 fi
