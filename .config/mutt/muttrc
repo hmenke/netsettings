@@ -3,9 +3,14 @@
 # Send and receive #
 ####################
 
-source "pass Accounts/GMail/mutt |"
+#source "pass Accounts/GMail/mutt |"
+#set folder = "imaps://imap.gmail.com/"
 
-set folder = "imaps://imap.gmail.com/"
+source "python ~/.config/offlineimap/credentials.py imap.gmail.com |"
+set mbox_type = Maildir
+set folder = ~/.local/share/offlineimap
+source ~/.config/mutt/mbnames
+
 set spoolfile = +INBOX
 set imap_check_subscribed
 
