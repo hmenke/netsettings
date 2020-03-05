@@ -7,7 +7,7 @@ accounts = GMail
 enabled = yes
 filename = ~/.config/mutt/mbnames
 header = "mailboxes "
-peritem = "+%(accountname)s/%(foldername)s"
+peritem = "+%(foldername)s"
 sep = " "
 footer = "\n"
 
@@ -15,6 +15,7 @@ footer = "\n"
 localrepository = LocalGMail
 remoterepository = RemoteGMail
 synclabels = yes
+postsynchook = notmuch new
 
 [Repository LocalGMail]
 type = GmailMaildir

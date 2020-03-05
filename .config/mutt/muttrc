@@ -7,8 +7,7 @@
 #set folder = "imaps://imap.gmail.com/"
 
 source "python ~/.config/offlineimap/credentials.py imap.gmail.com |"
-set mbox_type = Maildir
-set folder = ~/.local/share/offlineimap
+set folder = ~/.local/share/offlineimap/GMail
 source ~/.config/mutt/mbnames
 
 set spoolfile = +INBOX
@@ -31,8 +30,8 @@ set include = yes
 set forward_quote = yes
 
 # Activate caching, as it can greatly improve speed
-set header_cache = "~/.mutt/cache/headers"
-set message_cachedir = "~/.mutt/cache/bodies"
+set header_cache = "~/.cache/mutt/headers"
+set message_cachedir = "~/.cache/mutt/bodies"
 
 # Specify where to save and/or look for postponed and sent messages.
 set postponed = "+[Gmail]/Drafts"
@@ -74,10 +73,11 @@ hdr_order From: To: Cc: Bcc: Date: Subject:
 
 # Colors for mutt by Luke Smith
 source colors.muttrc
+color index_author blue default '~f henri'
 
 # Index
-set date_format = "!%d/%m/%Y, %H:%M:%S"
-set index_format = '%4C [%Z] %D %-25.25L (%?l?%4l&%4c?) %s'
+set date_format = "!%d/%m/%y, %H:%M"
+set index_format = '%4C [%Z] %D %-25.25F (%?l?%4l&%4c?) %s'
 
 # Keybindings
 bind index,pager R group-reply
@@ -86,6 +86,21 @@ bind index G imap-fetch-mail
 macro index,pager S "<save-message>=[Gmail]/Spam<enter>" "file as Spam"
 bind pager <up> previous-line
 bind pager <down> next-line
+macro index / "<vfolder-from-query>"
+
+#################
+# Mailing lists #
+#################
+
+subscribe LATEX-L@LISTSERV.UNI-HEIDELBERG.DE
+subscribe dev-context@ntg.nl
+subscribe espressomd-users@nongnu.org
+subscribe gnuplot-beta@lists.sourceforge.net
+subscribe luatex@tug.org
+subscribe ntg-context@ntg.nl
+subscribe pgf-tikz@tug.org
+subscribe tex-live@tug.org
+subscribe tlbuild@tug.org
 
 ####################
 # Neomutt settings #
