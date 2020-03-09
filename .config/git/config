@@ -37,3 +37,4 @@
 	lineNumber = green
 [gui]
 	displayuntracked = false
+	spellingdictionary = none
