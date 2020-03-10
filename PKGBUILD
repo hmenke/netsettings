@@ -5,6 +5,7 @@ pkgdesc='Bootstrap all my favourite programs'
 arch=('any')
 license=('GPL')
 install=netsettings.install
+provides=('texlive-bin' $(pacman -Sgq texlive-most texlive-lang))
 
 makedepends=('grep' 'git')
 pkgver() {
