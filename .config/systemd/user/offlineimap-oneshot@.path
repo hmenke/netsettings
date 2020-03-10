@@ -1,0 +1,9 @@
+[Unit]
+Description=Offlineimap Query Path for account %i
+
+[Path]
+PathModified=%h/.local/share/offlineimap/%i
+MakeDirectory=no
+
+[Install]
+WantedBy=default.target
