@@ -1,5 +1,5 @@
 [Unit]
-Description=Update TeX Live
+Description=Update TeX Live %i
 
 [Timer]
 OnBootSec=5min

@@ -1,0 +1,9 @@
+[Unit]
+Description=Update TeX Live %i
+OnFailure=notify-send@%N.service
+Wants=NetworkManager-wait-online.service
+After=NetworkManager-wait-online.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/texlive/%i/bin/x86_64-linux/tlmgr update --self --all --reinstall-forcibly-removed

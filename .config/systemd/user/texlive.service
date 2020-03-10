@@ -1,9 +1,0 @@
-[Unit]
-Description=Update TeX Live
-OnFailure=notify-send@%i.service
-Wants=NetworkManager-wait-online.service
-After=NetworkManager-wait-online.service
-
-[Service]
-Type=oneshot
-ExecStart=/opt/texlive/2019/bin/x86_64-linux/tlmgr update --self --all --reinstall-forcibly-removed
