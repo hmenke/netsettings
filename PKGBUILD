@@ -5,7 +5,7 @@ pkgdesc='Bootstrap all my favourite programs'
 arch=('any')
 license=('GPL')
 install=netsettings.install
-provides=('texlive-bin' $(pacman -Sgq texlive-most texlive-lang))
+provides=('texlive-bin' $(pacman -Sgq texlive-most texlive-lang) 'vi' 'vim' 'vim-runtime')
 
 makedepends=('grep' 'git')
 pkgver() {
@@ -138,4 +138,8 @@ package() {
         echo "Adding $file"
         install -Dm644 "$file" "$pkgdir/$file"
     done
+
+    install -dm755 "$pkgdir/usr/bin"
+    ln -s nvim "$pkgdir/usr/bin/vi"
+    ln -s nvim "$pkgdir/usr/bin/vim"
 }
