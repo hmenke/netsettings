@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
 import netrc
-import os
+from os.path import expanduser, isfile
 import sys
 
-filename = os.path.expanduser("~/.config/offlineimap/netrc")
+filename = expanduser("~/.config/offlineimap/netrc")
 
 credentials = netrc.netrc(filename)
 
@@ -22,3 +22,10 @@ if __name__ == "__main__":
     password = get_password(host)
     print("set imap_user = {}".format(login))
     print("set imap_pass = {}".format(password))
+
+    # Decide whether to use the offline or online configuration
+    if isfile(expanduser("~/.config/mutt/mbnames")):
+        print('set folder = ~/.local/share/offlineimap/GMail')
+        print('source "~/.config/mutt/mbnames"')
+    else:
+        print('set folder = "imaps://imap.gmail.com/"')
