@@ -19,7 +19,7 @@ set from = $imap_user
 set use_from = yes
 set send_charset="utf-8"
 set assumed_charset="iso-8859-1"
-set editor="nvim -c 'set syntax=mail ft=mail enc=utf-8'"
+set editor="nvim -c 'set syntax=mail ft=mail enc=utf-8 spell spelllang=de,en'"
 set fast_reply = yes
 set include = yes
 set forward_quote = yes
