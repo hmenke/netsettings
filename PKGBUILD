@@ -50,6 +50,8 @@ depends=(
     'networkmanager'
     'newsboat'
     'nftables'
+    'notmuch'
+    'offlineimap'
     'openssh'
     'p7zip'
     'pacman-contrib'
