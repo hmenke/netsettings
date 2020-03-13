@@ -99,7 +99,6 @@ depends=(
     'feh'
     'firefox'
     'gimp'
-    'gnome-disk-utility'
     'gst-plugins-bad'
     'gst-plugins-base'
     'gst-plugins-good'
@@ -146,4 +145,7 @@ package() {
     install -dm755 "$pkgdir/usr/bin"
     ln -s nvim "$pkgdir/usr/bin/vi"
     ln -s nvim "$pkgdir/usr/bin/vim"
+
+    install -dm755 "$pkgdir/etc/pacman.d/hooks"
+    ln -s /usr/share/arch-audit/arch-audit.hook "$pkgdir/etc/pacman.d/hooks/arch-audit.hook"
 }
