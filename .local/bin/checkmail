@@ -7,13 +7,15 @@ from email.utils import format_datetime, parsedate_to_datetime
 from imaplib import IMAP4_SSL
 from html import escape
 from netrc import netrc
-from os import listdir
-from os.path import expanduser, join
+from os import listdir, makedirs, remove
+from os.path import expanduser, join, exists
 from subprocess import call
 from sys import argv
 
 netrc_path = expanduser("~/.config/offlineimap/netrc")
 offlineimap_path = expanduser("~/.config/offlineimap/config")
+imapcache_dir = expanduser("~/.cache/checkmail")
+
 
 def process_messages(msgs):
     # Spawn a notification for each message
@@ -25,6 +27,7 @@ def process_messages(msgs):
 
         # Spawn notification
         call(["notify-send", subject, escape(date + "\n" + sender)])
+
 
 def get_messages_imap(imap_server):
     # Get credentials
@@ -45,22 +48,38 @@ def get_messages_imap(imap_server):
         # Prune empty elements and print count
         message_list = [msg for msg in messages[0].split(b" ") if msg != b""]
 
+        # Make directory for caching and remove read messages from cache
+        makedirs(imapcache_dir, exist_ok=True)
+        for filename in listdir(imapcache_dir):
+            if not filename.encode("utf-8") in message_list:
+                remove(join(imapcache_dir, filename))
+
         # Process messages
         for num in message_list:
             # Retrieve message
-            typ, data = conn.fetch(num, "(BODY.PEEK[HEADER])")
-            msgs.append(message_from_bytes(data[0][1]))
+            filename = expanduser(join(imapcache_dir, num.decode("utf-8")))
+            if exists(filename):
+                with open(filename, "rb") as fp:
+                    msgs.append(message_from_binary_file(fp))
+            else:
+                typ, data = conn.fetch(num, "(BODY.PEEK[HEADER])")
+                with open(filename, "wb") as fp:
+                    fp.write(data[0][1])
+                msgs.append(message_from_bytes(data[0][1]))
 
     # Bye :-)
     conn.close()
     return msgs
 
+
 def get_messages_offline():
+    # Read the offlineimap config
     cfg = ConfigParser()
     cfg.read(offlineimap_path)
 
+    # Check inboxes of all accounts
     msgs = []
-    for account in cfg['general']['accounts'].split(" "):
+    for account in cfg["general"]["accounts"].split(" "):
         localrepo = cfg["Account " + account]["localrepository"]
         localfolders = cfg["Repository " + localrepo]["localfolders"]
 
@@ -69,6 +88,7 @@ def get_messages_offline():
             with open(join(maildir_path, filename), "rb") as fp:
                 msgs.append(message_from_binary_file(fp))
         return msgs
+
 
 if __name__ == "__main__":
     if len(argv) != 2:
