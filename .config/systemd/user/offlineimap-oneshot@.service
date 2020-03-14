@@ -1,6 +1,9 @@
 [Unit]
 Description=Offlineimap Service for account %i (oneshot)
 Documentation=man:offlineimap(1)
+OnFailure=notify-send@%N.service
+Wants=network-online.target
+After=network-online.target
 
 [Service]
 Type=oneshot
