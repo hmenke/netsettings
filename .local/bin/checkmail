@@ -1,0 +1,85 @@
+#!/usr/bin/env python
+
+from configparser import ConfigParser
+from email import message_from_bytes, message_from_binary_file
+from email.header import make_header, decode_header
+from email.utils import format_datetime, parsedate_to_datetime
+from imaplib import IMAP4_SSL
+from html import escape
+from netrc import netrc
+from os import listdir
+from os.path import expanduser, join
+from subprocess import call
+from sys import argv
+
+netrc_path = expanduser("~/.config/offlineimap/netrc")
+offlineimap_path = expanduser("~/.config/offlineimap/config")
+
+def process_messages(msgs):
+    # Spawn a notification for each message
+    for msg in msgs:
+        # Decode message headers
+        subject = str(make_header(decode_header(msg["subject"])))
+        date = format_datetime(parsedate_to_datetime(msg["date"]).astimezone())
+        sender = str(make_header(decode_header(msg["from"])))
+
+        # Spawn notification
+        call(["notify-send", subject, escape(date + "\n" + sender)])
+
+def get_messages_imap(imap_server):
+    # Get credentials
+    credentials = netrc(netrc_path)
+    imap_user, _, imap_password = credentials.authenticators(imap_server)
+
+    # Open connection
+    conn = IMAP4_SSL(imap_server)
+    conn.login(imap_user, imap_password)
+
+    # Get unread in inbox
+    conn.select(mailbox="INBOX", readonly=True)
+    retcode, messages = conn.search(None, "(UNSEEN)")
+
+    # Collect messages
+    msgs = []
+    if retcode == "OK":
+        # Prune empty elements and print count
+        message_list = [msg for msg in messages[0].split(b" ") if msg != b""]
+
+        # Process messages
+        for num in message_list:
+            # Retrieve message
+            typ, data = conn.fetch(num, "(BODY.PEEK[HEADER])")
+            msgs.append(message_from_bytes(data[0][1]))
+
+    # Bye :-)
+    conn.close()
+    return msgs
+
+def get_messages_offline():
+    cfg = ConfigParser()
+    cfg.read(offlineimap_path)
+
+    msgs = []
+    for account in cfg['general']['accounts'].split(" "):
+        localrepo = cfg["Account " + account]["localrepository"]
+        localfolders = cfg["Repository " + localrepo]["localfolders"]
+
+        maildir_path = join(expanduser(localfolders), "INBOX", "new")
+        for filename in listdir(maildir_path):
+            with open(join(maildir_path, filename), "rb") as fp:
+                msgs.append(message_from_binary_file(fp))
+        return msgs
+
+if __name__ == "__main__":
+    if len(argv) != 2:
+        print("Usage:", argv[0], "[offline | address of imap server]")
+        exit(1)
+
+    msgs = []
+    if argv[1] == "offline":
+        msgs = get_messages_offline()
+    else:
+        msgs = get_messages_imap(argv[1])
+
+    print(len(msgs))
+    process_messages(msgs)
