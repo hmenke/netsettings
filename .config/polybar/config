@@ -56,7 +56,7 @@ font-2 = "Noto Color Emoji:scale=10;0"
 
 modules-left = bspwm xwindow
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature memory cpu
-modules-right = xkeyboard xbacklight pulseaudio battery newsboat checkupdates weather date
+modules-right = xkeyboard xbacklight pulseaudio battery mail newsboat checkupdates weather date
 
 tray-position = right
 tray-padding = 10
@@ -100,6 +100,14 @@ format = "%{T3}⬆%{T-} <output>"
 format-underline = ${colors.primary}
 click-left = notify-send "Updates" "$(pacman -Qu --dbpath "/tmp/checkup-db-$(id -u)/" 2> /dev/null | grep -v '\[.*\]')"
 click-right = polybar-msg hook checkupdates 1
+
+[module/mail]
+type = custom/ipc
+hook-0 = echo $(($(ls -1q ~/.local/share/offlineimap/GMail/INBOX/new 2>/dev/null | wc -l) + $(ls -1q ~/.cache/checkmail 2>/dev/null | wc -l)))
+initial = 1
+format = "%{T3}📬%{T-} <output>"
+format-underline = ${colors.primary}
+click-right = polybar-msg hook mail 1
 
 [module/xwindow]
 type = internal/xwindow

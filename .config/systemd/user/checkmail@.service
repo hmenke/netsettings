@@ -1,0 +1,10 @@
+[Unit]
+Description=Check email for %i
+OnFailure=notify-send@%N.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/python %h/.local/bin/checkmail "%i"
+ExecStartPost=-/usr/bin/polybar-msg hook mail 1

@@ -1,0 +1,10 @@
+[Unit]
+Description=Check email for %i
+
+[Timer]
+OnBootSec=1m
+OnUnitActiveSec=15m
+Persistent=true
+
+[Install]
+WantedBy=timers.target
