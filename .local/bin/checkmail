@@ -39,33 +39,36 @@ def get_messages_imap(imap_server):
     conn.login(imap_user, imap_password)
 
     # Get unread in inbox
-    conn.select(mailbox="INBOX", readonly=True)
-    retcode, messages = conn.search(None, "(UNSEEN)")
+    typ, count = conn.select(mailbox="INBOX", readonly=True)
+    if typ != "OK":
+        return []
+    typ, messages = conn.search(None, "(UNSEEN)")
+    if typ != "OK":
+        return []
 
     # Collect messages
     msgs = []
-    if retcode == "OK":
-        # Prune empty elements and print count
-        message_list = [msg for msg in messages[0].split(b" ") if msg != b""]
+    # Prune empty elements and print count
+    message_list = [msg for msg in messages[0].split(b" ") if msg != b""]
 
-        # Make directory for caching and remove read messages from cache
-        makedirs(imapcache_dir, exist_ok=True)
-        for filename in listdir(imapcache_dir):
-            if not filename.encode("utf-8") in message_list:
-                remove(join(imapcache_dir, filename))
+    # Make directory for caching and remove read messages from cache
+    makedirs(imapcache_dir, exist_ok=True)
+    for filename in listdir(imapcache_dir):
+        if not filename.encode("utf-8") in message_list:
+            remove(join(imapcache_dir, filename))
 
-        # Process messages
-        for num in message_list:
-            # Retrieve message
-            filename = expanduser(join(imapcache_dir, num.decode("utf-8")))
-            if exists(filename):
-                with open(filename, "rb") as fp:
-                    msgs.append(message_from_binary_file(fp))
-            else:
-                typ, data = conn.fetch(num, "(BODY.PEEK[HEADER])")
-                with open(filename, "wb") as fp:
-                    fp.write(data[0][1])
-                msgs.append(message_from_bytes(data[0][1]))
+    # Process messages
+    for num in message_list:
+        # Retrieve message
+        filename = expanduser(join(imapcache_dir, num.decode("utf-8")))
+        if exists(filename):
+            with open(filename, "rb") as fp:
+                msgs.append(message_from_binary_file(fp))
+        else:
+            typ, data = conn.fetch(num, "(BODY.PEEK[HEADER])")
+            with open(filename, "wb") as fp:
+                fp.write(data[0][1])
+            msgs.append(message_from_bytes(data[0][1]))
 
     # Bye :-)
     conn.close()
