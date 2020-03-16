@@ -98,6 +98,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+Plug 'psf/black', { 'do': 'python setup.py install --user' }
 
 call plug#end()
 
