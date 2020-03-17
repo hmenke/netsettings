@@ -28,4 +28,4 @@ if __name__ == "__main__":
         print('set folder = ~/.local/share/offlineimap/GMail')
         print('source "~/.config/mutt/mbnames"')
     else:
-        print('set folder = "imaps://imap.gmail.com/"')
+        print('set folder = "imaps://{}@imap.gmail.com/"'.format(login))
