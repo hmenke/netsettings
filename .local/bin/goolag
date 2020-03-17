@@ -54,4 +54,4 @@ exec firejail --private "${GOOGLE_CHROME}" \
     --no-default-browser-check \
     --no-pings \
     --no-referrers \
-    --load-extension="${EXTDIR}/ublock","${EXTDIR}/justblack"
+    --load-extension="${EXTDIR}/ublock"
