@@ -2,8 +2,8 @@
 Description=Update news feeds
 
 [Timer]
-OnBootSec=5min
-OnUnitActiveSec=5min
+OnBootSec=5m
+OnUnitActiveSec=1h
 Persistent=true
 
 [Install]
