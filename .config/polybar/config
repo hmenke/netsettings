@@ -103,7 +103,7 @@ click-right = polybar-msg hook checkupdates 1
 
 [module/mail]
 type = custom/ipc
-hook-0 = echo $(($(ls -1q ~/.local/share/offlineimap/GMail/INBOX/new 2>/dev/null | wc -l) + $(ls -1q ~/.cache/checkmail 2>/dev/null | wc -l)))
+hook-0 = find ~/.cache/checkmail ~/.local/share/offlineimap/*/INBOX/new -type f 2>/dev/null | wc -l
 hook-1 = systemctl --user start $(systemctl --user list-timers --no-legend 'checkmail@*' | awk '{ print $NF }')
 initial = 1
 format = "%{T3}📬%{T-} <output>"
