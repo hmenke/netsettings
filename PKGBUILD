@@ -19,6 +19,7 @@ depends=(
     'android-udev'
     'apparmor'
     'arch-audit'
+    'arch-wiki-docs'
     'bash-completion'
     'bc'
     'boost'
