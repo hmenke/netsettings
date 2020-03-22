@@ -84,6 +84,7 @@ depends=(
     'valgrind'
     'wget'
     'which'
+    'whois'
     'wireguard-tools'
     'youtube-dl'
     'zip'
