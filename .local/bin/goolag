@@ -40,6 +40,15 @@ download_extension() {
 download_extension "cjpalhdlnbpafiamejdnhcphjbkeiagm" "ublock" "uBlock origin"
 #download_extension "aghfnjkcakhmadgdomlmlhhaocbkloab" "justblack" "Just Black Theme"
 
+# Simulate a different home directory, so that we can save downloads etc. but
+# don't persist across sessions, so starting goolag will wipe the previous one
+export HOME="${EXTDIR}/home"
+if [ -e "${HOME}" ]; then
+    echo "Wiping old temporary home..."
+    rm -rf "${HOME}"
+fi
+mkdir -p "${HOME}"
+
 # Run in firejail with the following flags:
 # --no-first-run: suppress the “First Run” dialog
 # --no-pings: No hyperlink auditing pings
@@ -49,7 +58,7 @@ download_extension "cjpalhdlnbpafiamejdnhcphjbkeiagm" "ublock" "uBlock origin"
 # Other flags to consider:
 # --incognito: Start in incognito mode
 # --disable-translate: Disable automatic Google Translate
-exec firejail --private "${GOOGLE_CHROME}" \
+exec firejail --private="${HOME}" "${GOOGLE_CHROME}" \
     --no-first-run \
     --no-default-browser-check \
     --no-pings \
