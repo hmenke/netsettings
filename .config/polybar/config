@@ -94,12 +94,13 @@ click-right = polybar-msg hook newsboat 1
 
 [module/checkupdates]
 type = custom/ipc
-hook-0 = pacman -Qu --dbpath "/tmp/checkup-db-$(id -u)/" 2> /dev/null | grep -v '\[.*\]' | wc -l
+hook-0 = echo "$(wc -l < ~/.cache/checkupdates/arch)/$(wc -l < ~/.cache/checkupdates/aur)"
+hook-1 = systemctl --user start checkupdates.service
 initial = 1
 format = "%{T3}⬆%{T-} <output>"
 format-underline = ${colors.primary}
-click-left = notify-send "Updates" "$(pacman -Qu --dbpath "/tmp/checkup-db-$(id -u)/" 2> /dev/null | grep -v '\[.*\]')"
-click-right = polybar-msg hook checkupdates 1
+click-left = notify-send "Updates" "$(cat ~/.cache/checkupdates/arch)\n<b>AUR</b>\n$(cat ~/.cache/checkupdates/aur)"
+click-right = polybar-msg hook checkupdates 2
 
 [module/mail]
 type = custom/ipc
