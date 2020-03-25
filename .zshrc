@@ -58,7 +58,6 @@ unsetopt beep
 . ~/.config/shell/aliases.sh
 . ~/.config/shell/environment.sh
 . ~/.config/shell/functions.sh
-. ~/.config/shell/z.sh
 
 . ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 bindkey '^ ' autosuggest-accept

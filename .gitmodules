@@ -4,9 +4,6 @@
 [submodule ".config/shell/zsh-autosuggestions"]
 	path = .config/shell/zsh-autosuggestions
 	url = git://github.com/zsh-users/zsh-autosuggestions.git
-[submodule ".config/shell/z"]
-	path = .config/shell/z
-	url = git://github.com/rupa/z.git
 [submodule ".config/shell/bash-completion"]
 	path = .config/shell/bash-completion
 	url = git://github.com/scop/bash-completion.git
