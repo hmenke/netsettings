@@ -49,6 +49,7 @@ compinit -d ~/.cache/zcompdump
 if command -v fzf > /dev/null; then
     . ~/.config/shell/fzf/completion.zsh
 fi
+compdef '_dispatch git git' netsettings
 
 # Disable the beep
 unsetopt beep

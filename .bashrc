@@ -23,12 +23,14 @@ if command -v fzf > /dev/null; then
 fi
 
 # bash completion
-if [ -f /etc/bash_completion ] && ! shopt -oq posix; then
-    . /etc/bash_completion
+if ! declare -f _completion_loader 2>&1 >/dev/null; then
+    . ~/.config/shell/bash-completion/bash_completion
 fi
 if command -v fzf > /dev/null; then
     . ~/.config/shell/fzf/completion.bash
 fi
+_completion_loader git
+complete -o default -o nospace -F _git netsettings
 
 # Disable the beep
 if [ -n "${DISPLAY}" ]; then

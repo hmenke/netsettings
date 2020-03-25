@@ -7,3 +7,6 @@
 [submodule ".config/shell/z"]
 	path = .config/shell/z
 	url = git://github.com/rupa/z.git
+[submodule ".config/shell/bash-completion"]
+	path = .config/shell/bash-completion
+	url = git://github.com/scop/bash-completion.git
