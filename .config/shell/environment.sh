@@ -44,6 +44,8 @@ export SCREENRC="$XDG_CONFIG_HOME/screen/screenrc"
 export ANDROID_SDK_HOME="$XDG_DATA_HOME/share/android"
 export NOTMUCH_CONFIG="$XDG_CONFIG_HOME/notmuch/notmuchrc"
 export UNISON="$XDG_DATA_HOME/unison"
+export PASSWORD_STORE_DIR="$XDG_DATA_HOME/password-store"
+export MATHEMATICA_USERBASE="$XDG_CONFIG_HOME/Mathematica"
 
 # Colors in less (https://github.com/shibumi/hikari-zsh)
 export LESS_TERMCAP_mb="$(printf "\001\033[01;31m\002")"
