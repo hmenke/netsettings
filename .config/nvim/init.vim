@@ -23,6 +23,9 @@ set iskeyword+=@-@    " include '@' in word search
 set wildmode=longest,list " Bash-like autocompletion for filenames
 set wildmenu
 set listchars=eol:¬,tab:»·,trail:~,extends:>,precedes:<,space:␣
+set secure            " disable unsafe commands in local .vimrc files
+set path+=**          " enable vim's fuzzy find
+
 
 " Key mappings
 set ttimeoutlen=0     " eliminate delays on <esc>
@@ -30,13 +33,12 @@ set ttimeoutlen=0     " eliminate delays on <esc>
 " In normal and visual mode indent selection or line
 nmap <Tab> ==
 vmap <Tab> ==
-noremap <C-q> q:i
 
-try
-    " Map <Esc> to exit terminal-mode (NeoVim only)
+" Map <Esc> to exit terminal-mode (NeoVim only)
+if exists(':tnoremap')
     tnoremap <Esc> <C-\><C-n>
-catch
-endtry
+endif
+
 " Selection to X clipboard in visual mode (only works in NeoVim and
 " requires 'set mouse=a')
 vmap <LeftRelease> "*ygv
@@ -63,13 +65,6 @@ if has('autocmd')
     au BufNewFile,BufRead /dev/shm/*pass.* setlocal noswapfile nobackup noundofile
 endif
 
-" Execute local vimrc's
-set exrc   " enable per-directory .vimrc files
-set secure " disable unsafe commands in local .vimrc files
-
-" cd to file
-set autochdir
-
 " GVim Setting
 set guioptions-=m "remove menu bar
 set guioptions-=T "remove toolbar
@@ -88,17 +83,27 @@ set statusline+=\ %=                               " right align
 set statusline+=\ %l,%c                            " row,col
 set statusline+=\ \ %P                             " top/bot
 
+" netrw
+let g:netrw_banner=0        " disable banner
+let g:netrw_browse_split=4  " open in prior window
+let g:netrw_altv=1          " open splits to the right
+let g:netrw_liststyle=3     " tree view
+" hide gitignore'd files
+let g:netrw_list_hide=netrw_gitignore#Hide()
+" hide dotfiles by default (this is the string toggled by netrw-gh)
+let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
+
 " Plugins
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
-Plug 'rhysd/vim-clang-format'
+Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-Plug 'psf/black', { 'do': 'python setup.py install --user' }
+Plug 'psf/black', { 'for': 'python', 'do': 'python setup.py install --user' }
 
 call plug#end()
 
