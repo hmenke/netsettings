@@ -94,16 +94,26 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Plugins
-call plug#begin('~/.config/nvim/plugged')
+call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'psf/black', { 'for': 'python', 'do': 'python setup.py install --user' }
+if has('python3')
+    Plug 'SirVer/ultisnips'
+    Plug 'honza/vim-snippets'
+python3 << EOF
+from sys import version_info
+from vim import command
+command("let g:python_minor_version = '{}'".format(version_info.minor))
+EOF
+    if (g:python_minor_version >= 6)
+        Plug 'psf/black', { 'for': 'python',
+                          \ 'do': 'python3 setup.py install --user' }
+    endif
+endif
 
 call plug#end()
 
