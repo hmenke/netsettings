@@ -1,4 +1,17 @@
-(setf gc-cons-threshold (* 100 1024 1024))
+; Speed up the startup
+(setq gc-cons-threshold-old gc-cons-threshold
+      gc-cons-percentage-old gc-cons-percentage
+      file-name-handler-alist-old file-name-handler-alist)
+(setq gc-cons-threshold (* 100 1024 1024)
+      gc-cons-percentage 0.6
+      file-name-handler-alist nil)
+(defun reset-startup-values ()
+  (setq gc-cons-threshold gc-cons-threshold-old
+        gc-cons-percentage gc-cons-percentage-old
+        file-name-handler-alist file-name-handler-alist-old))
+(add-hook 'emacs-startup-hook 'reset-startup-values)
+
+; Actual configuration
 (custom-set-variables '(inhibit-startup-screen t))
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -19,6 +32,7 @@
 (setq visual-line-fringe-indicators
       '(left-curly-arrow right-curly-arrow))
 (defalias 'yes-or-no-p 'y-or-n-p)
+(setq initial-scratch-message "")
 
 ; Show matching parentheses
 (show-paren-mode 1)
@@ -123,6 +137,13 @@
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
+(use-package dired-x
+  :commands dired
+  :init
+  (setq dired-guess-shell-alist-user (list (list "\\.pdf$" "xdg-open")))
+  (add-to-list 'display-buffer-alist
+               (cons "\\*Async Shell Command\\*.*"
+                     (cons #'display-buffer-no-window nil))))
 
 ; Theme
 (use-package gruvbox-theme
@@ -140,10 +161,6 @@
 (add-hook 'c++-mode-hook 'enable-clang-format)
 
 ; Dired enhancements
-(require 'dired-x)
-(setq dired-guess-shell-alist-user (list (list "\\.pdf$" "xdg-open")))
-(add-to-list 'display-buffer-alist (cons "\\*Async Shell Command\\*.*" (cons #'display-buffer-no-window nil)))
-
 (setq dired-listing-switches
       "--group-directories-first -lh --hide=*~")
 (with-eval-after-load 'dired
@@ -181,5 +198,3 @@
       (select-window window)
     ; (find-file-other-window (file-name-sans-versions file t)))))
       (find-file (file-name-sans-versions file t)))))
-
-(dired ".")
