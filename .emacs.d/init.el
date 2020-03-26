@@ -1,3 +1,4 @@
+(setf gc-cons-threshold (* 100 1024 1024))
 (custom-set-variables '(inhibit-startup-screen t))
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
@@ -30,42 +31,103 @@
   (setq mouse-sel-mode t))
 
 ; package archives
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
-; install not-installed packages
-(defun package-dl (p)
-  (unless (package-installed-p p)
-    (progn
-      (package-refresh-contents)
-      (package-install p))))
+(unless (package-installed-p 'use-package)
+  (progn
+    (package-refresh-contents)
+    (package-install 'use-package)))
 
 ; Vim bindings
-(package-dl 'evil)
-(require 'evil)
+(use-package evil
+  :ensure t
+  :commands evil-mode)
 
 ; magit
-(package-dl 'magit)
-(require 'magit)
+(use-package magit
+  :defer 2
+  :ensure t
+  :bind
+  (("C-x g" . magit-status)
+   ("C-x M-d" . magit-dispatch-popup)))
 
 ; Language modes
-(package-dl 'auctex)
-(package-dl 'clang-format)
-(package-dl 'cmake-mode)
-(package-dl 'cuda-mode)
-(package-dl 'cython-mode)
-(package-dl 'd-mode)
-(package-dl 'gnuplot-mode)
-(package-dl 'haskell-mode)
-(package-dl 'julia-mode)
-(package-dl 'lua-mode)
-(package-dl 'modern-cpp-font-lock)
-(package-dl 'rust-mode)
+(use-package auctex
+  :ensure t
+  :mode (("\\.cls\\'" . LaTeX-mode)
+         ("\\.dtx\\'" . LaTeX-mode)
+         ("\\.sty\\'" . LaTeX-mode)
+         ("\\.tex\\'" . LaTeX-mode)
+         ("\\.mkii\\'" . ConTeXt-mode)
+         ("\\.mkiv\\'" . ConTeXt-mode)
+         ("\\.mkvi\\'" . ConTeXt-mode)
+         ("\\.mpii\\'" . metapost-mode)
+         ("\\.mpiv\\'" . metapost-mode)
+         ("\\.mpvi\\'" . metapost-mode))
+  :init
+  ; TeX mode enhancements
+  (setq TeX-PDF-mode t)
+  (setq TeX-quote-after-quote t)
+  (setq-default TeX-engine 'luatex)
+  (setq TeX-command-Show "LaTeX")
+  (setq TeX-view-program-selection '((output-pdf "XDG")))
+  (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
+  ; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (setq reftex-plug-into-AUCTeX t)
+  (setq reftex-label-alist '(AMSTeX))
+  (eval-after-load "font-latex"
+    '(set-face-foreground 'font-latex-math-face nil))
+  (setq font-latex-fontify-script nil)
+
+  ; ConTeXt mode
+  (setq ConTeXt-Mark-version "IV")
+  (with-eval-after-load "context"
+    (add-to-list 'TeX-file-extensions "mkiv" t)
+    (add-to-list 'TeX-file-extensions "mkvi" t))
+  (add-hook 'ConTeXt-mode-hook
+            (lambda()
+              (setq TeX-command-default "ConTeXt Full")
+              (setq TeX-command-Show "ConTeXt Full"))))
+(use-package modern-cpp-font-lock
+  :ensure t
+  :hook cpp-mode)
+(use-package clang-format
+  :ensure t
+  :hook (c-mode cpp-mode))
+(use-package cmake-mode
+  :ensure t
+  :mode ("CMakeLists.txt" "\\.cmake\\'"))
+(use-package cuda-mode
+  :ensure t
+  :mode "\\.cu\\'")
+(use-package cython-mode
+  :ensure t
+  :mode ("\\.pxd\\'" "\\.pyx\\'"))
+(use-package d-mode
+  :ensure t
+  :mode "\\.d\\'")
+(use-package gnuplot-mode
+  :ensure t
+  :mode "\\.gnuplot\\'")
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'")
+(use-package julia-mode
+  :ensure t
+  :mode "\\.jl\\'")
+(use-package lua-mode
+  :ensure t
+  :mode "\\.lua\\'"
+  :config (setq lua-indent-level 4))
+(use-package rust-mode
+  :ensure t
+  :mode "\\.rs\\'")
 
 ; Theme
-(package-dl 'gruvbox-theme)
-(load-theme 'gruvbox t)
+(use-package gruvbox-theme
+  :ensure t
+  :config (load-theme 'gruvbox t))
 
 ; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
@@ -76,39 +138,6 @@
   (global-set-key [C-M-tab] 'clang-format-region))
 (add-hook 'c-mode-hook 'enable-clang-format)
 (add-hook 'c++-mode-hook 'enable-clang-format)
-
-; TeX mode enhancements
-(setq TeX-PDF-mode t)
-(setq TeX-quote-after-quote t)
-(setq-default TeX-engine 'luatex)
-(setq TeX-command-Show "LaTeX")
-(setq TeX-view-program-selection '((output-pdf "XDG")))
-(setq TeX-view-program-list '(("XDG" "xdg-open %o")))
-; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-(setq reftex-plug-into-AUCTeX t)
-(setq reftex-label-alist '(AMSTeX))
-(eval-after-load "font-latex"
-  '(set-face-foreground 'font-latex-math-face nil))
-(setq font-latex-fontify-script nil)
-
-; ConTeXt mode
-(add-to-list 'auto-mode-alist '("\\.mkii\\'" . ConTeXt-mode))
-(add-to-list 'auto-mode-alist '("\\.mkiv\\'" . ConTeXt-mode))
-(add-to-list 'auto-mode-alist '("\\.mkvi\\'" . ConTeXt-mode))
-(add-to-list 'auto-mode-alist '("\\.mpii\\'" . metapost-mode))
-(add-to-list 'auto-mode-alist '("\\.mpiv\\'" . metapost-mode))
-(add-to-list 'auto-mode-alist '("\\.mpvi\\'" . metapost-mode))
-(setq ConTeXt-Mark-version "IV")
-(with-eval-after-load "context"
-  (add-to-list 'TeX-file-extensions "mkiv" t)
-  (add-to-list 'TeX-file-extensions "mkvi" t))
-(add-hook 'ConTeXt-mode-hook
-          (lambda()
-            (setq TeX-command-default "ConTeXt Full")
-            (setq TeX-command-Show "ConTeXt Full")))
-
-; Lua mode
-(setq lua-indent-level 4)
 
 ; Dired enhancements
 (require 'dired-x)
