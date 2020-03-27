@@ -141,9 +141,8 @@ let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
 
 " Color theme
-try
+if has('termguicolors')
     set termguicolors
-    set background=dark
-    colors gruvbox
-catch
-endtry
+endif
+set background=dark
+colors gruvbox
