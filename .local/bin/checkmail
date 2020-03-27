@@ -21,7 +21,7 @@ def process_messages(msgs):
     # Spawn a notification for each message
     for msg in msgs:
         # Decode message headers
-        subject = str(make_header(decode_header(msg["subject"])))
+        subject = str(make_header(decode_header(msg["subject"] or "<no subject>")))
         date = format_datetime(parsedate_to_datetime(msg["date"]).astimezone())
         sender = str(make_header(decode_header(msg["from"])))
 
