@@ -144,6 +144,10 @@
   (add-to-list 'display-buffer-alist
                (cons "\\*Async Shell Command\\*.*"
                      (cons #'display-buffer-no-window nil))))
+(use-package dashboard
+  :ensure t
+  :config
+  (dashboard-setup-startup-hook))
 
 ; Theme
 (use-package gruvbox-theme
