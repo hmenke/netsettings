@@ -46,6 +46,12 @@ Review or install custom /etc/nftables.conf and start the service
 
     # systemctl enable --now nftables.service
 
+[1;93m=== ntp ===[0m
+
+Don't forget to enable NTP.
+
+    # timedatectl set-ntp true
+
 [1;93m=== pacman-contrib ===[0m
 
 To clear the cache periodically enable the timer
@@ -78,6 +84,23 @@ Clone and makepkg
     $ git clone https://aur.archlinux.org/yay.git
     $ cd yay
     $ makepkg -si
+
+Install packages
+
+    $ yay -S \
+        dropbox \
+        gnuplot-git \
+        google-chrome \
+        pandoc-bin \
+        polybar \
+        scrcpy \
+        skypeforlinux-stable-bin \
+        task-spooler \
+        zoom
+
+When setting Secure Boot also add
+
+    $ yay -S sbupdate-git
 
 EOF
 }

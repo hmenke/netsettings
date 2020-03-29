@@ -115,6 +115,7 @@ depends=(
     'noto-fonts-cjk'
     'noto-fonts-emoji'
     'noto-fonts-extra'
+    'ovmf'
     'pavucontrol'
     'pulseaudio'
     'qemu'
