@@ -135,6 +135,8 @@ depends=(
     'xorg-xinit'
     'xorg-xkill'
     'xorg-xset'
+    'xorg-xsetroot'
+    'xorg-xwininfo'
     'xscreensaver'
     'xsel'
     'xterm'
