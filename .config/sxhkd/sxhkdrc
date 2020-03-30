@@ -30,7 +30,7 @@ super + e
 # make sxhkd reload its configuration files:
 super + ctrl + r
 	pkill -USR1 -x sxhkd; \
-	polybar-msg cmd restart
+	sh ~/.config/bspwm/bspwmrc
 
 super + ctrl + alt + l
 	xscreensaver-command -l
@@ -49,6 +49,9 @@ XF86AudioMicMute
 
 XF86Launch1
 	systemctl hibernate
+
+XF86Sleep
+	systemctl suspend
 
 XF86MonBrightnessDown
 	xbacklight -dec 10
@@ -128,7 +131,7 @@ super + {o,i}
 
 # focus or send to the given desktop
 super + {_,shift + }{1-9,0}
-	bspc {desktop -f,node -d} '^{1-9,10}'
+	bspc {desktop -f,node -d} focused:'^{1-9,10}'
 
 #
 # preselect

@@ -24,9 +24,13 @@ run_once "dropbox start"
 run_once "xrdb ${HOME}/.Xresources"
 run_once "setxkbmap us altgr-intl"
 run_once "xmodmap ${HOME}/.Xmodmap"
-run_once "polybar default"
 
-bspc monitor -d 1 2 3 4 5 6 7 8 9 0
+killall -q polybar
+for MONITOR in $(bspc query -M --names); do
+    export MONITOR
+    bspc monitor $MONITOR -d 1 2 3 4 5 6 7 8 9 0
+    polybar --reload default &
+done
 bspc desktop -f 1
 
 bspc config border_width 2

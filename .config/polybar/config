@@ -26,7 +26,7 @@ secondary = ${xrdb:color11:#fabd2f}
 alert = ${xrdb:color9:#fb4934}
 
 [bar/default]
-;monitor = ${env:MONITOR:HDMI-1}
+monitor = ${env:MONITOR:}
 enable-ipc = true
 width = 100%
 height = 19
@@ -147,6 +147,7 @@ label-unmounted-foreground = ${colors.foreground-alt}
 
 [module/bspwm]
 type = internal/bspwm
+pin-workspaces = true
 
 label-focused = %index%
 label-focused-background = ${colors.background-alt}
