@@ -24,6 +24,7 @@ run_once "dropbox start"
 run_once "xrdb ${HOME}/.Xresources"
 run_once "setxkbmap us altgr-intl"
 run_once "xmodmap ${HOME}/.Xmodmap"
+run_once "xsetroot -cursor_name left_ptr"
 
 killall -q polybar
 for MONITOR in $(bspc query -M --names); do
