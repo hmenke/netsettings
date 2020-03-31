@@ -27,6 +27,8 @@ alert = ${xrdb:color9:#fb4934}
 
 [bar/default]
 monitor = ${env:MONITOR:}
+monitor-strict = false
+monitor-exact = false
 enable-ipc = true
 width = 100%
 height = 19
