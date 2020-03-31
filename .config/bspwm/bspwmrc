@@ -46,5 +46,6 @@ bspc config focus_follows_pointer true
 
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
+bspc rule -a zoom state=floating
 
 feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
