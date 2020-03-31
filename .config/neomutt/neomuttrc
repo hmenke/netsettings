@@ -72,6 +72,11 @@ hdr_order From: To: Cc: Bcc: Date: Subject:
 source colors.muttrc
 color index_author blue default '~f henri'
 
+# Mailcap
+set mailcap_path = "~/.config/neomutt/mailcap"
+alternative_order text/plain text/enriched text application_postscript image/*
+auto_view text/html
+
 # Index
 set date_format = "!%d/%m/%y, %H:%M"
 set index_format = '%4C [%Z] %D %-25.25F (%?l?%4l&%4c?) %s'
