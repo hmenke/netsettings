@@ -61,6 +61,7 @@ depends=(
     'pass'
     'pass-otp'
     'perl-image-exiftool'
+    'picom'
     'proxychains-ng'
     'python-matplotlib'
     'python-numpy'
