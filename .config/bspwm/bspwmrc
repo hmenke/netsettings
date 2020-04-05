@@ -14,7 +14,6 @@ bspc rule -r "*"
 run_once "sxhkd"
 run_once "dunst"
 run_once "redshift"
-run_once "mate-settings-daemon"
 run_once "xscreensaver -nosplash"
 if systemctl is-active --quiet NetworkManager.service 2> /dev/null; then
     run_once "nm-applet"
