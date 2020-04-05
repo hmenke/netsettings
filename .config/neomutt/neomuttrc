@@ -1,4 +1,3 @@
-## Colors for mutt by Luke Smith
 ####################
 # Send and receive #
 ####################
@@ -24,6 +23,7 @@ set fast_reply = yes
 set include = yes
 set forward_quote = yes
 set reverse_name = yes
+set reverse_realname = yes
 
 # Activate caching, as it can greatly improve speed
 set header_cache = "~/.cache/mutt/headers"
