@@ -40,7 +40,7 @@ export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 export NO_AT_BRIDGE=1
 
 # 256 colors
-export TERM=xterm-256color
+export TERM="${TERM:-xterm-256color}"
 
 # XDG base directory support
 export XDG_CONFIG_HOME="$HOME/.config"
