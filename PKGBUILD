@@ -115,7 +115,6 @@ depends=(
     'libu2f-host'
     'lightdm'
     'lightdm-gtk-greeter'
-    'mate-settings-daemon'
     'mate-terminal'
     'network-manager-applet'
     'noto-fonts'
