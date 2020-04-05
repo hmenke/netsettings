@@ -2,15 +2,17 @@
 __setup_prompt() {
     local b_yellow b_green b_red n_blue f_reset
     if [[ -n ${ZSH_VERSION-} ]]; then
-        b_yellow="%B%F{11}"
-        b_green="%B%F{10}"
         b_red="%B%F{9}"
+        b_green="%B%F{10}"
+        b_yellow="%B%F{11}"
+        b_blue="%B%F{12}"
         n_blue="%F{12}"
         f_reset="%f%b"
     else
-        b_yellow="\[\e[1;93m\]"
-        b_green="\[\e[1;92m\]"
         b_red="\[\e[1;91m\]"
+        b_green="\[\e[1;92m\]"
+        b_yellow="\[\e[1;93m\]"
+        b_blue="\[\e[1;94m\]"
         n_blue="\[\e[0;94m\]"
         f_reset="\[\e[0m\]"
     fi
@@ -19,6 +21,7 @@ __setup_prompt() {
     else
         __prompt_host="$b_green$1$f_reset"
     fi
+    __prompt_host="$__prompt_host${NIX_PATH:+ on ${b_blue}nix$f_reset}"
     __prompt_dir="$b_red$2$f_reset"
     __prompt_prompt="$n_blue$3$f_reset"
 }

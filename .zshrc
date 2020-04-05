@@ -1,5 +1,10 @@
-# Set the prompt
+# Source common configuration
+. ~/.config/shell/aliases.sh
+. ~/.config/shell/environment.sh
+. ~/.config/shell/functions.sh
 . ~/.config/shell/prompt.sh
+
+# Set the prompt
 __setup_prompt "%M" "%~" "\$"
 __timer_reset;
 autoload -U add-zsh-hook
@@ -53,11 +58,6 @@ compdef '_dispatch git git' netsettings
 
 # Disable the beep
 unsetopt beep
-
-# Source common configuration
-. ~/.config/shell/aliases.sh
-. ~/.config/shell/environment.sh
-. ~/.config/shell/functions.sh
 
 . ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 bindkey '^ ' autosuggest-accept

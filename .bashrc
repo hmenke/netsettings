@@ -1,5 +1,10 @@
-# Set the prompt
+# Source common configuration
+. ~/.config/shell/aliases.sh
+. ~/.config/shell/environment.sh
+. ~/.config/shell/functions.sh
 . ~/.config/shell/prompt.sh
+
+# Set the prompt
 __setup_prompt "\h" "\w" "\\$"
 __timer_reset;
 __prompt_posthook() { history -a; }
@@ -36,8 +41,3 @@ complete -o default -o nospace -F _git netsettings
 if [ -n "${DISPLAY}" ]; then
     xset -b;
 fi
-
-# Source common configuration
-. ~/.config/shell/aliases.sh
-. ~/.config/shell/environment.sh
-. ~/.config/shell/functions.sh

@@ -9,6 +9,12 @@ if ! echo "${PATH}" | grep -E -q "(^|:)/opt/texlive/2019/bin/x86_64-linux($|:)";
 fi
 export PDFVIEWER=xdg-open
 
+# Nix
+export NIX_INSTALLER_NO_MODIFY_PROFILE=1
+if [ -d "/nix" ] && [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
+    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+fi
+
 # Prefer nvim but fall back to vim
 if command -v nvim > /dev/null; then
     export EDITOR=nvim
