@@ -15,7 +15,7 @@ footer = "\n"
 localrepository = LocalGMail
 remoterepository = RemoteGMail
 synclabels = yes
-postsynchook = notmuch new
+postsynchook = notmuch --config ~/.config/notmuch/notmuchrc new
 
 [Repository LocalGMail]
 type = GmailMaildir

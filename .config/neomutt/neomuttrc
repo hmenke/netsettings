@@ -98,6 +98,7 @@ bind index K previous-thread
 bind index J next-thread
 macro index / "<vfolder-from-query>"
 macro index p "<delete-pattern> ~d>30d !~F" "prune messages old than 30 days"
+bind index,pager @ compose-to-sender
 
 #################
 # Mailing lists #

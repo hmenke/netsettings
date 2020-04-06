@@ -144,10 +144,8 @@
   (add-to-list 'display-buffer-alist
                (cons "\\*Async Shell Command\\*.*"
                      (cons #'display-buffer-no-window nil))))
-(use-package dashboard
-  :ensure t
-  :config
-  (dashboard-setup-startup-hook))
+(use-package notmuch
+  :commands notmuch)
 
 ; Theme
 (use-package gruvbox-theme
@@ -163,6 +161,9 @@
   (global-set-key [C-M-tab] 'clang-format-region))
 (add-hook 'c-mode-hook 'enable-clang-format)
 (add-hook 'c++-mode-hook 'enable-clang-format)
+
+; message-mode enhancements
+(setq message-kill-buffer-on-exit t)
 
 ; Dired enhancements
 (setq dired-listing-switches
