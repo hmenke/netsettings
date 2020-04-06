@@ -137,6 +137,8 @@
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
+(use-package rainbow-mode
+  :ensure t)
 (use-package dired-x
   :commands dired
   :init
@@ -148,9 +150,9 @@
   :commands notmuch)
 
 ; Theme
-(use-package gruvbox-theme
+(use-package base16-theme
   :ensure t
-  :config (load-theme 'gruvbox t))
+  :config (load-theme 'base16-gruvbox-dark-hard t))
 
 ; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)

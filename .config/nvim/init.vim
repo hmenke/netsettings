@@ -96,8 +96,9 @@ let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 " Plugins
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'morhetz/gruvbox'
+Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
@@ -120,7 +121,7 @@ call plug#end()
 " Airline settings
 let g:airline_highlighting_cache=1
 let g:airline_powerline_fonts=0
-let g:airline_theme='gruvbox'
+let g:airline_theme='base16_gruvbox_dark_hard'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_min_count=2
 let g:airline#extensions#tabline#left_sep=' '
@@ -145,4 +146,9 @@ if has('termguicolors')
     set termguicolors
 endif
 set background=dark
-colors gruvbox
+colorscheme base16-gruvbox-dark-hard
+if exists('g:base16_gui0D')
+    hi Statement gui=none cterm=none
+    exec "hi Identifier guifg=#" . g:base16_gui0D
+                 \ . " ctermfg=" . g:base16_cterm0D
+endif
