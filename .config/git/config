@@ -1,6 +1,6 @@
 [user]
 	name = Henri Menke
-	email = henri@icp.uni-stuttgart.de
+	email = henrimenke@gmail.com
 	signingkey = D65C9AFB4C224DA3
 [alias]
 	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
@@ -38,3 +38,5 @@
 [gui]
 	displayuntracked = false
 	spellingdictionary = none
+[sendemail]
+	smtpserver = /usr/bin/msmtp
