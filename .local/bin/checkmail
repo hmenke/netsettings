@@ -12,7 +12,7 @@ from os.path import expanduser, join, exists
 from subprocess import call
 from sys import argv
 
-netrc_path = expanduser("~/.config/offlineimap/netrc")
+netrc_path = expanduser("~/.netrc")
 offlineimap_path = expanduser("~/.config/offlineimap/config")
 imapcache_dir = expanduser("~/.cache/checkmail")
 

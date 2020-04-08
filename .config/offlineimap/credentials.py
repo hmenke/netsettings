@@ -8,7 +8,7 @@ from sys import argv
 
 
 credentials = netrc("/dev/null")
-file = expanduser("~/.config/offlineimap/netrc")
+file = expanduser("~/.netrc")
 if isfile(file):
     with open(file) as fp:
         credentials._parse(file, fp, True)
