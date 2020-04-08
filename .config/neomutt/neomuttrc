@@ -100,6 +100,16 @@ macro index / "<vfolder-from-query>"
 macro index p "<delete-pattern> ~d>30d !~F" "prune messages old than 30 days"
 bind index,pager @ compose-to-sender
 
+################
+# Address Book #
+################
+
+set query_command = "notmuch address from:'%s'"
+set query_format="%4c %t %-70.70a %-70.70n %?e?(%e)?"
+bind editor <Tab> complete-query
+bind editor ^T complete
+
+
 #################
 # Mailing lists #
 #################

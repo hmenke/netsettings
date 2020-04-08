@@ -11,6 +11,11 @@ color index brightyellow black "~N"
 color index_author brightred black "~N"
 color index_subject brightcyan black "~N"
 
+# For deleted mail:
+color index white black "~D"
+color index_author white black "~D"
+color index_subject white black "~D"
+
 # Header colors:
 color header blue default ".*"
 color header brightmagenta default "^(From)"
