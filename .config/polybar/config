@@ -161,6 +161,7 @@ label-focused-padding = 1
 label-occupied = %index%
 ;label-occupied = %{T4}%icon%
 label-occupied-padding = 1
+label-occupied-underline= ${colors.foreground-alt}
 
 label-urgent = %index%!
 ;label-urgent = %{T4}%icon%!
