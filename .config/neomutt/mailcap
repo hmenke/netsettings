@@ -1,1 +1,2 @@
+application/*; xdg-open '%s';
 text/html; pandoc -f html -t plain; copiousoutput;

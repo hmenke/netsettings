@@ -99,12 +99,16 @@ bind index J next-thread
 macro index / "<vfolder-from-query>"
 macro index p "<delete-pattern> ~d>30d !~F" "prune messages old than 30 days"
 bind index,pager @ compose-to-sender
+bind index,pager + entire-thread
+macro index A \
+    "<tag-pattern>~N | ~O<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>" \
+    "mark all messages as read"
 
 ################
 # Address Book #
 ################
 
-set query_command = "notmuch address from:'%s'"
+set query_command = "echo;notmuch address from:'%s'"
 set query_format="%4c %t %-70.70a %-70.70n %?e?(%e)?"
 bind editor <Tab> complete-query
 bind editor ^T complete
