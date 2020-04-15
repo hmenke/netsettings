@@ -25,16 +25,31 @@ run_once "setxkbmap us altgr-intl"
 run_once "xmodmap ${HOME}/.Xmodmap"
 run_once "xsetroot -cursor_name left_ptr"
 
-killall -q polybar
-for MONITOR in $(bspc query -M --names); do
-    export MONITOR
-    bspc monitor $MONITOR -d 1 2 3 4 5 6 7 8 9 0
-    polybar --reload default &
-done
-bspc desktop -f 1
+setup_monitors() {
+    killall -q polybar
+    for MONITOR in $(bspc query -M --names); do
+        export MONITOR
+        bspc monitor $MONITOR -d 1 2 3 4 5 6 7 8 9 0
+        polybar --reload default &
+    done
+}
+
+setup_monitors
+bspc subscribe monitor | while read -r line; do
+    case $line in
+        monitor_add*|monitor_geometry*)
+            setup_monitors
+        ;;
+    *)
+        ;;
+    esac
+done &
+
+bspc config remove_disabled_monitors true
+bspc config remove_unplugged_monitors true
 
 bspc config border_width 2
-bspc config window_gap 10
+bspc config window_gap 5
 bspc config top_padding 19
 
 bspc config split_ratio          0.52
@@ -42,6 +57,10 @@ bspc config borderless_monocle   true
 bspc config gapless_monocle      true
 
 bspc config focus_follows_pointer true
+
+bspc config normal_border_color "#1d2021"
+bspc config focused_border_color "#fabd2f"
+bspc config urgent_border_color "#fb4934"
 
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
