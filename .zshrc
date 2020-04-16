@@ -58,6 +58,9 @@ compdef '_dispatch git git' netsettings
 
 # Disable the beep
 unsetopt beep
+if [ -n "${DISPLAY}" ]; then
+    xset -b
+fi
 
 . ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 bindkey '^ ' autosuggest-accept
