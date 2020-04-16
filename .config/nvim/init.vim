@@ -55,8 +55,11 @@ endif
 
 if has('autocmd')
     " Open file with cursor at last position
-    au BufWinLeave *.tex,*.bib :mkview
-    au VimEnter *.tex,*.bib :silent! loadview
+    " au BufWinLeave *.tex,*.bib :mkview
+    " au VimEnter *.tex,*.bib :silent! loadview
+
+    " Use tabs in shell scripts
+    au FileType sh setlocal shiftwidth=8 softtabstop=8 noexpandtab
 
     " autoread files when buffer gains focus
     au FocusGained,BufEnter * :checktime

@@ -3,14 +3,14 @@
 # Google Chrome is installed under different names for different distributions.
 # Use the GOOGLE_CHROME environment variable to override.
 if [ -z "${GOOGLE_CHROME}" ]; then
-    if command -v google-chrome > /dev/null; then
-        GOOGLE_CHROME=google-chrome
-    elif command -v google-chrome-stable > /dev/null; then
-        GOOGLE_CHROME=google-chrome-stable
-    else
-        echo "Google Chrome does not seem to be installed"
-        exit 1
-    fi
+	if command -v google-chrome > /dev/null; then
+		GOOGLE_CHROME=google-chrome
+	elif command -v google-chrome-stable > /dev/null; then
+		GOOGLE_CHROME=google-chrome-stable
+	else
+		echo "Google Chrome does not seem to be installed"
+		exit 1
+	fi
 fi
 
 # Extract the major version to download the correct extension version.
@@ -24,17 +24,17 @@ mkdir -p "${EXTDIR}"
 # If it doesn't exist, download and unzip uBlock origin to /tmp/ublock
 # Requires curl and unzip
 download_extension() {
-    local EXTID EXTNAME EXTNAMEPRETTY
-    EXTID="$1"
-    EXTNAME="$2"
-    EXTNAMEPRETTY="${3:-$2}"
-    if ! [ -d "${EXTDIR}/${EXTNAME}" ]; then
-        echo "Fetching ${EXTNAMEPRETTY}..."
-        curl --silent --location --output "${EXTDIR}/${EXTNAME}.crx" \
-            "https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${EXTID}%26uc&prodversion=${GOOGLE_CHROME_VERSION:-80}"
-        unzip -q "${EXTDIR}/${EXTNAME}.crx" -d "${EXTDIR}/${EXTNAME}"
-        rm "${EXTDIR}/${EXTNAME}.crx"
-    fi
+	local EXTID EXTNAME EXTNAMEPRETTY
+	EXTID="$1"
+	EXTNAME="$2"
+	EXTNAMEPRETTY="${3:-$2}"
+	if ! [ -d "${EXTDIR}/${EXTNAME}" ]; then
+		echo "Fetching ${EXTNAMEPRETTY}..."
+		curl --silent --location --output "${EXTDIR}/${EXTNAME}.crx" \
+			"https://clients2.google.com/service/update2/crx?response=redirect&x=id%3D${EXTID}%26uc&prodversion=${GOOGLE_CHROME_VERSION:-80}"
+		unzip -q "${EXTDIR}/${EXTNAME}.crx" -d "${EXTDIR}/${EXTNAME}"
+		rm "${EXTDIR}/${EXTNAME}.crx"
+	fi
 }
 
 download_extension "cjpalhdlnbpafiamejdnhcphjbkeiagm" "ublock" "uBlock origin"
@@ -44,8 +44,8 @@ download_extension "cjpalhdlnbpafiamejdnhcphjbkeiagm" "ublock" "uBlock origin"
 # don't persist across sessions, so starting goolag will wipe the previous one
 export HOME="${EXTDIR}/home"
 if [ -e "${HOME}" ]; then
-    echo "Wiping old temporary home..."
-    rm -rf "${HOME}"
+	echo "Wiping old temporary home..."
+	rm -rf "${HOME}"
 fi
 mkdir -p "${HOME}"
 
@@ -59,8 +59,8 @@ mkdir -p "${HOME}"
 # --incognito: Start in incognito mode
 # --disable-translate: Disable automatic Google Translate
 exec firejail --private="${HOME}" "${GOOGLE_CHROME}" \
-    --no-first-run \
-    --no-default-browser-check \
-    --no-pings \
-    --no-referrers \
-    --load-extension="${EXTDIR}/ublock"
+	--no-first-run \
+	--no-default-browser-check \
+	--no-pings \
+	--no-referrers \
+	--load-extension="${EXTDIR}/ublock"

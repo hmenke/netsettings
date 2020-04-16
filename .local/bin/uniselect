@@ -4,18 +4,18 @@ set -eo pipefail
 
 # Download latest Unicode data
 if [ ! -f "${HOME}/.cache/UnicodeData.txt" ]; then
-    echo "Downloading Unicode data..."
-    curl --silent --location --output "${HOME}/.cache/UnicodeData.txt" \
-        'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
+	echo "Downloading Unicode data..."
+	curl --silent --location --output "${HOME}/.cache/UnicodeData.txt" \
+		'https://www.unicode.org/Public/UCD/latest/ucd/UnicodeData.txt'
 fi
 
 # http://www.unicode.org/L2/L1999/UnicodeData.html
 awk -F ';' '{
-    # omit control characters
-    if (substr($3,0,1)!="C") {
-        # Format as \U1234 but escape double for the shell
-        print "\\\\U" $1 " " $2 "   U+" $1
-    }
+	# omit control characters
+	if (substr($3,0,1)!="C") {
+		# Format as \U1234 but escape double for the shell
+		print "\\\\U" $1 " " $2 "   U+" $1
+	}
 }' "${HOME}/.cache/UnicodeData.txt" | while read line; do
-    printf "%b\n" "$line";
+	printf "%b\n" "$line";
 done | fzf -m --tiebreak=index | cut -d ' ' -f 1 | tr -d '[:space:]' | xsel -i -b

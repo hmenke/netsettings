@@ -19,37 +19,37 @@
 doi_regex='10\.[0-9]{4}[0-9.]*/[^[:space:]]*'
 
 if [ -r "$1" ]; then
-    doi="$(pdfinfo "$1" | grep -i doi: | grep -E -m 1 -o "${doi_regex}")" ||
-        doi="$(pdftotext "$1" - | grep -i doi | grep -E -m 1 -o "${doi_regex}")" ||
-        exit 1
+	doi="$(pdfinfo "$1" | grep -i doi: | grep -E -m 1 -o "${doi_regex}")" ||
+		doi="$(pdftotext "$1" - | grep -i doi | grep -E -m 1 -o "${doi_regex}")" ||
+		exit 1
 elif [ -n "$1" ]; then
-    doi="$1"
+	doi="$1"
 else
-    echo "Usage: getbib <file|doi>"
-    exit 1
+	echo "Usage: getbib <file|doi>"
+	exit 1
 fi
 
 curl -sLH "Accept: application/x-bibtex" "https://doi.org/${doi}" |
-    sed '
-    s/%21/!/g
-    s/%23/#/g
-    s/%24/$/g
-    s/%25/%/g
-    s/%26/\&/g
-    s/%27/'\''/g
-    s/%28/(/g
-    s/%29/)/g
-    s/%2A/*/g
-    s/%2B/+/g
-    s/%2C/,/g
-    s/%2F/\//g
-    s/%3A/:/g
-    s/%3B/;/g
-    s/%3D/=/g
-    s/%3F/?/g
-    s/%40/@/g
-    s/%5B/[/g
-    s/%5D/]/g
-    s/\t/  /g
-    '
+	sed '
+	s/%21/!/g
+	s/%23/#/g
+	s/%24/$/g
+	s/%25/%/g
+	s/%26/\&/g
+	s/%27/'\''/g
+	s/%28/(/g
+	s/%29/)/g
+	s/%2A/*/g
+	s/%2B/+/g
+	s/%2C/,/g
+	s/%2F/\//g
+	s/%3A/:/g
+	s/%3B/;/g
+	s/%3D/=/g
+	s/%3F/?/g
+	s/%40/@/g
+	s/%5B/[/g
+	s/%5D/]/g
+	s/\t/  /g
+	'
 echo # newline seems to be missing from response

@@ -3,58 +3,58 @@
 GS=/usr/bin/gs
 
 case $1 in
-  "rasterize")
-    $GS -sDEVICE=pswrite\
-    -dNOCACHE \
-    -sOutputFile=- \
-    -q -dBATCH -dNOPAUSE "$2" \
-    -c quit | ps2pdf - > "${2%%.*}-rst.pdf"
-    echo "Output written to ${2%%.*}-rst.pdf"
-    exit 0
-  ;;
-  "shrink")
-    $GS -q -dNOPAUSE -dBATCH -dSAFER \
-    -sDEVICE=pdfwrite \
-    -dColorConversionStrategy=/LeaveColorUnchanged \
-    -dColorImageDownsampleType=/Bicubic \
-    -dColorImageResolution=$3 \
-    -dGrayImageDownsampleType=/Bicubic \
-    -dGrayImageResolution=$3 \
-    -dMonoImageDownsampleType=/Bicubic \
-    -dMonoImageResolution=$3 \
-    -sOutputFile="${2%%.*}-opt.pdf" \
-    "$2"
-    echo "Output written to ${2%%.*}-opt.pdf"
-    exit 0
-  ;;
-  "monochrome")
-    $GS -q -dNOPAUSE -dBATCH \
-    -sDEVICE=pdfwrite \
-    -sColorConversionStrategy=Gray \
-    -dProcessColorModel=/DeviceGray \
-    -sOutputFile="${2%%.*}-grayscale.pdf" \
-    "$2"
-    echo "Output written to ${2%%.*}-grayscale.pdf"
-    exit 0
-  ;;
-  "rescale")
-    $GS -q -dNOPAUSE -dBATCH \
-    -sDEVICE=pdfwrite \
-    -sPAPERSIZE=$3 \
-    -dFIXEDMEDIA \
-    -dPDFFitPage \
-    -sOutputFile="${2%%.*}-$3.pdf" \
-    "$2"
-    echo "Output written to ${2%%.*}-$3.pdf"
-    exit 0
-  ;;
-  *)
-    printf "Usage: $0 {action} {infile} [OPTIONALS]\n"
-    printf "{action}:\trasterize, shrink, monochrome, rescale\n"
-    printf "{infile}:\tAny PDF file\n"
-    printf "[OPTIONALS]:\tshrink  -> resolution in dpi\n"
-    printf "            \trescale -> paper format (e.g. a4)\n"
-    exit 1
-  ;;
+	"rasterize")
+		$GS -sDEVICE=pswrite\
+			-dNOCACHE \
+			-sOutputFile=- \
+			-q -dBATCH -dNOPAUSE "$2" \
+			-c quit | ps2pdf - > "${2%%.*}-rst.pdf"
+		echo "Output written to ${2%%.*}-rst.pdf"
+		exit 0
+		;;
+	"shrink")
+		$GS -q -dNOPAUSE -dBATCH -dSAFER \
+			-sDEVICE=pdfwrite \
+			-dColorConversionStrategy=/LeaveColorUnchanged \
+			-dColorImageDownsampleType=/Bicubic \
+			-dColorImageResolution=$3 \
+			-dGrayImageDownsampleType=/Bicubic \
+			-dGrayImageResolution=$3 \
+			-dMonoImageDownsampleType=/Bicubic \
+			-dMonoImageResolution=$3 \
+			-sOutputFile="${2%%.*}-opt.pdf" \
+			"$2"
+		echo "Output written to ${2%%.*}-opt.pdf"
+		exit 0
+		;;
+	"monochrome")
+		$GS -q -dNOPAUSE -dBATCH \
+			-sDEVICE=pdfwrite \
+			-sColorConversionStrategy=Gray \
+			-dProcessColorModel=/DeviceGray \
+			-sOutputFile="${2%%.*}-grayscale.pdf" \
+			"$2"
+		echo "Output written to ${2%%.*}-grayscale.pdf"
+		exit 0
+		;;
+	"rescale")
+		$GS -q -dNOPAUSE -dBATCH \
+			-sDEVICE=pdfwrite \
+			-sPAPERSIZE=$3 \
+			-dFIXEDMEDIA \
+			-dPDFFitPage \
+			-sOutputFile="${2%%.*}-$3.pdf" \
+			"$2"
+		echo "Output written to ${2%%.*}-$3.pdf"
+		exit 0
+		;;
+	*)
+		printf "Usage: $0 {action} {infile} [OPTIONALS]\n"
+		printf "{action}:\trasterize, shrink, monochrome, rescale\n"
+		printf "{infile}:\tAny PDF file\n"
+		printf "[OPTIONALS]:\tshrink  -> resolution in dpi\n"
+		printf "            \trescale -> paper format (e.g. a4)\n"
+		exit 1
+		;;
 esac
 

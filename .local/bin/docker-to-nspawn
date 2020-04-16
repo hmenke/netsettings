@@ -6,25 +6,25 @@ dir="$1"
 image="$2"
 
 if ! shift; then
-    echo "usage: $0 dir image[:tag][@digest] ..."
-    echo "       $0 /tmp/old-hello-world hello-world:latest@sha256:8be990ef2aeb16dbcb9271ddfe2610fa6658d13f6dfb8bc72074cc1ca36966a7"
-    exit 1
+	echo "usage: $0 dir image[:tag][@digest] ..."
+	echo "       $0 /tmp/old-hello-world hello-world:latest@sha256:8be990ef2aeb16dbcb9271ddfe2610fa6658d13f6dfb8bc72074cc1ca36966a7"
+	exit 1
 fi
 
 if [ -d "${dir}" ]; then
-    echo "The directory '$dir' already exists."
-    echo "Aborting..."
-    exit 1
+	echo "The directory '$dir' already exists."
+	echo "Aborting..."
+	exit 1
 fi
 
 # Download the image download script from Moby if it is not there, verify and
 # patch out the unnecessary go dependence
 if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
-    echo "Fetching download-frozen-image-v2.sh..."
-    curl --silent --output "${HOME}/.cache/download-frozen-image-v2.sh" \
-        https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
-    echo "1161e28cf886211f7f442bf2628fd053a21e6c0fa234532466ba55de41b5703b  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
-    cat > "${HOME}/.cache/download-frozen-image-v2.sh.patch" << 'EOF'
+	echo "Fetching download-frozen-image-v2.sh..."
+	curl --silent --output "${HOME}/.cache/download-frozen-image-v2.sh" \
+		https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
+	echo "1161e28cf886211f7f442bf2628fd053a21e6c0fa234532466ba55de41b5703b  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
+	cat > "${HOME}/.cache/download-frozen-image-v2.sh.patch" << 'EOF'
 --- download-frozen-image-v2.sh	2019-10-30 13:55:36.956848312 +1300
 +++ download-frozen-image-v2.sh	2020-01-28 14:01:36.548303270 +1300
 @@ -8,7 +8,7 @@
@@ -73,8 +73,8 @@ if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
  			;;
  
 EOF
-    patch --silent --directory="${HOME}/.cache" < "${HOME}/.cache/download-frozen-image-v2.sh.patch"
-    rm "${HOME}/.cache/download-frozen-image-v2.sh.patch"
+	patch --silent --directory="${HOME}/.cache" < "${HOME}/.cache/download-frozen-image-v2.sh.patch"
+	rm "${HOME}/.cache/download-frozen-image-v2.sh.patch"
 fi
 
 trap "echo \"Removing '${dir}'\"; rm -rf \"${dir}\"" err
@@ -86,9 +86,9 @@ bash "${HOME}/.cache/download-frozen-image-v2.sh" "${dir}" "${image}"
 cd "$dir"
 
 for layer in $(jq --raw-output '.[0].Layers[]' manifest.json); do
-    echo "Extracting layer ${layer}"
-    tar -x -f "${layer}"
-    rm -r "$(dirname "${layer}")"
+	echo "Extracting layer ${layer}"
+	tar -x -f "${layer}"
+	rm -r "$(dirname "${layer}")"
 done
 config="$(jq --raw-output '.[0].Config' manifest.json)"
 rm "${config}"

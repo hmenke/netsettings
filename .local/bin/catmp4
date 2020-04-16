@@ -4,8 +4,8 @@ OUTFILE=$1
 shift
 echo > /tmp/catmp4
 for i in "$@"; do
-     echo "$i"
-     echo "file '`realpath "$i"`'" >> /tmp/catmp4
+	echo "$i"
+	echo "file '`realpath "$i"`'" >> /tmp/catmp4
 done
 ffmpeg -f concat -safe 0 -i /tmp/catmp4 -c copy "$OUTFILE"
 
