@@ -16,6 +16,7 @@
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
 (menu-bar-mode -1)
+(blink-cursor-mode 0)
 (setq frame-title-format
       '("%b" (buffer-file-name " (%f)"
               (dired-directory (" ("
@@ -33,6 +34,7 @@
       '(left-curly-arrow right-curly-arrow))
 (defalias 'yes-or-no-p 'y-or-n-p)
 (setq initial-scratch-message "")
+(setq-default fill-column 80)
 
 ; Show matching parentheses
 (show-paren-mode 1)
@@ -163,6 +165,12 @@
   (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
 
 ; Theme
+(defvar after-load-theme-hook nil)
+(defun after-load-theme-run-hook(&rest r) (run-hooks 'after-load-theme-hook))
+(advice-add 'load-theme :after #'after-load-theme-run-hook)
+(add-hook 'after-load-theme-hook
+          (lambda()
+            (set-cursor-color (face-attribute 'default :foreground))))
 (use-package base16-theme
   :ensure t
   :config (load-theme 'base16-gruvbox-dark-hard t))
