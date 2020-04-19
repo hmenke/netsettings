@@ -89,11 +89,13 @@ Install packages
 
     $ yay -S \
         dropbox \
+	freeoffice \
         gnuplot-git \
         google-chrome \
         pandoc-bin \
         polybar \
         scrcpy \
+	shellcheck-static \
         skypeforlinux-stable-bin \
         task-spooler \
         zoom
