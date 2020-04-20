@@ -95,6 +95,12 @@
   (eval-after-load "font-latex"
     '(set-face-foreground 'font-latex-math-face nil))
   (setq font-latex-fontify-script nil)
+  (setq LaTeX-indent-environment-list
+   (quote
+    (("verbatim" current-indentation)
+     ("verbatim*" current-indentation)
+     ("filecontents" current-indentation)
+     ("filecontents*" current-indentation))))
 
   ; ConTeXt mode
   (setq ConTeXt-Mark-version "IV")
