@@ -38,6 +38,7 @@
 
 ; Show matching parentheses
 (show-paren-mode 1)
+(setq show-paren-delay 0)
 
 ; mouse integration
 (unless window-system
@@ -85,16 +86,26 @@
   ; TeX mode enhancements
   (setq TeX-PDF-mode t)
   (setq TeX-quote-after-quote t)
+  ;(setq TeX-auto-local nil)
+  ;(setq TeX-auto-save t)
+  (setq TeX-parse-self t)
   (setq-default TeX-engine 'luatex)
   (setq TeX-command-Show "LaTeX")
   (setq TeX-view-program-selection '((output-pdf "XDG")))
   (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
-  ; (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+
+  ; RefTeX
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-label-alist '(AMSTeX))
+  (setq reftex-insert-label-flags '("s" t))
+
+  ; Don't fontify
   (eval-after-load "font-latex"
     '(set-face-foreground 'font-latex-math-face nil))
   (setq font-latex-fontify-script nil)
+
+  ; Override default indentation
   (setq LaTeX-indent-environment-list
    (quote
     (("verbatim" current-indentation)
@@ -142,6 +153,13 @@
   :ensure t
   :mode "\\.lua\\'"
   :config (setq lua-indent-level 4))
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
@@ -177,9 +195,15 @@
 (add-hook 'after-load-theme-hook
           (lambda()
             (set-cursor-color (face-attribute 'default :foreground))))
+
 (use-package base16-theme
   :ensure t
   :config (load-theme 'base16-gruvbox-dark-hard t))
+
+(use-package telephone-line
+  :ensure t
+  :if window-system
+  :config (telephone-line-mode 1))
 
 ; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
