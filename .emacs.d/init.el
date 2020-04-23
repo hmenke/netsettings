@@ -1,4 +1,4 @@
-; Speed up the startup
+;; Speed up the startup
 (setq gc-cons-threshold-old gc-cons-threshold
       gc-cons-percentage-old gc-cons-percentage
       file-name-handler-alist-old file-name-handler-alist)
@@ -11,8 +11,8 @@
         file-name-handler-alist file-name-handler-alist-old))
 (add-hook 'emacs-startup-hook 'reset-startup-values)
 
-; Actual configuration
-(custom-set-variables '(inhibit-startup-screen t))
+;; Actual configuration
+(setq inhibit-startup-screen t)
 (if (functionp 'tool-bar-mode) (tool-bar-mode -1))
 (if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
 (menu-bar-mode -1)
@@ -36,19 +36,36 @@
 (setq initial-scratch-message "")
 (setq-default fill-column 80)
 
-; Show matching parentheses
+;; Auto save to emacs state dir
+(setq auto-save-directory
+      (file-name-as-directory
+       (concat user-emacs-directory "auto-save-files")))
+(unless (file-directory-p auto-save-directory)
+  (make-directory auto-save-directory t))
+(setq auto-save-file-name-transforms `((".*" ,auto-save-directory t))
+      auto-save-list-file-prefix auto-save-directory)
+
+;; Show matching parentheses
 (show-paren-mode 1)
 (setq show-paren-delay 0)
 
-; mouse integration
+;; ido mode
+(setq ido-enable-flex-matching t)
+(setq ido-everywhere t)
+(defalias 'list-buffers 'ibuffer)
+(ido-mode 1)
+
+;; mouse integration
 (unless window-system
   (require 'mouse)
   (xterm-mouse-mode t)
   (defun track-mouse (e))
   (setq mouse-sel-mode t))
 
-; package archives
+;; package archives
+(require 'package)
 (package-initialize)
+(setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 
 (unless (package-installed-p 'use-package)
@@ -56,12 +73,12 @@
     (package-refresh-contents)
     (package-install 'use-package)))
 
-; Vim bindings
+;; Vim bindings
 (use-package evil
   :ensure t
   :commands evil-mode)
 
-; magit
+;; magit
 (use-package magit
   :defer 2
   :ensure t
@@ -69,7 +86,7 @@
   (("C-x g" . magit-status)
    ("C-x M-d" . magit-dispatch-popup)))
 
-; Language modes
+;; Language modes
 (use-package auctex
   :ensure t
   :mode (("\\.cls\\'" . LaTeX-mode)
@@ -83,7 +100,7 @@
          ("\\.mpiv\\'" . metapost-mode)
          ("\\.mpvi\\'" . metapost-mode))
   :init
-  ; TeX mode enhancements
+  ;; TeX mode enhancements
   (setq TeX-PDF-mode t)
   (setq TeX-quote-after-quote t)
   ;(setq TeX-auto-local nil)
@@ -94,18 +111,18 @@
   (setq TeX-view-program-selection '((output-pdf "XDG")))
   (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
 
-  ; RefTeX
+  ;; RefTeX
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
   (setq reftex-plug-into-AUCTeX t)
   (setq reftex-label-alist '(AMSTeX))
   (setq reftex-insert-label-flags '("s" t))
 
-  ; Don't fontify
+  ;; Don't fontify
   (eval-after-load "font-latex"
     '(set-face-foreground 'font-latex-math-face nil))
   (setq font-latex-fontify-script nil)
 
-  ; Override default indentation
+  ;; Override default indentation
   (setq LaTeX-indent-environment-list
    (quote
     (("verbatim" current-indentation)
@@ -113,7 +130,7 @@
      ("filecontents" current-indentation)
      ("filecontents*" current-indentation))))
 
-  ; ConTeXt mode
+  ;; ConTeXt mode
   (setq ConTeXt-Mark-version "IV")
   (with-eval-after-load "context"
     (add-to-list 'TeX-file-extensions "mkiv" t)
@@ -146,6 +163,9 @@
 (use-package haskell-mode
   :ensure t
   :mode "\\.hs\\'")
+(use-package json-mode
+  :ensure t
+  :mode "\\.json\\'")
 (use-package julia-mode
   :ensure t
   :mode "\\.jl\\'")
@@ -160,6 +180,9 @@
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'")
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
@@ -168,6 +191,7 @@
 (use-package dired-x
   :commands dired
   :init
+  (tooltip-mode 0)
   (setq dired-guess-shell-alist-user (list (list "\\.pdf$" "xdg-open")))
   (add-to-list 'display-buffer-alist
                (cons "\\*Async Shell Command\\*.*"
@@ -188,11 +212,11 @@
         smtpmail-smtp-service 587)
   (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
 
-; Theme
-(defvar after-load-theme-hook nil)
-(defun after-load-theme-run-hook(&rest r) (run-hooks 'after-load-theme-hook))
-(advice-add 'load-theme :after #'after-load-theme-run-hook)
-(add-hook 'after-load-theme-hook
+;; Theme
+(defvar after-enable-theme-hook nil)
+(defun after-enable-theme-run-hook(&rest r) (run-hooks 'after-enable-theme-hook))
+(advice-add 'enable-theme :after #'after-enable-theme-run-hook)
+(add-hook 'after-enable-theme-hook
           (lambda()
             (set-cursor-color (face-attribute 'default :foreground))))
 
@@ -205,7 +229,7 @@
   :if window-system
   :config (telephone-line-mode 1))
 
-; c++ mode enhancements
+;; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
 (c-set-offset 'innamespace 0)
 (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
@@ -215,10 +239,10 @@
 (add-hook 'c-mode-hook 'enable-clang-format)
 (add-hook 'c++-mode-hook 'enable-clang-format)
 
-; message-mode enhancements
+;; message-mode enhancements
 (setq message-kill-buffer-on-exit t)
 
-; Dired enhancements
+;; Dired enhancements
 (setq dired-listing-switches
       "--group-directories-first -lh --hide=*~")
 (with-eval-after-load 'dired

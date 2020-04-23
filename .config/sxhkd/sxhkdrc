@@ -25,7 +25,7 @@ super + shift + b
 
 # file manager
 super + e
-	caja --no-desktop
+	emacsclient -c -a emacs ~/
 
 # make sxhkd reload its configuration files:
 super + Escape
