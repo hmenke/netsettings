@@ -47,7 +47,6 @@
 
 ;; Show matching parentheses
 (show-paren-mode 1)
-(setq show-paren-delay 0)
 
 ;; ido mode
 (setq ido-enable-flex-matching t)
@@ -189,10 +188,9 @@
 (use-package rainbow-mode
   :ensure t)
 (use-package dired-x
-  :commands dired
-  :init
+  :config
   (tooltip-mode 0)
-  (setq dired-guess-shell-alist-user (list (list "\\.pdf$" "xdg-open")))
+  (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open")))
   (add-to-list 'display-buffer-alist
                (cons "\\*Async Shell Command\\*.*"
                      (cons #'display-buffer-no-window nil))))
@@ -211,6 +209,10 @@
   (setq smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587)
   (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
+(use-package which-key
+  :ensure t
+  :defer 2
+  :config (which-key-mode))
 
 ;; Theme
 (defvar after-enable-theme-hook nil)
