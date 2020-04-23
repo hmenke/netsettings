@@ -65,12 +65,11 @@
 (require 'package)
 (package-initialize)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (unless (package-installed-p 'use-package)
-  (progn
-    (package-refresh-contents)
-    (package-install 'use-package)))
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 ;; Vim bindings
 (use-package evil
@@ -209,6 +208,18 @@
   (setq smtpmail-smtp-server "smtp.gmail.com"
         smtpmail-smtp-service 587)
   (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
+
+; Editing plugins
+(use-package expand-region
+  :ensure t
+  :bind
+  (("C-=" . er/expand-region)))
+(use-package iedit
+  :ensure t
+  :bind
+  (("C-;" . iedit-mode)))
+
+; Show suggestions for incomplete key chords
 (use-package which-key
   :ensure t
   :defer 2
