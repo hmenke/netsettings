@@ -40,3 +40,5 @@
 	spellingdictionary = none
 [sendemail]
 	smtpserver = /usr/bin/msmtp
+[push]
+	gpgSign = if-asked

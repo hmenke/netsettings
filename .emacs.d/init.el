@@ -240,26 +240,10 @@
   :defer 2
   :config (which-key-mode))
 
-;; Theme hooks
-;; The default cursor theme of these base16 color schemes is just horrible, so I
-;; needed a hook to adjust the after loading the theme.  This hook has to
-;; iteratore over all frames and whenever a new frame is created.
-(defvar after-enable-theme-hook nil)
-(defun after-enable-theme-run-hook(&rest r) (run-hooks 'after-enable-theme-hook))
-(advice-add 'enable-theme :after #'after-enable-theme-run-hook)
-(defun set-cursor-color-to-foreground (&optional frame)
-  (set-face-background 'cursor (face-attribute 'default :foreground) frame))
-(add-hook 'after-make-frame-functions
-          (lambda(frame)
-            (with-selected-frame frame (set-cursor-color-to-foreground frame))))
-(add-hook 'after-enable-theme-hook
-          (lambda()
-            (mapcar #'set-cursor-color-to-foreground (frame-list))))
-
 ;; Theme
-(use-package base16-theme
+(use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'base16-gruvbox-dark-hard t))
+  :config (load-theme 'gruvbox-dark-hard t))
 
 (use-package telephone-line
   :ensure t
