@@ -90,7 +90,7 @@ user_pref("extensions.webextensions.restrictedDomains", "");
 user_pref("network.allow-experiments", false);
 user_pref("network.captive-portal-service.enabled", false);
 user_pref("network.cookie.cookieBehavior", 1);
-user_pref("network.cookie.lifetimePolicy", 2);
+//user_pref("network.cookie.lifetimePolicy", 2);
 user_pref("network.http.referer.XOriginPolicy", 2);
 user_pref("network.IDN_show_punycode", true);
 // user_pref("places.history.enabled", false);
