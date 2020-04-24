@@ -12,29 +12,40 @@
 (add-hook 'emacs-startup-hook 'reset-startup-values)
 
 ;; Actual configuration
-(setq inhibit-startup-screen t)
-(if (functionp 'tool-bar-mode) (tool-bar-mode -1))
-(if (functionp 'scroll-bar-mode) (scroll-bar-mode -1))
-(menu-bar-mode -1)
+(when tool-bar-mode (tool-bar-mode -1))
+(when menu-bar-mode (menu-bar-mode -1))
+(when scroll-bar-mode (scroll-bar-mode -1))
+(tooltip-mode 0)
 (blink-cursor-mode 0)
-(setq frame-title-format
+
+;; Enable some disabled commands
+(put 'upcase-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'dired-find-alternate-file 'disabled nil)
+
+;; Set defaults
+(setq-default
+ inhibit-startup-screen t
+ line-number-mode t
+ column-number-mode t
+ x-select-enable-clipboard t
+ backup-by-copying t
+ indent-tabs-mode nil
+ visual-line-fringe-indicators
+   '(left-curly-arrow right-curly-arrow)
+ initial-scratch-message ""
+ fill-column 80)
+
+(setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
               (dired-directory (" ("
                (dired-directory dired-directory
                 "") ")") "")) " - Emacs"))
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(global-auto-revert-mode t)
-(setq line-number-mode t)
-(setq column-number-mode t)
-(setq x-select-enable-clipboard t)
-(setq backup-by-copying t)
-(setq-default indent-tabs-mode nil)
-(setq visual-line-fringe-indicators
-      '(left-curly-arrow right-curly-arrow))
+
 (defalias 'yes-or-no-p 'y-or-n-p)
-(setq initial-scratch-message "")
-(setq-default fill-column 80)
+(global-auto-revert-mode t)
+
 
 ;; Auto save to emacs state dir
 (setq auto-save-directory
@@ -62,8 +73,9 @@
   (setq mouse-sel-mode t))
 
 ;; package archives
+(when (< emacs-major-version 27)
+  (package-initialize))
 (require 'package)
-(package-initialize)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
@@ -99,21 +111,24 @@
          ("\\.mpvi\\'" . metapost-mode))
   :init
   ;; TeX mode enhancements
-  (setq TeX-PDF-mode t)
-  (setq TeX-quote-after-quote t)
-  ;(setq TeX-auto-local nil)
-  ;(setq TeX-auto-save t)
-  (setq TeX-parse-self t)
-  (setq-default TeX-engine 'luatex)
-  (setq TeX-command-Show "LaTeX")
-  (setq TeX-view-program-selection '((output-pdf "XDG")))
-  (setq TeX-view-program-list '(("XDG" "xdg-open %o")))
+  (setq
+   TeX-PDF-mode t
+   TeX-quote-after-quote t
+   TeX-parse-self t
+   TeX-engine 'luatex
+   TeX-command-Show "LaTeX"
+   TeX-view-program-selection '((output-pdf "XDG"))
+   TeX-view-program-list '(("XDG" "xdg-open %o"))
+   ;; TeX-auto-local nil
+   ;; TeX-auto-save t
+  )
 
   ;; RefTeX
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (setq reftex-plug-into-AUCTeX t)
-  (setq reftex-label-alist '(AMSTeX))
-  (setq reftex-insert-label-flags '("s" t))
+  (setq
+   reftex-plug-into-AUCTeX t
+   reftex-label-alist '(AMSTeX)
+   reftex-insert-label-flags '("s" t))
 
   ;; Don't fontify
   (eval-after-load "font-latex"
@@ -135,14 +150,14 @@
     (add-to-list 'TeX-file-extensions "mkvi" t))
   (add-hook 'ConTeXt-mode-hook
             (lambda()
-              (setq TeX-command-default "ConTeXt Full")
-              (setq TeX-command-Show "ConTeXt Full"))))
+              (setq TeX-command-default "ConTeXt Full"
+                    TeX-command-Show "ConTeXt Full"))))
 (use-package modern-cpp-font-lock
   :ensure t
-  :hook cpp-mode)
+  :hook (c++-mode . modern-c++-font-lock-mode))
 (use-package clang-format
   :ensure t
-  :hook (c-mode cpp-mode))
+  :commands (clang-format clang-format-region clang-format-buffer))
 (use-package cmake-mode
   :ensure t
   :mode ("CMakeLists.txt" "\\.cmake\\'"))
@@ -185,10 +200,10 @@
   :ensure t
   :mode "\\.rs\\'")
 (use-package rainbow-mode
-  :ensure t)
+  :ensure t
+  :commands (rainbow-mode))
 (use-package dired-x
   :config
-  (tooltip-mode 0)
   (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open")))
   (add-to-list 'display-buffer-alist
                (cons "\\*Async Shell Command\\*.*"
@@ -254,15 +269,22 @@
 ;; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
 (c-set-offset 'innamespace 0)
-(add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
-(defun enable-clang-format ()
-  (require 'clang-format)
-  (global-set-key [C-M-tab] 'clang-format-region))
-(add-hook 'c-mode-hook 'enable-clang-format)
-(add-hook 'c++-mode-hook 'enable-clang-format)
+
+;; Use tabs for indentation in sh-mode
+;; That play better with heredocs
+(add-hook 'sh-mode-hook
+          (lambda()
+            (setq indent-tabs-mode t
+                  tab-width 8
+                  sh-basic-offset 8
+                  backward-delete-char-untabify-method nil)))
+
 
 ;; message-mode enhancements
 (setq message-kill-buffer-on-exit t)
+
+;; DocView enhancements
+(setq doc-view-resolution 160)
 
 ;; Dired enhancements
 (setq dired-listing-switches

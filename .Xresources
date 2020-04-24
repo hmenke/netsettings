@@ -26,6 +26,12 @@ URxvt.scrollBar_floating: false
 URxvt.scrollstyle: rxvt
 URxvt.perl-ext-common: default,tabbed
 
+! Emacs settings
+Emacs*toolBar: off
+Emacs*menuBar: off
+Emacs*scrollBar: off
+Emacs*verticalScrollBars: off
+
 ! Base16 Gruvbox dark, hard
 ! Scheme: Dawid Kurek (dawikur@gmail.com), morhetz (https://github.com/morhetz/gruvbox)
 
