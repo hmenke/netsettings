@@ -45,7 +45,7 @@
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
-
+(delete-selection-mode 1)
 
 ;; Auto save to emacs state dir
 (setq auto-save-directory
@@ -203,12 +203,6 @@
 (use-package rainbow-mode
   :ensure t
   :commands (rainbow-mode))
-(use-package dired-x
-  :config
-  (setq dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open")))
-  (add-to-list 'display-buffer-alist
-               (cons "\\*Async Shell Command\\*.*"
-                     (cons #'display-buffer-no-window nil))))
 (use-package notmuch
   :commands notmuch)
 (use-package gnus
@@ -235,11 +229,19 @@
   :bind
   (("C-;" . iedit-mode)))
 
-; Show suggestions for incomplete key chords
+;; Show suggestions for incomplete key chords
 (use-package which-key
   :ensure t
   :defer 2
   :config (which-key-mode))
+
+;; Replacement for DocView
+(use-package pdf-tools
+  :ensure t
+  :mode ("\\.pdf\\'" . pdf-view-mode)
+  :magic ("%PDF" . pdf-view-mode)
+  :config
+  (pdf-tools-install :no-query :skip-dependencies))
 
 ;; Theme
 (use-package gruvbox-theme
@@ -253,7 +255,8 @@
 
 ;; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
-(c-set-offset 'innamespace 0)
+(add-hook 'c++-mode-hook
+          (lambda() (c-set-offset 'innamespace 0)))
 
 ;; Use tabs for indentation in sh-mode
 ;; That play better with heredocs
@@ -264,6 +267,10 @@
                   sh-basic-offset 8
                   backward-delete-char-untabify-method nil)))
 
+;; Do not display the buffer for async shell commands
+(add-to-list 'display-buffer-alist
+             '("\\*Async Shell Command\\*.*" display-buffer-no-window nil))
+
 
 ;; message-mode enhancements
 (setq message-kill-buffer-on-exit t)
@@ -272,40 +279,29 @@
 (setq doc-view-resolution 160)
 
 ;; Dired enhancements
-(setq dired-listing-switches
-      "--group-directories-first -lh --hide=*~")
+(setq
+ dired-listing-switches "--group-directories-first -lah"
+ dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open"))
+ dired-auto-revert-buffer t
+ dired-dwin-target t)
+
 (with-eval-after-load 'dired
-  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file-same-window)
   (define-key dired-mode-map [M-up] 'dired-up-directory)
   (define-key dired-mode-map [M-down] 'dired-find-file)
-  (define-key dired-mode-map (kbd "M-t") 'dired-open-in-terminal))
+  (define-key dired-mode-map (kbd "M-t") 'dired-open-in-terminal)
+  (require 'dired-x)
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
+  (setq dired-omit-verbose nil))
+
+(add-hook 'dired-mode-hook 'dired-omit-mode)
 
 (defun dired-open-in-terminal ()
   (interactive)
   (let ((process-connection-type nil))
-    (start-process "" nil "x-terminal-emulator")
-    ;(concat "--working-directory=" default-directory)
-  ))
+    (start-process "terminal" nil "x-terminal-emulator")))
 
-(defun dired-mouse-find-file (event)
-  "In Dired, visit the file or directory name you click on."
+(defun dired-mouse-find-file-same-window (event)
+  "In Dired, visit the file or directory name you click on the same window."
   (interactive "e")
-  (let (window pos file)
-    (save-excursion
-      (setq window (posn-window (event-end event))
-	    pos (posn-point (event-end event)))
-      (if (not (windowp window))
-	  (error "No file chosen"))
-      (set-buffer (window-buffer window))
-      (goto-char pos)
-      (setq file (dired-get-file-for-visit)))
-    (if (file-directory-p file)
-	(or (and (cdr dired-subdir-alist)
-		 (dired-goto-subdir file))
-	    (progn
-	      (select-window window)
-	    ; (dired-other-window file)))
-	      (dired file)))
-      (select-window window)
-    ; (find-file-other-window (file-name-sans-versions file t)))))
-      (find-file (file-name-sans-versions file t)))))
+  (dired-mouse-find-file event))
