@@ -94,7 +94,8 @@
   :ensure t
   :bind
   (("C-x g" . magit-status)
-   ("C-x M-d" . magit-dispatch-popup)))
+   ("C-x M-g" . magit-dispatch)
+   ("C-c g" . magit-file-dispatch)))
 
 ;; Language modes
 (use-package auctex
@@ -160,7 +161,7 @@
   :commands (clang-format clang-format-region clang-format-buffer))
 (use-package cmake-mode
   :ensure t
-  :mode ("CMakeLists.txt" "\\.cmake\\'"))
+  :mode ("\\`CMakeLists.txt\\'" "\\.cmake\\'"))
 (use-package cuda-mode
   :ensure t
   :mode "\\.cu\\'")
