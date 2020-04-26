@@ -5,11 +5,11 @@
 (setq gc-cons-threshold (* 100 1024 1024)
       gc-cons-percentage 0.6
       file-name-handler-alist nil)
-(defun reset-startup-values ()
+(defun user/reset-startup-values ()
   (setq gc-cons-threshold gc-cons-threshold-old
         gc-cons-percentage gc-cons-percentage-old
         file-name-handler-alist file-name-handler-alist-old))
-(add-hook 'emacs-startup-hook 'reset-startup-values)
+(add-hook 'emacs-startup-hook 'user/reset-startup-values)
 
 ;; Actual configuration
 (when tool-bar-mode (tool-bar-mode -1))
@@ -32,10 +32,13 @@
  x-select-enable-clipboard t
  backup-by-copying t
  indent-tabs-mode nil
- visual-line-fringe-indicators
-   '(left-curly-arrow right-curly-arrow)
+ visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
  initial-scratch-message ""
- fill-column 80)
+ fill-column 80
+ use-dialog-box nil
+ enable-local-eval 'maybe
+ enable-local-variables t
+ show-trailing-whitespace t)
 
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
@@ -83,6 +86,10 @@
   (package-refresh-contents)
   (package-install 'use-package))
 
+;; Clean up spaces
+;; https://pages.sachachua.com/.emacs.d/Sacha.html
+(bind-key "M-SPC" 'cycle-spacing)
+
 ;; Vim bindings
 (use-package evil
   :ensure t
@@ -118,11 +125,13 @@
    TeX-parse-self t
    TeX-engine 'luatex
    TeX-command-Show "LaTeX"
-   TeX-view-program-selection '((output-pdf "XDG"))
-   TeX-view-program-list '(("XDG" "xdg-open %o"))
+   TeX-source-correlate-start-server t
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
-  )
+   )
+
+  ;; SyncTeX
+  (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
 
   ;; RefTeX
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
@@ -219,7 +228,7 @@
         smtpmail-smtp-service 587)
   (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
 
-; Editing plugins
+;; Editing plugins
 (use-package expand-region
   :ensure t
   :bind
@@ -267,10 +276,16 @@
                   sh-basic-offset 8
                   backward-delete-char-untabify-method nil)))
 
+;; Spell checking
+;; https://emacs.stackexchange.com/questions/20206
+(add-hook 'text-mode-hook #'flyspell-mode)
+(add-hook 'flyspell-mode-hook #'user/flyspell-local-vars)
+(defun user/flyspell-local-vars ()
+  (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
+
 ;; Do not display the buffer for async shell commands
 (add-to-list 'display-buffer-alist
              '("\\*Async Shell Command\\*.*" display-buffer-no-window nil))
-
 
 ;; message-mode enhancements
 (setq message-kill-buffer-on-exit t)
@@ -286,22 +301,34 @@
  dired-dwin-target t)
 
 (with-eval-after-load 'dired
-  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file-same-window)
-  (define-key dired-mode-map [M-up] 'dired-up-directory)
-  (define-key dired-mode-map [M-down] 'dired-find-file)
-  (define-key dired-mode-map (kbd "M-t") 'dired-open-in-terminal)
+  (define-key dired-mode-map [mouse-2] 'user/dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "RET") 'user/dired-find-alternate-file)
+  (define-key dired-mode-map [M-up] 'user/dired-up-directory-alternate)
+  (define-key dired-mode-map [M-down] 'user/dired-find-alternate-file)
+  (define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
   (require 'dired-x)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
   (setq dired-omit-verbose nil))
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-(defun dired-open-in-terminal ()
+(defun user/dired-find-alternate-file ()
+  (interactive)
+  (set-buffer-modified-p nil)
+  (let ((raw (dired-get-filename nil t)) file-name)
+    (if (null raw) (error "No file on this line"))
+    (setq file-name (file-name-sans-versions raw t))
+    (cond
+     ((file-accessible-directory-p file-name) (find-alternate-file file-name))
+     ((file-exists-p file-name) (find-file file-name))
+     ((file-symlink-p file-name) (error "File is a symlink to a nonexistent target"))
+     (t (error "File no longer exists; type `g' to update Dired buffer")))))
+
+(defun user/dired-up-directory-alternate ()
+  (interactive)
+  (find-alternate-file ".."))
+
+(defun user/dired-open-in-terminal ()
   (interactive)
   (let ((process-connection-type nil))
     (start-process "terminal" nil "x-terminal-emulator")))
-
-(defun dired-mouse-find-file-same-window (event)
-  "In Dired, visit the file or directory name you click on the same window."
-  (interactive "e")
-  (dired-mouse-find-file event))
