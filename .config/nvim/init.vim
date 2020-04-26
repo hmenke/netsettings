@@ -97,6 +97,26 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Plugins
+let s:plug_path = expand('~/.config/nvim/autoload')
+if !filereadable(s:plug_path . '/plug.vim')
+    let s:src = 'https://github.com/junegunn/vim-plug.git'
+    let s:tmp = tempname()
+    try
+        echo "[vim-plug] Installing..."
+        let out = system('git clone --depth 1 ' . s:src . ' ' . s:tmp)
+        if v:shell_error
+            throw out
+        endif
+        call mkdir(expand(s:plug_path, "p"))
+        call rename(s:tmp . '/plug.vim', s:plug_path . '/plug.vim')
+        echo "[vim-plug] Installation successful"
+    catch
+        echo "[vim-plug] Errors during installation:\n" . v:exception
+    endtry
+    unlet s:src s:tmp
+endif
+unlet s:plug_path
+
 call plug#begin('~/.local/share/nvim/plugged')
 
 Plug 'morhetz/gruvbox'
