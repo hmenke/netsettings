@@ -37,8 +37,7 @@
  fill-column 80
  use-dialog-box nil
  enable-local-eval 'maybe
- enable-local-variables t
- show-trailing-whitespace t)
+ enable-local-variables t)
 
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
@@ -104,7 +103,15 @@
    ("C-x M-g" . magit-dispatch)
    ("C-c g" . magit-file-dispatch)))
 
-;; Language modes
+;; AUCTeX
+(defun user/align-environment ()
+  "Apply align to the current environment only."
+  (interactive)
+  (save-excursion
+    (LaTeX-mark-environment)
+    (align (point) (mark))
+    (pop-mark)))
+
 (use-package auctex
   :ensure t
   :mode (("\\.cls\\'" . LaTeX-mode)
@@ -130,11 +137,20 @@
    ;; TeX-auto-save t
    )
 
+  ;; Key bindings
+  (defun user/LaTeX-mode-hook ()
+    (defalias 'align-environment 'user/align-environment)
+    (define-key LaTeX-mode-map "\C-ca" 'align-environment)
+    (define-key LaTeX-mode-map [down-mouse-3] 'imenu))
+  (add-hook 'LaTeX-mode-hook 'user/LaTeX-mode-hook)
+
   ;; SyncTeX
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
 
   ;; RefTeX
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
   (setq
    reftex-plug-into-AUCTeX t
    reftex-label-alist '(AMSTeX)
@@ -162,6 +178,8 @@
             (lambda()
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
+
+;; Language modes
 (use-package modern-cpp-font-lock
   :ensure t
   :hook (c++-mode . modern-c++-font-lock-mode))
@@ -282,6 +300,7 @@
 (add-hook 'flyspell-mode-hook #'user/flyspell-local-vars)
 (defun user/flyspell-local-vars ()
   (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
+(setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
 
 ;; Do not display the buffer for async shell commands
 (add-to-list 'display-buffer-alist
@@ -301,32 +320,15 @@
  dired-dwin-target t)
 
 (with-eval-after-load 'dired
-  (define-key dired-mode-map [mouse-2] 'user/dired-find-alternate-file)
-  (define-key dired-mode-map (kbd "RET") 'user/dired-find-alternate-file)
-  (define-key dired-mode-map [M-up] 'user/dired-up-directory-alternate)
-  (define-key dired-mode-map [M-down] 'user/dired-find-alternate-file)
+  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+  (define-key dired-mode-map [M-up] 'dired-up-directory)
+  (define-key dired-mode-map [M-down] 'dired-find-file)
   (define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
   (require 'dired-x)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
   (setq dired-omit-verbose nil))
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
-
-(defun user/dired-find-alternate-file ()
-  (interactive)
-  (set-buffer-modified-p nil)
-  (let ((raw (dired-get-filename nil t)) file-name)
-    (if (null raw) (error "No file on this line"))
-    (setq file-name (file-name-sans-versions raw t))
-    (cond
-     ((file-accessible-directory-p file-name) (find-alternate-file file-name))
-     ((file-exists-p file-name) (find-file file-name))
-     ((file-symlink-p file-name) (error "File is a symlink to a nonexistent target"))
-     (t (error "File no longer exists; type `g' to update Dired buffer")))))
-
-(defun user/dired-up-directory-alternate ()
-  (interactive)
-  (find-alternate-file ".."))
 
 (defun user/dired-open-in-terminal ()
   (interactive)
