@@ -12,10 +12,15 @@ xterm*faceName: xft:mono:medium:size=10
 xterm*termName: xterm-256color
 xterm*utf8: 1
 xterm*metaSendsEscape: true
+xterm*printerCommand: xterm -T History -e sh -c 'less -r +G <&3' 3<&0
 xterm*VT100.Translations: #override \
       Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
-      Shift Ctrl<Key>C: copy-selection(CLIPBOARD)
+      Shift Ctrl<Key>C: copy-selection(CLIPBOARD) \n\
+      Shift Ctrl<Key>F: print-everything()
+xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
+xterm*SaveLines: 10000000
+xterm*fullscreen: never
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
