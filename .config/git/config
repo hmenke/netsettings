@@ -42,3 +42,5 @@
 	smtpserver = /usr/bin/msmtp
 [push]
 	gpgSign = if-asked
+[core]
+	pager = less -+X

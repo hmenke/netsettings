@@ -12,15 +12,25 @@ xterm*faceName: xft:mono:medium:size=10
 xterm*termName: xterm-256color
 xterm*utf8: 1
 xterm*metaSendsEscape: true
-xterm*printerCommand: xterm -T History -e sh -c 'less -r +G <&3' 3<&0
+xterm*printerCommand: xterm -T History -e sh -c 'less -r --mouse --wheel-lines=3 +G <&3' 3<&0
 xterm*VT100.Translations: #override \
       Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
       Shift Ctrl<Key>C: copy-selection(CLIPBOARD) \n\
-      Shift Ctrl<Key>F: print-everything()
+      Shift Ctrl<Key>F: print-everything() \n\
+      Shift Ctrl<Key>N: exec-formatted("xterm", SELECT) \n\
+      <Key>F1: popup-menu(mainMenu) \n\
+      <Key>F2: popup-menu(vtMenu) \n\
+      <Key>F3: popup-menu(fontMenu) \n\
+      <Key>F4: popup-menu(tekMenu)
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 xterm*SaveLines: 10000000
 xterm*fullscreen: never
+xterm*jumpScroll: true
+xterm*multiScroll: true
+xterm*scrollTtyOutput: false
+xterm*scrollKey: true
+xterm*alternateScroll: true
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
