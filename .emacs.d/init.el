@@ -64,8 +64,24 @@
 ;; ido mode
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
-(defalias 'list-buffers 'ibuffer)
 (ido-mode 1)
+
+;; ibuffer
+(defalias 'list-buffers 'ibuffer)
+(setq
+ ibuffer-expert t
+ ibuffer-show-empty-filter-groups nil
+ ibuffer-saved-filter-groups
+ (quote (("user"
+    ("Dired" (mode . dired-mode))
+    ("ERC" (mode . erc-mode))
+    ("Emacs" (or
+              (name . "^\\*scratch\\*$")
+              (name . "^\\*Messages\\*$")))))))
+(add-hook 'ibuffer-mode-hook
+          (lambda ()
+            (ibuffer-auto-mode 1)
+            (ibuffer-switch-to-saved-filter-groups "user")))
 
 ;; mouse integration
 (unless window-system
@@ -333,4 +349,4 @@
 (defun user/dired-open-in-terminal ()
   (interactive)
   (let ((process-connection-type nil))
-    (start-process "terminal" nil "x-terminal-emulator")))
+    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
