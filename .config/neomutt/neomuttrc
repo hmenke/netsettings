@@ -7,15 +7,16 @@ source "python ~/.config/offlineimap/credentials.py imap.gmail.com |"
 set spoolfile = +INBOX
 set imap_check_subscribed
 
-set smtp_url = "smtps://$imap_user@smtp.gmail.com"
-set smtp_pass = $imap_pass
-set smtp_authenticators = "plain"
+#set smtp_url = "smtps://$imap_user@smtp.gmail.com"
+#set smtp_pass = $imap_pass
+#set smtp_authenticators = "plain"
 set ssl_force_tls = yes
 
 # Composition settings
 set realname = 'Henri Menke'
 set from = $imap_user
 set use_from = yes
+set use_envelope_from = yes
 set send_charset="utf-8"
 set assumed_charset="iso-8859-1"
 set editor="nvim -c 'set syntax=mail ft=mail enc=utf-8 spell spelllang=de,en'"
@@ -24,6 +25,7 @@ set include = yes
 set forward_quote = yes
 set reverse_name = yes
 set reverse_realname = yes
+source "identities.muttrc"
 
 # Activate caching, as it can greatly improve speed
 set header_cache = "~/.cache/mutt/headers"
