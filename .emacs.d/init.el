@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;; Speed up the startup
 (setq gc-cons-threshold-old gc-cons-threshold
       gc-cons-percentage-old gc-cons-percentage
@@ -48,6 +50,7 @@
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 (delete-selection-mode 1)
+(transient-mark-mode 1)
 
 ;; Auto save to emacs state dir
 (setq auto-save-directory
@@ -94,7 +97,8 @@
 (when (< emacs-major-version 27)
   (package-initialize))
 (require 'package)
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil
+      package--init-file-ensured t)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 
 (unless (package-installed-p 'use-package)
@@ -157,6 +161,7 @@
   (defun user/LaTeX-mode-hook ()
     (defalias 'align-environment 'user/align-environment)
     (define-key LaTeX-mode-map "\C-ca" 'align-environment)
+    (define-key LaTeX-mode-map "\C-xn" nil) ;; narrow-or-widen-dwim
     (define-key LaTeX-mode-map [down-mouse-3] 'imenu))
   (add-hook 'LaTeX-mode-hook 'user/LaTeX-mode-hook)
 
@@ -272,6 +277,26 @@
   :bind
   (("C-;" . iedit-mode)))
 
+;; ivy, counsel, swiper
+;;(use-package ivy
+;;  :ensure t
+;;  :defer 0.1
+;;  :config
+;;  (ivy-mode 1)
+;;  (setq ivy-use-virtual-buffers t)
+;;  (setq enable-recursive-minibuffers t))
+;;
+;;(use-package counsel
+;;  :ensure t
+;;  :after ivy
+;;  :config
+;;  (counsel-mode 1))
+;;
+;;(use-package swiper
+;;  :ensure t
+;;  :after ivy
+;;  :bind (("C-s" . swiper)))
+
 ;; Show suggestions for incomplete key chords
 (use-package which-key
   :ensure t
@@ -335,6 +360,11 @@
  dired-auto-revert-buffer t
  dired-dwin-target t)
 
+(defun user/dired-open-in-terminal ()
+  (interactive)
+  (let ((process-connection-type nil))
+    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
+
 (with-eval-after-load 'dired
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key dired-mode-map [M-up] 'dired-up-directory)
@@ -345,11 +375,6 @@
   (setq dired-omit-verbose nil))
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
-
-(defun user/dired-open-in-terminal ()
-  (interactive)
-  (let ((process-connection-type nil))
-    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
 
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
@@ -379,4 +404,7 @@ is already narrowed."
          (LaTeX-narrow-to-environment))
         (t (narrow-to-defun))))
 
-(global-set-key "\C-cn" 'narrow-or-widen-dwim)
+;; This line actually replaces Emacs' entire narrowing
+;; keymap, that's how much I like this command. Only
+;; copy it if that's what you want.
+(define-key ctl-x-map "n" #'narrow-or-widen-dwim)
