@@ -13,12 +13,16 @@ xterm*termName: xterm-256color
 xterm*utf8: 1
 xterm*metaSendsEscape: true
 xterm*printerCommand: xterm -T History -e sh -c 'less -r --mouse --wheel-lines=3 +G <&3' 3<&0
-xterm*VT100.Translations: #override \
+xterm*vt100.alternateScroll: true
+xterm*vt100.jumpScroll: true
+xterm*vt100.fastScroll: true
+xterm*vt100.multiScroll: true
+xterm*vt100.Translations: #override \
       Shift Ctrl<Key>V: insert-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>V: insert-selection(PRIMARY) \n\
       Shift Ctrl<Key>C: copy-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>F: print-everything() \n\
-      Shift Ctrl<Key>N: exec-formatted("xterm", SELECT) \n\
+      Shift Ctrl<Key>N: exec-formatted("xterm", PRIMARY) \n\
       <Key>F1: popup-menu(mainMenu) \n\
       <Key>F2: popup-menu(vtMenu) \n\
       <Key>F3: popup-menu(fontMenu) \n\
@@ -26,11 +30,8 @@ xterm*VT100.Translations: #override \
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 xterm*SaveLines: 10000000
 xterm*fullscreen: never
-xterm*jumpScroll: true
-xterm*multiScroll: true
 xterm*scrollTtyOutput: false
 xterm*scrollKey: true
-xterm*alternateScroll: true
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
@@ -55,12 +56,12 @@ Emacs*verticalScrollBars: off
 ! Last Modified: 6 Sep 2014
 ! -----------------------------------------------------------------------------
 
-*background: #1d2021
-! medium contrast: *background: #282828
+! hard contrast: *background: #1d2021
+*background: #282828
 ! soft contrast: *background: #32302f
 *foreground: #ebdbb2
 ! Black + DarkGrey
-*color0:  #1d2021
+*color0:  #282828
 *color8:  #928374
 ! DarkRed + Red
 *color1:  #cc241d

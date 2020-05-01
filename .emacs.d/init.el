@@ -314,7 +314,7 @@
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'gruvbox-dark-hard t))
+  :config (load-theme 'gruvbox t))
 
 (use-package telephone-line
   :ensure t

@@ -142,10 +142,6 @@ endif
 
 call plug#end()
 
-" Color theme options
-let g:gruvbox_contrast_dark='hard'
-let g:gruvbox_contrast_light='hard'
-
 " Airline settings
 let g:airline_highlighting_cache=1
 let g:airline_powerline_fonts=0
