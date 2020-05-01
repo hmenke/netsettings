@@ -294,6 +294,9 @@ is already narrowed."
                     TeX-command-Show "ConTeXt Full"))))
 
 ;; Language modes
+(use-package blacken
+  :ensure t
+  :commands blacken-buffer)
 (use-package modern-cpp-font-lock
   :ensure t
   :hook (c++-mode . modern-c++-font-lock-mode))
