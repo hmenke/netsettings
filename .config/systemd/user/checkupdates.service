@@ -8,6 +8,6 @@ After=network-online.target
 Type=oneshot
 CacheDirectory=checkupdates
 ExecStart=/bin/sh -c "checkupdates | tee %h/.cache/checkupdates/arch"
-ExecStart=/bin/sh -c "yay -Qum | tee %h/.cache/checkupdates/aur"
+ExecStart=/bin/sh -c "yay -Qum --builddir=/tmp | tee %h/.cache/checkupdates/aur"
 ExecStartPost=-/usr/bin/polybar-msg hook checkupdates 1
 SuccessExitStatus=SUCCESS 2
