@@ -63,6 +63,7 @@
 
 #prompt {
     padding: 0px 5px;
+    text-color: @gruvbox-dark-fg0;
     background-color: @gruvbox-dark-bg3;
 }
 
@@ -85,5 +86,6 @@
 #element selected {
     padding: 0px 5px;
     margin: 0px;
+    text-color: @gruvbox-dark-fg0;
     background-color: @gruvbox-dark-bg3;
 }
