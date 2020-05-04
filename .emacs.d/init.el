@@ -89,6 +89,7 @@
 ;; Clean up spaces
 ;; https://pages.sachachua.com/.emacs.d/Sacha.html
 (global-set-key [?\M- ] 'cycle-spacing)
+(global-set-key [?\M-/] 'hippie-expand)
 
 ;; c++ mode enhancements
 (setq c-default-style "linux" c-basic-offset 4)
@@ -315,9 +316,10 @@ is already narrowed."
 (use-package d-mode
   :ensure t
   :mode "\\.d\\'")
-(use-package gnuplot-mode
+(use-package gnuplot
   :ensure t
-  :mode "\\.gnuplot\\'")
+  :mode ("\\.gnuplot\\'" . gnuplot-mode)
+  :config (setq gnuplot-display-process nil))
 (use-package haskell-mode
   :ensure t
   :mode "\\.hs\\'")
