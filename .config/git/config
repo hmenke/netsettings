@@ -40,6 +40,8 @@
 	spellingdictionary = none
 [sendemail]
 	smtpserver = /usr/bin/msmtp
+	confirm = always
+	annotate = yes
 [push]
 	gpgSign = if-asked
 [core]
