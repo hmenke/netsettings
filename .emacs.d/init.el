@@ -124,8 +124,10 @@
 (setq doc-view-resolution 160)
 
 ;; Dired enhancements
+(setq user/dired-listing-switches " -laGh1 --group-directories-first")
 (setq
- dired-listing-switches "--group-directories-first -lah"
+ dired-listing-switches user/dired-listing-switches
+ dired-use-ls-dired t
  dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open"))
  dired-auto-revert-buffer t
  dired-dwin-target t)
@@ -142,9 +144,17 @@
   (define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
   (require 'dired-x)
   (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
-  (setq dired-omit-verbose nil))
+  (setq dired-omit-verbose nil)
+  (require 'dired-aux)
+  (setq dired-isearch-filenames 'dwim)
+  (setq dired-create-destination-dirs 'ask)
+  (setq dired-vc-rename-file t)
+  (require 'find-dired)
+  (setq find-ls-option `("-ls" . ,user/dired-listing-switches))
+  (setq find-name-arg "-iname"))
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
+(add-hook 'dired-mode-hook 'dired-hide-details-mode)
 
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
@@ -179,6 +189,31 @@ is already narrowed."
 ;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
+;; minibuffer customizations
+(setq enable-recursive-minibuffers t)
+(setq completions-format 'vertical)
+(setq completion-category-defaults nil)
+(add-to-list 'completion-styles 'substring)
+(add-to-list 'completion-styles 'initials)
+
+;; window customizations
+(setq display-buffer-alist
+      '(("\\`\\*.*Completions.*\\*\\'"
+         (display-buffer-in-side-window)
+         (window-height . 0.2)
+         (side . bottom)
+         (slot . 0)
+         (window-parameters . ((no-other-window . t))))
+        ("\\*Help.*"
+         (display-buffer-in-side-window)
+         (window-height . 0.2)
+         (side . bottom)
+         (slot . 0)
+         (window-parameters . ((no-other-window . t))))))
+(setq window-combination-resize t)
+(setq even-window-sizes 'height-only)
+(setq window-sides-vertical nil)
+
 ;;;;;;;;;;;;;;
 ;; PACKAGES ;;
 ;;;;;;;;;;;;;;
@@ -196,11 +231,26 @@ is already narrowed."
   (package-install 'use-package))
 
 ;; ido mode
+(defun user/ido-vertical-define-keys ()
+  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
+(defun user/ido-disable-line-truncation ()
+  (set (make-local-variable 'truncate-lines) nil))
+(defun user/ido-complete-execute-extended-command ()
+  (interactive)
+  (call-interactively
+   (intern
+    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
 (use-package ido
   :defer 0.1
   :config
   (setq ido-enable-flex-matching t)
   (setq ido-everywhere t)
+  (setq ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+                          " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
+  (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
+  (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
+  (global-set-key "\M-x" 'user/ido-complete-execute-extended-command)
   (ido-mode 1))
 
 ;; Vim bindings
