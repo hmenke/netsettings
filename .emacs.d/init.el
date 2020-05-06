@@ -39,7 +39,8 @@
  fill-column 80
  use-dialog-box nil
  enable-local-eval 'maybe
- enable-local-variables t)
+ enable-local-variables t
+ custom-file "~/.emacs.d/custom.el")
 
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
@@ -196,17 +197,62 @@ is already narrowed."
 (add-to-list 'completion-styles 'substring)
 (add-to-list 'completion-styles 'initials)
 
+;; save minibuffer history
+(setq savehist-file "~/.emacs.d/savehist")
+(setq history-length 30000)
+(setq history-delete-duplicates t)
+(setq savehist-save-minibuffer-history t)
+(savehist-mode 1)
+
+;; save list of recent files
+(setq recentf-max-menu-items 25)
+(setq recentf-max-saved-items 25)
+(global-set-key "\C-x\ \C-r" 'recentf-open-files)
+(recentf-mode 1)
+(run-at-time nil (* 5 60) 'recentf-save-list) ;; every 5 min
+(mapc
+ (lambda (exclude) (add-to-list 'recentf-exclude exclude))
+ '("ido.last"
+   "recentf"))
+
+;; ido mode
+(defun user/ido-vertical-define-keys ()
+  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
+(defun user/ido-disable-line-truncation ()
+  (set (make-local-variable 'truncate-lines) nil))
+(defun user/ido-complete-execute-extended-command ()
+  (interactive)
+  (call-interactively
+   (intern
+    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
+(setq
+ ido-enable-flex-matching t
+ ido-everywhere t
+ ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+                   " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")
+ ido-default-file-method 'selected-window
+ ido-default-buffer-method 'selected-window
+ ido-create-new-buffer 'prompt
+ ido-confirm-unique-completion nil
+ ido-completion-buffer-all-completions nil
+ ido-use-virtual-buffers t)
+(add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
+(add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
+(global-set-key "\M-x" 'user/ido-complete-execute-extended-command)
+(run-with-idle-timer 0.1 nil (lambda () (ido-mode 1)))
+
 ;; window customizations
 (setq display-buffer-alist
       '(("\\`\\*.*Completions.*\\*\\'"
          (display-buffer-in-side-window)
-         (window-height . 0.2)
+         (window-height . 0.3)
          (side . bottom)
          (slot . 0)
          (window-parameters . ((no-other-window . t))))
         ("\\*Help.*"
          (display-buffer-in-side-window)
-         (window-height . 0.2)
+         (window-height . 0.3)
          (side . bottom)
          (slot . 0)
          (window-parameters . ((no-other-window . t))))))
@@ -229,29 +275,6 @@ is already narrowed."
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
-
-;; ido mode
-(defun user/ido-vertical-define-keys ()
-  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
-(defun user/ido-disable-line-truncation ()
-  (set (make-local-variable 'truncate-lines) nil))
-(defun user/ido-complete-execute-extended-command ()
-  (interactive)
-  (call-interactively
-   (intern
-    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
-(use-package ido
-  :defer 0.1
-  :config
-  (setq ido-enable-flex-matching t)
-  (setq ido-everywhere t)
-  (setq ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                          " [Matched]" " [Not readable]" " [Too big]" " [Confirm]"))
-  (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
-  (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
-  (global-set-key "\M-x" 'user/ido-complete-execute-extended-command)
-  (ido-mode 1))
 
 ;; Vim bindings
 (use-package evil
