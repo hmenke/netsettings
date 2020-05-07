@@ -40,7 +40,7 @@
  use-dialog-box nil
  enable-local-eval 'maybe
  enable-local-variables t
- custom-file "~/.emacs.d/custom.el")
+ custom-file (concat user-emacs-directory "custom.el"))
 
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
@@ -62,30 +62,6 @@
   (make-directory auto-save-directory t))
 (setq auto-save-file-name-transforms `((".*" ,auto-save-directory t))
       auto-save-list-file-prefix auto-save-directory)
-
-;; ibuffer
-(defalias 'list-buffers 'ibuffer)
-(setq
- ibuffer-expert t
- ibuffer-show-empty-filter-groups nil
- ibuffer-saved-filter-groups
- (quote (("user"
-    ("Dired" (mode . dired-mode))
-    ("ERC" (mode . erc-mode))
-    ("Emacs" (or
-              (name . "^\\*scratch\\*$")
-              (name . "^\\*Messages\\*$")))))))
-(add-hook 'ibuffer-mode-hook
-          (lambda ()
-            (ibuffer-auto-mode 1)
-            (ibuffer-switch-to-saved-filter-groups "user")))
-
-;; mouse integration
-(unless window-system
-  (require 'mouse)
-  (xterm-mouse-mode t)
-  (defun track-mouse (e))
-  (setq mouse-sel-mode t))
 
 ;; Clean up spaces
 ;; https://pages.sachachua.com/.emacs.d/Sacha.html
@@ -124,39 +100,6 @@
 ;; DocView enhancements
 (setq doc-view-resolution 160)
 
-;; Dired enhancements
-(setq user/dired-listing-switches " -laGh1 --group-directories-first")
-(setq
- dired-listing-switches user/dired-listing-switches
- dired-use-ls-dired t
- dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open"))
- dired-auto-revert-buffer t
- dired-dwin-target t)
-
-(defun user/dired-open-in-terminal ()
-  (interactive)
-  (let ((process-connection-type nil))
-    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
-
-(with-eval-after-load 'dired
-  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
-  (define-key dired-mode-map [M-up] 'dired-up-directory)
-  (define-key dired-mode-map [M-down] 'dired-find-file)
-  (define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
-  (require 'dired-x)
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
-  (setq dired-omit-verbose nil)
-  (require 'dired-aux)
-  (setq dired-isearch-filenames 'dwim)
-  (setq dired-create-destination-dirs 'ask)
-  (setq dired-vc-rename-file t)
-  (require 'find-dired)
-  (setq find-ls-option `("-ls" . ,user/dired-listing-switches))
-  (setq find-name-arg "-iname"))
-
-(add-hook 'dired-mode-hook 'dired-omit-mode)
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
 (defun narrow-or-widen-dwim (p)
@@ -190,79 +133,11 @@ is already narrowed."
 ;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
-;; minibuffer customizations
-(setq enable-recursive-minibuffers t)
-(setq completions-format 'vertical)
-(setq completion-category-defaults nil)
-(add-to-list 'completion-styles 'substring)
-(add-to-list 'completion-styles 'initials)
-
-;; save minibuffer history
-(setq savehist-file "~/.emacs.d/savehist")
-(setq history-length 30000)
-(setq history-delete-duplicates t)
-(setq savehist-save-minibuffer-history t)
-(savehist-mode 1)
-
-;; save list of recent files
-(setq recentf-max-menu-items 25)
-(setq recentf-max-saved-items 25)
-(global-set-key "\C-x\ \C-r" 'recentf-open-files)
-(recentf-mode 1)
-(run-at-time nil (* 5 60) 'recentf-save-list) ;; every 5 min
-(mapc
- (lambda (exclude) (add-to-list 'recentf-exclude exclude))
- '("ido.last"
-   "recentf"))
-
-;; ido mode
-(defun user/ido-vertical-define-keys ()
-  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
-(defun user/ido-disable-line-truncation ()
-  (set (make-local-variable 'truncate-lines) nil))
-(defun user/ido-complete-execute-extended-command ()
-  (interactive)
-  (call-interactively
-   (intern
-    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
-(setq
- ido-enable-flex-matching t
- ido-everywhere t
- ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                   " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")
- ido-default-file-method 'selected-window
- ido-default-buffer-method 'selected-window
- ido-create-new-buffer 'prompt
- ido-confirm-unique-completion nil
- ido-completion-buffer-all-completions nil
- ido-use-virtual-buffers t)
-(add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
-(add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
-(global-set-key "\M-x" 'user/ido-complete-execute-extended-command)
-(run-with-idle-timer 0.1 nil (lambda () (ido-mode 1)))
-
-;; window customizations
-(setq display-buffer-alist
-      '(("\\`\\*.*Completions.*\\*\\'"
-         (display-buffer-in-side-window)
-         (window-height . 0.3)
-         (side . bottom)
-         (slot . 0)
-         (window-parameters . ((no-other-window . t))))
-        ("\\*Help.*"
-         (display-buffer-in-side-window)
-         (window-height . 0.3)
-         (side . bottom)
-         (slot . 0)
-         (window-parameters . ((no-other-window . t))))))
-(setq window-combination-resize t)
-(setq even-window-sizes 'height-only)
-(setq window-sides-vertical nil)
-
-;;;;;;;;;;;;;;
-;; PACKAGES ;;
-;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;;;; PACKAGES ;;;;
+;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
 
 ;; package archives
 (setq package-enable-at-startup nil
@@ -275,6 +150,187 @@ is already narrowed."
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+;;;;;;;;;;;;;
+;; BUILTIN ;;
+;;;;;;;;;;;;;
+
+;; mouse integration
+(use-package mouse
+  :unless window-system
+  :config
+  (xterm-mouse-mode t)
+  (defun track-mouse (e)) ;; avoid spurious errors
+  (setq mouse-sel-mode t))
+
+;; Dired enhancements
+(setq user/dired-listing-switches " -laGh1 --group-directories-first")
+(defun user/dired-open-in-terminal ()
+  (interactive)
+  (let ((process-connection-type nil))
+    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
+
+(use-package dired
+  :commands dired
+  :bind (("C-x C-j" . dired-jump)
+         ("C-x j" . dired-jump-other-window)
+         :map dired-mode-map
+              ([mouse-2] . dired-mouse-find-file)
+              ([M-up] . dired-up-directory)
+              ([M-down] . dired-find-file)
+              ("M-t" . user/dired-open-in-terminal))
+  :hook (dired-mode . dired-hide-details-mode)
+  :config
+  (setq
+   dired-listing-switches user/dired-listing-switches
+   dired-use-ls-dired t
+   dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open"))
+   dired-auto-revert-buffer t
+   dired-dwin-target t))
+
+(use-package dired-x
+  :after dired
+  :hook (dired-mode . dired-omit-mode)
+  :config
+  (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
+  (setq dired-omit-verbose nil))
+
+(use-package dired-aux
+  :after dired
+  :config
+  (setq dired-isearch-filenames 'dwim)
+  (setq dired-create-destination-dirs 'ask)
+  (setq dired-vc-rename-file t))
+
+(use-package find-dired
+  :after dired
+  :config
+  (setq find-ls-option `("-ls" . ,user/dired-listing-switches))
+  (setq find-name-arg "-iname"))
+
+;; ibuffer
+(use-package ibuffer
+  :bind ("C-x C-b" . ibuffer)
+  :hook ((ibuffer-mode . ibuffer-auto-mode)
+         (ibuffer-mode . (lambda ()
+                           (ibuffer-switch-to-saved-filter-groups "user"))))
+  :config
+  (setq
+   ibuffer-expert t
+   ibuffer-show-empty-filter-groups nil
+   ibuffer-saved-filter-groups
+   '(("user"
+      ("Dired" (mode . dired-mode))
+      ("ERC" (mode . erc-mode))
+      ("Emacs" (or
+                (name . "^\\*scratch\\*$")
+                (name . "^\\*Messages\\*$")))))))
+
+;; minibuffer
+(use-package minibuffer
+  :config
+  (setq
+   enable-recursive-minibuffers t
+   completions-format 'vertical
+   completion-category-defaults nil)
+  (add-to-list 'completion-styles 'substring)
+  (add-to-list 'completion-styles 'initials))
+
+;; save minibuffer history
+(use-package savehist
+  :config
+  (setq
+   savehist-file (concat user-emacs-directory "savehist")
+   history-length 30000
+   history-delete-duplicates t
+   savehist-save-minibuffer-history t)
+  (savehist-mode 1))
+
+;; save list of recent files
+(use-package recentf
+  :hook (after-init . recentf-mode)
+  :bind ("C-x C-r" . recentf-open-files)
+  :config
+  (setq
+   recentf-max-menu-items 25
+   recentf-max-saved-items 25
+   recentf-exclude '((expand-file-name package-user-dir)
+                     "ido.*" "recentf"
+                     ".gz" ".xz" ".zip")
+   recentf-filename-handlers '(abbreviate-file-name)))
+
+;; ido mode
+(defun user/ido-vertical-define-keys ()
+  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
+(defun user/ido-disable-line-truncation ()
+  (set (make-local-variable 'truncate-lines) nil))
+(defun user/ido-complete-execute-extended-command ()
+  (interactive)
+  (call-interactively
+   (intern
+    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
+(use-package ido
+  :defer 0.1
+  :after minibuffer
+  :bind ("M-x" . 'user/ido-complete-execute-extended-command)
+  :config
+  (setq
+   ido-enable-flex-matching t
+   ido-everywhere t
+   ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+                     " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")
+   ido-default-file-method 'selected-window
+   ido-default-buffer-method 'selected-window
+   ido-create-new-buffer 'prompt
+   ido-confirm-unique-completion nil
+   ido-completion-buffer-all-completions nil
+   ido-use-virtual-buffers t)
+  (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
+  (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
+  (ido-mode 1))
+
+;; window customizations
+(use-package "window"
+  :config
+  (setq display-buffer-alist
+        '(("\\`\\*.*Completions.*\\*\\'"
+           (display-buffer-in-side-window)
+           (window-height . 0.3)
+           (side . bottom)
+           (slot . 0)
+           (window-parameters . ((no-other-window . t))))
+          ("\\*Help.*"
+           (display-buffer-in-side-window)
+           (window-height . 0.5)
+           (side . bottom)
+           (slot . 0))))
+  (setq window-combination-resize t)
+  (setq even-window-sizes 'height-only)
+  (setq window-sides-vertical nil))
+
+;; email
+(use-package notmuch
+  :commands notmuch)
+
+;; gnus
+(use-package gnus
+  :commands gnus
+  :init
+  (setq gnus-directory "~/.local/share/emacs/gnus"
+        message-directory "~/.local/share/emacs/gnus")
+  (setq gnus-select-method
+        '(nnimap "gmail"
+                 (nnimap-address "imap.gmail.com")
+                 (nnimap-server-port "imaps")
+                 (nnimap-stream ssl)))
+  (setq smtpmail-smtp-server "smtp.gmail.com"
+        smtpmail-smtp-service 587)
+  (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
+
+;;;;;;;;;;;
+;; MELPA ;;
+;;;;;;;;;;;
 
 ;; Vim bindings
 (use-package evil
@@ -380,6 +436,9 @@ is already narrowed."
 (use-package cmake-mode
   :ensure t
   :mode ("\\`CMakeLists.txt\\'" "\\.cmake\\'"))
+(use-package csv-mode
+  :ensure t
+  :mode ("\\.csv\\'"))
 (use-package cuda-mode
   :ensure t
   :mode "\\.cu\\'")
@@ -422,21 +481,6 @@ is already narrowed."
 (use-package rainbow-mode
   :ensure t
   :commands (rainbow-mode))
-(use-package notmuch
-  :commands notmuch)
-(use-package gnus
-  :commands gnus
-  :init
-  (setq gnus-directory "~/.local/share/emacs/gnus"
-        message-directory "~/.local/share/emacs/gnus")
-  (setq gnus-select-method
-        '(nnimap "gmail"
-                 (nnimap-address "imap.gmail.com")
-                 (nnimap-server-port "imaps")
-                 (nnimap-stream ssl)))
-  (setq smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587)
-  (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
 
 ;; Editing plugins
 (use-package expand-region
@@ -485,7 +529,21 @@ is already narrowed."
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'gruvbox t))
+  :config (load-theme 'gruvbox t)
+  ;; https://github.com/greduan/emacs-theme-gruvbox/pull/160
+  (add-hook
+   'ido-setup-hook
+   (lambda ()
+     (set-face-attribute 'ido-only-match nil
+                         :foreground (face-attribute 'success :foreground)
+                         :weight 'bold)
+     (set-face-attribute 'ido-first-match nil
+                         :foreground (face-attribute 'default :foreground)
+                         :weight 'bold
+                         :underline t)
+     (set-face-attribute 'ido-subdir nil
+                         :foreground (face-attribute 'font-lock-function-name-face :foreground))
+  )))
 
 (use-package telephone-line
   :ensure t
