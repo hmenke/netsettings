@@ -43,6 +43,7 @@ depends=(
     'gnuplot'
     'go'
     'gsl'
+    'gvfs'
     'jq'
     'lua'
     'lua-lpeg'
