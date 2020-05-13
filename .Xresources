@@ -23,6 +23,9 @@ xterm*vt100.Translations: #override \
       Shift Ctrl<Key>C: copy-selection(CLIPBOARD) \n\
       Shift Ctrl<Key>F: print-everything() \n\
       Shift Ctrl<Key>N: exec-formatted("xterm", PRIMARY) \n\
+      Ctrl <Key> minus: smaller-vt-font() \n\
+      Ctrl <Key> equal: larger-vt-font() \n\
+      Ctrl <Key> 0: set-vt-font(d) \n\
       <Key>F1: popup-menu(mainMenu) \n\
       <Key>F2: popup-menu(vtMenu) \n\
       <Key>F3: popup-menu(fontMenu) \n\
@@ -32,6 +35,7 @@ xterm*SaveLines: 10000000
 xterm*fullscreen: never
 xterm*scrollTtyOutput: false
 xterm*scrollKey: true
+xterm*dynamicColors: true
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
