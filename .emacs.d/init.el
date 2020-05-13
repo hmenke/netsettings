@@ -40,7 +40,8 @@
  use-dialog-box nil
  enable-local-eval 'maybe
  enable-local-variables t
- custom-file (concat user-emacs-directory "custom.el"))
+ custom-file (concat user-emacs-directory "custom.el")
+ async-shell-command-display-buffer nil)
 
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
@@ -89,10 +90,6 @@
 (defun user/flyspell-local-vars ()
   (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
 (setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
-
-;; Do not display the buffer for async shell commands
-(add-to-list 'display-buffer-alist
-             '("\\*Async Shell Command\\*.*" display-buffer-no-window nil))
 
 ;; message-mode enhancements
 (setq message-kill-buffer-on-exit t)
@@ -156,11 +153,11 @@ is already narrowed."
 ;;;;;;;;;;;;;
 
 ;; mouse integration
+(defun track-mouse (e)) ;; avoid spurious errors
 (use-package mouse
   :unless window-system
   :config
   (xterm-mouse-mode t)
-  (defun track-mouse (e)) ;; avoid spurious errors
   (setq mouse-sel-mode t))
 
 ;; Dired enhancements
@@ -222,6 +219,9 @@ is already narrowed."
    '(("user"
       ("Dired" (mode . dired-mode))
       ("ERC" (mode . erc-mode))
+      ("Magit" (or
+                (mode . magit-mode)
+                (name . "^magit")))
       ("Emacs" (or
                 (name . "^\\*scratch\\*$")
                 (name . "^\\*Messages\\*$")))))))
@@ -262,7 +262,9 @@ is already narrowed."
 ;; ido mode
 (defun user/ido-vertical-define-keys ()
   (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "<down>") 'ido-next-match))
+  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+  (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
 (defun user/ido-disable-line-truncation ()
   (set (make-local-variable 'truncate-lines) nil))
 (defun user/ido-complete-execute-extended-command ()
@@ -300,14 +302,45 @@ is already narrowed."
            (side . bottom)
            (slot . 0)
            (window-parameters . ((no-other-window . t))))
-          ("\\*Help.*"
-           (display-buffer-in-side-window)
-           (window-height . 0.5)
-           (side . bottom)
-           (slot . 0))))
+          ("\\*Async Shell Command\\*.*"
+           (display-buffer-no-window)
+           nil)))
   (setq window-combination-resize t)
   (setq even-window-sizes 'height-only)
   (setq window-sides-vertical nil))
+
+(use-package windmove
+  :bind (("C-c <left>" . windmove-left)
+         ("C-c <right>" . windmove-right)
+         ("C-c <up>" . windmove-up)
+         ("C-c <down>" . windmove-down)))
+
+;; tramp
+(use-package tramp
+  :config
+  (setq tramp-default-method "ssh")
+  (add-to-list
+   'backup-directory-alist
+   (cons tramp-file-name-regexp
+         (concat user-emacs-directory "tramp-backups/"))))
+
+;; org
+(use-package org
+  :mode ("\\.org\\'" . org-mode)
+  :bind ("C-c a" . org-agenda)
+  :config
+  (setq
+   org-directory "/davs:henri@henrimenke.com:/webdav/"
+   org-agenda-files '("/davs:henri@henrimenke.com:/webdav/")
+   org-completion-use-ido t))
+
+(use-package org-capture
+  :bind ("C-c c" . org-capture)
+  :config
+  (setq org-capture-templates
+        '(("t" "TODO" entry
+           (file "TODO.org")
+           "* TODO %?"))))
 
 ;; email
 (use-package notmuch
@@ -378,7 +411,7 @@ is already narrowed."
    TeX-source-correlate-start-server t
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
-   )
+   LaTeX-reftex-cite-format-auto-activate nil)
 
   ;; Key bindings
   (defun user/LaTeX-mode-hook ()
@@ -398,7 +431,9 @@ is already narrowed."
   (setq
    reftex-plug-into-AUCTeX t
    reftex-label-alist '(AMSTeX)
-   reftex-insert-label-flags '("s" t))
+   reftex-insert-label-flags '("s" t)
+   reftex-cite-format 'default
+   reftex-cite-key-separator ", ")
 
   ;; Don't fontify
   (eval-after-load "font-latex"
@@ -438,7 +473,7 @@ is already narrowed."
   :mode ("\\`CMakeLists.txt\\'" "\\.cmake\\'"))
 (use-package csv-mode
   :ensure t
-  :mode ("\\.csv\\'"))
+  :mode "\\.csv\\'")
 (use-package cuda-mode
   :ensure t
   :mode "\\.cu\\'")
@@ -543,7 +578,7 @@ is already narrowed."
                          :underline t)
      (set-face-attribute 'ido-subdir nil
                          :foreground (face-attribute 'font-lock-function-name-face :foreground))
-  )))
+     )))
 
 (use-package telephone-line
   :ensure t
