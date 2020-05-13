@@ -46,3 +46,13 @@
 	gpgSign = if-asked
 [core]
 	pager = less -+X
+[filter "crypt"]
+	clean = git-crypt -s ~/.config/git/crypt-salt -p ~/.config/git/crypt-pass clean
+	smudge = git-crypt -p ~/.config/git/crypt-pass smudge
+	#required = true
+[diff "crypt"]
+	textconv = git-crypt -p ~/.config/git/crypt-pass diff
+	binary = true
+[diff "gpg"]
+	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent
+	binary = true

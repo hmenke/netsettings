@@ -1,0 +1,3 @@
+.config/msmtp/config filter=crypt diff=crypt
+.config/neomutt/identities.muttrc filter=crypt diff=crypt
+*.gpg diff=gpg

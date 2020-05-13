@@ -1,0 +1,87 @@
+#!/bin/sh
+
+set -e
+
+die() {
+	>&2 echo "$@"
+	exit 1
+}
+
+if ! command -v openssl > /dev/null; then
+	die "openssl not found"
+fi
+
+if ! command -v gpg > /dev/null; then
+	die "gpg not found"
+fi
+
+cmd_help() {
+	cat >&2 <<-EOF
+	Usage: $program [OPTIONS]... WEBSITE
+
+	OPTIONS
+
+	  -c, --cipher=[CIPHER]      Select the cipher used to encrypt the files using
+	                               openssl.  See 'man openssl enc' for more details.
+	                               (default "aes-256-ctr")
+	  -p, --password=[PASSWORD]  Use PASSWORD as password. If PASSWORD is a file it
+	                               will be decrypted using gpg.
+	  -s, --salt=[SALT]          Use SALT as salt. If SALT is a file it will be
+	                               decrypted using gpg.
+
+	EXAMPLES
+
+	  $ $ echo foo | git-crypt -s "deadbeef12345678" -p "bar" clean
+	  U2FsdGVkX1/erb7vEjRWeJWA0SE=
+
+	  $ echo U2FsdGVkX1/erb7vEjRWeJWA0SE= | git-crypt -s "deadbeef1234567890" -p "bar" smudge
+	  foo
+
+	EOF
+	exit 1
+}
+
+cmd_smudge() {
+	openssl enc -d -base64 "-$cipher" -pbkdf2 -k "$password" 2> /dev/null || cat
+}
+
+cmd_clean() {
+	openssl enc -base64 "-$cipher" -S "$salt" -pbkdf2 -k "$password"
+}
+
+cmd_diff() {
+	openssl enc -d -base64 "-$cipher" -pbkdf2 -k "$password" -in "$1" 2> /dev/null || cat "$1"
+}
+
+program="${0##*/}"
+
+cipher="aes-256-ctr"
+opts="$(getopt -o c:p:s: -l cipher:,password:,salt: -n "$0" -- "$@")"
+err="$?"
+eval set -- "$opts"
+while true; do case $1 in
+	-c|--cipher) cipher="$2"; shift 2 ;;
+	-p|--password) pass="$2"; shift 2 ;;
+	-s|--salt) salt="$2"; shift 2 ;;
+	--) shift; break ;;
+esac done
+
+if [ -f "$salt" ]; then
+	salt="$(cat "$salt")"
+elif [ -f "${salt}.gpg" ]; then
+	salt="$(gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch -- "${salt}.gpg")"
+fi
+if [ -f "$pass" ]; then
+	pass="$(cat "$pass")"
+elif [ -f "${pass}.gpg" ]; then
+	pass="$(gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch -- "${pass}.gpg")"
+fi
+
+cmd="$1"
+case "$1" in
+	smudge) shift; cmd_smudge "$@" ;;
+	clean) shift;  cmd_clean "$@" ;;
+	diff) shift;   cmd_diff "$@" ;;
+	*)             cmd_help "$@" ;;
+esac
+exit 0
