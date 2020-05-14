@@ -97,6 +97,8 @@ depends=(
     'whois'
     'wireguard-tools'
     'youtube-dl'
+    'yubikey-manager'
+    'yubikey-personalization'
     'zip'
     'zsh'
     'zsh-completions'
