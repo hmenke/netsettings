@@ -232,7 +232,10 @@ is already narrowed."
   (setq
    enable-recursive-minibuffers t
    completions-format 'vertical
-   completion-category-defaults nil)
+   completion-category-defaults nil
+   read-file-name-completion-ignore-case t
+   read-buffer-completion-ignore-case t
+   completion-ignore-case t)
   (add-to-list 'completion-styles 'substring)
   (add-to-list 'completion-styles 'initials))
 
@@ -291,6 +294,27 @@ is already narrowed."
   (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
   (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
   (ido-mode 1))
+
+;; icomplete
+;;(use-package icomplete
+;;  :demand
+;;  :after minibuffer
+;;  :bind (:map icomplete-minibuffer-map
+;;              ("<up>" . icomplete-backward-completions)
+;;              ("C-p" . icomplete-backward-completions)
+;;              ("<down>" . icomplete-forward-completions)
+;;              ("C-n" . icomplete-forward-completions))
+;;  :config
+;;  (setq
+;;   icomplete-delay-completions-threshold 100
+;;   icomplete-max-delay-chars 2
+;;   icomplete-compute-delay 0.0
+;;   icomplete-show-matches-on-no-input t
+;;   icomplete-with-completion-tables t
+;;   icomplete-in-buffer t
+;;   icomplete-tidy-shadowed-file-names nil
+;;   icomplete-hide-common-prefix nil)
+;;  (icomplete-mode 1))
 
 ;; window customizations
 (use-package "window"
@@ -408,6 +432,7 @@ is already narrowed."
    TeX-parse-self t
    TeX-engine 'luatex
    TeX-command-Show "LaTeX"
+   TeX-view-program-selection '((output-pdf "Zathura"))
    TeX-source-correlate-start-server t
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
@@ -526,6 +551,14 @@ is already narrowed."
   :ensure t
   :bind
   (("C-;" . iedit-mode)))
+(use-package undo-tree
+  :ensure t
+  :config
+  (setq
+   undo-tree-auto-save-history t
+   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo")))
+   undo-tree-visualizer-diff nil)
+  (global-undo-tree-mode t))
 
 ;; ivy, counsel, swiper
 ;;(use-package ivy
