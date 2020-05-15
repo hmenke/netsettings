@@ -262,6 +262,10 @@ is already narrowed."
                      ".gz" ".xz" ".zip")
    recentf-filename-handlers '(abbreviate-file-name)))
 
+;; save position on exit
+(use-package saveplace
+  :config (save-place-mode))
+
 ;; ido mode
 (defun user/ido-vertical-define-keys ()
   (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
@@ -328,6 +332,9 @@ is already narrowed."
            (window-parameters . ((no-other-window . t))))
           ("\\*Async Shell Command\\*.*"
            (display-buffer-no-window)
+           nil)
+          ("\\`\\*Org Agenda\\*\\'"
+           (window-height . fit-window-to-buffer)
            nil)))
   (setq window-combination-resize t)
   (setq even-window-sizes 'height-only)
@@ -432,7 +439,7 @@ is already narrowed."
    TeX-parse-self t
    TeX-engine 'luatex
    TeX-command-Show "LaTeX"
-   TeX-view-program-selection '((output-pdf "Zathura"))
+   ;;TeX-view-program-selection '((output-pdf "Zathura"))
    TeX-source-correlate-start-server t
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
