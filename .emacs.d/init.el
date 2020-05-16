@@ -27,27 +27,42 @@
 (put 'dired-find-alternate-file 'disabled nil)
 
 ;; Set defaults
+;; startup.el
 (setq-default
  inhibit-startup-screen t
+ initial-scratch-message "")
+
+;; simple.el
+(setq-default
  line-number-mode t
  column-number-mode t
- x-select-enable-clipboard t
- backup-by-copying t
- indent-tabs-mode nil
  visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
- initial-scratch-message ""
- fill-column 80
- use-dialog-box nil
- enable-local-eval 'maybe
- enable-local-variables t
- custom-file (concat user-emacs-directory "custom.el")
  async-shell-command-display-buffer nil)
 
+;; select.el
+(setq-default
+ x-select-enable-clipboard t)
+
+;; files.el
+(setq-default
+ backup-by-copying t
+ enable-local-eval 'maybe
+ enable-local-variables t)
+
+;; C source code
+(setq-default
+ indent-tabs-mode nil
+ fill-column 80
+ use-dialog-box nil)
 (setq-default frame-title-format
       '("%b" (buffer-file-name " (%f)"
               (dired-directory (" ("
                (dired-directory dired-directory
                 "") ")") "")) " - Emacs"))
+
+;; cus-edit.el
+(setq-default
+ custom-file (concat user-emacs-directory "custom.el"))
 
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
@@ -68,20 +83,6 @@
 ;; https://pages.sachachua.com/.emacs.d/Sacha.html
 (global-set-key [?\M- ] 'cycle-spacing)
 (global-set-key [?\M-/] 'hippie-expand)
-
-;; c++ mode enhancements
-(setq c-default-style "linux" c-basic-offset 4)
-(add-hook 'c++-mode-hook
-          (lambda() (c-set-offset 'innamespace 0)))
-
-;; Use tabs for indentation in sh-mode
-;; That play better with heredocs
-(add-hook 'sh-mode-hook
-          (lambda()
-            (setq indent-tabs-mode t
-                  tab-width 8
-                  sh-basic-offset 8
-                  backward-delete-char-untabify-method nil)))
 
 ;; Spell checking
 ;; https://emacs.stackexchange.com/questions/20206
@@ -151,6 +152,24 @@ is already narrowed."
 ;;;;;;;;;;;;;
 ;; BUILTIN ;;
 ;;;;;;;;;;;;;
+
+;; c++ mode enhancements
+(use-package cc-mode
+  :hook (c++-mode . (lambda() (c-set-offset 'innamespace 0)))
+  :config
+  (setq
+   c-default-style "linux"
+   c-basic-offset 4))
+
+;; Use tabs for indentation in sh-mode
+;; That play better with heredocs
+(use-package sh-script
+  :hook (sh-mode
+         . (lambda()
+             (setq indent-tabs-mode t
+                   tab-width 8
+                   sh-basic-offset 8
+                   backward-delete-char-untabify-method nil))))
 
 ;; mouse integration
 (defun track-mouse (e)) ;; avoid spurious errors
