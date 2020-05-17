@@ -64,6 +64,11 @@
 (setq-default
  custom-file (concat user-emacs-directory "custom.el"))
 
+;; comp.el
+(setq-default
+ comp-deferred-compilation-black-list '("^/usr" "^/nix")
+ comp-deferred-compilation t)
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-auto-revert-mode t)
 (delete-selection-mode 1)
@@ -185,7 +190,15 @@ is already narrowed."
   (interactive)
   (let ((process-connection-type nil))
     (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
-
+(defun user/dired-multi-occur ()
+  ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
+  "Search string in files marked by dired."
+  (interactive
+   (let ((files (dired-get-marked-files)))
+     (if (null files)
+         (error "No files marked")
+       (let ((string (read-string "List lines matching regexp in marked files: ")))
+         (multi-occur (mapcar 'find-file files) string))))))
 (use-package dired
   :commands dired
   :bind (("C-x C-j" . dired-jump)
@@ -194,6 +207,7 @@ is already narrowed."
               ([mouse-2] . dired-mouse-find-file)
               ([M-up] . dired-up-directory)
               ([M-down] . dired-find-file)
+              ("M-s O" . user/dired-multi-occur)
               ("M-t" . user/dired-open-in-terminal))
   :hook (dired-mode . dired-hide-details-mode)
   :config
@@ -460,6 +474,12 @@ is already narrowed."
    TeX-command-Show "LaTeX"
    ;;TeX-view-program-selection '((output-pdf "Zathura"))
    TeX-source-correlate-start-server t
+   TeX-parse-all-errors t
+   ;;TeX-error-overview-open-after-TeX-run t
+   TeX-debug-bad- t
+   TeX-debug-warnings t
+   TeX-display-help 'expert
+   TeX-master nil
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
    LaTeX-reftex-cite-format-auto-activate nil)
@@ -623,21 +643,7 @@ is already narrowed."
 ;; Theme
 (use-package gruvbox-theme
   :ensure t
-  :config (load-theme 'gruvbox t)
-  ;; https://github.com/greduan/emacs-theme-gruvbox/pull/160
-  (add-hook
-   'ido-setup-hook
-   (lambda ()
-     (set-face-attribute 'ido-only-match nil
-                         :foreground (face-attribute 'success :foreground)
-                         :weight 'bold)
-     (set-face-attribute 'ido-first-match nil
-                         :foreground (face-attribute 'default :foreground)
-                         :weight 'bold
-                         :underline t)
-     (set-face-attribute 'ido-subdir nil
-                         :foreground (face-attribute 'font-lock-function-name-face :foreground))
-     )))
+  :config (load-theme 'gruvbox t))
 
 (use-package telephone-line
   :ensure t
