@@ -307,15 +307,23 @@ is already narrowed."
   (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
 (defun user/ido-disable-line-truncation ()
   (set (make-local-variable 'truncate-lines) nil))
+(defvar user/ido-command-history nil)
 (defun user/ido-complete-execute-extended-command ()
   (interactive)
   (call-interactively
    (intern
-    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)))))
+    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)
+                         nil t nil 'user/ido-command-history))))
+(defun user/ido-complete-recentf ()
+  (interactive)
+  (find-file
+   (ido-completing-read
+    "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
 (use-package ido
   :defer 0.1
   :after minibuffer
-  :bind ("M-x" . 'user/ido-complete-execute-extended-command)
+  :bind (("M-x" . 'user/ido-complete-execute-extended-command)
+         ("C-x C-r" . 'user/ido-complete-recentf))
   :config
   (setq
    ido-enable-flex-matching t
@@ -373,11 +381,8 @@ is already narrowed."
   (setq even-window-sizes 'height-only)
   (setq window-sides-vertical nil))
 
-(use-package windmove
-  :bind (("C-c <left>" . windmove-left)
-         ("C-c <right>" . windmove-right)
-         ("C-c <up>" . windmove-up)
-         ("C-c <down>" . windmove-down)))
+(use-package winner
+  :config (winner-mode))
 
 ;; tramp
 (use-package tramp
@@ -479,7 +484,6 @@ is already narrowed."
    TeX-debug-bad- t
    TeX-debug-warnings t
    TeX-display-help 'expert
-   TeX-master nil
    ;; TeX-auto-local nil
    ;; TeX-auto-save t
    LaTeX-reftex-cite-format-auto-activate nil)
@@ -528,6 +532,15 @@ is already narrowed."
             (lambda()
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
+
+(use-package bibtex
+  :bind (:map bibtex-mode-map
+              ("C-c v" . bibtex-validate)
+              ("C-c s" . bibtex-sort-buffer)
+              ([down-mouse-3] . imenu))
+  :config
+  (setq
+   bibtex-maintain-sorted-entries t))
 
 ;; Language modes
 (use-package blacken
