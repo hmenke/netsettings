@@ -246,18 +246,16 @@ is already narrowed."
                            (ibuffer-switch-to-saved-filter-groups "user"))))
   :config
   (setq
-   ibuffer-expert t
    ibuffer-show-empty-filter-groups nil
-   ibuffer-saved-filter-groups
-   '(("user"
-      ("Dired" (mode . dired-mode))
-      ("ERC" (mode . erc-mode))
-      ("Magit" (or
-                (mode . magit-mode)
-                (name . "^magit")))
-      ("Emacs" (or
-                (name . "^\\*scratch\\*$")
-                (name . "^\\*Messages\\*$")))))))
+   ibuffer-saved-filter-groups '(("user"
+                                  ("Files" (predicate . (buffer-file-name)))
+                                  ("Dired" (mode . dired-mode))
+                                  ("ERC" (mode . erc-mode))
+                                  ("Magit" (or
+                                            (mode . magit-mode)
+                                            (name . "^magit")))
+                                  ("Emacs" (name . "^\\*.*\\*$"))))
+   ibuffer-expert t))
 
 ;; minibuffer
 (use-package minibuffer
