@@ -184,6 +184,17 @@ is already narrowed."
   (xterm-mouse-mode t)
   (setq mouse-sel-mode t))
 
+;; Rebind C-z to avoid freezing
+(defun user/suspend-frame ()
+  (interactive)
+  (if (display-graphic-p)
+      (error "Cannot suspend graphical frame")
+    (suspend-frame)))
+(use-package frame
+  :bind (("C-z" . nil)
+         ("C-z C-z" . user/suspend-frame)
+         ("C-x C-z" . user/suspend-frame)))
+
 ;; Dired enhancements
 (setq user/dired-listing-switches " -laGh1 --group-directories-first")
 (defun user/dired-open-in-terminal ()
