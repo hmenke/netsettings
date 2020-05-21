@@ -311,8 +311,10 @@ is already narrowed."
 ;; ido mode
 (defun user/ido-vertical-define-keys ()
   (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+  (define-key ido-completion-map (kbd "<mouse-4>") 'ido-prev-match)
   (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
   (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+  (define-key ido-completion-map (kbd "<mouse-5>") 'ido-next-match)
   (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
 (defun user/ido-disable-line-truncation ()
   (set (make-local-variable 'truncate-lines) nil))
@@ -328,10 +330,18 @@ is already narrowed."
   (find-file
    (ido-completing-read
     "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
+(defun user/ido-complete-yank ()
+  (interactive)
+  (let* ((ido-separator (concat "\n" (make-string (window-body-width) ?─) "\n"))
+         (to-insert (ido-completing-read "Yank: " kill-ring)))
+      (when (and to-insert (region-active-p))
+        (delete-region (region-beginning) (region-end)))
+      (insert to-insert)))
 (use-package ido
   :defer 0.1
   :after minibuffer
   :bind (("M-x" . 'user/ido-complete-execute-extended-command)
+         ("C-M-y" . 'user/ido-complete-yank)
          ("C-x C-r" . 'user/ido-complete-recentf))
   :config
   (setq
