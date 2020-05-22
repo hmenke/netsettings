@@ -18,9 +18,10 @@ shopt -s extglob
 # history
 shopt -s histappend
 HISTCONTROL=ignoreboth:erasedups
+HISTTIMEFORMAT="%F %T %z "
 HISTFILE=~/.cache/bash_history
-HISTSIZE=1000
-HISTFILESIZE=1000
+HISTSIZE=10000000
+HISTFILESIZE=10000000
 
 # Keybindings
 if command -v fzf > /dev/null; then

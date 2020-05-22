@@ -22,13 +22,14 @@ unsetopt check_jobs
 
 # history
 setopt appendhistory
+setopt extended_history
 setopt inc_append_history
 setopt hist_expire_dups_first
 setopt hist_ignore_dups
 setopt hist_ignore_space
 HISTFILE=~/.cache/zsh_history
-HISTSIZE=1000
-SAVEHIST=1000
+HISTSIZE=10000000
+SAVEHIST=10000000
 
 # Bash-y keybindings
 bindkey -e
