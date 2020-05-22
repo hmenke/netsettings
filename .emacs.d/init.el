@@ -321,10 +321,12 @@ is already narrowed."
 (defvar user/ido-command-history nil)
 (defun user/ido-complete-execute-extended-command ()
   (interactive)
+  (let* ((cmds (all-completions "" obarray 'commandp))
+         (hist user/ido-command-history)
+         (comp (delete-dups (append hist cmds))))
   (call-interactively
-   (intern
-    (ido-completing-read "M-x " (all-completions "" obarray 'commandp)
-                         nil t nil 'user/ido-command-history))))
+   (intern (ido-completing-read "M-x " comp nil t nil
+                                'user/ido-command-history)))))
 (defun user/ido-complete-recentf ()
   (interactive)
   (find-file
@@ -552,8 +554,25 @@ is already narrowed."
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
 
+;; load bibtex record by doi
+(defun user/url-bibtex-from-doi (doi)
+  (interactive "sDOI: ")
+  (let* ((url (concat "https://doi.org/" doi))
+         (url-mime-accept-string "application/x-bibtex"))
+    (insert
+     (with-current-buffer (url-retrieve-synchronously url)
+       (let* ((start url-http-end-of-headers)
+              (end (point-max))
+              (all (buffer-string))
+              (body (buffer-substring start end)))
+         (replace-regexp-in-string "^\t" "  " (url-unhex-string body)))))))
+(use-package url
+  :commands user/url-bibtex-from-doi)
+
+;; bibtex
 (use-package bibtex
   :bind (:map bibtex-mode-map
+              ("C-c d" . user/url-bibtex-from-doi)
               ("C-c v" . bibtex-validate)
               ("C-c s" . bibtex-sort-buffer)
               ([down-mouse-3] . imenu))
