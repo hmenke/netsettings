@@ -25,6 +25,7 @@
 (put 'downcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
 (put 'dired-find-alternate-file 'disabled nil)
+(put 'overwrite-mode 'disabled t)
 
 ;; Set defaults
 ;; startup.el
@@ -307,6 +308,15 @@ is already narrowed."
 ;; save position on exit
 (use-package saveplace
   :config (save-place-mode))
+
+;; search
+(use-package isearch
+  :config
+  (setq search-highlight t)
+  (setq search-whitespace-regexp ".*?")
+  (setq isearch-lax-whitespace t)
+  (setq isearch-regexp-lax-whitespace nil)
+  (setq isearch-lazy-highlight t))
 
 ;; ido mode
 (defun user/ido-vertical-define-keys ()
