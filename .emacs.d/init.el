@@ -307,10 +307,13 @@ is already narrowed."
 
 ;; save position on exit
 (use-package saveplace
-  :config (save-place-mode))
+  :config
+  (if (< emacs-major-version 25)
+      (setq-default save-place t)
+    (save-place-mode)))
 
 ;; search
-(use-package isearch
+(use-package "isearch"
   :config
   (setq search-highlight t)
   (setq search-whitespace-regexp ".*?")
@@ -471,13 +474,14 @@ is already narrowed."
   :commands evil-mode)
 
 ;; magit
-(use-package magit
-  :defer 2
-  :ensure t
-  :bind
-  (("C-x g" . magit-status)
-   ("C-x M-g" . magit-dispatch)
-   ("C-c g" . magit-file-dispatch)))
+(unless (< emacs-major-version 25)
+  (use-package magit
+    :ensure t
+    :defer 2
+    :bind
+    (("C-x g" . magit-status)
+     ("C-x M-g" . magit-dispatch)
+     ("C-c g" . magit-file-dispatch))))
 
 ;; AUCTeX
 (defun user/align-environment ()
@@ -582,9 +586,6 @@ is already narrowed."
    bibtex-maintain-sorted-entries t))
 
 ;; Language modes
-(use-package blacken
-  :ensure t
-  :commands blacken-buffer)
 (use-package modern-cpp-font-lock
   :ensure t
   :hook (c++-mode . modern-c++-font-lock-mode))
@@ -610,9 +611,6 @@ is already narrowed."
   :ensure t
   :mode ("\\.gnuplot\\'" . gnuplot-mode)
   :config (setq gnuplot-display-process nil))
-(use-package haskell-mode
-  :ensure t
-  :mode "\\.hs\\'")
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
@@ -623,19 +621,28 @@ is already narrowed."
   :ensure t
   :mode "\\.lua\\'"
   :config (setq lua-indent-level 4))
-(use-package markdown-mode
-  :ensure t
-  :commands (markdown-mode gfm-mode)
-  :mode (("README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "pandoc"))
-(use-package nix-mode
-  :ensure t
-  :mode "\\.nix\\'")
-(use-package rust-mode
-  :ensure t
-  :mode "\\.rs\\'")
+
+(unless (< emacs-major-version 25)
+  (use-package blacken
+    :ensure t
+    :commands blacken-buffer)
+  (use-package haskell-mode
+    :ensure t
+    :mode "\\.hs\\'")
+  (use-package markdown-mode
+    :ensure t
+    :commands (markdown-mode gfm-mode)
+    :mode (("README\\.md\\'" . gfm-mode)
+           ("\\.md\\'" . markdown-mode)
+           ("\\.markdown\\'" . markdown-mode))
+    :init (setq markdown-command "pandoc"))
+  (use-package nix-mode
+    :ensure t
+    :mode "\\.nix\\'")
+  (use-package rust-mode
+    :ensure t
+    :mode "\\.rs\\'"))
+
 (use-package rainbow-mode
   :ensure t
   :commands (rainbow-mode))
