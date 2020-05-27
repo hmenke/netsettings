@@ -564,25 +564,16 @@ is already narrowed."
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
 
-;; load bibtex record by doi
-(defun user/url-bibtex-from-doi (doi)
-  (interactive "sDOI: ")
-  (let* ((url (concat "https://doi.org/" doi))
-         (url-mime-accept-string "application/x-bibtex"))
-    (insert
-     (with-current-buffer (url-retrieve-synchronously url)
-       (let* ((start url-http-end-of-headers)
-              (end (point-max))
-              (all (buffer-string))
-              (body (buffer-substring start end)))
-         (replace-regexp-in-string "^\t" "  " (url-unhex-string body)))))))
-(use-package url
-  :commands user/url-bibtex-from-doi)
+(use-package bibref
+  :load-path "lisp"
+  :commands (bibref-from-doi
+             bibref-from-arxiv))
 
 ;; bibtex
 (use-package bibtex
   :bind (:map bibtex-mode-map
-              ("C-c d" . user/url-bibtex-from-doi)
+              ("C-c d" . bibref-from-doi)
+              ("C-c x" . bibref-from-arxiv)
               ("C-c v" . bibtex-validate)
               ("C-c s" . bibtex-sort-buffer)
               ([down-mouse-3] . imenu))
