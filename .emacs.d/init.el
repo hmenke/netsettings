@@ -38,7 +38,8 @@
  line-number-mode t
  column-number-mode t
  visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
- async-shell-command-display-buffer nil)
+ async-shell-command-display-buffer nil
+ async-shell-command-buffer 'new-buffer)
 
 ;; select.el
 (setq-default
@@ -226,7 +227,7 @@ is already narrowed."
   (setq
    dired-listing-switches user/dired-listing-switches
    dired-use-ls-dired t
-   dired-guess-shell-alist-user '(("\\.pdf\\'" "xdg-open"))
+   dired-guess-shell-alist-user '((".*" "1>/dev/null 2>/dev/null nohup xdg-open"))
    dired-auto-revert-buffer t
    dired-dwin-target t))
 
