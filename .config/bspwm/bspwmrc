@@ -65,5 +65,6 @@ bspc config urgent_border_color "#fb4934"
 bspc rule -a Emacs state=tiled
 bspc rule -a Zathura state=tiled
 bspc rule -a zoom state=floating
+bspc rule -a uniselect state=floating
 
 feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
