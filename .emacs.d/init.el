@@ -436,6 +436,7 @@ is already narrowed."
   (setq
    org-directory "/davs:henri@henrimenke.com:/webdav/"
    org-agenda-files '("/davs:henri@henrimenke.com:/webdav/")
+   org-startup-folded nil
    org-completion-use-ido t))
 
 (use-package org-capture
