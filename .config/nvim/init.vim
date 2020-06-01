@@ -158,6 +158,7 @@ let g:airline_symbols.branch = '⎇'
 " Always treat tex files as sty files
 let g:tex_stylish = 1
 let g:tex_conceal = ''
+let g:polyglot_disabled = ['latex']
 
 " snippets
 let g:UltiSnipsNoPythonWarning = 1
