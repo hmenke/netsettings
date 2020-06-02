@@ -1,109 +1,25 @@
 ;; -*- lexical-binding: t; -*-
 
 ;; Speed up the startup
-(setq gc-cons-threshold-old gc-cons-threshold
-      gc-cons-percentage-old gc-cons-percentage
-      file-name-handler-alist-old file-name-handler-alist)
-(setq gc-cons-threshold (* 100 1024 1024)
+(setq old/gc-cons-threshold gc-cons-threshold
+      old/gc-cons-percentage gc-cons-percentage
+      old/file-name-handler-alist file-name-handler-alist)
+(setq gc-cons-threshold most-positive-fixnum
       gc-cons-percentage 0.6
-      file-name-handler-alist nil)
+      file-name-handler-alist nil
+      site-run-file nil)
 (defun user/reset-startup-values ()
-  (setq gc-cons-threshold gc-cons-threshold-old
-        gc-cons-percentage gc-cons-percentage-old
-        file-name-handler-alist file-name-handler-alist-old))
+  (setq gc-cons-threshold old/gc-cons-threshold
+        gc-cons-percentage old/gc-cons-percentage
+        file-name-handler-alist old/file-name-handler-alist))
 (add-hook 'emacs-startup-hook 'user/reset-startup-values)
 
-;; Actual configuration
-(when tool-bar-mode (tool-bar-mode -1))
-(when menu-bar-mode (menu-bar-mode -1))
-(when scroll-bar-mode (scroll-bar-mode -1))
-(tooltip-mode 0)
-(blink-cursor-mode 0)
-
-;; Enable some disabled commands
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-(put 'dired-find-alternate-file 'disabled nil)
-(put 'overwrite-mode 'disabled t)
-
-;; Set defaults
-;; startup.el
-(setq-default
- inhibit-startup-screen t
- initial-scratch-message "")
-
-;; simple.el
-(setq-default
- line-number-mode t
- column-number-mode t
- visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
- async-shell-command-display-buffer nil
- async-shell-command-buffer 'new-buffer)
-
-;; select.el
-(setq-default
- x-select-enable-clipboard t)
-
-;; files.el
-(setq-default
- backup-by-copying t
- enable-local-eval 'maybe
- enable-local-variables t)
-
-;; C source code
-(setq-default
- indent-tabs-mode nil
- fill-column 80
- use-dialog-box nil)
-(setq-default frame-title-format
-      '("%b" (buffer-file-name " (%f)"
-              (dired-directory (" ("
-               (dired-directory dired-directory
-                "") ")") "")) " - Emacs"))
-
-;; cus-edit.el
-(setq-default
- custom-file (concat user-emacs-directory "custom.el"))
-
-;; comp.el
-(setq-default
- comp-deferred-compilation-black-list '("^/usr" "^/nix")
- comp-deferred-compilation t)
-
-(defalias 'yes-or-no-p 'y-or-n-p)
-(global-auto-revert-mode t)
-(delete-selection-mode 1)
-(transient-mark-mode 1)
-(show-paren-mode 1)
-
 ;; Auto save to emacs state dir
-(setq auto-save-directory
+(setq user/auto-save-directory
       (file-name-as-directory
        (concat user-emacs-directory "auto-save-files")))
-(unless (file-directory-p auto-save-directory)
-  (make-directory auto-save-directory t))
-(setq auto-save-file-name-transforms `((".*" ,auto-save-directory t))
-      auto-save-list-file-prefix auto-save-directory)
-
-;; Clean up spaces
-;; https://pages.sachachua.com/.emacs.d/Sacha.html
-(global-set-key [?\M- ] 'cycle-spacing)
-(global-set-key [?\M-/] 'hippie-expand)
-
-;; Spell checking
-;; https://emacs.stackexchange.com/questions/20206
-(add-hook 'text-mode-hook #'flyspell-mode)
-(add-hook 'flyspell-mode-hook #'user/flyspell-local-vars)
-(defun user/flyspell-local-vars ()
-  (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
-(setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
-
-;; message-mode enhancements
-(setq message-kill-buffer-on-exit t)
-
-;; DocView enhancements
-(setq doc-view-resolution 160)
+(unless (file-directory-p user/auto-save-directory)
+  (make-directory user/auto-save-directory t))
 
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
@@ -160,6 +76,93 @@ is already narrowed."
 ;; BUILTIN ;;
 ;;;;;;;;;;;;;
 
+(use-package emacs
+  :config
+  (when tool-bar-mode (tool-bar-mode -1))
+  (when menu-bar-mode (menu-bar-mode -1))
+  (when scroll-bar-mode (scroll-bar-mode -1))
+  (tooltip-mode 0)
+
+  ;; Enable some disabled commands
+  (put 'upcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
+  (put 'narrow-to-region 'disabled nil)
+
+  (setq-default
+   indent-tabs-mode nil
+   fill-column 80
+   use-dialog-box nil)
+  (setq-default frame-title-format
+        '("%b" (buffer-file-name " (%f)"
+                (dired-directory (" ("
+                 (dired-directory dired-directory
+                  "") ")") "")) " - Emacs"))
+  (defalias 'yes-or-no-p 'y-or-n-p))
+
+
+(use-package "startup"
+  :config
+  (setq-default
+   inhibit-startup-screen t
+   initial-scratch-message ""
+   auto-save-list-file-prefix user/auto-save-directory))
+
+(use-package simple
+  :bind ("M-SPC" . cycle-spacing)
+  :config
+  (setq-default
+   line-number-mode t
+   column-number-mode t
+   visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow)
+   async-shell-command-display-buffer nil
+   async-shell-command-buffer 'new-buffer)
+  (transient-mark-mode 1)
+  (put 'overwrite-mode 'disabled t))
+
+(use-package select
+  :config
+  (setq-default
+   x-select-enable-clipboard t))
+
+(use-package files
+  :config
+  (setq-default
+   backup-by-copying t
+   enable-local-eval 'maybe
+   enable-local-variables t
+   auto-save-file-name-transforms `((".*" ,user/auto-save-directory t))))
+
+(use-package cus-edit
+  :config
+  (setq-default
+   custom-file (concat user-emacs-directory "custom.el")))
+
+;;(use-package comp
+;;  :config
+;;  (setq-default
+;;   comp-deferred-compilation-black-list '("^/usr" "^/nix")
+;;   comp-deferred-compilation t))
+
+(use-package autorevert
+  :config
+  (global-auto-revert-mode t)
+  (setq auto-revert-interval 2
+        auto-revert-check-vc-info t
+        global-auto-revert-non-file-buffers t
+        auto-revert-verbose nil))
+
+(use-package delsel
+  :config
+  (delete-selection-mode 1))
+
+(use-package paren
+  :config
+  (setq show-paren-delay 0)
+  (show-paren-mode 1))
+
+(use-package hippie-exp
+  :bind ("M-/" . hippie-expand))
+
 ;; c++ mode enhancements
 (use-package cc-mode
   :hook (c++-mode . (lambda() (c-set-offset 'innamespace 0)))
@@ -179,39 +182,42 @@ is already narrowed."
                    backward-delete-char-untabify-method nil))))
 
 ;; mouse integration
-(defun track-mouse (e)) ;; avoid spurious errors
 (use-package mouse
   :unless window-system
+  :init
+  ;; avoid spurious errors
+  (defun track-mouse (e))
   :config
   (xterm-mouse-mode t)
   (setq mouse-sel-mode t))
 
 ;; Rebind C-z to avoid freezing
-(defun user/suspend-frame ()
+(use-package frame
+  :bind (("C-z" . nil)
+         ("C-z C-z" . user/suspend-frame)
+         ("C-x C-z" . user/suspend-frame))
+  :init
+  (defun user/suspend-frame ()
   (interactive)
   (if (display-graphic-p)
       (error "Cannot suspend graphical frame")
     (suspend-frame)))
-(use-package frame
-  :bind (("C-z" . nil)
-         ("C-z C-z" . user/suspend-frame)
-         ("C-x C-z" . user/suspend-frame)))
+  :config
+  (blink-cursor-mode 0))
+
+;; Spell checking
+;; https://emacs.stackexchange.com/questions/20206
+(use-package flyspell
+  :hook ((text-mode . flyspell-mode)
+         (flyspell-mode . user/flyspell-local-vars))
+  :init
+  (defun user/flyspell-local-vars ()
+    (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
+  :config
+   ;; default C-; is iedit
+  (setq-default flyspell-auto-correct-binding [ignore]))
 
 ;; Dired enhancements
-(setq user/dired-listing-switches " -laGh1 --group-directories-first")
-(defun user/dired-open-in-terminal ()
-  (interactive)
-  (let ((process-connection-type nil))
-    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
-(defun user/dired-multi-occur ()
-  ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
-  "Search string in files marked by dired."
-  (interactive
-   (let ((files (dired-get-marked-files)))
-     (if (null files)
-         (error "No files marked")
-       (let ((string (read-string "List lines matching regexp in marked files: ")))
-         (multi-occur (mapcar 'find-file files) string))))))
 (use-package dired
   :commands dired
   :bind (("C-x C-j" . dired-jump)
@@ -223,7 +229,23 @@ is already narrowed."
               ("M-s O" . user/dired-multi-occur)
               ("M-t" . user/dired-open-in-terminal))
   :hook (dired-mode . dired-hide-details-mode)
+  :init
+  (setq user/dired-listing-switches " -laGh1 --group-directories-first")
+  (defun user/dired-open-in-terminal ()
+    (interactive)
+    (let ((process-connection-type nil))
+      (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
+  (defun user/dired-multi-occur ()
+    ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
+    "Search string in files marked by dired."
+    (interactive
+     (let ((files (dired-get-marked-files)))
+       (if (null files)
+           (error "No files marked")
+         (let ((string (read-string "List lines matching regexp in marked files: ")))
+           (multi-occur (mapcar 'find-file files) string))))))
   :config
+  (put 'dired-find-alternate-file 'disabled nil)
   (setq
    dired-listing-switches user/dired-listing-switches
    dired-use-ls-dired t
@@ -323,42 +345,43 @@ is already narrowed."
   (setq isearch-lazy-highlight t))
 
 ;; ido mode
-(defun user/ido-vertical-define-keys ()
-  (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "<mouse-4>") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
-  (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
-  (define-key ido-completion-map (kbd "<mouse-5>") 'ido-next-match)
-  (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
-(defun user/ido-disable-line-truncation ()
-  (set (make-local-variable 'truncate-lines) nil))
-(defvar user/ido-command-history nil)
-(defun user/ido-complete-execute-extended-command ()
-  (interactive)
-  (let* ((cmds (all-completions "" obarray 'commandp))
-         (hist user/ido-command-history)
-         (comp (delete-dups (append hist cmds))))
-  (call-interactively
-   (intern (ido-completing-read "M-x " comp nil t nil
-                                'user/ido-command-history)))))
-(defun user/ido-complete-recentf ()
-  (interactive)
-  (find-file
-   (ido-completing-read
-    "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
-(defun user/ido-complete-yank ()
-  (interactive)
-  (let* ((ido-separator (concat "\n" (make-string (window-body-width) ?─) "\n"))
-         (to-insert (ido-completing-read "Yank: " kill-ring)))
-      (when (and to-insert (region-active-p))
-        (delete-region (region-beginning) (region-end)))
-      (insert to-insert)))
 (use-package ido
   :defer 0.1
   :after minibuffer
   :bind (("M-x" . 'user/ido-complete-execute-extended-command)
          ("C-M-y" . 'user/ido-complete-yank)
          ("C-x C-r" . 'user/ido-complete-recentf))
+  :init
+  (defun user/ido-vertical-define-keys ()
+    (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+    (define-key ido-completion-map (kbd "<mouse-4>") 'ido-prev-match)
+    (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
+    (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+    (define-key ido-completion-map (kbd "<mouse-5>") 'ido-next-match)
+    (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
+  (defun user/ido-disable-line-truncation ()
+    (set (make-local-variable 'truncate-lines) nil))
+  (defvar user/ido-command-history nil)
+  (defun user/ido-complete-execute-extended-command ()
+    (interactive)
+    (let* ((cmds (all-completions "" obarray 'commandp))
+           (hist user/ido-command-history)
+           (comp (delete-dups (append hist cmds))))
+      (call-interactively
+       (intern (ido-completing-read "M-x " comp nil t nil
+                                    'user/ido-command-history)))))
+  (defun user/ido-complete-recentf ()
+    (interactive)
+    (find-file
+     (ido-completing-read
+      "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
+  (defun user/ido-complete-yank ()
+    (interactive)
+    (let* ((ido-separator (concat "\n" (make-string (window-body-width) ?─) "\n"))
+           (to-insert (ido-completing-read "Yank: " kill-ring)))
+      (when (and to-insert (region-active-p))
+        (delete-region (region-beginning) (region-end)))
+      (insert to-insert)))
   :config
   (setq
    ido-enable-flex-matching t
@@ -406,6 +429,11 @@ is already narrowed."
            (side . bottom)
            (slot . 0)
            (window-parameters . ((no-other-window . t))))
+          ("\\`\\*TeX errors\\*\\'"
+           (display-buffer-in-side-window)
+           (window-height . 0.3)
+           (side . bottom)
+           (slot . 0))
           ("\\*Async Shell Command\\*.*"
            (display-buffer-no-window)
            nil)
@@ -500,12 +528,8 @@ is already narrowed."
          ("\\.dtx\\'" . LaTeX-mode)
          ("\\.sty\\'" . LaTeX-mode)
          ("\\.tex\\'" . LaTeX-mode)
-         ("\\.mkii\\'" . ConTeXt-mode)
-         ("\\.mkiv\\'" . ConTeXt-mode)
-         ("\\.mkvi\\'" . ConTeXt-mode)
-         ("\\.mpii\\'" . metapost-mode)
-         ("\\.mpiv\\'" . metapost-mode)
-         ("\\.mpvi\\'" . metapost-mode))
+         ("\\.mk\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . ConTeXt-mode)
+         ("\\.mp\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . metapost-mode))
   :init
   ;; TeX mode enhancements
   (setq
@@ -518,7 +542,7 @@ is already narrowed."
    TeX-source-correlate-start-server t
    TeX-parse-all-errors t
    ;;TeX-error-overview-open-after-TeX-run t
-   TeX-debug-bad- t
+   TeX-debug-bad-boxes t
    TeX-debug-warnings t
    TeX-display-help 'expert
    ;; TeX-auto-local nil
@@ -596,7 +620,7 @@ is already narrowed."
   :commands (clang-format clang-format-region clang-format-buffer))
 (use-package cmake-mode
   :ensure t
-  :mode ("\\`CMakeLists.txt\\'" "\\.cmake\\'"))
+  :mode ("\\`CMakeLists\\.txt\\'" "\\.cmake\\'"))
 (use-package csv-mode
   :ensure t
   :mode "\\.csv\\'")
@@ -634,7 +658,7 @@ is already narrowed."
   (use-package markdown-mode
     :ensure t
     :commands (markdown-mode gfm-mode)
-    :mode (("README\\.md\\'" . gfm-mode)
+    :mode (("\\`README\\.md\\'" . gfm-mode)
            ("\\.md\\'" . markdown-mode)
            ("\\.markdown\\'" . markdown-mode))
     :init (setq markdown-command "pandoc"))
