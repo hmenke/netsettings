@@ -78,6 +78,7 @@ user_pref("camera.control.autofocus_moving_callback.enabled", false);
 user_pref("datareporting.healthreport.uploadEnabled", false);
 user_pref("datareporting.policy.dataSubmissionEnabled", false);
 user_pref("extensions.getAddons.cache.enabled", false);
+user_pref("extensions.fxmonitor.enabled", false);
 user_pref("extensions.htmlaboutaddons.discover.enabled", false);
 user_pref("extensions.htmlaboutaddons.recommendations.enabled", false);
 user_pref("extensions.ui.lastCategory", "addons://list/extension");
