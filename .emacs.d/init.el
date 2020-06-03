@@ -92,11 +92,11 @@ is already narrowed."
    indent-tabs-mode nil
    fill-column 80
    use-dialog-box nil)
-  (setq-default frame-title-format
-        '("%b" (buffer-file-name " (%f)"
-                (dired-directory (" ("
-                 (dired-directory dired-directory
-                  "") ")") "")) " - Emacs"))
+  (setq frame-title-format
+        '((:eval (if (buffer-file-name)
+                     (abbreviate-file-name (buffer-file-name))
+                   "%b"))
+          " - Emacs"))
   (defalias 'yes-or-no-p 'y-or-n-p))
 
 
@@ -183,7 +183,7 @@ is already narrowed."
 
 ;; mouse integration
 (use-package mouse
-  :unless window-system
+  :if window-system
   :init
   ;; avoid spurious errors
   (defun track-mouse (e))
@@ -465,7 +465,9 @@ is already narrowed."
    org-directory "/davs:henri@henrimenke.com:/webdav/"
    org-agenda-files '("/davs:henri@henrimenke.com:/webdav/")
    org-startup-folded nil
-   org-completion-use-ido t))
+   org-completion-use-ido t
+   org-export-html-validation-link nil
+   org-html-validation-link nil))
 
 (use-package org-capture
   :bind ("C-c c" . org-capture)
