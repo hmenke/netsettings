@@ -500,6 +500,9 @@ is already narrowed."
 ;; MELPA ;;
 ;;;;;;;;;;;
 
+(use-package diminish
+  :ensure t)
+
 ;; Vim bindings
 (use-package evil
   :ensure t
@@ -685,6 +688,7 @@ is already narrowed."
   :bind
   (("C-;" . iedit-mode)))
 (use-package undo-tree
+  :diminish undo-tree-mode
   :ensure t
   :config
   (setq
@@ -715,6 +719,7 @@ is already narrowed."
 
 ;; Show suggestions for incomplete key chords
 (use-package which-key
+  :diminish which-key-mode
   :ensure t
   :defer 2
   :config (which-key-mode))
@@ -735,4 +740,19 @@ is already narrowed."
 (use-package telephone-line
   :ensure t
   :if window-system
-  :config (telephone-line-mode 1))
+  :config
+  (setq
+   telephone-line-lhs
+   '((evil   . (telephone-line-evil-tag-segment))
+     (accent . (telephone-line-vc-segment
+                telephone-line-erc-modified-channels-segment
+                telephone-line-process-segment))
+     (nil    . (telephone-line-projectile-segment
+                telephone-line-buffer-segment)))
+   telephone-line-rhs
+   '((nil    . (telephone-line-flycheck-segment
+                telephone-line-misc-info-segment))
+     (accent . (telephone-line-major-mode-segment
+                telephone-line-minor-mode-segment))
+     (evil   . (telephone-line-airline-position-segment))))
+  (telephone-line-mode 1))
