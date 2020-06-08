@@ -10,6 +10,10 @@ super + @Return
 super + @space
 	rofi -show run
 
+# open files with default program
+super + shift + @space
+	xdg-open "$(find . -xdev -type f -not -path '*/\.*' -and -not -path '*/*~' | rofi -dmenu -i -theme gruvbox-dark)"
+
 # password store
 super + @p
 	~/.local/bin/passmenu

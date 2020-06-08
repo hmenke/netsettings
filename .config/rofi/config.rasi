@@ -1,4 +1,6 @@
 configuration {
     font: "mono 11";
     theme: "dmenu-gruvbox-dark";
+    sort: true;
+    sorting-method: "levenshtein";
 }
