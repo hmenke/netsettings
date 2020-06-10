@@ -1,4 +1,4 @@
-#! /bin/sh
+#!/bin/sh
 
 run_once() {
     if ! pgrep -f -x "$1" > /dev/null; then
@@ -67,4 +67,10 @@ bspc rule -a Zathura state=tiled
 bspc rule -a zoom state=floating
 bspc rule -a uniselect state=floating
 
-feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
+if [ -f ~/.config/awesome/backgrounds/Wallpaper.jpg ]; then
+	feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
+fi
+
+if [ -f ~/.config/bspwm/bspwmrc.local ]; then
+	. ~/.config/bspwm/bspwmrc.local
+fi
