@@ -78,6 +78,7 @@ is already narrowed."
 
 (use-package emacs
   :config
+  ;; These are not actually builtins but I just keep them here
   (when tool-bar-mode (tool-bar-mode -1))
   (when menu-bar-mode (menu-bar-mode -1))
   (when scroll-bar-mode (scroll-bar-mode -1))
@@ -97,8 +98,15 @@ is already narrowed."
                      (abbreviate-file-name (buffer-file-name))
                    "%b"))
           " - Emacs"))
-  (defalias 'yes-or-no-p 'y-or-n-p))
 
+  ;; Don't write message to the minibuffer when it's active
+  (defun user/inhibit-message-in-minibuffer (f &rest args)
+    (let ((inhibit-message (or inhibit-message (active-minibuffer-window))))
+      (apply f args)))
+  (advice-add 'message :around #'user/inhibit-message-in-minibuffer)
+
+  ;; I don't like typing
+  (defalias 'yes-or-no-p 'y-or-n-p))
 
 (use-package "startup"
   :config
