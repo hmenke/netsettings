@@ -146,10 +146,11 @@ is already narrowed."
 (use-package autorevert
   :config
   (global-auto-revert-mode t)
-  (setq auto-revert-interval 2
-        auto-revert-check-vc-info t
-        global-auto-revert-non-file-buffers t
-        auto-revert-verbose nil))
+  (setq
+   auto-revert-interval 2
+   auto-revert-check-vc-info t
+   global-auto-revert-non-file-buffers t
+   auto-revert-verbose nil))
 
 (use-package delsel
   :config
@@ -345,58 +346,58 @@ is already narrowed."
   (setq isearch-lazy-highlight t))
 
 ;; ido mode
-(use-package ido
-  :defer 0.1
-  :after minibuffer
-  :bind (("M-x" . 'user/ido-complete-execute-extended-command)
-         ("C-M-y" . 'user/ido-complete-yank)
-         ("C-x C-r" . 'user/ido-complete-recentf))
-  :init
-  (defun user/ido-vertical-define-keys ()
-    (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
-    (define-key ido-completion-map (kbd "<mouse-4>") 'ido-prev-match)
-    (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
-    (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
-    (define-key ido-completion-map (kbd "<mouse-5>") 'ido-next-match)
-    (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
-  (defun user/ido-disable-line-truncation ()
-    (set (make-local-variable 'truncate-lines) nil))
-  (defvar user/ido-command-history nil)
-  (defun user/ido-complete-execute-extended-command ()
-    (interactive)
-    (let* ((cmds (all-completions "" obarray 'commandp))
-           (hist user/ido-command-history)
-           (comp (delete-dups (append hist cmds))))
-      (call-interactively
-       (intern (ido-completing-read "M-x " comp nil t nil
-                                    'user/ido-command-history)))))
-  (defun user/ido-complete-recentf ()
-    (interactive)
-    (find-file
-     (ido-completing-read
-      "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
-  (defun user/ido-complete-yank ()
-    (interactive)
-    (let* ((ido-separator (concat "\n" (make-string (window-body-width) ?─) "\n"))
-           (to-insert (ido-completing-read "Yank: " kill-ring)))
-      (when (and to-insert (region-active-p))
-        (delete-region (region-beginning) (region-end)))
-      (insert to-insert)))
-  :config
-  (setq
-   ido-enable-flex-matching t
-   ido-everywhere t
-   ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
-                     " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")
-   ido-default-file-method 'selected-window
-   ido-default-buffer-method 'selected-window
-   ido-create-new-buffer 'prompt
-   ido-confirm-unique-completion nil
-   ido-completion-buffer-all-completions nil
-   ido-use-virtual-buffers t)
-  (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
-  (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
-  (ido-mode 1))
+;;(use-package ido
+;;  :defer 0.1
+;;  :after minibuffer
+;;  :bind (("M-x" . 'user/ido-complete-execute-extended-command)
+;;         ("C-M-y" . 'user/ido-complete-yank)
+;;         ("C-x C-r" . 'user/ido-complete-recentf))
+;;  :init
+;;  (defun user/ido-vertical-define-keys ()
+;;    (define-key ido-completion-map (kbd "<up>") 'ido-prev-match)
+;;    (define-key ido-completion-map (kbd "<mouse-4>") 'ido-prev-match)
+;;    (define-key ido-completion-map (kbd "C-p") 'ido-prev-match)
+;;    (define-key ido-completion-map (kbd "<down>") 'ido-next-match)
+;;    (define-key ido-completion-map (kbd "<mouse-5>") 'ido-next-match)
+;;    (define-key ido-completion-map (kbd "C-n") 'ido-next-match))
+;;  (defun user/ido-disable-line-truncation ()
+;;    (set (make-local-variable 'truncate-lines) nil))
+;;  (defvar user/ido-command-history nil)
+;;  (defun user/ido-complete-execute-extended-command ()
+;;    (interactive)
+;;    (let* ((cmds (all-completions "" obarray 'commandp))
+;;           (hist user/ido-command-history)
+;;           (comp (delete-dups (append hist cmds))))
+;;      (call-interactively
+;;       (intern (ido-completing-read "M-x " comp nil t nil
+;;                                    'user/ido-command-history)))))
+;;  (defun user/ido-complete-recentf ()
+;;    (interactive)
+;;    (find-file
+;;     (ido-completing-read
+;;      "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
+;;  (defun user/ido-complete-yank ()
+;;    (interactive)
+;;    (let* ((ido-separator (concat "\n" (make-string (window-body-width) ?─) "\n"))
+;;           (to-insert (ido-completing-read "Yank: " kill-ring)))
+;;      (when (and to-insert (region-active-p))
+;;        (delete-region (region-beginning) (region-end)))
+;;      (insert to-insert)))
+;;  :config
+;;  (setq
+;;   ido-enable-flex-matching t
+;;   ido-everywhere t
+;;   ido-decorations '("\n-> " "" "\n   " "\n   ..." "[" "]" " [No match]"
+;;                     " [Matched]" " [Not readable]" " [Too big]" " [Confirm]")
+;;   ido-default-file-method 'selected-window
+;;   ido-default-buffer-method 'selected-window
+;;   ido-create-new-buffer 'prompt
+;;   ido-confirm-unique-completion nil
+;;   ido-completion-buffer-all-completions nil
+;;   ido-use-virtual-buffers t)
+;;  (add-hook 'ido-minibuffer-setup-hook 'user/ido-disable-line-truncation)
+;;  (add-hook 'ido-setup-hook 'user/ido-vertical-define-keys)
+;;  (ido-mode 1))
 
 ;; icomplete
 ;;(use-package icomplete
@@ -456,6 +457,15 @@ is already narrowed."
    (cons tramp-file-name-regexp
          (concat user-emacs-directory "tramp-backups/"))))
 
+;; vc
+(use-package vc
+  :config
+  (setq
+   vc-ignore-dir-regexp
+   (format "\\(%s\\)\\|\\(%s\\)"
+           vc-ignore-dir-regexp
+           tramp-file-name-regexp)))
+
 ;; org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
@@ -502,6 +512,24 @@ is already narrowed."
 
 (use-package diminish
   :ensure t)
+
+;; incremental completion
+(use-package selectrum
+  :ensure t
+  :bind ("C-x C-r" . 'user/selectrum-complete-recentf)
+  :init
+  (defun user/selectrum-complete-recentf ()
+    (interactive)
+    (find-file
+     (selectrum-completing-read
+      "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
+  :config
+  (selectrum-mode +1))
+(use-package selectrum-prescient
+  :ensure t
+  :config
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
 
 ;; Vim bindings
 (use-package evil
