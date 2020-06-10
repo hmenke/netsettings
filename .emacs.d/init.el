@@ -100,10 +100,11 @@ is already narrowed."
           " - Emacs"))
 
   ;; Don't write message to the minibuffer when it's active
-  (defun user/inhibit-message-in-minibuffer (f &rest args)
-    (let ((inhibit-message (or inhibit-message (active-minibuffer-window))))
-      (apply f args)))
-  (advice-add 'message :around #'user/inhibit-message-in-minibuffer)
+  (when (boundp 'inhibit-message)
+    (defun user/inhibit-message-in-minibuffer (f &rest args)
+      (let ((inhibit-message (or inhibit-message (active-minibuffer-window))))
+        (apply f args)))
+    (advice-add 'message :around #'user/inhibit-message-in-minibuffer))
 
   ;; I don't like typing
   (defalias 'yes-or-no-p 'y-or-n-p))
@@ -521,30 +522,30 @@ is already narrowed."
 (use-package diminish
   :ensure t)
 
-;; incremental completion
-(use-package selectrum
-  :ensure t
-  :bind ("C-x C-r" . 'user/complete-recentf)
-  :init
-  (defun user/complete-recentf ()
-    (interactive)
-    (let ((files (mapcar 'abbreviate-file-name recentf-list)))
-      (find-file (completing-read "Open recent: " files nil t))))
-  :config
-  (selectrum-mode +1))
-(use-package selectrum-prescient
-  :ensure t
-  :config
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
-
 ;; Vim bindings
 (use-package evil
   :ensure t
   :commands evil-mode)
 
-;; magit
 (unless (< emacs-major-version 25)
+  ;; incremental completion
+  (use-package selectrum
+    :ensure t
+    :bind ("C-x C-r" . 'user/complete-recentf)
+    :init
+    (defun user/complete-recentf ()
+      (interactive)
+      (let ((files (mapcar 'abbreviate-file-name recentf-list)))
+        (find-file (completing-read "Open recent: " files nil t))))
+    :config
+    (selectrum-mode +1))
+  (use-package selectrum-prescient
+    :ensure t
+    :config
+    (selectrum-prescient-mode +1)
+    (prescient-persist-mode +1))
+
+  ;; magit
   (use-package magit
     :ensure t
     :defer 2
