@@ -524,13 +524,12 @@ is already narrowed."
 ;; incremental completion
 (use-package selectrum
   :ensure t
-  :bind ("C-x C-r" . 'user/selectrum-complete-recentf)
+  :bind ("C-x C-r" . 'user/complete-recentf)
   :init
-  (defun user/selectrum-complete-recentf ()
+  (defun user/complete-recentf ()
     (interactive)
-    (find-file
-     (selectrum-completing-read
-      "Open recent: " (mapcar 'abbreviate-file-name recentf-list) nil t)))
+    (let ((files (mapcar 'abbreviate-file-name recentf-list)))
+      (find-file (completing-read "Open recent: " files nil t))))
   :config
   (selectrum-mode +1))
 (use-package selectrum-prescient
