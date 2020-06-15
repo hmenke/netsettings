@@ -155,6 +155,8 @@ set pgp_list_secring_command="gpg --no-verbose --batch --quiet --with-colons --w
 set pgp_good_sign="^\\[GNUPG:\\] GOODSIG"
 set pgp_check_gpg_decrypt_status_fd
 
+set crypt_use_gpgme=no
+
 ####################
 # Neomutt settings #
 ####################
