@@ -25,25 +25,8 @@ run_once "setxkbmap us altgr-intl"
 run_once "xmodmap ${HOME}/.Xmodmap"
 run_once "xsetroot -cursor_name left_ptr"
 
-setup_monitors() {
-    killall -q polybar
-    for MONITOR in $(bspc query -M --names); do
-        export MONITOR
-        bspc monitor $MONITOR -d 1 2 3 4 5 6 7 8 9 0
-        polybar --reload default &
-    done
-}
-
-setup_monitors
-bspc subscribe monitor | while read -r line; do
-    case $line in
-        monitor_add*|monitor_geometry*)
-            setup_monitors
-        ;;
-    *)
-        ;;
-    esac
-done &
+# Monitor setup
+. ~/.config/bspwm/monitor.sh
 
 # Enable window swallowing
 . ~/.config/bspwm/swallow.sh

@@ -8,11 +8,6 @@ if ! command -v xprop >/dev/null; then
 	return 1 2>/dev/null || exit 1
 fi
 
-if ! command -v pstree >/dev/null; then
-	echo "Window swallowing requires pstree"
-	return 1 2>/dev/null || exit 1
-fi
-
 if pgrep -f -x "bspc subscribe node_add" >/dev/null; then
 	echo "Someone else is already subscribed to node_add"
 	return 1 2>/dev/null || exit 1
@@ -25,10 +20,12 @@ fi
 
 # Excludes and current state are kept in normal files
 cachedir="${XDG_CACHE_HOME:-${HOME}/.cache}/bspwm"
-mkdir -p "${cachedir}"
 excludes_file="${cachedir}/swallow_excludes"
 state_file="${cachedir}/swallow_state"
 lock_file="${cachedir}/swallow_lock"
+mkdir -p "${cachedir}"
+touch "${state_file}"
+touch "${lock_file}"
 
 add_exclude() {
 	if ! grep -Fiq "$1" "${excludes_file}"; then
@@ -40,9 +37,28 @@ add_exclude() {
 add_exclude "firefox"
 add_exclude "xterm"
 
+# Helper function to check if process is a child of another
+# Checks if $2 is a child of $1
+is_child() {
+	children="$(pgrep -P "$1")"
+	for child in $children; do
+		if [ "$child" = "$2" ]; then
+			return 0 # true
+		elif is_child "$child" "$2"; then
+			return 0 #true
+		fi
+	done
+	return 1 # false
+}
+
 bspc subscribe node_add | while read -r line; do
 	new_wid="${line##* }"
 	last_wid="$(bspc query -N -d -n last.window)"
+
+	# If the window IDs are empty or the same for whatever reason skip them
+	if [ -z "$new_wid" ] || [ -z "$last_wid" ] || [ "$new_wid" = "$last_wid" ]; then
+		continue
+	fi
 
 	# Don't replace floating or fullscreen
 	if [ -n "$(bspc query -N -n "$new_wid".floating)" ] ||
@@ -59,15 +75,17 @@ bspc subscribe node_add | while read -r line; do
 		fi
 	done < "${excludes_file}"
 
-	# Get PIDs of the windows
+	# Get PIDs of the windows.  If the PID is the same, it's probably a
+	# program that wants to spawn a separate window.  Better not swallow
+	# that.
 	new_pid="$(xprop -id "$new_wid" _NET_WM_PID | grep -o '[0-9]*')"
 	last_pid="$(xprop -id "$last_wid" _NET_WM_PID | grep -o '[0-9]*')"
-	if [ -z "$new_pid" ] || [ -z "$last_pid" ]; then
+	if [ -z "$new_pid" ] || [ -z "$last_pid" ] || [ "$new_pid" = "$last_pid" ]; then
 		continue
 	fi
 
 	# Check if the new process is a child of the last
-	if pstree -T -p "$last_pid" | grep -Fq "$new_pid"; then
+	if is_child "$last_pid" "$new_pid"; then
 		bspc node --swap "$last_wid" --follow
 		bspc node "$new_wid" --flag private=on
 		bspc node "$last_wid" --flag hidden=on
