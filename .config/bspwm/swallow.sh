@@ -8,16 +8,6 @@ if ! command -v xprop >/dev/null; then
 	return 1 2>/dev/null || exit 1
 fi
 
-if pgrep -f -x "bspc subscribe node_add" >/dev/null; then
-	echo "Someone else is already subscribed to node_add"
-	return 1 2>/dev/null || exit 1
-fi
-
-if pgrep -f -x "bspc subscribe node_remove" >/dev/null; then
-	echo "Someone else is already subscribed to node_remove"
-	return 1 2>/dev/null || exit 1
-fi
-
 # Excludes and current state are kept in normal files
 cachedir="${XDG_CACHE_HOME:-${HOME}/.cache}/bspwm"
 excludes_file="${cachedir}/swallow_excludes"
@@ -51,6 +41,7 @@ is_child() {
 	return 1 # false
 }
 
+pkill -f -x "bspc subscribe node_add"
 bspc subscribe node_add | while read -r line; do
 	new_wid="${line##* }"
 	last_wid="$(bspc query -N -d -n last.window)"
@@ -97,6 +88,7 @@ bspc subscribe node_add | while read -r line; do
 	fi
 done &
 
+pkill -f -x "bspc subscribe node_remove"
 bspc subscribe node_remove | while read -r line; do
 	removed_wid="${line##* }"
 	swallowed_line="$(grep -F "$removed_wid" "${state_file}")"
@@ -105,6 +97,7 @@ bspc subscribe node_remove | while read -r line; do
 	if [ -n "$swallowed_line" ]; then
 		swallowed_wid="${swallowed_line##* }"
 		bspc node "$swallowed_wid" --flag hidden=off
+		bspc node "$swallowed_wid" --flag private=off
 		bspc node --focus "$swallowed_wid"
 		{
 			flock -x 9

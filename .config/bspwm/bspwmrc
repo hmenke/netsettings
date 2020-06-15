@@ -53,10 +53,10 @@ bspc rule -a Zathura state=tiled
 bspc rule -a zoom state=floating
 bspc rule -a uniselect state=floating
 
-if [ -f ~/.config/awesome/backgrounds/Wallpaper.jpg ]; then
-	feh --no-fehbg --bg-fill ~/.config/awesome/backgrounds/Wallpaper.jpg
+if [ -f "${XDG_CONFIG_HOME:-${HOME}/.config}/awesome/backgrounds/Wallpaper.jpg" ]; then
+	feh --no-fehbg --bg-fill "${XDG_CONFIG_HOME:-${HOME}/.config}/awesome/backgrounds/Wallpaper.jpg"
 fi
 
-if [ -f ~/.config/bspwm/bspwmrc.local ]; then
-	. ~/.config/bspwm/bspwmrc.local
+if [ -f "${XDG_CONFIG_HOME:-${HOME}/.config}/bspwm/bspwmrc.local" ]; then
+	. "${XDG_CONFIG_HOME:-${HOME}/.config}/bspwm/bspwmrc.local"
 fi
