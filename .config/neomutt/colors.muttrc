@@ -7,14 +7,14 @@ color index_subject cyan default '.*'
 color index_flags default red '~F'
 
 # For new mail:
-color index brightyellow black "~N"
-color index_author brightred black "~N"
-color index_subject brightcyan black "~N"
+color index brightyellow default "~N"
+color index_author brightred default "~N"
+color index_subject brightcyan default "~N"
 
 # For deleted mail:
-color index white black "~D"
-color index_author white black "~D"
-color index_subject white black "~D"
+color index white default "~D"
+color index_author white default "~D"
+color index_subject white default "~D"
 
 # Header colors:
 color header blue default ".*"
@@ -29,10 +29,10 @@ mono error bold
 color normal default default
 #color indicator brightblack white
 #color sidebar_highlight red default
-color sidebar_divider brightblack black
+color sidebar_divider brightblack default
 #color sidebar_flagged red black
-color sidebar_new green black
-color sidebar_unread green black
+color sidebar_new green default
+color sidebar_unread green default
 color normal brightyellow default
 color error red default
 color tilde black default
@@ -40,7 +40,7 @@ color message cyan default
 color markers red white
 color attachment white default
 color search brightmagenta default
-color status brightyellow black
+color status yellow default
 color hdrdefault brightgreen default
 color quoted green default
 color quoted1 blue default
