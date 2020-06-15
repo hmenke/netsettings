@@ -45,6 +45,9 @@ bspc subscribe monitor | while read -r line; do
     esac
 done &
 
+# Enable window swallowing
+. ~/.config/bspwm/swallow.sh &
+
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
 
