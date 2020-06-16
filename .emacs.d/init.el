@@ -633,7 +633,20 @@ is already narrowed."
   :hook (c++-mode . modern-c++-font-lock-mode))
 (use-package clang-format
   :ensure t
-  :commands (clang-format clang-format-region clang-format-buffer))
+  :bind ("C-M-<tab>" . user/clang-format)
+  :init
+  (defun user/clang-format (&optional style)
+    (interactive)
+    (let ((start (if (use-region-p) (region-beginning) (point-min)))
+          (end (if (use-region-p) (region-end) (point-max)))
+          (assume-file-name
+           (if (file-remote-p buffer-file-name)
+               (let ((local-file (file-local-name buffer-file-name)))
+                 (if (file-readable-p local-file)
+                     local-file
+                   (expand-file-name (file-name-nondirectory buffer-file-name) "~")))
+             buffer-file-name)))
+      (clang-format-region start end style assume-file-name))))
 (use-package cmake-mode
   :ensure t
   :mode ("\\`CMakeLists\\.txt\\'" "\\.cmake\\'"))
