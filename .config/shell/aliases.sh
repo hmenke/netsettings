@@ -28,7 +28,7 @@ fi
 alias latexdef="texdef -t latex"
 alias setuptex=". /opt/context/tex/setuptex"
 alias setuplmtx='export PATH=/opt/context-lmtx/tex/texmf-linux-64/bin${PATH:+:${PATH}}'
-alias ctxdef="mtxrun --silent --path=/tmp --script context --extra=meaning --once  --noconsole --nostatistics"
+alias ctxdef="mtxrun --path=/tmp --script interface --meaning"
 
 if command -v xclip > /dev/null; then
     alias xclipboard="xclip -selection clipboard"
