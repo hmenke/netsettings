@@ -1,3 +1,6 @@
+# Clear ZSH's right prompt
+RPROMPT=""
+
 # Set different color for host on SSH
 __setup_prompt() {
     local b_yellow b_green b_red n_blue f_reset
