@@ -22,10 +22,10 @@ super + shift + @p
 
 # web browser
 super + b
-	x-www-browser
+	firefox
 
 super + shift + b
-	x-www-browser --private-window
+	firefox --private-window
 
 # file manager
 super + e
