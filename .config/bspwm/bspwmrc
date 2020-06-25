@@ -12,6 +12,7 @@ run_once() {
 bspc rule -r "*"
 
 run_once "sxhkd"
+run_once "dunst"
 run_once "xscreensaver -nosplash"
 if systemctl is-active --quiet NetworkManager.service 2> /dev/null; then
     run_once "nm-applet"
