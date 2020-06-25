@@ -3,4 +3,4 @@ Description=Desktop notification for %i
 
 [Service]
 Type=oneshot
-ExecStart=/bin/bash -c "/usr/bin/notify-send --urgency=critical \"Service '%i' failed\" \"$(journalctl --user -n 6 -o cat -u %i)\""
+ExecStart=/bin/sh -c "notify-send --urgency=critical \"Service '%i' failed\" \"$(journalctl --user -n 6 -o cat -u %i)\""

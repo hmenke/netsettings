@@ -6,5 +6,5 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/python %h/.local/bin/checkmail "%i"
-ExecStartPost=-/usr/bin/polybar-msg hook mail 1
+ExecStart=/usr/bin/env python %h/.local/bin/checkmail "%i"
+ExecStartPost=-/usr/bin/env polybar-msg hook mail 1

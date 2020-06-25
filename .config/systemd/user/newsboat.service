@@ -6,5 +6,5 @@ After=network-online.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/bin/newsboat -x reload
-ExecStartPost=-/usr/bin/polybar-msg hook newsboat 1
+ExecStart=/usr/bin/env newsboat -x reload
+ExecStartPost=-/usr/bin/env polybar-msg hook newsboat 1
