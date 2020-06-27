@@ -9,6 +9,8 @@
 	ustash = -c commit.gpgsign=false stash
 	unstage = reset HEAD --
 	root = rev-parse --show-toplevel
+	exec = "!exec "
+	setup = !git init && git commit --allow-empty -m \"Initial commit\"
 [pull]
 	ff = only
 [commit]
@@ -19,6 +21,7 @@
 	decorate = true
 [status]
 	showUntrackedFiles = no
+	submodulesummary = true
 [grep]
 	lineNumber = true
 	patternType = perl
@@ -43,6 +46,7 @@
 	confirm = always
 	annotate = yes
 [push]
+	default = current
 	gpgSign = if-asked
 [core]
 	pager = less -+X
@@ -56,3 +60,7 @@
 [diff "gpg"]
 	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent
 	binary = true
+[branch]
+	autosetupmerge = true
+[fetch]
+	prune = true
