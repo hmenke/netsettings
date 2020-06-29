@@ -45,3 +45,6 @@ alias gpgsign="gpg --armor --output '-' --detach-sig"
 
 # netsettings
 alias netsettings='git --git-dir="$XDG_DATA_HOME/netsettings/git" --work-tree="${HOME}"'
+
+# unison
+alias unison="unison -ui text"
