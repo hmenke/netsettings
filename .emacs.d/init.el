@@ -538,6 +538,9 @@ is already narrowed."
     (align (point) (mark))
     (pop-mark)))
 
+(use-package tex-keywords
+  :load-path "lisp")
+
 (use-package auctex
   :ensure t
   :mode (("\\.cls\\'" . LaTeX-mode)
@@ -587,10 +590,15 @@ is already narrowed."
    reftex-cite-format 'default
    reftex-cite-key-separator ", ")
 
-  ;; Don't fontify
+  ;; Don't fontify math
   (eval-after-load "font-latex"
     '(set-face-foreground 'font-latex-math-face nil))
   (setq font-latex-fontify-script nil)
+
+  ;; Fontify primitives
+  (setq font-latex-match-function-keywords
+        (mapcar #'(lambda (primitive) (list primitive ""))
+                tex-keywords/primitives))
 
   ;; Override default indentation
   (setq LaTeX-indent-environment-list
