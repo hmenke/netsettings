@@ -80,6 +80,7 @@ alternative_order text/plain text/enriched text application_postscript image/*
 auto_view text/html
 
 # Index
+set menu_scroll
 set date_format = "!%d/%m/%y, %H:%M"
 set index_format = '%4C [%Z] %D %-25.25F (%?l?%4l&%4c?) %s'
 
