@@ -52,3 +52,33 @@ Emacs*toolBar: off
 Emacs*menuBar: off
 Emacs*scrollBar: off
 Emacs*verticalScrollBars: off
+
+! Theme inspired by Emacs Leuven
+
+*background: #FFFFFF
+*foreground: #333333
+*cursorColor: #0FB300
+! Black + DarkGrey
+*color0: #333333
+*color8: #777777
+! DarkRed + Red
+*color1:  #D0372D
+*color9:  #FF0000
+! DarkGreen + Green
+*color2:  #008000
+*color10: #00CC33
+! DarkYellow + Yellow
+*color3:  #FFD700
+*color11: #FFFF57
+! DarkBlue + Blue
+*color4:  #335EA8
+*color12: #006FE0
+! DarkMagenta + Magenta
+*color5:  #800080
+*color13: #BA36A5
+! DarkCyan + Cyan
+*color6:  #99CCFF
+*color14: #85CEEB
+! LightGrey + White
+*color7:  #F0F0F0
+*color15: #FFFFFF
