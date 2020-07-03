@@ -5,18 +5,18 @@ RPROMPT=""
 __setup_prompt() {
     local b_yellow b_green b_red n_blue f_reset
     if [[ -n ${ZSH_VERSION-} ]]; then
-        b_red="%B%F{9}"
-        b_green="%B%F{10}"
-        b_yellow="%B%F{11}"
-        b_blue="%B%F{12}"
-        n_blue="%F{12}"
+        b_red="%B%F{1}"
+        b_green="%B%F{2}"
+        b_yellow="%B%F{3}"
+        b_blue="%B%F{4}"
+        n_blue="%F{4}"
         f_reset="%f%b"
     else
-        b_red="\[\e[1;91m\]"
-        b_green="\[\e[1;92m\]"
-        b_yellow="\[\e[1;93m\]"
-        b_blue="\[\e[1;94m\]"
-        n_blue="\[\e[0;94m\]"
+        b_red="\[\e[1;31m\]"
+        b_green="\[\e[1;32m\]"
+        b_yellow="\[\e[1;33m\]"
+        b_blue="\[\e[1;34m\]"
+        n_blue="\[\e[0;34m\]"
         f_reset="\[\e[0m\]"
     fi
     if [ -n "${SSH_CLIENT}" ] || [ -n "${SSH_TTY}" ]; then

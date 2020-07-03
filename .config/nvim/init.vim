@@ -119,7 +119,6 @@ unlet s:plug_path
 
 call plug#begin('~/.local/share/nvim/plugged')
 
-Plug 'morhetz/gruvbox'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
@@ -146,7 +145,6 @@ call plug#end()
 " Airline settings
 let g:airline_highlighting_cache=1
 let g:airline_powerline_fonts=0
-let g:airline_theme='gruvbox'
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#buffer_min_count=2
 let g:airline#extensions#tabline#left_sep=' '
@@ -179,5 +177,3 @@ augroup END
 if has('termguicolors')
     set termguicolors
 endif
-set background=dark
-colorscheme gruvbox

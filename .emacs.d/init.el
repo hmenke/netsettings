@@ -745,9 +745,7 @@ is already narrowed."
   (pdf-tools-install :no-query :skip-dependencies))
 
 ;; Theme
-(use-package gruvbox-theme
-  :ensure t
-  :config (load-theme 'gruvbox t))
+(load-theme 'leuven t)
 
 (use-package telephone-line
   :ensure t
