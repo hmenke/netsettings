@@ -40,6 +40,7 @@ depends=(
     'fzf'
     'gdb'
     'git'
+    'git-filter-repo'
     'gnuplot'
     'go'
     'gsl'
