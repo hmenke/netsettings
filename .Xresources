@@ -68,8 +68,8 @@ Emacs*verticalScrollBars: off
 *color2:  #008000
 *color10: #00CC33
 ! DarkYellow + Yellow
-*color3:  #FFD700
-*color11: #FFFF57
+*color3:  #FDBD33
+*color11: #FFD700
 ! DarkBlue + Blue
 *color4:  #335EA8
 *color12: #006FE0
@@ -80,5 +80,5 @@ Emacs*verticalScrollBars: off
 *color6:  #99CCFF
 *color14: #85CEEB
 ! LightGrey + White
-*color7:  #F0F0F0
+*color7:  #D2D2D2
 *color15: #FFFFFF
