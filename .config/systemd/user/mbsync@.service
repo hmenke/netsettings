@@ -1,0 +1,17 @@
+[Unit]
+Description=mbsync service for account %i
+Documentation=man:mbsync(1)
+OnFailure=notify-send@%N.service
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStartPre=-/bin/sh -c 'mkdir -pv %h/.local/share/mbsync/%i'
+ExecStart=/usr/bin/env mbsync --config %h/.config/isync/mbsyncrc --verbose %i
+ExecStartPost=-/bin/sh -c 'echo "mailboxes $(mbsync --config %h/.config/isync/mbsyncrc --list %i | xargs -n1 -i printf " \\"+{}\\"")" | tee %h/.config/neomutt/mbnames'
+# Give 20 seconds to gracefully stop before hard killing it.
+TimeoutStopSec=20
+
+[Install]
+WantedBy=default.target

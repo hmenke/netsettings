@@ -36,7 +36,10 @@ if __name__ == "__main__":
     print("set imap_pass = {}".format(password))
 
     # Decide whether to use the offline or online configuration
-    if isfile(expanduser("~/.config/mutt/mbnames")):
+    if isfile(expanduser("~/.config/neomutt/mbnames")):
+        print("set folder = ~/.local/share/mbsync/gmail")
+        print('source "~/.config/neomutt/mbnames"')
+    elif isfile(expanduser("~/.config/mutt/mbnames")):
         print("set folder = ~/.local/share/offlineimap/GMail")
         print('source "~/.config/mutt/mbnames"')
     else:

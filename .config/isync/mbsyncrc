@@ -1,0 +1,23 @@
+IMAPAccount gmail
+Host imap.gmail.com
+User henrimenke@gmail.com
+PassCmd "python -c 'from netrc import netrc; print(netrc().hosts[\"imap.gmail.com\"][2])'"
+SSLType IMAPS
+
+IMAPStore gmail-remote
+Account gmail
+
+MaildirStore gmail-local
+Subfolders Verbatim
+Path ~/.local/share/mbsync/gmail/
+Inbox ~/.local/share/mbsync/gmail/INBOX
+Subfolders Verbatim
+
+Channel gmail
+Master :gmail-remote:
+Slave :gmail-local:
+Patterns *
+
+Create Both
+Expunge Both
+SyncState *
