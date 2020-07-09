@@ -24,7 +24,7 @@ __setup_prompt() {
     else
         __prompt_host="$b_green$1$f_reset"
     fi
-    __prompt_host="$__prompt_host${NIX_PATH:+ on ${b_blue}nix$f_reset}"
+    __prompt_host="$__prompt_host${NIX_PATH:+ on ${b_blue}nix$f_reset}${IN_NIX_SHELL:+ in ${b_yellow}$IN_NIX_SHELL shell$f_reset}"
     __prompt_dir="$b_red$2$f_reset"
     __prompt_prompt="$n_blue$3$f_reset"
 }
