@@ -78,9 +78,9 @@ bspc subscribe node_add | while read -r line; do
 	# Check if the new process is a child of the last
 	if is_child "$last_pid" "$new_pid"; then
 		bspc node --swap "$last_wid" --follow
-		bspc node "$new_wid" --flag private=on
+		#bspc node "$new_wid" --flag private=on
 		bspc node "$last_wid" --flag hidden=on
-		bspc node "$last_wid" --flag private=on
+		#bspc node "$last_wid" --flag private=on
 		{
 			flock -x 9
 			echo "$new_wid $last_wid" >> "${state_file}";
@@ -97,7 +97,7 @@ bspc subscribe node_remove | while read -r line; do
 	if [ -n "$swallowed_line" ]; then
 		swallowed_wid="${swallowed_line##* }"
 		bspc node "$swallowed_wid" --flag hidden=off
-		bspc node "$swallowed_wid" --flag private=off
+		#bspc node "$swallowed_wid" --flag private=off
 		bspc node --focus "$swallowed_wid"
 		{
 			flock -x 9
