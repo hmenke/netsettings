@@ -635,6 +635,16 @@ is already narrowed."
   (setq
    bibtex-maintain-sorted-entries t))
 
+;; Language server
+(use-package lsp-mode
+  :ensure t
+  :hook ((c++-mode . lsp-deferred)
+         (python . lsp-deferred)
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands (lsp lsp-deferred)
+  :init
+  (setq lsp-keymap-prefix "C-l"))
+
 ;; Language modes
 (use-package modern-cpp-font-lock
   :ensure t
