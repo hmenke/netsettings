@@ -30,9 +30,10 @@ xterm*vt100.Translations: #override \
       <Key>F1: popup-menu(mainMenu) \n\
       <Key>F2: popup-menu(vtMenu) \n\
       <Key>F3: popup-menu(fontMenu) \n\
-      <Key>F4: popup-menu(tekMenu)
+      <Key>F4: popup-menu(tekMenu) \n\
+      Meta <KeyPress> /:dabbrev-expand()
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
-xterm*SaveLines: 10000000
+xterm*SaveLines: 100000
 xterm*fullscreen: never
 xterm*scrollTtyOutput: false
 xterm*scrollKey: true
