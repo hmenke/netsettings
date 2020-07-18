@@ -26,7 +26,7 @@ run_once "xsetroot -cursor_name left_ptr"
 . ~/.config/bspwm/monitor.sh
 
 # Enable window swallowing
-. ~/.config/bspwm/swallow.sh
+#. ~/.config/bspwm/swallow.sh
 
 bspc config remove_disabled_monitors true
 bspc config remove_unplugged_monitors true
