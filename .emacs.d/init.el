@@ -651,7 +651,7 @@ is already narrowed."
   :hook (c++-mode . modern-c++-font-lock-mode))
 (use-package clang-format
   :ensure t
-  :bind ("C-M-<tab>" . user/clang-format)
+  :bind (:map c++-mode-map ("C-M-<tab>" . user/clang-format))
   :init
   (defun user/clang-format (&optional style)
     (interactive)
@@ -698,6 +698,8 @@ is already narrowed."
 (unless (< emacs-major-version 25)
   (use-package blacken
     :ensure t
+    :after python
+    :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
     :commands blacken-buffer)
   (use-package haskell-mode
     :ensure t
