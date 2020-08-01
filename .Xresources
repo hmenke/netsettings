@@ -7,6 +7,9 @@ Xft.hintstyle:  hintslight
 Xft.autohint:   false
 Xft.lcdfilter:  lcddefault
 
+! Xcursor
+Xcursor.theme: Adwaita
+
 ! Xterm settings
 xterm*faceName: xft:mono:medium:size=10
 xterm*termName: xterm-256color
@@ -26,12 +29,7 @@ xterm*vt100.Translations: #override \
       Shift Ctrl<Key>N: exec-formatted("xterm", PRIMARY) \n\
       Ctrl <Key> minus: smaller-vt-font() \n\
       Ctrl <Key> equal: larger-vt-font() \n\
-      Ctrl <Key> 0: set-vt-font(d) \n\
-      <Key>F1: popup-menu(mainMenu) \n\
-      <Key>F2: popup-menu(vtMenu) \n\
-      <Key>F3: popup-menu(fontMenu) \n\
-      <Key>F4: popup-menu(tekMenu) \n\
-      Meta <KeyPress> /:dabbrev-expand()
+      Ctrl <Key> 0: set-vt-font(d)
 xterm*charClass: 33:48,36-47:48,58-59:48,61:48,63-64:48,95:48,126:48
 xterm*SaveLines: 100000
 xterm*fullscreen: never
