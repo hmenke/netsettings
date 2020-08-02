@@ -52,6 +52,7 @@ bindkey '\C-x\C-e' edit-command-line
 # autocompletion
 autoload -Uz compinit
 compinit -d ~/.cache/zcompdump
+zstyle ':completion:*' hosts off
 if command -v fzf > /dev/null; then
     . ~/.config/shell/fzf/completion.zsh
 fi
