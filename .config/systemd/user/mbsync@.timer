@@ -2,7 +2,7 @@
 Description=mbsync timer for account %i
 
 [Timer]
-OnBootSec=1m
+OnStartupSec=1m
 OnUnitInactiveSec=15m
 
 [Install]

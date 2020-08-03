@@ -2,7 +2,7 @@
 Description=Update ConTeXt LMTX
 
 [Timer]
-OnBootSec=10min
+OnStartupSec=10min
 OnUnitActiveSec=1d
 Persistent=true
 

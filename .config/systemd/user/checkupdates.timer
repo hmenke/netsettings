@@ -2,7 +2,7 @@
 Description=Arch Linux updates
 
 [Timer]
-OnBootSec=5min
+OnStartupSec=5min
 OnUnitActiveSec=1h
 Persistent=true
 

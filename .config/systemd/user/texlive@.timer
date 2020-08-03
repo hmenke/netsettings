@@ -2,7 +2,7 @@
 Description=Update TeX Live %i
 
 [Timer]
-OnBootSec=5min
+OnStartupSec=5min
 OnUnitActiveSec=1d
 Persistent=true
 

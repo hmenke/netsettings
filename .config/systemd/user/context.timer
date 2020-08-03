@@ -2,7 +2,7 @@
 Description=Update ConTeXt standalone
 
 [Timer]
-OnBootSec=15min
+OnStartupSec=15min
 OnUnitActiveSec=1d
 Persistent=true
 
