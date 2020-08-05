@@ -24,6 +24,8 @@ HISTSIZE=10000000
 HISTFILESIZE=10000000
 
 # Keybindings
+bind '"\e[A": history-search-backward'
+bind '"\e[B": history-search-forward'
 if command -v fzf > /dev/null; then
     . ~/.config/shell/fzf/key-bindings.bash
 fi
