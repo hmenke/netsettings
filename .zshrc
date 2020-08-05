@@ -66,10 +66,16 @@ compdef '_dispatch git git' netsettings
 
 # Disable the beep
 unsetopt beep
-if [ -n "${DISPLAY}" ]; then
+if command -v xset > /dev/null && [ -n "${DISPLAY}" ]; then
     xset -b
 fi
 
+# direnv
+if command -v direnv > /dev/null; then
+    eval "$(direnv hook zsh)"
+fi
+
+# Extenstions
 . ~/.config/shell/zsh-autosuggestions/zsh-autosuggestions.plugin.zsh
 bindkey '^ ' autosuggest-accept
 . ~/.config/shell/zsh-syntax-highlighting/zsh-syntax-highlighting.plugin.zsh

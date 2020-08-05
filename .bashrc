@@ -41,6 +41,11 @@ _completion_loader git
 complete -o default -o nospace -F _git netsettings
 
 # Disable the beep
-if [ -n "${DISPLAY}" ]; then
+if command -v xset > /dev/null && [ -n "${DISPLAY}" ]; then
     xset -b;
+fi
+
+# direnv
+if command -v direnv > /dev/null; then
+    eval "$(direnv hook bash)"
 fi
