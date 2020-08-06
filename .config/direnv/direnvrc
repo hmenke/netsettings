@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if command -v lorri > /dev/null; then
+	eval "$(lorri direnv)"
+fi

@@ -635,6 +635,11 @@ is already narrowed."
   (setq
    bibtex-maintain-sorted-entries t))
 
+;; direnv
+(use-package direnv
+  :ensure t
+  :config (direnv-mode))
+
 ;; Language server
 (use-package lsp-mode
   :ensure t

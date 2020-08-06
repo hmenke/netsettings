@@ -126,6 +126,7 @@ Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'unblevable/quick-scope'
+Plug 'direnv/direnv.vim'
 if has('python3')
     Plug 'SirVer/ultisnips'
     Plug 'honza/vim-snippets'
