@@ -144,7 +144,6 @@ user_pref("toolkit.telemetry.updatePing.enabled", false);
 user_pref("toolkit.telemetry.server", "");
 user_pref("toolkit.telemetry.unified", false);
 user_pref("toolkit.telemetry.infoURL", "");
-user_pref("ui.systemUsesDarkTheme", 1);
 user_pref("webgl.disable-extensions", true);
 user_pref("webgl.disable-fail-if-major-performance-caveat", true);
 user_pref("webgl.min_capability_mode", true);
