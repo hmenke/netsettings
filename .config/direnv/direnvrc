@@ -1,5 +1,19 @@
 #!/usr/bin/env bash
 
-if command -v lorri > /dev/null; then
-	eval "$(lorri direnv)"
+# reduce direnv spam
+# https://github.com/target/lorri/issues/229
+#export DIRENV_LOG_FORMAT=
+
+if ! command -v lorri > /dev/null; then
+	return
 fi
+
+if test -f shell.nix; then
+	SHELL_FILE=shell.nix
+elif test -f default.nix; then
+	SHELL_FILE=default.nix
+else
+	return
+fi
+
+eval "$(lorri direnv --shell-file="$SHELL_FILE")"
