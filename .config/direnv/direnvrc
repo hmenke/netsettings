@@ -1,19 +1,13 @@
 #!/usr/bin/env bash
 
-# reduce direnv spam
-# https://github.com/target/lorri/issues/229
-#export DIRENV_LOG_FORMAT=
-
-if ! command -v lorri > /dev/null; then
+if ! command -v nix > /dev/null; then
 	return
 fi
 
-if test -f shell.nix; then
-	SHELL_FILE=shell.nix
-elif test -f default.nix; then
-	SHELL_FILE=default.nix
-else
-	return
-fi
+nix_direnv="$(nix eval --raw -f '<nixpkgs>' nix-direnv.outPath)"
+nix_direnvrc="$nix_direnv/share/nix-direnv/direnvrc"
 
-eval "$(lorri direnv --shell-file="$SHELL_FILE")"
+if [ -f "$nix_direnvrc" ]; then
+	echo "direnv: using $nix_direnvrc"
+	. "$nix_direnvrc"
+fi
