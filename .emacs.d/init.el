@@ -223,7 +223,7 @@ is already narrowed."
 
 ;; mouse integration
 (use-package mouse
-  :if window-system
+  :unless window-system
   :init
   ;; avoid spurious errors
   (defun track-mouse (e))
