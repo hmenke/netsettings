@@ -1,2 +1,3 @@
-application/*; xdg-open '%s';
+application/*; 1>/dev/null 2>/dev/null nohup xdg-open '%s' &;
+image/*; 1>/dev/null 2>/dev/null nohup xdg-open '%s' &;
 text/html; pandoc -f html -t plain; copiousoutput;
