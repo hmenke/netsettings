@@ -1,0 +1,10 @@
+[Unit]
+Description=Nix User Environment Upgrade
+OnFailure=notify-send@%N.service
+Wants=network-online.target
+After=network-online.target
+ConditionACPower=true
+
+[Service]
+Type=oneshot
+ExecStart=%h/.nix-profile/bin/nix-rebuild

@@ -1,0 +1,11 @@
+[Unit]
+Description=Nix User Environment Upgrade
+
+[Timer]
+OnStartupSec=20min
+OnUnitActiveSec=1d
+RandomizedDelaySec=5min
+Persistent=true
+
+[Install]
+WantedBy=timers.target
