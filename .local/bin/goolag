@@ -4,9 +4,9 @@
 # Use the GOOGLE_CHROME environment variable to override.
 if [ -z "${GOOGLE_CHROME}" ]; then
 	if command -v google-chrome > /dev/null; then
-		GOOGLE_CHROME=google-chrome
+		GOOGLE_CHROME="$(readlink -f "$(which google-chrome)")"
 	elif command -v google-chrome-stable > /dev/null; then
-		GOOGLE_CHROME=google-chrome-stable
+		GOOGLE_CHROME="$(readlink -f "$(which google-chrome-stable)")"
 	else
 		echo "Google Chrome does not seem to be installed"
 		exit 1
