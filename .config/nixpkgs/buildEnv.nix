@@ -92,7 +92,7 @@ buildEnv {
     # Script to rebuild the environment from this file.
     (writeScriptBin "nix-rebuild" ''
       #!${runtimeShell}
-      ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix --argstr name "$(whoami)-user-env-$(date -I)"
+      ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix --argstr name "$(whoami)-user-env-$(date -I)" "$@"
     '')
 
     # Manifest to make sure imperative nix-env doesn't work (otherwise it will

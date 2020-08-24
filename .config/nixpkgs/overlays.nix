@@ -69,7 +69,7 @@ in {
   softmaker-office = let
     version = "976";
     edition = "2018";
-  in self.callPackage <nixpkgs/pkgs/applications/office/softmaker/generic.nix> {
+  in self.callPackage "${self.path}/pkgs/applications/office/softmaker/generic.nix" {
     pname = "softmaker-office";
     inherit version edition;
     suiteName = "SoftMaker Office";
