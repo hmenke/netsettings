@@ -7,9 +7,12 @@
 #
 #    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
 
+{ name ? "user-env",
+  allowUnfree ? true }:
+
 let
 
-  config = import ./config.nix;
+  config = { inherit allowUnfree; };
   overlays = import ./overlays.nix;
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-20.03/nixexprs.tar.xz";
@@ -18,11 +21,9 @@ let
 
 in
 
-{ name ? "user-env" }:
-
 with pkgs;
 
-buildEnv {
+buildEnv rec {
   inherit name;
   extraOutputsToInstall = [ "bin" "lib" "out" ];
   paths = [
@@ -32,6 +33,7 @@ buildEnv {
     aspellDicts.en
     cachix
     direnv
+    emacs
     ffmpeg
     fzf
     (hiPrio gcc)
@@ -40,13 +42,16 @@ buildEnv {
     llvmPackages_latest.clang
     msmtp
     neomutt
+    neovim
     newsboat
     niv
     nix-direnv
     p7zip
+    pandoc
     pass-otp
     qpdf
     shadowsocks-libev
+    tree
     ts
     unison
     unzip
@@ -76,7 +81,7 @@ buildEnv {
     xorg.xmodmap
     xorg.xsetroot
     xscreensaver
-  ] ++ [
+  ] ++ lib.lists.optionals allowUnfree [
     # Proprietary
     dropbox
     google-chrome
@@ -92,7 +97,22 @@ buildEnv {
     # Script to rebuild the environment from this file.
     (writeScriptBin "nix-rebuild" ''
       #!${runtimeShell}
-      ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix --argstr name "$(whoami)-user-env-$(date -I)" "$@"
+
+      oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
+      oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
+
+      ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
+      --argstr name "$(whoami)-user-env-$(date -I)" \
+      --arg allowUnfree ${lib.trivial.boolToString allowUnfree} \
+      "$@"
+
+      newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
+      newVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
+
+      ${diffutils}/bin/diff --color -u \
+      --label "generation $oldGeneration" "$oldVersions" \
+      --label "generation $newGeneration" "$newVersions" \
+      || true
     '')
 
     # Manifest to make sure imperative nix-env doesn't work (otherwise it will
@@ -117,5 +137,22 @@ buildEnv {
       destination = "/nixpkgs-version";
       text = lib.version;
     })
+
+    # Since you can't see the versions with nix-env -q anymore, we write them
+    # to a file for easy querying
+    (let
+       collect = pkgs:
+         let recurse = x:
+           if lib.isDerivation x then [x]
+           else if x.recurseForDerivations or false then collect x
+           else [];
+         in lib.concatMap recurse pkgs;
+       versions = map (pkg: pkg.name) (collect paths);
+       versionText = lib.strings.concatMapStrings (s: s+"\n") versions;
+     in writeTextFile {
+       name = "package-versions";
+       destination = "/package-versions";
+       text = versionText;
+     })
   ];
 }

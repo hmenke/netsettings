@@ -1,14 +1,13 @@
 [ (self: super:
 let
-  config = import ./config.nix;
-  overlays = []; # no overlays inside overlay (infinite recursion)
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
   };
-  unstable = import nixexprs { inherit config overlays; };
+  unstable = import nixexprs {
+    inherit (self) config;
+    overlays = []; # no overlays inside overlay (infinite recursion)
+  };
 in {
-  inherit unstable;
-
   gnuplotGit = super.gnuplot_qt.overrideAttrs (oldAttrs: {
     version = "5.5+git-ef315e";
 
