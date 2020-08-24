@@ -86,7 +86,7 @@ buildEnv {
     zoom-us
   ] ++
   # Local package specifications (if they exist)
-  lib.lists.optional (builtins.pathExists ./local.nix) (import ./local.nix pkgs) ++
+  (if builtins.pathExists ./local.nix then import ./local.nix pkgs else []) ++
   # Helpers for declarative package management
   [
     # Script to rebuild the environment from this file.
