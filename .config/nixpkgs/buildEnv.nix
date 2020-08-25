@@ -13,7 +13,7 @@
 let
 
   config = { inherit allowUnfree; };
-  overlays = import ./overlays.nix;
+  overlays = builtins.map import [ ./overlays/backports.nix ];
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-20.03/nixexprs.tar.xz";
   };
@@ -95,8 +95,8 @@ buildEnv rec {
   # Helpers for declarative package management
   [
     # Script to rebuild the environment from this file.
-    (writeScriptBin "nix-rebuild" ''
-      #!${runtimeShell}
+    (writeShellScriptBin "nix-rebuild" ''
+      set -e
 
       oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
       oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")

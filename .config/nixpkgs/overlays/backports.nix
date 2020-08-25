@@ -1,4 +1,4 @@
-[ (self: super:
+self: super:
 let
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
@@ -78,4 +78,4 @@ in {
     };
     archive = "office${edition}.tar.lzma";
   };
-}) ]
+}
