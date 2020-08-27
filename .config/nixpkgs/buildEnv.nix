@@ -13,7 +13,10 @@
 let
 
   config = { inherit allowUnfree; };
-  overlays = builtins.map import [ ./overlays/backports.nix ];
+  overlays = builtins.map import [
+    ./overlays/backports.nix
+    ./overlays/newPackages.nix
+  ];
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-20.03/nixexprs.tar.xz";
   };
@@ -91,6 +94,7 @@ buildEnv rec {
       # Proprietary
       dropbox
       google-chrome
+      masterpdfeditor-free
       mathematica
       skypeforlinux
       softmaker-office
