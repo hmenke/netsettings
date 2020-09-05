@@ -83,6 +83,7 @@ buildEnv rec {
       polybarFull
       rofi
       scrot
+      splatmoji
       vlc
       xclip
       xorg.setxkbmap
