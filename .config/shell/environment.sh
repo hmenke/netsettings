@@ -11,8 +11,13 @@ export PDFVIEWER=xdg-open
 
 # Nix
 export NIX_INSTALLER_NO_MODIFY_PROFILE=1
-if [ -d "/nix" ] && [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
-    . "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+if [ -d "/nix" ]; then
+	if [ -e "${HOME}/.nix-profile/etc/profile.d/nix.sh" ]; then
+		. "${HOME}/.nix-profile/etc/profile.d/nix.sh"
+	fi
+	if [ -e "${HOME}/.nix-profile/etc/profile.d/hm-session-vars.sh" ]; then
+		. "${HOME}/.nix-profile/etc/profile.d/hm-session-vars.sh"
+	fi
 fi
 
 # Prefer nvim but fall back to vim
