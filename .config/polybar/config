@@ -59,7 +59,7 @@ font-2 = "Noto Color Emoji:scale=10;0"
 
 modules-left = bspwm xwindow
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature memory cpu
-modules-right = xkeyboard xbacklight pulseaudio battery mail newsboat checkupdates weather date
+modules-right = xkeyboard xbacklight pulseaudio battery mail weather date
 
 tray-position = right
 tray-padding = 10
