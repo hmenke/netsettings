@@ -127,19 +127,6 @@ Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'unblevable/quick-scope'
 Plug 'direnv/direnv.vim'
-if has('python3')
-    Plug 'SirVer/ultisnips'
-    Plug 'honza/vim-snippets'
-python3 << EOF
-from sys import version_info
-from vim import command
-command("let g:python_minor_version = '{}'".format(version_info.minor))
-EOF
-    if (g:python_minor_version >= 6)
-        Plug 'psf/black', { 'for': 'python',
-                          \ 'do': 'python3 setup.py install --user' }
-    endif
-endif
 
 call plug#end()
 
