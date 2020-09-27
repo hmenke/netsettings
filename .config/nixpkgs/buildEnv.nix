@@ -42,12 +42,18 @@ buildEnv rec {
       aspellDicts.en
       cachix
       direnv
+      dnsutils
       emacs
       ffmpeg
+      file
       fzf
       (hiPrio gcc)
+      gdb
+      gitAndTools.gitFull
       gnuplotGit
+      inetutils
       isync
+      jq
       llvmPackages_latest.clang
       msmtp
       neomutt
@@ -55,6 +61,9 @@ buildEnv rec {
       newsboat
       niv
       nix-direnv
+      nixops
+      nmap
+      openssl
       p7zip
       pandoc
       pass-otp
