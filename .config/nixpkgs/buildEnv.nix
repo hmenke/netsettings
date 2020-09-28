@@ -16,6 +16,7 @@ let
   overlays = builtins.map import [
     ./overlays/backports.nix
     ./overlays/newPackages.nix
+    ./overlays/texlive.nix
   ];
   nixexprs = fetchTarball {
     url = "https://nixos.org/channels/nixos-20.03/nixexprs.tar.xz";
@@ -69,6 +70,7 @@ buildEnv rec {
       pass-otp
       qpdf
       shadowsocks-libev
+      texlive-env
       tree
       ts
       unison
@@ -162,7 +164,7 @@ buildEnv rec {
          collect = pkgs:
            let recurse = x:
              if lib.isDerivation x then [x]
-             else if x.recurseForDerivations or false then collect x
+             else if x.recurseForDerivations or false then collect (lib.attrValues x)
              else [];
            in lib.concatMap recurse pkgs;
          versions = map (pkg: pkg.name) (collect userPackages);

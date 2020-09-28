@@ -4,9 +4,6 @@ if ! echo "${PATH}" | grep -E -q "(^|:)${HOME}/.local/bin($|:)"; then
 fi
 
 # TeXLive
-if ! echo "${PATH}" | grep -E -q "(^|:)/opt/texlive/current/bin/x86_64-linux($|:)"; then
-    export PATH="/opt/texlive/current/bin/x86_64-linux${PATH:+:${PATH}}"
-fi
 export PDFVIEWER=xdg-open
 
 # Nix
