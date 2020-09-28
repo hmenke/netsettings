@@ -96,6 +96,9 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 " hide dotfiles by default (this is the string toggled by netrw-gh)
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
+" Polyglot (has to be defined before polyglot is loaded)
+let g:polyglot_disabled = ['latex']
+
 " Plugins
 let s:plug_path = expand('~/.config/nvim/autoload')
 if !filereadable(s:plug_path . '/plug.vim')
@@ -145,7 +148,6 @@ let g:airline_symbols.branch = '⎇'
 " Always treat tex files as sty files
 let g:tex_stylish = 1
 let g:tex_conceal = ''
-let g:polyglot_disabled = ['latex']
 
 " snippets
 let g:UltiSnipsNoPythonWarning = 1
