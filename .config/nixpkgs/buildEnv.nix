@@ -94,6 +94,7 @@ buildEnv rec {
       polybarFull
       rofi
       scrot
+      slack
       splatmoji
       vlc
       xclip
