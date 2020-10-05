@@ -1,9 +1,0 @@
-[Unit]
-Description=Update TeX Live %i
-OnFailure=notify-send@%N.service
-Wants=network-online.target
-After=network-online.target
-
-[Service]
-Type=oneshot
-ExecStart=/opt/texlive/%i/bin/x86_64-linux/tlmgr update --self --all --reinstall-forcibly-removed
