@@ -1,9 +1,0 @@
-[submodule ".config/shell/zsh-syntax-highlighting"]
-	path = .config/shell/zsh-syntax-highlighting
-	url = git://github.com/zsh-users/zsh-syntax-highlighting.git
-[submodule ".config/shell/zsh-autosuggestions"]
-	path = .config/shell/zsh-autosuggestions
-	url = git://github.com/zsh-users/zsh-autosuggestions.git
-[submodule ".config/shell/bash-completion"]
-	path = .config/shell/bash-completion
-	url = git://github.com/scop/bash-completion.git

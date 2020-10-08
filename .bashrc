@@ -31,18 +31,17 @@ if command -v fzf > /dev/null; then
 fi
 
 # bash completion
-if ! declare -f _completion_loader 2>&1 >/dev/null; then
-    . ~/.config/shell/bash-completion/bash_completion
+if declare -f _completion_loader 2>&1 >/dev/null; then
+    if command -v fzf > /dev/null; then
+        . ~/.config/shell/fzf/completion.bash
+    fi
+    _completion_loader git
+    complete -o default -o nospace -F _git netsettings
 fi
-if command -v fzf > /dev/null; then
-    . ~/.config/shell/fzf/completion.bash
-fi
-_completion_loader git
-complete -o default -o nospace -F _git netsettings
 
 # Disable the beep
 if command -v xset > /dev/null && [ -n "${DISPLAY}" ]; then
-    xset -b;
+    xset -b 2>/dev/null;
 fi
 
 # direnv
