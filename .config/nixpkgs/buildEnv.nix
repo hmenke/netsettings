@@ -50,6 +50,7 @@ buildEnv rec {
       fzf
       (hiPrio gcc)
       gdb
+      gitAndTools.gh
       gitAndTools.gitFull
       gnuplotGit
       inetutils
