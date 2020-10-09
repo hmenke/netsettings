@@ -52,7 +52,9 @@ buildEnv rec {
       gdb
       gitAndTools.gh
       gitAndTools.gitFull
+      glib
       gnuplotGit
+      gvfs
       inetutils
       isync
       jq
