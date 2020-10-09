@@ -29,9 +29,11 @@ set use_envelope_from = yes
 set send_charset="utf-8"
 set assumed_charset="iso-8859-1"
 set editor="nvim -c 'set syntax=mail ft=mail enc=utf-8 spell spelllang=de,en'"
+set hostname = neomutt
 set fast_reply = yes
 set include = yes
 set forward_quote = yes
+set forward_format = "Fw: %s"
 set reverse_name = yes
 set reverse_realname = yes
 source "identities.muttrc"
