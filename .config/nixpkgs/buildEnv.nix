@@ -62,7 +62,6 @@ buildEnv rec {
       msmtp
       neomutt
       neovim
-      newsboat
       niv
       nix-direnv
       nixops
