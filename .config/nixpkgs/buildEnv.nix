@@ -7,8 +7,7 @@
 #
 #    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
 
-{ name ? "user-env",
-  allowUnfree ? true }:
+{ name ? "user-env", allowUnfree ? true }:
 
 let
 
@@ -23,18 +22,15 @@ let
   };
   pkgs = import nixexprs { inherit config overlays; };
 
-in
-
-with pkgs;
+in with pkgs;
 
 buildEnv rec {
   inherit name;
   extraOutputsToInstall = [ "bin" "lib" "out" ];
   paths = let
 
-    localPackages = if builtins.pathExists ./local.nix
-                    then import ./local.nix pkgs
-                    else [];
+    localPackages =
+      if builtins.pathExists ./local.nix then import ./local.nix pkgs else [ ];
 
     userPackages = localPackages ++ [
       # command line utils
@@ -146,11 +142,11 @@ buildEnv rec {
         name = "break-nix-env-manifest";
         destination = "/manifest.nix";
         text = ''
-          throw ''\''
+          throw '''
             Your user environment is a buildEnv which is incompatible with
             nix-env's built-in env builder. Edit your home expression and run
             nix-rebuild instead!
-          ''\''
+          '''
         '';
       })
 
@@ -160,24 +156,31 @@ buildEnv rec {
       #
       #     nix run -f ~/.nix-profile/nixpkgs hello -c hello
       #
-      (linkFarm "nixpkgs" [ { name = "nixpkgs"; path = nixexprs; } ])
+      (linkFarm "nixpkgs" [{
+        name = "nixpkgs";
+        path = nixexprs;
+      }])
 
       # Since you can't see the versions with nix-env -q anymore, we write them
       # to a file for easy querying
       (let
-         collect = pkgs:
-           let recurse = x:
-             if lib.isDerivation x then [x]
-             else if x.recurseForDerivations or false then collect (lib.attrValues x)
-             else [];
-           in lib.concatMap recurse pkgs;
-         versions = map (pkg: pkg.name) (collect userPackages);
-         versionText = lib.strings.concatMapStrings (s: s+"\n") versions;
-       in writeTextFile {
-         name = "package-versions";
-         destination = "/package-versions";
-         text = versionText;
-       })
+        collect = pkgs:
+          let
+            recurse = x:
+              if lib.isDerivation x then
+                [ x ]
+              else if x.recurseForDerivations or false then
+                collect (lib.attrValues x)
+              else
+                [ ];
+          in lib.concatMap recurse pkgs;
+        versions = map (pkg: pkg.name) (collect userPackages);
+        versionText = lib.strings.concatMapStrings (s: s + "\n") versions;
+      in writeTextFile {
+        name = "package-versions";
+        destination = "/package-versions";
+        text = versionText;
+      })
     ];
 
   in userPackages ++ buildEnvHelpers;

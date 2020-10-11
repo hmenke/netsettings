@@ -4,13 +4,20 @@ self: super: {
     version = "4.3.89";
 
     src = builtins.fetchurl {
-      url = "https://code-industry.net/public/master-pdf-editor-${version}_qt5.amd64.tar.gz";
+      url =
+        "https://code-industry.net/public/master-pdf-editor-${version}_qt5.amd64.tar.gz";
       sha256 = "0k5bzlhqglskiiq86nmy18mnh5bf2w3mr9cq3pibrwn5pisxnxxc";
     };
 
     nativeBuildInputs = with self; [ autoPatchelfHook qt5.wrapQtAppsHook ];
 
-    buildInputs = with self; [ nss qt5.qtbase qt5.qtsvg sane-backends stdenv.cc.cc ];
+    buildInputs = with self; [
+      nss
+      qt5.qtbase
+      qt5.qtsvg
+      sane-backends
+      stdenv.cc.cc
+    ];
 
     dontStrip = true;
 
@@ -55,12 +62,7 @@ self: super: {
       sha256 = "0fdnz290a0dp7adrl64pqcppr419x9xibh6pspcjyxwxp7h66a3x";
     };
 
-    buildInputs = with self; [
-      bashInteractive
-      rofi
-      xdotool
-      xsel
-    ];
+    buildInputs = with self; [ bashInteractive rofi xdotool xsel ];
 
     installPhase = ''
       mkdir -p $out/bin $out/share/splatmoji

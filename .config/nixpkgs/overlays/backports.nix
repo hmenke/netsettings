@@ -5,7 +5,7 @@ let
   };
   unstable = import nixexprs {
     inherit (self) config;
-    overlays = []; # no overlays inside overlay (infinite recursion)
+    overlays = [ ]; # no overlays inside overlay (infinite recursion)
   };
 in {
   gnuplotGit = super.gnuplot_qt.overrideAttrs (oldAttrs: {
@@ -17,11 +17,8 @@ in {
       sha256 = "143d3hbw8pk2pp3rpplr81ax5cbcrrfhz994zzky5xavdw4z43df";
     };
 
-    nativeBuildInputs = oldAttrs.nativeBuildInputs ++ [
-      self.autoconf
-      self.automake
-      self.git
-    ];
+    nativeBuildInputs = oldAttrs.nativeBuildInputs
+      ++ [ self.autoconf self.automake self.git ];
 
     postPatch = ''
       ./prepare
@@ -46,34 +43,44 @@ in {
     };
   });
 
-  mathematica = let
-    version = "12.1.1";
+  mathematica = let version = "12.1.1";
   in self.stdenv.mkDerivation {
     name = "mathematica-${version}";
-    buildCommand = let
-      mathematica = "${self.mathematica-unwrapped}/bin/mathematica";
-    in ''
-      mkdir -p $out/bin
-    '' + builtins.foldl' (l: r: l + ''
-      cat > "$out/bin/${r}" <<EOF
-      #! ${self.runtimeShell} -e
-      export USE_WOLFRAM_LD_LIBRARY_PATH=1
-      export QT_XCB_GL_INTEGRATION=none
-      exec /run/wrappers/bin/firejail --noprofile --net=none "${self.mathematica-unwrapped}/bin/${r}" "\$@"
-      EOF
-      chmod 0755 "$out/bin/${r}"
-    '') "" [ "math" "mathematica" "Mathematica" "MathKernel" "mcc" "wolfram" "WolframKernel" ];
+    buildCommand =
+      let mathematica = "${self.mathematica-unwrapped}/bin/mathematica";
+      in ''
+        mkdir -p $out/bin
+      '' + builtins.foldl' (l: r:
+        l + ''
+          cat > "$out/bin/${r}" <<EOF
+          #! ${self.runtimeShell} -e
+          export USE_WOLFRAM_LD_LIBRARY_PATH=1
+          export QT_XCB_GL_INTEGRATION=none
+          exec /run/wrappers/bin/firejail --noprofile --net=none "${self.mathematica-unwrapped}/bin/${r}" "\$@"
+          EOF
+          chmod 0755 "$out/bin/${r}"
+        '') "" [
+          "math"
+          "mathematica"
+          "Mathematica"
+          "MathKernel"
+          "mcc"
+          "wolfram"
+          "WolframKernel"
+        ];
   };
 
   softmaker-office = let
     version = "976";
     edition = "2018";
-  in self.callPackage "${self.path}/pkgs/applications/office/softmaker/generic.nix" {
+  in self.callPackage
+  "${self.path}/pkgs/applications/office/softmaker/generic.nix" {
     pname = "softmaker-office";
     inherit version edition;
     suiteName = "SoftMaker Office";
     src = self.fetchurl {
-      url = "https://www.softmaker.net/down/softmaker-office-${edition}-${version}-amd64.tgz";
+      url =
+        "https://www.softmaker.net/down/softmaker-office-${edition}-${version}-amd64.tgz";
       sha256 = "sha256:14qnlbczq1zcz24vwy2yprdvhyn6bxv1nc1w6vjyq8w5jlwqsgbr";
     };
     archive = "office${edition}.tar.lzma";

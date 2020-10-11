@@ -98,22 +98,17 @@ self: super: {
 
     fhs = self.buildFHSUserEnv {
       name = "texlive-fhs";
-      targetPkgs = pkgs: with pkgs; [
-        fontconfig
-        freetype
-        perl
-        tk
-        wget
-      ];
+      targetPkgs = pkgs: with pkgs; [ fontconfig freetype perl tk wget ];
       runScript = "";
       profile = ''
         export PATH="/opt/texlive/current/bin/x86_64-linux''${PATH:+:$PATH}"
       '';
     };
 
-    makeFhsWrapper = name: self.writeShellScriptBin name ''
-      exec "${fhs}/bin/texlive-fhs" "${name}" "$@"
-    '';
+    makeFhsWrapper = name:
+      self.writeShellScriptBin name ''
+        exec "${fhs}/bin/texlive-fhs" "${name}" "$@"
+      '';
 
   in self.buildEnv {
     name = "texlive-env";
