@@ -64,6 +64,7 @@ buildEnv rec {
       neovim
       niv
       nix-direnv
+      nixfmt
       nixops
       nmap
       openssl
