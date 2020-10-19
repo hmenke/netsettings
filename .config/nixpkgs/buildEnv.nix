@@ -67,6 +67,7 @@ buildEnv rec {
       p7zip
       pandoc
       pass-otp
+      python3Packages.black
       qpdf
       shadowsocks-libev
       texlive-env
@@ -124,6 +125,7 @@ buildEnv rec {
         ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
         --argstr name "$(whoami)-user-env-$(date -I)" \
         --arg allowUnfree ${lib.trivial.boolToString allowUnfree} \
+        --builders "" \
         "$@"
 
         newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)

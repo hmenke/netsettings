@@ -1,9 +1,9 @@
 self: super:
 let
   nixexprs = fetchTarball {
-    url = "https://nixos.org/channels/nixos-unstable/nixexprs.tar.xz";
+    url = "https://nixos.org/channels/nixos-20.09/nixexprs.tar.xz";
   };
-  unstable = import nixexprs {
+  backports = import nixexprs {
     inherit (self) config;
     overlays = [ ]; # no overlays inside overlay (infinite recursion)
   };
@@ -30,7 +30,7 @@ in {
     version = "12.1.1";
     name = "Mathematica_${version}_LINUX.sh";
     sha256 = "02mk8gmv8idnakva1nc7r7mx8ld02lk7jgsj1zbn962aps3bhixd";
-  in unstable.mathematica.overrideAttrs (oldAttrs: {
+  in backports.mathematica.overrideAttrs (oldAttrs: {
     name = "mathematica-unwrapped-${version}";
     inherit version;
     src = super.requireFile {
