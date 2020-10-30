@@ -1,13 +1,4 @@
-self: super:
-let
-  nixexprs = fetchTarball {
-    url = "https://nixos.org/channels/nixos-20.09/nixexprs.tar.xz";
-  };
-  backports = import nixexprs {
-    inherit (self) config;
-    overlays = [ ]; # no overlays inside overlay (infinite recursion)
-  };
-in {
+self: super: {
   gnuplotGit = super.gnuplot_qt.overrideAttrs (oldAttrs: {
     version = "5.5+git-ef315e";
 
@@ -30,7 +21,7 @@ in {
     version = "12.1.1";
     name = "Mathematica_${version}_LINUX.sh";
     sha256 = "02mk8gmv8idnakva1nc7r7mx8ld02lk7jgsj1zbn962aps3bhixd";
-  in backports.mathematica.overrideAttrs (oldAttrs: {
+  in super.mathematica.overrideAttrs (oldAttrs: {
     name = "mathematica-unwrapped-${version}";
     inherit version;
     src = super.requireFile {

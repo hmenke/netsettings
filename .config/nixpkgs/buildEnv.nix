@@ -13,12 +13,12 @@ let
 
   config = { inherit allowUnfree; };
   overlays = builtins.map import [
-    ./overlays/backports.nix
+    ./overlays/overrides.nix
     ./overlays/newPackages.nix
     ./overlays/texlive.nix
   ];
   nixexprs = fetchTarball {
-    url = "https://nixos.org/channels/nixos-20.03/nixexprs.tar.xz";
+    url = "https://nixos.org/channels/nixos-20.09/nixexprs.tar.xz";
   };
   pkgs = import nixexprs { inherit config overlays; };
 
