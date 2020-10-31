@@ -48,6 +48,7 @@ buildEnv rec {
       gdb
       gitAndTools.gh
       gitAndTools.gitFull
+      gitAndTools.git-filter-repo
       glib
       gnuplotGit
       gvfs
@@ -70,12 +71,12 @@ buildEnv rec {
       python3Packages.black
       qpdf
       shadowsocks-libev
+      shadowsocks-v2ray-plugin
       texlive-env
       tree
       ts
       unison
       unzip
-      #v2ray-plugin
       valgrind
       youtube-dl
       zip
