@@ -1,5 +1,5 @@
 [Unit]
-Description=Check email for %i
+Description=Check email
 
 [Timer]
 OnStartupSec=1m
