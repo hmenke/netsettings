@@ -444,10 +444,6 @@ is already narrowed."
            (file "TODO.org")
            "* TODO %?"))))
 
-;; email
-(use-package notmuch
-  :commands notmuch)
-
 ;; gnus
 (use-package gnus
   :commands gnus
@@ -601,6 +597,14 @@ is already narrowed."
   :config
   (setq
    bibtex-maintain-sorted-entries t))
+
+;; company
+(use-package company
+  :ensure t
+  :diminish company-mode
+  :bind ("M-/" . company-complete)
+  :hook (after-init . global-company-mode)
+  :config (setq company-idle-delay nil))
 
 ;; direnv
 (use-package direnv
