@@ -112,6 +112,7 @@ buildEnv rec {
       mathematica
       skypeforlinux
       softmaker-office
+      steam
       zoom-us
     ];
 
