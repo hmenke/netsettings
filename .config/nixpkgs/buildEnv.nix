@@ -89,6 +89,7 @@ buildEnv rec {
       feh
       firefox
       gnome3.adwaita-icon-theme
+      gnome3.evolution
       libnotify
       networkmanagerapplet
       pavucontrol
