@@ -7,7 +7,7 @@
 #
 #    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
 
-{ name ? "user-env", allowUnfree ? true }:
+{ name ? "user-env", allowUnfree ? true, withGui ? true }:
 
 let
 
@@ -80,7 +80,7 @@ buildEnv rec {
       valgrind
       youtube-dl
       zip
-    ] ++ [
+    ] ++ lib.lists.optionals withGui [
       # GUI
       arandr
       clementine
@@ -128,6 +128,7 @@ buildEnv rec {
         ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
         --argstr name "$(whoami)-user-env-$(date -I)" \
         --arg allowUnfree ${lib.trivial.boolToString allowUnfree} \
+        --arg withGui ${lib.trivial.boolToString withGui} \
         --builders "" \
         "$@"
 
