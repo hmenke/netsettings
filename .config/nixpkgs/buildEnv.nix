@@ -36,9 +36,7 @@ buildEnv rec {
       aspellDicts.en
       cachix
       direnv
-      dnsutils
       emacs
-      ffmpeg
       file
       fzf
       (hiPrio gcc)
@@ -49,7 +47,6 @@ buildEnv rec {
       glib
       gnuplotGit
       gvfs
-      inetutils
       isync
       jq
       llvmPackages_latest.clang
@@ -59,17 +56,11 @@ buildEnv rec {
       niv
       nix-direnv
       nixfmt
-      nixops
-      nmap
       openssl
-      p7zip
       pandoc
       pass-otp
       python3Packages.black
       qpdf
-      shadowsocks-libev
-      shadowsocks-v2ray-plugin
-      texlive-env
       tree
       ts
       unison
@@ -77,6 +68,8 @@ buildEnv rec {
       valgrind
       youtube-dl
       zip
+    ] ++ lib.lists.optionals (builtins.pathExists /opt/texlive) [
+      texlive-env
     ] ++ lib.lists.optionals withGui [
       # GUI
       arandr
