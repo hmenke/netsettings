@@ -5,4 +5,4 @@
 # A symlink looks cleaner but if rofi is not installed with this solution I can
 # just drop rofi into ~/.local/bin and don't have to relink anything.
 
-rofi -dmenu "$@"
+exec rofi -dmenu "$@"
