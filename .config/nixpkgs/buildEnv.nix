@@ -17,10 +17,7 @@ let
     ./overlays/newPackages.nix
     ./overlays/texlive.nix
   ];
-  nixexprs = fetchTarball {
-    url = "https://nixos.org/channels/nixos-20.09/nixexprs.tar.xz";
-  };
-  pkgs = import nixexprs { inherit config overlays; };
+  pkgs = import <nixpkgs> { inherit config overlays; };
 
 in with pkgs;
 
@@ -155,17 +152,6 @@ buildEnv rec {
           '''
         '';
       })
-
-      # Create a link to the nixpkgs that are used to build the environment.
-      # Then it is possible to reference this when using nix imperatively without
-      # having to redownload the tarball, e.g.
-      #
-      #     nix run -f ~/.nix-profile/nixpkgs hello -c hello
-      #
-      (linkFarm "nixpkgs" [{
-        name = "nixpkgs";
-        path = nixexprs;
-      }])
 
       # Since you can't see the versions with nix-env -q anymore, we write them
       # to a file for easy querying
