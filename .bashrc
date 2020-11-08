@@ -46,5 +46,5 @@ fi
 
 # direnv
 if command -v direnv > /dev/null; then
-    eval "$(direnv hook bash)"
+    eval "$(direnv hook bash | sed 's!"/nix/store/[^/]*/bin/direnv"!direnv!g')"
 fi
