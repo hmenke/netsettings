@@ -39,8 +39,6 @@ buildEnv rec {
       emacs
       file
       fzf
-      (hiPrio gcc)
-      gdb
       gitAndTools.gh
       gitAndTools.gitFull
       gitAndTools.git-filter-repo
@@ -49,7 +47,6 @@ buildEnv rec {
       gvfs
       isync
       jq
-      llvmPackages_latest.clang
       msmtp
       neomutt
       neovim
@@ -65,7 +62,6 @@ buildEnv rec {
       ts
       unison
       unzip
-      valgrind
       youtube-dl
       zip
     ] ++ lib.lists.optionals (builtins.pathExists /opt/texlive) [
