@@ -31,6 +31,7 @@ if command -v fzf > /dev/null; then
 fi
 
 # bash completion
+export COMP_KNOWN_HOSTS_WITH_HOSTFILE=""
 if declare -f _completion_loader 2>&1 >/dev/null; then
     if command -v fzf > /dev/null; then
         . ~/.config/shell/fzf/completion.bash
