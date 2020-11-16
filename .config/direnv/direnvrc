@@ -1,13 +1,28 @@
 #!/usr/bin/env bash
 
+# Check if Nix is available
 if ! command -v nix > /dev/null; then
 	return
 fi
 
-nix_direnv="$(nix eval --raw -f '<nixpkgs>' nix-direnv.outPath)"
-nix_direnvrc="$nix_direnv/share/nix-direnv/direnvrc"
-
-if [ -f "$nix_direnvrc" ]; then
-	echo "direnv: using $nix_direnvrc"
-	. "$nix_direnvrc"
+# Check if nix-direnv is available
+nix_direnvrc=$(readlink -e "$HOME/.nix-profile/share/nix-direnv/direnvrc")
+if ! [ -f "$nix_direnvrc" ]; then
+	return
 fi
+
+# https://github.com/nix-community/nix-direnv#storing-direnv-outside-the-project-directory
+: ${XDG_CACHE_HOME:=$HOME/.cache}
+declare -A direnv_layout_dirs
+direnv_layout_dir() {
+	local stripped_pwd=${PWD/\//}
+	local escaped_pwd=${stripped_pwd//-/--}
+	local escaped_pwd=${escaped_pwd//\//-}
+	echo "${direnv_layout_dirs[$PWD]:=$(
+		echo -n "$XDG_CACHE_HOME/direnv/layouts/$escaped_pwd"
+	)}"
+}
+mkdir -p "$XDG_CACHE_HOME/direnv/layouts/"
+
+echo "direnv: using $nix_direnvrc"
+. "$nix_direnvrc"
