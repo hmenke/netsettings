@@ -32,7 +32,7 @@ Expunge Both
 SyncState *
 
 Channel sync-backup-default
-Master :gmail-local:
+Master :gmail-remote:
 Slave :henrimenke-remote:
 # Select some mailboxes to sync
 Patterns * ![Gmail]*
@@ -40,25 +40,25 @@ Create Slave
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-sent
-Master :gmail-local:"[Gmail]/Sent Mail"
+Master :gmail-remote:"[Gmail]/Sent Mail"
 Slave :henrimenke-remote:Sent
 Create Slave
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-trash
-Master :gmail-local:"[Gmail]/Bin"
+Master :gmail-remote:"[Gmail]/Bin"
 Slave :henrimenke-remote:Trash
 Create Slave
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-drafts
-Master :gmail-local:"[Gmail]/Drafts"
+Master :gmail-remote:"[Gmail]/Drafts"
 Slave :henrimenke-remote:Drafts
 Create Slave
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-junk
-Master :gmail-local:"[Gmail]/Spam"
+Master :gmail-remote:"[Gmail]/Spam"
 Slave :henrimenke-remote:Junk
 Create Slave
 SyncState ~/.cache/mbsync/
@@ -69,4 +69,8 @@ Channel sync-backup-default
 Channel sync-backup-sent
 Channel sync-backup-trash
 Channel sync-backup-drafts
+Channel sync-backup-junk
+
+# sync only spam
+Group spam
 Channel sync-backup-junk
