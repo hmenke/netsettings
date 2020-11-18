@@ -48,7 +48,6 @@
 	annotate = yes
 [push]
 	default = current
-	gpgSign = if-asked
 [core]
 	pager = less -+X
 [filter "crypt"]
