@@ -15,11 +15,8 @@ fi
 : ${XDG_CACHE_HOME:=$HOME/.cache}
 declare -A direnv_layout_dirs
 direnv_layout_dir() {
-	local stripped_pwd=${PWD/\//}
-	local escaped_pwd=${stripped_pwd//-/--}
-	local escaped_pwd=${escaped_pwd//\//-}
 	echo "${direnv_layout_dirs[$PWD]:=$(
-		echo -n "$XDG_CACHE_HOME/direnv/layouts/$escaped_pwd"
+		echo -n "$XDG_CACHE_HOME/direnv/layouts/$(systemd-escape -p "$PWD")"
 	)}"
 }
 mkdir -p "$XDG_CACHE_HOME/direnv/layouts/"
