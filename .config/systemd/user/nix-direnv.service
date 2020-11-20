@@ -1,0 +1,12 @@
+[Unit]
+Description=Update nix-direnv projects
+OnFailure=notify-send@%N.service
+Wants=network-online.target
+After=network-online.target
+ConditionACPower=true
+ConditionPathIsDirectory=%h/.cache/direnv/layouts
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/.cache/direnv/layouts
+ExecStart=/usr/bin/env bash -c 'for layout in *; do pushd "$(systemd-escape -pu "$layout")"; eval "$(direnv export bash)"; popd; done'
