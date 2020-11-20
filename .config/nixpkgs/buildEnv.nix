@@ -56,6 +56,7 @@ buildEnv rec {
       openssl
       pandoc
       pass-otp
+      python3
       python3Packages.black
       qpdf
       tree
