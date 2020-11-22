@@ -598,14 +598,6 @@ is already narrowed."
   (setq
    bibtex-maintain-sorted-entries t))
 
-;; company
-(use-package company
-  :ensure t
-  :diminish company-mode
-  :bind ("M-/" . company-complete)
-  :hook (after-init . global-company-mode)
-  :config (setq company-idle-delay nil))
-
 ;; direnv
 (use-package direnv
   :ensure t
