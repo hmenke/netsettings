@@ -39,6 +39,7 @@ buildEnv rec {
       emacs
       file
       fzf
+      gitAndTools.pass-git-helper
       gitAndTools.gh
       gitAndTools.gitFull
       gitAndTools.git-filter-repo

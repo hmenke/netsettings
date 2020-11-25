@@ -76,4 +76,24 @@ self: super: {
     };
     archive = "office${edition}.tar.lzma";
   };
+
+  gitAndTools = super.gitAndTools // {
+    pass-git-helper = self.python3Packages.buildPythonApplication rec {
+      pname = "pass-git-helper";
+      version = "1.1.0";
+
+      src = self.fetchFromGitHub {
+        owner = "languitar";
+        repo = "pass-git-helper";
+        rev = "v${version}";
+        sha256 = "18nvwlp0w4aqj268wly60rnjzqw2d8jl0hbs6bkwp3hpzzz5g6yd";
+      };
+
+      propagatedBuildInputs = with self.python3Packages; [ pyxdg ];
+      checkInputs = with self.python3Packages; [ pytest ];
+      preCheck = ''
+        export HOME=$(mktemp -d)
+      '';
+    };
+  };
 }
