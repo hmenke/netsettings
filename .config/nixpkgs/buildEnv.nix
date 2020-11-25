@@ -7,17 +7,11 @@
 #
 #    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
 
-{ name ? "user-env", allowUnfree ? true, withGui ? true }:
+{ name ? "user-env", withUnfree ? true, withGui ? true }:
 
 let
 
-  config = { inherit allowUnfree; };
-  overlays = builtins.map import [
-    ./overlays/overrides.nix
-    ./overlays/newPackages.nix
-    ./overlays/texlive.nix
-  ];
-  pkgs = import <nixpkgs> { inherit config overlays; };
+  pkgs = import <nixpkgs> { };
 
 in with pkgs;
 
@@ -93,7 +87,7 @@ buildEnv rec {
       xorg.xmodmap
       xorg.xsetroot
       xscreensaver
-    ] ++ lib.lists.optionals allowUnfree [
+    ] ++ lib.lists.optionals withUnfree [
       # Proprietary
       dropbox
       google-chrome
@@ -115,7 +109,7 @@ buildEnv rec {
 
         ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
         --argstr name "$(whoami)-user-env-$(date -I)" \
-        --arg allowUnfree ${lib.trivial.boolToString allowUnfree} \
+        --arg withUnfree ${lib.trivial.boolToString withUnfree} \
         --arg withGui ${lib.trivial.boolToString withGui} \
         --builders "" \
         "$@"
