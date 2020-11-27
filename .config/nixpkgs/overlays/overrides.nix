@@ -1,15 +1,18 @@
 self: super: {
-  gnuplotGit = super.gnuplot_qt.overrideAttrs (oldAttrs: {
-    version = "5.5+git-ef315e";
+  gnuplotGit = (super.gnuplot.override {
+    withQt = true;
+    withLua = true;
+  }).overrideAttrs (oldAttrs: {
+    version = "5.5+git-fdbde3";
 
     src = self.fetchgit {
       url = "https://git.code.sf.net/p/gnuplot/gnuplot-main";
-      rev = "ef315e6f148bb3144726246cbf396aad53e3a000";
-      sha256 = "143d3hbw8pk2pp3rpplr81ax5cbcrrfhz994zzky5xavdw4z43df";
+      rev = "fdbde39fad8f8309468c0351f975a14ae88f5ddb";
+      sha256 = "1fg4h2xzakjrv8df76y2bg5a11k9y8z9plsnpkr4k07jn5iwm5db";
     };
 
     nativeBuildInputs = oldAttrs.nativeBuildInputs
-      ++ [ self.autoconf self.automake self.git ];
+      ++ [ self.autoconf self.automake ];
 
     postPatch = ''
       ./prepare
