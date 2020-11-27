@@ -97,7 +97,7 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Polyglot (has to be defined before polyglot is loaded)
-let g:polyglot_disabled = ['latex']
+let g:polyglot_disabled = ['autoindent', 'latex']
 
 " Plugins
 let s:plug_path = expand('~/.config/nvim/autoload')
