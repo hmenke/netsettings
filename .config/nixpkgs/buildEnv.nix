@@ -33,10 +33,11 @@ buildEnv rec {
       emacs
       file
       fzf
-      gitAndTools.pass-git-helper
       gitAndTools.gh
-      gitAndTools.gitFull
+      gitAndTools.git-crypt
       gitAndTools.git-filter-repo
+      gitAndTools.gitFull
+      gitAndTools.pass-git-helper
       glib
       gnuplotGit
       gvfs
