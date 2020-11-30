@@ -18,4 +18,4 @@ awk -F ';' '{
 	}
 }' "${HOME}/.cache/UnicodeData.txt" | while read line; do
 	printf "%b\n" "$line";
-done | fzf -m --tiebreak=index | cut -d ' ' -f 1 | tr -d '[:space:]' | xsel -i -b
+done | fzf -m --tiebreak=index | cut -d ' ' -f 1 | tr -d '[:space:]' | xclip -selection clipboard
