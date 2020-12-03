@@ -46,6 +46,11 @@ if command -v git > /dev/null; then
 	alias gg="git grep --heading --break"
 fi
 
+# disable gpg sign if unavailable
+if ! gpg --list-secret-keys "$(git config user.signingKey 2> /dev/null)" >/dev/null 2>&1; then
+	alias git='git -c commit.gpgSign=false'
+fi
+
 # GPG sign
 alias gpgsign="gpg --armor --output '-' --detach-sig"
 
