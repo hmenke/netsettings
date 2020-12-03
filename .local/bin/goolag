@@ -15,7 +15,7 @@ fi
 
 # Extract the major version to download the correct extension version.
 # TODO: Can this be done without launching Chrome?
-GOOGLE_CHROME_VERSION="$(firejail --quiet --private "${GOOGLE_CHROME}" --version | sed 's/^.*Google Chrome \([0-9][0-9]*\).*$/\1/g')"
+GOOGLE_CHROME_VERSION="$(firejail --quiet --private -- "${GOOGLE_CHROME}" --version | sed 's/^.*Google Chrome \([0-9][0-9]*\).*$/\1/g')"
 
 # Directory for extensions
 EXTDIR="${TMPDIR:-/tmp}/goolag"
@@ -58,9 +58,10 @@ mkdir -p "${HOME}"
 # Other flags to consider:
 # --incognito: Start in incognito mode
 # --disable-translate: Disable automatic Google Translate
-exec firejail --private="${HOME}" "${GOOGLE_CHROME}" \
+exec firejail --private="${HOME}" -- "${GOOGLE_CHROME}" \
 	--no-first-run \
 	--no-default-browser-check \
 	--no-pings \
 	--no-referrers \
-	--load-extension="${EXTDIR}/ublock"
+	--load-extension="${EXTDIR}/ublock" \
+	"$@"
