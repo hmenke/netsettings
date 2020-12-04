@@ -24,6 +24,9 @@ elif command -v vim > /dev/null; then
     export EDITOR=vim
 fi
 
+# ls --time-style
+export TIME_STYLE=long-iso
+
 # pass
 export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 
