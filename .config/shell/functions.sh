@@ -1,3 +1,11 @@
+# finding files
+ff() {
+	local patt
+	patt="$1"
+	shift
+	find -xdev -type f -not -path '*/\.*' -and -not -path '*/*~' -iregex ".*$patt.*" "$@"
+}
+
 # Cropping for TeX.SX
 crop() {
     pdfcrop "$2" "/tmp/${2%%.pdf}-crop.pdf"
