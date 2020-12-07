@@ -5,7 +5,7 @@ git init --separate-git-dir="${HOME}/.local/share/netsettings/git"
 git remote add hmenke git@henrimenke.de:henri/netsettings.git
 git fetch hmenke master
 git checkout -f master
-git config git-crypt.repoStateDir .config/git-crypt
+git config git-crypt.repoStateDir .local/share/netsettings/git-crypt
 git-crypt unlock # optional
 rm .git
 ```
