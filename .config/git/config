@@ -11,6 +11,7 @@
 	root = rev-parse --show-toplevel
 	exec = "!exec "
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
+	fixup = commit --amend --no-edit
 [pull]
 	ff = only
 [commit]
