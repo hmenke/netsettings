@@ -68,3 +68,13 @@ export LESS_TERMCAP_ue="$(printf "\001\033[0m\002")"
 export LESS_TERMCAP_us="$(printf "\001\033[01;32m\002")"
 # Disable less history
 export LESSHISTFILE=-
+
+# git pager
+export LESS=FR
+if command -v delta > /dev/null; then
+	export GIT_PAGER="delta --light --color-only --max-line-length=4000"
+elif command -v diff-highlight > /dev/null; then
+	export GIT_PAGER="diff-highlight | less"
+else
+	export GIT_PAGER="less"
+fi

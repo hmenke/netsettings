@@ -98,5 +98,11 @@ self: super: {
         export HOME=$(mktemp -d)
       '';
     };
+
+    diff-highlight = self.linkFarm "diff-highlight" [{
+      name = "bin/diff-highlight";
+      path =
+        "${super.gitAndTools.gitFull}/share/git/contrib/diff-highlight/diff-highlight";
+    }];
   };
 }

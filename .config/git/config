@@ -33,6 +33,7 @@
 	algorithm = histogram
 	ignoreSubmodules = dirty
 	wsErrorHighlight = all
+	colorMoved = default
 [credential]
 	helper= !pass-git-helper $@
 [rerere]
@@ -44,13 +45,11 @@
 	displayuntracked = false
 	spellingdictionary = none
 [sendemail]
-	smtpserver = /usr/bin/msmtp
+	smtpserver = msmtp
 	confirm = always
 	annotate = yes
 [push]
 	default = current
-[core]
-	pager = less -+X
 [diff "gpg"]
 	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent
 	binary = true

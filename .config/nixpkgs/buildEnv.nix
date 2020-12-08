@@ -33,6 +33,8 @@ buildEnv rec {
       emacs
       file
       fzf
+      gitAndTools.delta
+      gitAndTools.diff-highlight
       gitAndTools.gh
       gitAndTools.git-crypt
       gitAndTools.git-filter-repo
