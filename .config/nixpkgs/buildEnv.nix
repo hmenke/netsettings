@@ -50,6 +50,7 @@ buildEnv rec {
       neovim
       niv
       nix-direnv
+      nix-index
       nixfmt
       openssl
       pandoc
