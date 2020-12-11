@@ -8,7 +8,7 @@
 __setup_prompt "\h" "\w" "\\$"
 __timer_reset;
 __prompt_posthook() { history -a; }
-trap '__timer_start' DEBUG
+trap '__timer_start "$_"' DEBUG
 PROMPT_COMMAND="${PROMPT_COMMAND:+"${PROMPT_COMMAND%;}; "}__draw_prompt;"
 
 # shell optional behavior
@@ -16,7 +16,9 @@ shopt -s autocd
 shopt -s extglob
 
 # history
+shopt -s cmdhist
 shopt -s histappend
+shopt -s lithist
 HISTCONTROL=ignoreboth:erasedups
 HISTTIMEFORMAT="%F %T %z "
 HISTFILE=~/.cache/bash_history

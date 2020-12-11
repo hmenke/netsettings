@@ -36,10 +36,12 @@ __timer_reset() {
 }
 
 __timer_start() {
+    local prev_last_arg="$1"
     if [ "$__timer_ready" = true ]; then
         __timer_ready=false
         __timer=${__timer:-$SECONDS}
     fi
+    : "$prev_last_arg"
 }
 
 __timer_stop() {
