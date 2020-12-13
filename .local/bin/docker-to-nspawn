@@ -23,7 +23,7 @@ if [ ! -f "${HOME}/.cache/download-frozen-image-v2.sh" ]; then
 	echo "Fetching download-frozen-image-v2.sh..."
 	curl --silent --output "${HOME}/.cache/download-frozen-image-v2.sh" \
 		https://raw.githubusercontent.com/moby/moby/master/contrib/download-frozen-image-v2.sh
-	echo "64a50c29d2374974b8abf68f0feb3ce4ff20e55e5bae644e6e3a1a5311db57ec  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
+	echo "339c69eacf8b1c37be08ba59f9b715847698a17909aec53ebb1e9894d294154d  ${HOME}/.cache/download-frozen-image-v2.sh" | sha256sum --check --quiet -
 	cat > "${HOME}/.cache/download-frozen-image-v2.sh.patch" << 'EOF'
 --- download-frozen-image-v2.sh	2019-10-30 13:55:36.956848312 +1300
 +++ download-frozen-image-v2.sh	2020-01-28 14:01:36.548303270 +1300
