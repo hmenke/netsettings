@@ -51,7 +51,7 @@ buildEnv rec {
       niv
       nix-direnv
       nix-index
-      nixfmt
+      nixpkgs-fmt
       openssl
       pandoc
       pass-otp
