@@ -112,7 +112,12 @@ buildEnv rec {
         oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
         oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
 
-        ${nix}/bin/nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
+        if ! command -v nix-env &>/dev/null; then
+            >&2 echo "warning: nix-env was not found in PATH, add nix to user environment"
+            PATH="${nix}/bin''${PATH+:$PATH}"
+        fi
+
+        nix-env --set -f ~/.config/nixpkgs/buildEnv.nix \
         --argstr name "$(whoami)-user-env-$(date -I)" \
         --arg withUnfree ${lib.trivial.boolToString withUnfree} \
         --arg withGui ${lib.trivial.boolToString withGui} \
