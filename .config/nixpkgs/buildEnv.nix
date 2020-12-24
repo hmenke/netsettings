@@ -7,13 +7,13 @@
 #
 #    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
 
-{ name ? "user-env", withUnfree ? true, withGui ? true }:
+{ name ? "user-env"
+, withUnfree ? true
+, withGui ? true
+, pkgs ? import <nixpkgs> { }
+}:
 
-let
-
-  pkgs = import <nixpkgs> { };
-
-in with pkgs;
+with pkgs;
 
 buildEnv rec {
   inherit name;
@@ -97,7 +97,7 @@ buildEnv rec {
       dropbox
       google-chrome
       masterpdfeditor-free
-      mathematica
+      #mathematica
       skypeforlinux
       softmaker-office
       steam

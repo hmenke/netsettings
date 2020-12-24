@@ -64,20 +64,9 @@ self: super: {
         ];
   };
 
-  softmaker-office = let
+  softmaker-office = super.softmaker-office.override {
     version = "976";
     edition = "2018";
-  in self.callPackage
-  "${self.path}/pkgs/applications/office/softmaker/generic.nix" {
-    pname = "softmaker-office";
-    inherit version edition;
-    suiteName = "SoftMaker Office";
-    src = self.fetchurl {
-      url =
-        "https://www.softmaker.net/down/softmaker-office-${edition}-${version}-amd64.tgz";
-      sha256 = "sha256:14qnlbczq1zcz24vwy2yprdvhyn6bxv1nc1w6vjyq8w5jlwqsgbr";
-    };
-    archive = "office${edition}.tar.lzma";
   };
 
   gitAndTools = super.gitAndTools // {
