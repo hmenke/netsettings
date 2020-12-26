@@ -64,6 +64,11 @@ self: super: {
         ];
   };
 
+  nix-direnv = super.nix-direnv.overrideAttrs ({ postPatch, ... }: {
+    postPatch = builtins.replaceStrings
+      [ "${self.nix}" ] [ "${self.nixFlakes}" ] postPatch;
+  });
+
   softmaker-office = super.softmaker-office.override {
     officeVersion = {
       version = "976";
