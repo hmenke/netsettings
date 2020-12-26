@@ -65,8 +65,11 @@ self: super: {
   };
 
   softmaker-office = super.softmaker-office.override {
-    version = "976";
-    edition = "2018";
+    officeVersion = {
+      version = "976";
+      edition = "2018";
+      sha256 = "sha256:14qnlbczq1zcz24vwy2yprdvhyn6bxv1nc1w6vjyq8w5jlwqsgbr";
+    };
   };
 
   gitAndTools = super.gitAndTools // {
