@@ -705,34 +705,3 @@ is already narrowed."
   :ensure t
   :defer 2
   :config (which-key-mode))
-
-;; Replacement for DocView
-(use-package pdf-tools
-  :ensure t
-  :mode ("\\.pdf\\'" . pdf-view-mode)
-  :magic ("%PDF" . pdf-view-mode)
-  :config
-  (pdf-tools-install :no-query :skip-dependencies))
-
-;; Theme
-(load-theme 'leuven t)
-
-(use-package telephone-line
-  :ensure t
-  :if window-system
-  :config
-  (setq
-   telephone-line-lhs
-   '((evil   . (telephone-line-evil-tag-segment))
-     (accent . (telephone-line-vc-segment
-                telephone-line-erc-modified-channels-segment
-                telephone-line-process-segment))
-     (nil    . (telephone-line-projectile-segment
-                telephone-line-buffer-segment)))
-   telephone-line-rhs
-   '((nil    . (telephone-line-flycheck-segment
-                telephone-line-misc-info-segment))
-     (accent . (telephone-line-major-mode-segment
-                telephone-line-minor-mode-segment))
-     (evil   . (telephone-line-airline-position-segment))))
-  (telephone-line-mode 1))
