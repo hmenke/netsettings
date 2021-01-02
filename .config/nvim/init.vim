@@ -128,6 +128,7 @@ Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
 Plug 'sheerun/vim-polyglot'
 Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
 Plug 'unblevable/quick-scope'
 Plug 'direnv/direnv.vim'
 
@@ -154,6 +155,15 @@ let g:UltiSnipsNoPythonWarning = 1
 let g:UltiSnipsExpandTrigger = '<tab>'
 let g:UltiSnipsJumpForwardTrigger = '<tab>'
 let g:UltiSnipsJumpBackwardTrigger = '<s-tab>'
+
+" gitgutter
+let g:gitgutter_map_keys = 0
+let g:gitgutter_override_sign_column_highlight = 0
+highlight clear SignColumn
+highlight link SignColumn LineNr
+highlight GitGutterAdd    guifg=#009900 ctermfg=2
+highlight GitGutterChange guifg=#bbbb00 ctermfg=3
+highlight GitGutterDelete guifg=#ff2222 ctermfg=1
 
 " quick-scope
 let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
