@@ -18,6 +18,9 @@ alias ...="cd ../.."
 
 alias rm="rm -I"
 
+# Emacs
+alias emacs='emacsclient -t -a ""'
+
 # Printing aliases
 if command -v lp > /dev/null; then
 	alias lp-fit="lp -o media=a4 -o sides=two-sided-long-edge -o fitplot -o collate=true"
