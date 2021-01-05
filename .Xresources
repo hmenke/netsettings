@@ -18,6 +18,7 @@ xterm*utf8: 1
 xterm*metaSendsEscape: true
 xterm*printerCommand: xterm -T History -e sh -c 'less -r --mouse --wheel-lines=3 +G <&3' 3<&0
 xterm*vt100.alternateScroll: true
+xterm*vt100.backarrowKey: false
 xterm*vt100.jumpScroll: true
 xterm*vt100.fastScroll: true
 xterm*vt100.multiScroll: true
@@ -36,6 +37,7 @@ xterm*fullscreen: never
 xterm*scrollTtyOutput: false
 xterm*scrollKey: true
 xterm*dynamicColors: true
+xterm*ttyModes: erase ^?
 
 ! Urxvt settings
 URxvt*font: xft:mono:medium:size=10
