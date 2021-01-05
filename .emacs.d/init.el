@@ -117,6 +117,14 @@ is already narrowed."
    initial-scratch-message ""
    auto-save-list-file-prefix user/auto-save-directory))
 
+(use-package mule
+  :config
+  (prefer-coding-system 'utf-8)
+  (set-default-coding-systems 'utf-8)
+  (set-terminal-coding-system 'utf-8)
+  (set-keyboard-coding-system 'utf-8)
+  (set-buffer-file-coding-system 'utf-8))
+
 (use-package simple
   :bind ("M-SPC" . cycle-spacing)
   :config
