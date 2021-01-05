@@ -44,9 +44,6 @@ export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
 # Shut up GTK!
 export NO_AT_BRIDGE=1
 
-# 256 colors
-export TERM="${TERM:-xterm-256color}"
-
 # XDG base directory support
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
