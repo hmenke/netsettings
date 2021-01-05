@@ -66,7 +66,8 @@ is already narrowed."
 (when (< emacs-major-version 27)
   (package-initialize))
 (require 'package)
-(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+(setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
+                         ("melpa" . "https://melpa.org/packages/")))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -499,6 +500,13 @@ is already narrowed."
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+
+(use-package xclip
+  :unless window-system
+  :if (executable-find "xclip")
+  :ensure t
+  :config
+  (xclip-mode 1))
 
 ;; AUCTeX
 (defun user/align-environment ()
