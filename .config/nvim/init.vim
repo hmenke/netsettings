@@ -174,6 +174,6 @@ augroup qs_colors
 augroup END
 
 " Color theme
-if has('termguicolors')
+if has('termguicolors') && !exists('$TMUX')
     set termguicolors
 endif
