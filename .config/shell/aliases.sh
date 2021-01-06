@@ -19,7 +19,9 @@ alias ...="cd ../.."
 alias rm="rm -I"
 
 # Emacs
-alias emacs='emacsclient -t -a ""'
+alias emacs='emacsclient -a "" -c -t'
+alias gemacs='emacsclient -a "" -c'
+alias magit='emacsclient -a "" -c -t -e "(progn (magit-status) (delete-other-windows))"'
 
 # Printing aliases
 if command -v lp > /dev/null; then
