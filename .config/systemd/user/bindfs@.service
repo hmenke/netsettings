@@ -1,0 +1,14 @@
+[Unit]
+Description=Bind mount /persist/home/%u/%I
+ConditionPathIsDirectory=/persist/home/%u/%I
+ConditionPathIsDirectory=%h/%I
+ConditionPathIsMountPoint=!%h/%I
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+ExecStart=%h/.nix-profile/bin/bindfs --no-allow-other "/persist/home/%u/%I" "%h/%I"
+ExecStop=/run/wrappers/bin/fusermount -u "%h/%I"
+
+[Install]
+WantedBy=default.target
