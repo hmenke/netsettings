@@ -28,6 +28,7 @@ buildEnv rec {
       aspell
       aspellDicts.de
       aspellDicts.en
+      bindfs
       cachix
       direnv
       emacs
