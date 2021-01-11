@@ -97,7 +97,7 @@ let g:netrw_list_hide=netrw_gitignore#Hide()
 let g:netrw_list_hide.=',\(^\|\s\s\)\zs\.\S\+'
 
 " Polyglot (has to be defined before polyglot is loaded)
-let g:polyglot_disabled = ['autoindent', 'latex']
+let g:polyglot_disabled = ['autoindent', 'latex', 'sensible']
 
 " Plugins
 let s:plug_path = expand('~/.config/nvim/autoload')
@@ -122,11 +122,11 @@ unlet s:plug_path
 
 call plug#begin('~/.local/share/nvim/plugged')
 
+Plug 'tpope/vim-sensible'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'rhysd/vim-clang-format', { 'for': ['c', 'cpp'] }
 Plug 'sheerun/vim-polyglot'
-Plug 'tpope/vim-sensible'
 Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'unblevable/quick-scope'
