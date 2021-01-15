@@ -71,11 +71,15 @@ buildEnv rec {
     ] ++ lib.lists.optionals withGui [
       # GUI
       arandr
+      browserpass
+      (chromium.override {
+        commandLineArgs = "--disk-cache-dir=/dev/shm/$USER/cache/chromium";
+        enableVaapi = true;
+      })
       clementine
       dunst
       evince
       feh
-      firefox
       gnome3.adwaita-icon-theme
       gnome3.evolution
       libnotify
