@@ -29,7 +29,7 @@ super + shift + b
 
 # file manager
 super + e
-	emacs ~/
+	emacsclient -a "" -c ~/
 
 # make sxhkd reload its configuration files:
 super + Escape
