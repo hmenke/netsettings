@@ -478,7 +478,17 @@ is already narrowed."
 ;; Vim bindings
 (use-package evil
   :ensure t
-  :commands evil-mode)
+  :commands evil-mode
+  :config
+  (setq
+   evil-mode-line-format '(before . mode-line-front-space)
+   evil-normal-state-tag   (propertize " NORMAL "   'face '((:weight bold :background "SpringGreen" )))
+   evil-insert-state-tag   (propertize " INSERT "   'face '((:weight bold :background "DeepSkyBlue1")))
+   evil-replace-state-tag  (propertize " REPLACE "  'face '((:weight bold :background "red3"        )))
+   evil-visual-state-tag   (propertize " VISUAL "   'face '((:weight bold :background "DarkOrange"  )))
+   evil-emacs-state-tag    (propertize " EMACS "    'face '((:weight bold :background "SkyBlue2"    )))
+   evil-motion-state-tag   (propertize " MOTION "   'face '((:weight bold :background "plum3"       )))
+   evil-operator-state-tag (propertize " OPERATOR " 'face '((:weight bold :background "sandy brown" )))))
 
 (unless (< emacs-major-version 25)
   ;; incremental completion
