@@ -2,23 +2,14 @@
 # Send and receive #
 ####################
 
-# Old GMail mbsync and offlineimap stuff
-#source "python ~/.config/offlineimap/credentials.py imap.gmail.com |"
-#set trash = "+[Gmail]/Bin"
-#set postponed = "+[Gmail]/Drafts"
-#unset record # GMail copies to Sent automatically
-
 set imap_user = "henri@henrimenke.de";
-source "python ~/.config/offlineimap/credentials.py henrimenke.de |"
+source "python -c 'from netrc import netrc; print(\"set imap_pass = {}\".format(netrc().hosts[\"henrimenke.de\"][2]))' |"
 set folder = "imaps://henrimenke.de/"
 
 set spoolfile = +INBOX
 mailboxes =INBOX
 set imap_check_subscribed
 
-#set smtp_url = "smtps://$imap_user@smtp.gmail.com"
-#set smtp_pass = $imap_pass
-#set smtp_authenticators = "plain"
 set ssl_force_tls = yes
 
 # Composition settings

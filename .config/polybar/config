@@ -59,7 +59,7 @@ font-2 = "Noto Color Emoji:scale=10;0"
 
 modules-left = bspwm xwindow
 ;modules-center = filesystem mpd alsa powermenu wlan eth temperature memory cpu
-modules-right = xkeyboard xbacklight pulseaudio battery mail weather date
+modules-right = xkeyboard xbacklight pulseaudio battery weather date
 
 tray-position = right
 tray-padding = 10
@@ -85,34 +85,6 @@ exec = "curl --silent 'wttr.in/?format=@%c@+%t+%p+%o' | sed 's/@\(.*\)@/%{T3}\1%
 interval = 3600
 format-underline = ${colors.primary}
 click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
-
-[module/newsboat]
-type = custom/ipc
-hook-0 = "newsboat -x print-unread | sed 's/[^0-9]//g'"
-initial = 1
-format = "%{T3}📰%{T-} <output>"
-format-underline = ${colors.primary}
-;click-left = notify-send "wttr.in" "$(curl --silent 'wttr.in/?0T' | sed 's/\\/\\\\/g')"
-click-right = polybar-msg hook newsboat 1
-
-[module/checkupdates]
-type = custom/ipc
-hook-0 = echo "$(wc -l < ~/.cache/checkupdates/arch)/$(wc -l < ~/.cache/checkupdates/aur)"
-hook-1 = systemctl --user --no-block start checkupdates.service
-initial = 1
-format = "%{T3}⬆%{T-} <output>"
-format-underline = ${colors.primary}
-click-left = notify-send "Updates" "$(cat ~/.cache/checkupdates/arch)\n<b>AUR</b>\n$(cat ~/.cache/checkupdates/aur)"
-click-right = polybar-msg hook checkupdates 2
-
-[module/mail]
-type = custom/ipc
-hook-0 = find ~/.cache/checkmail ~/.local/share/offlineimap/*/INBOX/new -type f 2>/dev/null | wc -l
-hook-1 = systemctl --user --no-block start --all "checkmail@*.service"
-initial = 1
-format = "%{T3}📬%{T-} <output>"
-format-underline = ${colors.primary}
-click-right = polybar-msg hook mail 2
 
 [module/xwindow]
 type = internal/xwindow
