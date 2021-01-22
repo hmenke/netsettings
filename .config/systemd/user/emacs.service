@@ -12,7 +12,7 @@ ExecStop=/usr/bin/env emacsclient --eval "(kill-emacs)"
 # The location of the SSH auth socket varies by distribution, and some
 # set it from PAM, so don't override by default.
 # Environment=SSH_AUTH_SOCK=%t/keyring/ssh
-Restart=on-failure
+Restart=always
 
 [Install]
 WantedBy=graphical-session.target

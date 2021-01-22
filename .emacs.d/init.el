@@ -73,6 +73,8 @@ is already narrowed."
   (package-refresh-contents)
   (package-install 'use-package))
 
+(setq use-package-always-demand (daemonp))
+
 ;;;;;;;;;;;;;
 ;; BUILTIN ;;
 ;;;;;;;;;;;;;
@@ -178,6 +180,9 @@ is already narrowed."
   :config
   (setq show-paren-delay 0)
   (show-paren-mode 1))
+
+(use-package hippie-exp
+  :bind ("M-/" . hippie-expand))
 
 ;; c++ mode enhancements
 (use-package cc-mode
@@ -517,7 +522,11 @@ is already narrowed."
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
+  (defun user/maybe-diff-hl-margin-mode()
+    (diff-hl-margin-mode (if (window-system) -1 1)))
+  (dolist (it '(post-command-hook before-hack-local-variables-hook))
+    (add-hook it 'user/maybe-diff-hl-margin-mode nil 1)))
 
 (use-package xclip
   :unless window-system
