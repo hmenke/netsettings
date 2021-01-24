@@ -70,6 +70,15 @@
 # state symbols by setting GIT_PS1_STATESEPARATOR. The default separator
 # is SP.
 #
+# When there is an in-progress operation such as a merge, rebase,
+# revert, cherry-pick, or bisect, the prompt will include information
+# related to the operation, often in the form "|<OPERATION-NAME>".
+#
+# When the repository has a sparse-checkout, a notification of the form
+# "|SPARSE" will be included in the prompt.  This can be shortened to a
+# single '?' character by setting GIT_PS1_COMPRESSSPARSESTATE, or omitted
+# by setting GIT_PS1_OMITSPARSESTATE.
+#
 # By default, __git_ps1 will compare HEAD to your SVN upstream if it can
 # find one, or @{upstream} otherwise.  Once you have set
 # GIT_PS1_SHOWUPSTREAM, you can override it on a per-repository basis by
@@ -94,6 +103,19 @@
 # directory is set up to be ignored by git, then set
 # GIT_PS1_HIDE_IF_PWD_IGNORED to a nonempty value. Override this on the
 # repository level by setting bash.hideIfPwdIgnored to "false".
+
+# timeout for git operations to get a fast prompt in large repos
+__git_ps1_set_timeout ()
+{
+	__git_ps1_timeout="$(git config ps1.timeout)"
+	: "${__git_ps1_timeout:=$GIT_PS1_TIMEOUT}"
+	: "${__git_ps1_timeout:=0.5}"
+}
+
+__git_with_timeout ()
+{
+	timeout ${GIT_PS1_TIMEOUT_VERBOSE+-v} "$__git_ps1_timeout" git "$@"
+}
 
 # check whether printf supports -v
 __git_printf_supports_v=
@@ -144,7 +166,7 @@ __git_ps1_show_upstream ()
 		# get the upstream from the "git-svn-id: ..." in a commit message
 		# (git-svn uses essentially the same procedure internally)
 		local -a svn_upstream
-		svn_upstream=($(git log --first-parent -1 \
+		svn_upstream=($(__git_with_timeout log --first-parent -1 \
 					--grep="^git-svn-id: \(${svn_url_pattern#??}\)" 2>/dev/null))
 		if [[ 0 -ne ${#svn_upstream[@]} ]]; then
 			svn_upstream=${svn_upstream[${#svn_upstream[@]} - 2]}
@@ -168,12 +190,12 @@ __git_ps1_show_upstream ()
 
 	# Find how many commits we are ahead/behind our upstream
 	if [[ -z "$legacy" ]]; then
-		count="$(git rev-list --count --left-right \
+		count="$(__git_with_timeout rev-list --count --left-right \
 				"$upstream"...HEAD 2>/dev/null)"
 	else
 		# produce equivalent output to --count for older versions of git
 		local commits
-		if commits="$(git rev-list --left-right "$upstream"...HEAD 2>/dev/null)"
+		if commits="$(__git_with_timeout rev-list --left-right "$upstream"...HEAD 2>/dev/null)"
 		then
 			local commit behind=0 ahead=0
 			for commit in $commits
@@ -217,7 +239,7 @@ __git_ps1_show_upstream ()
 			p=" u+${count#*	}-${count%	*}" ;;
 		esac
 		if [[ -n "$count" && -n "$name" ]]; then
-			__git_ps1_upstream_name=$(git rev-parse \
+			__git_ps1_upstream_name=$(__git_with_timeout rev-parse \
 				--abbrev-ref "$upstream" 2>/dev/null)
 			if [ $pcmode = yes ] && [ $ps1_expanded = yes ]; then
 				p="$p \${__git_ps1_upstream_name}"
@@ -391,8 +413,10 @@ __git_ps1 ()
 	[ -z "${ZSH_VERSION-}" ] || [[ -o PROMPT_SUBST ]] || ps1_expanded=no
 	[ -z "${BASH_VERSION-}" ] || shopt -q promptvars || ps1_expanded=no
 
+	__git_ps1_set_timeout
+
 	local repo_info rev_parse_exit_code
-	repo_info="$(git rev-parse --git-dir --is-inside-git-dir \
+	repo_info="$(__git_with_timeout rev-parse --git-dir --is-inside-git-dir \
 		--is-bare-repository --is-inside-work-tree \
 		--short HEAD 2>/dev/null)"
 	rev_parse_exit_code="$?"
@@ -416,9 +440,16 @@ __git_ps1 ()
 	if [ "true" = "$inside_worktree" ] &&
 	   [ -n "${GIT_PS1_HIDE_IF_PWD_IGNORED-}" ] &&
 	   [ "$(git config --bool bash.hideIfPwdIgnored)" != "false" ] &&
-	   git check-ignore -q .
+	   __git_with_timeout check-ignore -q .
 	then
 		return $exit
+	fi
+
+	local sparse=""
+	if [ -z "${GIT_PS1_COMPRESSSPARSESTATE}" ] &&
+	   [ -z "${GIT_PS1_OMITSPARSESTATE}" ] &&
+	   [ "$(git config --bool core.sparseCheckout)" = "true" ]; then
+		sparse="|SPARSE"
 	fi
 
 	local r=""
@@ -429,11 +460,7 @@ __git_ps1 ()
 		__git_eread "$g/rebase-merge/head-name" b
 		__git_eread "$g/rebase-merge/msgnum" step
 		__git_eread "$g/rebase-merge/end" total
-		if [ -f "$g/rebase-merge/interactive" ]; then
-			r="|REBASE-i"
-		else
-			r="|REBASE-m"
-		fi
+		r="|REBASE"
 	else
 		if [ -d "$g/rebase-apply" ]; then
 			__git_eread "$g/rebase-apply/next" step
@@ -458,7 +485,7 @@ __git_ps1 ()
 			:
 		elif [ -h "$g/HEAD" ]; then
 			# symlink symbolic ref
-			b="$(git symbolic-ref HEAD 2>/dev/null)"
+			b="$(__git_with_timeout symbolic-ref HEAD 2>/dev/null)"
 		else
 			local head=""
 			if ! __git_eread "$g/HEAD" head; then
@@ -471,15 +498,15 @@ __git_ps1 ()
 				b="$(
 				case "${GIT_PS1_DESCRIBE_STYLE-}" in
 				(contains)
-					git describe --contains HEAD ;;
+					__git_with_timeout describe --contains HEAD ;;
 				(branch)
-					git describe --contains --all HEAD ;;
+					__git_with_timeout describe --contains --all HEAD ;;
 				(tag)
-					git describe --tags HEAD ;;
+					__git_with_timeout describe --tags HEAD ;;
 				(describe)
-					git describe HEAD ;;
+					__git_with_timeout describe HEAD ;;
 				(* | default)
-					git describe --tags --exact-match HEAD ;;
+					__git_with_timeout describe --tags --exact-match HEAD ;;
 				esac 2>/dev/null)" ||
 
 				b="$short_sha..."
@@ -496,6 +523,7 @@ __git_ps1 ()
 	local i=""
 	local s=""
 	local u=""
+	local h=""
 	local c=""
 	local p=""
 
@@ -509,23 +537,28 @@ __git_ps1 ()
 		if [ -n "${GIT_PS1_SHOWDIRTYSTATE-}" ] &&
 		   [ "$(git config --bool bash.showDirtyState)" != "false" ]
 		then
-			git diff --no-ext-diff --quiet || w="*"
-			git diff --no-ext-diff --cached --quiet || i="+"
+			__git_with_timeout diff --no-ext-diff --quiet || w="*"
+			__git_with_timeout diff --no-ext-diff --cached --quiet || i="+"
 			if [ -z "$short_sha" ] && [ -z "$i" ]; then
 				i="#"
 			fi
 		fi
 		if [ -n "${GIT_PS1_SHOWSTASHSTATE-}" ] &&
-		   git rev-parse --verify --quiet refs/stash >/dev/null
+		   __git_with_timeout rev-parse --verify --quiet refs/stash >/dev/null
 		then
 			s="$"
 		fi
 
 		if [ -n "${GIT_PS1_SHOWUNTRACKEDFILES-}" ] &&
 		   [ "$(git config --bool bash.showUntrackedFiles)" != "false" ] &&
-		   git ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
+		   __git_with_timeout ls-files --others --exclude-standard --directory --no-empty-directory --error-unmatch -- ':/*' >/dev/null 2>/dev/null
 		then
 			u="%${ZSH_VERSION+%}"
+		fi
+
+		if [ -n "${GIT_PS1_COMPRESSSPARSESTATE}" ] &&
+		   [ "$(git config --bool core.sparseCheckout)" = "true" ]; then
+			h="?"
 		fi
 
 		if [ -n "${GIT_PS1_SHOWUPSTREAM-}" ]; then
@@ -546,8 +579,8 @@ __git_ps1 ()
 		b="\${__git_ps1_branch_name}"
 	fi
 
-	local f="$w$i$s$u"
-	local gitstring="$c$b${f:+$z$f}$r$p"
+	local f="$h$w$i$s$u"
+	local gitstring="$c$b${f:+$z$f}${sparse}$r$p"
 
 	if [ $pcmode = yes ]; then
 		if [ "${__git_printf_supports_v-}" != yes ]; then
