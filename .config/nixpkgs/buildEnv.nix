@@ -38,6 +38,7 @@ buildEnv rec {
       gitAndTools.delta
       gitAndTools.diff-highlight
       gitAndTools.gh
+      gitAndTools.git-annex
       gitAndTools.git-crypt
       gitAndTools.git-filter-repo
       gitAndTools.gitFull
