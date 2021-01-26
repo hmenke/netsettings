@@ -229,8 +229,7 @@ is already narrowed."
 ;; Spell checking
 ;; https://emacs.stackexchange.com/questions/20206
 (use-package flyspell
-  :hook ((text-mode . flyspell-mode)
-         (flyspell-mode . user/flyspell-local-vars))
+  :hook (flyspell-mode . user/flyspell-local-vars)
   :init
   (defun user/flyspell-local-vars ()
     (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
