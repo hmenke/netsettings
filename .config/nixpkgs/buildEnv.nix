@@ -25,9 +25,7 @@ buildEnv rec {
 
     userPackages = localPackages ++ [
       # command line utils
-      aspell
-      aspellDicts.de
-      aspellDicts.en
+      (aspellWithDicts (dicts: with dicts; [ de en ]))
       bindfs
       cachix
       direnv
