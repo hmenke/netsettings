@@ -1,4 +1,6 @@
 ;; -*- lexical-binding: t; -*-
+(when (< emacs-major-version 25)
+  (error "Emacs is too old!"))
 
 ;; Speed up the startup
 (setq old/gc-cons-threshold gc-cons-threshold
@@ -355,9 +357,7 @@ is already narrowed."
 ;; save position on exit
 (use-package saveplace
   :config
-  (if (< emacs-major-version 25)
-      (setq-default save-place t)
-    (save-place-mode)))
+  (save-place-mode))
 
 ;; search
 (use-package "isearch"
@@ -368,27 +368,26 @@ is already narrowed."
   (setq isearch-regexp-lax-whitespace nil)
   (setq isearch-lazy-highlight t))
 
-(when (< emacs-major-version 25)
-  ;; icomplete (newer Emacs uses selectrum)
-  (use-package icomplete
-    :demand
-    :after minibuffer
-    :bind (:map icomplete-minibuffer-map
-                ("<up>" . icomplete-backward-completions)
-                ("C-p" . icomplete-backward-completions)
-                ("<down>" . icomplete-forward-completions)
-                ("C-n" . icomplete-forward-completions))
-    :config
-    (setq
-     icomplete-delay-completions-threshold 100
-     icomplete-max-delay-chars 2
-     icomplete-compute-delay 0.0
-     icomplete-show-matches-on-no-input t
-     icomplete-with-completion-tables t
-     icomplete-in-buffer t
-     icomplete-tidy-shadowed-file-names nil
-     icomplete-hide-common-prefix nil)
-    (icomplete-mode 1)))
+;;;; icomplete (newer Emacs uses selectrum)
+;;(use-package icomplete
+;;  :demand
+;;  :after minibuffer
+;;  :bind (:map icomplete-minibuffer-map
+;;              ("<up>" . icomplete-backward-completions)
+;;              ("C-p" . icomplete-backward-completions)
+;;              ("<down>" . icomplete-forward-completions)
+;;              ("C-n" . icomplete-forward-completions))
+;;  :config
+;;  (setq
+;;   icomplete-delay-completions-threshold 100
+;;   icomplete-max-delay-chars 2
+;;   icomplete-compute-delay 0.0
+;;   icomplete-show-matches-on-no-input t
+;;   icomplete-with-completion-tables t
+;;   icomplete-in-buffer t
+;;   icomplete-tidy-shadowed-file-names nil
+;;   icomplete-hide-common-prefix nil)
+;;  (icomplete-mode 1))
 
 ;; window customizations
 (use-package "window"
@@ -494,30 +493,30 @@ is already narrowed."
    evil-motion-state-tag   (propertize " MOTION "   'face '((:weight bold :background "plum3"       )))
    evil-operator-state-tag (propertize " OPERATOR " 'face '((:weight bold :background "sandy brown" )))))
 
-(unless (< emacs-major-version 25)
-  ;; incremental completion
-  (use-package selectrum
-    :ensure t
-    :config
-    (selectrum-mode +1))
-  (use-package selectrum-prescient
-    :ensure t
-    :config
-    (selectrum-prescient-mode +1)
-    (prescient-persist-mode +1))
+;; incremental completion
+(use-package selectrum
+  :ensure t
+  :config
+  (selectrum-mode +1))
+(use-package selectrum-prescient
+  :ensure t
+  :config
+  (selectrum-prescient-mode +1)
+  (prescient-persist-mode +1))
 
-  ;; magit
-  (use-package magit
-    :ensure t
-    :defer 2
-    :bind
-    (("C-x g" . magit-status)
-     ("C-x M-g" . magit-dispatch)
-     ("C-c g" . magit-file-dispatch))))
+;; magit
+(use-package magit
+  :ensure t
+  :defer 2
+  :bind
+  (("C-x g" . magit-status)
+   ("C-x M-g" . magit-dispatch)
+   ("C-c g" . magit-file-dispatch)))
 
 (use-package diff-hl
   :ensure t
   :defer 2
+  :after magit
   :config
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
@@ -694,29 +693,27 @@ is already narrowed."
   :ensure t
   :mode "\\.lua\\'"
   :config (setq lua-indent-level 4))
-
-(unless (< emacs-major-version 25)
-  (use-package blacken
-    :ensure t
-    :after python
-    :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
-    :commands blacken-buffer)
-  (use-package haskell-mode
-    :ensure t
-    :mode "\\.hs\\'")
-  (use-package markdown-mode
-    :ensure t
-    :commands (markdown-mode gfm-mode)
-    :mode (("\\`README\\.md\\'" . gfm-mode)
-           ("\\.md\\'" . markdown-mode)
-           ("\\.markdown\\'" . markdown-mode))
-    :init (setq markdown-command "pandoc"))
-  (use-package nix-mode
-    :ensure t
-    :mode "\\.nix\\'")
-  (use-package rust-mode
-    :ensure t
-    :mode "\\.rs\\'"))
+(use-package blacken
+  :ensure t
+  :after python
+  :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
+  :commands blacken-buffer)
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'")
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("\\`README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
+(use-package nix-mode
+  :ensure t
+  :mode "\\.nix\\'")
+(use-package rust-mode
+  :ensure t
+  :mode "\\.rs\\'")
 
 (use-package rainbow-mode
   :ensure t
