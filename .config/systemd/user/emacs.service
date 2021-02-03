@@ -2,7 +2,6 @@
 Description=Emacs text editor
 Documentation=info:emacs man:emacs(1) https://gnu.org/software/emacs/
 OnFailure=notify-send@%N.service
-PartOf=graphical-session.target
 
 [Service]
 Type=notify
@@ -15,4 +14,4 @@ ExecStop=/usr/bin/env emacsclient --eval "(kill-emacs)"
 Restart=always
 
 [Install]
-WantedBy=graphical-session.target
+WantedBy=default.target
