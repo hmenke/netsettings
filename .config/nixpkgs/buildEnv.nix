@@ -41,6 +41,7 @@ buildEnv rec {
       gitAndTools.git-filter-repo
       gitAndTools.gitFull
       gitAndTools.pass-git-helper
+      gitAndTools.pre-commit
       glib
       gnuplotGit
       gvfs
