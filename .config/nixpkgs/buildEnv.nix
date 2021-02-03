@@ -138,21 +138,6 @@ buildEnv rec {
         || true
       '')
 
-      # Manifest to make sure imperative nix-env doesn't work (otherwise it will
-      # overwrite the profile, removing all packages other than the
-      # newly-installed one).
-      (writeTextFile {
-        name = "break-nix-env-manifest";
-        destination = "/manifest.nix";
-        text = ''
-          throw '''
-            Your user environment is a buildEnv which is incompatible with
-            nix-env's built-in env builder. Edit your home expression and run
-            nix-rebuild instead!
-          '''
-        '';
-      })
-
       # Since you can't see the versions with nix-env -q anymore, we write them
       # to a file for easy querying
       (let
