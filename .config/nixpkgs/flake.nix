@@ -11,12 +11,6 @@
     let
       system = "x86_64-linux";
 
-      cfg = {
-        name = "user-env";
-        withUnfree = true;
-        withGui = true;
-      };
-
       config =
         if pathExists ./config.nix
         then import ./config.nix
@@ -33,7 +27,7 @@
       };
     in
     {
-      packages.${system}.user-env = import ./buildEnv.nix (cfg // { inherit pkgs; });
+      packages.${system}.user-env = import ./buildEnv.nix { inherit pkgs; };
       defaultPackage.${system} = self.packages.${system}.user-env;
     };
 }
