@@ -528,7 +528,8 @@ is already narrowed."
 
 (use-package xclip
   :unless window-system
-  :if (executable-find "xclip")
+  :if (and (executable-find "xclip")
+           (getenv "DISPLAY"))
   :ensure t
   :config
   (xclip-mode 1))
@@ -645,9 +646,11 @@ is already narrowed."
   :config (direnv-mode))
 
 ;; Language modes
-(use-package modern-cpp-font-lock
+(use-package blacken
   :ensure t
-  :hook (c++-mode . modern-c++-font-lock-mode))
+  :after python
+  :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
+  :commands blacken-buffer)
 (use-package clang-format
   :ensure t
   :bind (:map c++-mode-map ("C-M-<tab>" . user/clang-format))
@@ -683,6 +686,9 @@ is already narrowed."
   :ensure t
   :mode ("\\.gnuplot\\'" . gnuplot-mode)
   :config (setq gnuplot-display-process nil))
+(use-package haskell-mode
+  :ensure t
+  :mode "\\.hs\\'")
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
@@ -693,14 +699,6 @@ is already narrowed."
   :ensure t
   :mode "\\.lua\\'"
   :config (setq lua-indent-level 4))
-(use-package blacken
-  :ensure t
-  :after python
-  :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
-  :commands blacken-buffer)
-(use-package haskell-mode
-  :ensure t
-  :mode "\\.hs\\'")
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
@@ -708,12 +706,18 @@ is already narrowed."
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
+(use-package modern-cpp-font-lock
+  :ensure t
+  :hook (c++-mode . modern-c++-font-lock-mode))
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
+(use-package yaml-mode
+  :ensure t
+  :mode ("\\.yml\\'" "\\.yaml\\'"))
 
 (use-package rainbow-mode
   :ensure t
