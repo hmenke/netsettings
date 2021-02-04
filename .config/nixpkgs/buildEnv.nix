@@ -134,7 +134,7 @@ buildEnv rec {
           fi
 
           if (( $(nix profile info 2>/dev/null | wc -l) > 0 )); then
-              nix profile upgrade '.*' --show-trace --no-write-lock-file --print-build-logs "$@"
+              nix profile upgrade '.*' --builders "" --recreate-lock-file --no-write-lock-file --print-build-logs "$@"
           else
               nix-env --set -f ~/.config/nixpkgs/buildEnv.nix --builders "" "$@"
           fi
