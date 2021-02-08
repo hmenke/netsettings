@@ -130,7 +130,10 @@ is already narrowed."
   (set-buffer-file-coding-system 'utf-8))
 
 (use-package simple
-  :bind ("M-SPC" . cycle-spacing)
+  :bind (("M-SPC" . cycle-spacing)
+         ("M-z" . zap-up-to-char)
+         ("M-Z" . zap-to-char)
+         ("M-o" . delete-blank-lines))
   :config
   (setq-default
    line-number-mode t
@@ -184,7 +187,24 @@ is already narrowed."
   (show-paren-mode 1))
 
 (use-package hippie-exp
-  :bind ("M-/" . hippie-expand))
+  :bind ("M-/" . hippie-expand)
+  :config
+  (setq
+   hippie-expand-try-functions-list
+   '(try-expand-dabbrev
+     try-expand-dabbrev-all-buffers
+     try-expand-dabbrev-from-kill
+     try-expand-all-abbrevs
+     try-expand-list
+     try-expand-line
+     try-complete-file-name-partially
+     try-complete-file-name
+     try-complete-lisp-symbol-partially
+     try-complete-lisp-symbol)
+   hippie-expand-verbose t
+   hippie-expand-dabbrev-skip-space nil
+   hippie-expand-dabbrev-as-symbol t
+   hippie-expand-no-restriction t))
 
 ;; c++ mode enhancements
 (use-package cc-mode
@@ -456,21 +476,6 @@ is already narrowed."
            (file "TODO.org")
            "* TODO %?"))))
 
-;; gnus
-(use-package gnus
-  :commands gnus
-  :init
-  (setq gnus-directory "~/.local/share/emacs/gnus"
-        message-directory "~/.local/share/emacs/gnus")
-  (setq gnus-select-method
-        '(nnimap "gmail"
-                 (nnimap-address "imap.gmail.com")
-                 (nnimap-server-port "imaps")
-                 (nnimap-stream ssl)))
-  (setq smtpmail-smtp-server "smtp.gmail.com"
-        smtpmail-smtp-service 587)
-  (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\”]\”[#’()]"))
-
 ;;;;;;;;;;;
 ;; MELPA ;;
 ;;;;;;;;;;;
@@ -503,6 +508,24 @@ is already narrowed."
   :config
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1))
+
+;; project
+(use-package project
+  :ensure t
+  :bind ("C-x C-f" . user/maybe-project-find-file)
+  :init
+  (defun user/maybe-project-find-file (&optional arg)
+    "When inside a project call `project-find-file' otherwise
+call `find-file-at-point'.  To call the regular `find-file' from
+within a project use the universal argument."
+    (interactive "P")
+    (cond
+     (arg
+      (call-interactively 'find-file))
+     ((project-current)
+      (call-interactively 'project-find-file))
+     (t
+      (call-interactively 'find-file-at-point)))))
 
 ;; magit
 (use-package magit
@@ -643,7 +666,9 @@ is already narrowed."
 ;; direnv
 (use-package direnv
   :ensure t
-  :config (direnv-mode))
+  :config
+  (direnv-mode)
+  (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
 (use-package blacken
