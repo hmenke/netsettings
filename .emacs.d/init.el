@@ -216,13 +216,19 @@ is already narrowed."
 
 ;; Use tabs for indentation in sh-mode
 ;; That play better with heredocs
+(define-minor-mode user/indent-tabs-mode
+  "Use tabs for indentation"
+  :init-value nil
+  :global nil
+  :lighter " Tabs"
+  (setq
+   indent-tabs-mode t
+   tab-width 8
+   sh-basic-offset 8
+   backward-delete-char-untabify-method nil))
 (use-package sh-script
-  :hook (sh-mode
-         . (lambda()
-             (setq indent-tabs-mode t
-                   tab-width 8
-                   sh-basic-offset 8
-                   backward-delete-char-untabify-method nil))))
+  :hook (sh-mode . user/indent-tabs-mode))
+
 
 ;; mouse integration
 (use-package mouse
