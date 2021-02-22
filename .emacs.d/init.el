@@ -3,18 +3,17 @@
   (error "Emacs is too old!"))
 
 ;; Speed up the startup
-(setq old/gc-cons-threshold gc-cons-threshold
-      old/gc-cons-percentage gc-cons-percentage
-      old/file-name-handler-alist file-name-handler-alist)
-(setq gc-cons-threshold most-positive-fixnum
+(defvar user/file-name-handler-alist file-name-handler-alist)
+(setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6
       file-name-handler-alist nil
       site-run-file nil)
 (defun user/reset-startup-values ()
-  (setq gc-cons-threshold old/gc-cons-threshold
-        gc-cons-percentage old/gc-cons-percentage
-        file-name-handler-alist old/file-name-handler-alist))
+  (setq gc-cons-threshold 16777216
+        gc-cons-percentage 0.1
+        file-name-handler-alist user/file-name-handler-alist))
 (add-hook 'emacs-startup-hook 'user/reset-startup-values)
+(add-hook 'focus-out-hook 'garbage-collect)
 
 ;; Auto save to emacs state dir
 (setq user/auto-save-directory
@@ -278,7 +277,7 @@ is already narrowed."
               ("M-t" . user/dired-open-in-terminal))
   :hook (dired-mode . dired-hide-details-mode)
   :init
-  (setq user/dired-listing-switches " -laGh1 --group-directories-first")
+  (setq user/dired-listing-switches " -ahl --group-directories-first")
   (defun user/dired-open-in-terminal ()
     (interactive)
     (let ((process-connection-type nil))
@@ -304,7 +303,7 @@ is already narrowed."
   :after dired
   :hook (dired-mode . dired-omit-mode)
   :config
-  (setq dired-omit-files (concat dired-omit-files "\\|^\\.+$\\|^\\..+$"))
+  (setq dired-omit-files (concat dired-omit-files "\\|\\`\\."))
   (setq dired-omit-verbose nil))
 
 (use-package dired-aux
@@ -523,7 +522,7 @@ is already narrowed."
   (defun user/maybe-project-find-file (&optional arg)
     "When inside a project call `project-find-file' otherwise
 call `find-file-at-point'.  To call the regular `find-file' from
-within a project use the universal argument."
+within a project use \\[universal-argument]."
     (interactive "P")
     (cond
      (arg
