@@ -6,6 +6,11 @@ ff() {
 	find -xdev -type f -not -path '*/\.*' -and -not -path '*/*~' -iregex ".*$patt.*" "$@"
 }
 
+# interactive diff
+ediff() {
+	emacsclient -a "" -c -t --eval "(ediff-files \"$1\" \"$2\")"
+}
+
 # Cropping for TeX.SX
 crop() {
     pdfcrop "$2" "/tmp/${2%%.pdf}-crop.pdf"

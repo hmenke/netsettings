@@ -6,8 +6,7 @@
 (defvar user/file-name-handler-alist file-name-handler-alist)
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6
-      file-name-handler-alist nil
-      site-run-file nil)
+      file-name-handler-alist nil)
 (defun user/reset-startup-values ()
   (setq gc-cons-threshold 16777216
         gc-cons-percentage 0.1
@@ -154,6 +153,7 @@ is already narrowed."
    backup-by-copying t
    enable-local-eval 'maybe
    enable-local-variables t
+   backup-directory-alist `(("." . ,user/auto-save-directory))
    auto-save-file-name-transforms `((".*" ,user/auto-save-directory t))))
 
 (use-package cus-edit
@@ -227,7 +227,6 @@ is already narrowed."
    backward-delete-char-untabify-method nil))
 (use-package sh-script
   :hook (sh-mode . user/indent-tabs-mode))
-
 
 ;; mouse integration
 (use-package mouse
@@ -460,6 +459,14 @@ is already narrowed."
            vc-ignore-dir-regexp
            tramp-file-name-regexp)))
 
+;; ediff
+(use-package ediff
+  :config
+  (setq
+   ediff-split-window-function 'split-window-horizontally
+   ediff-merge-split-window-function 'split-window-horizontally
+   ediff-window-setup-function 'ediff-setup-windows-plain))
+
 ;; org
 (use-package org
   :mode ("\\.org\\'" . org-mode)
@@ -481,9 +488,37 @@ is already narrowed."
            (file "TODO.org")
            "* TODO %?"))))
 
-;;;;;;;;;;;
-;; MELPA ;;
-;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;
+;; ELPA / MELPA ;;
+;;;;;;;;;;;;;;;;;;
+
+;; project
+(use-package project
+  :ensure t
+  :bind ("C-x C-f" . user/maybe-project-find-file)
+  :init
+  (defun user/maybe-project-find-file (&optional arg)
+    "When inside a project call `project-find-file' otherwise
+call `find-file-at-point'.  To call the regular `find-file' from
+within a project use \\[universal-argument]."
+    (interactive "P")
+    (cond
+     (arg
+      (call-interactively 'find-file))
+     ((project-current)
+      (call-interactively 'project-find-file))
+     (t
+      (call-interactively 'find-file-at-point)))))
+
+;;;; cross referencing
+;;(use-package xref
+;;  :ensure t
+;;  :after project
+;;  :config
+;;  (setq
+;;   xref-show-definitions-function #'xref-show-definitions-completing-read
+;;   xref-show-xrefs-function #'xref-show-definitions-buffer
+;;   xref-file-name-display 'project-relative))
 
 (use-package diminish
   :ensure t)
@@ -513,24 +548,6 @@ is already narrowed."
   :config
   (selectrum-prescient-mode +1)
   (prescient-persist-mode +1))
-
-;; project
-(use-package project
-  :ensure t
-  :bind ("C-x C-f" . user/maybe-project-find-file)
-  :init
-  (defun user/maybe-project-find-file (&optional arg)
-    "When inside a project call `project-find-file' otherwise
-call `find-file-at-point'.  To call the regular `find-file' from
-within a project use \\[universal-argument]."
-    (interactive "P")
-    (cond
-     (arg
-      (call-interactively 'find-file))
-     ((project-current)
-      (call-interactively 'project-find-file))
-     (t
-      (call-interactively 'find-file-at-point)))))
 
 ;; magit
 (use-package magit
