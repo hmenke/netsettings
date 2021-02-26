@@ -1,5 +1,5 @@
 # enable color support of ls and also add handy aliases
-if [ -x /usr/bin/dircolors ]; then
+if command -v dircolors >/dev/null; then
 	if [ -r ~/.dircolors ]; then
 		eval "$(dircolors -b ~/.dircolors)"
 	else
