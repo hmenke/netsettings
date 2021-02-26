@@ -386,11 +386,26 @@ is already narrowed."
 ;; search
 (use-package "isearch"
   :config
-  (setq search-highlight t)
-  (setq search-whitespace-regexp ".*?")
-  (setq isearch-lax-whitespace t)
-  (setq isearch-regexp-lax-whitespace nil)
-  (setq isearch-lazy-highlight t))
+  (setq
+   search-highlight t
+   isearch-lax-whitespace t
+   isearch-regexp-lax-whitespace nil
+   isearch-lazy-highlight t))
+
+;; find-file-at-point
+(use-package ffap
+  :config
+  (ffap-bindings))
+
+;; etags
+(use-package etags
+  :hook (find-file . user/visit-tags-table)
+  :init
+  (defun user/visit-tags-table ()
+    (let ((tags-file (locate-dominating-file buffer-file-name "TAGS")))
+      (when tags-file
+        (message "Loading tags file: %s" tags-file)
+        (visit-tags-table tags-file t)))))
 
 ;;;; icomplete (newer Emacs uses selectrum)
 ;;(use-package icomplete
