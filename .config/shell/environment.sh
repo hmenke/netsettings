@@ -40,6 +40,7 @@ export PYTHONSTARTUP="$HOME/.config/cpython/pythonrc"
 GPG_TTY="$(tty)"
 export GPG_TTY
 export SSH_AUTH_SOCK="/run/user/$UID/gnupg/S.gpg-agent.ssh"
+unset SSH_ASKPASS
 
 # Shut up GTK!
 export NO_AT_BRIDGE=1
