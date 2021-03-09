@@ -509,21 +509,7 @@ is already narrowed."
 
 ;; project
 (use-package project
-  :ensure t
-  :bind ("C-x C-f" . user/maybe-project-find-file)
-  :init
-  (defun user/maybe-project-find-file (&optional arg)
-    "When inside a project call `project-find-file' otherwise
-call `find-file-at-point'.  To call the regular `find-file' from
-within a project use \\[universal-argument]."
-    (interactive "P")
-    (cond
-     (arg
-      (call-interactively 'find-file))
-     ((project-current)
-      (call-interactively 'project-find-file))
-     (t
-      (call-interactively 'find-file-at-point)))))
+  :ensure t)
 
 ;;;; cross referencing
 ;;(use-package xref
