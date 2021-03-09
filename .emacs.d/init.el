@@ -474,6 +474,19 @@ is already narrowed."
            vc-ignore-dir-regexp
            tramp-file-name-regexp)))
 
+(use-package vc-git
+  :bind (("C-x v f" . user/vc-git-grep))
+  :config
+  (defun user/vc-git-grep (regexp)
+    (interactive
+     (progn
+       (grep-compute-defaults)
+       (list (grep-read-regexp))))
+    (vc-git-grep regexp "" (vc-git-root default-directory))))
+
+(use-package grep
+  :hook (grep-mode . (lambda () (switch-to-buffer-other-window "*grep*"))))
+
 ;; ediff
 (use-package ediff
   :config
