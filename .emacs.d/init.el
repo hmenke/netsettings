@@ -456,6 +456,12 @@ is already narrowed."
 (use-package winner
   :config (winner-mode))
 
+(use-package windmove
+  :bind (("C-x <right>" . windmove-right)
+         ("C-x <left>" . windmove-left)
+         ("C-x <up>" . windmove-up)
+         ("C-x <down>" . windmove-down)))
+
 ;; tramp
 (use-package tramp
   :config
