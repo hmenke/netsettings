@@ -710,6 +710,7 @@ is already narrowed."
   :ensure t
   :config
   (direnv-mode)
+  (add-to-list 'warning-suppress-types '(direnv))
   (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
