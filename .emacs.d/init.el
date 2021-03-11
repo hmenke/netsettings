@@ -82,9 +82,9 @@ is already narrowed."
 (use-package emacs
   :config
   ;; These are not actually builtins but I just keep them here
-  (when tool-bar-mode (tool-bar-mode -1))
-  (when menu-bar-mode (menu-bar-mode -1))
-  (when scroll-bar-mode (scroll-bar-mode -1))
+  (when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
+  (when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
+  (when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
   (tooltip-mode 0)
 
   ;; Enable some disabled commands
