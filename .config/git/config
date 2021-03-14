@@ -14,8 +14,6 @@
 	fixup = commit --amend --no-edit
 [pull]
 	ff = only
-[commit]
-	gpgsign = true
 [gpg]
 	program = gpg2
 [log]
@@ -45,7 +43,6 @@
 	displayuntracked = false
 	spellingdictionary = none
 [sendemail]
-	smtpserver = msmtp
 	confirm = always
 	annotate = yes
 [push]
@@ -68,3 +65,5 @@
 	timeout = 0.5
 [merge]
 	conflictStyle = diff3
+[include]
+	path = ~/.config/git/local
