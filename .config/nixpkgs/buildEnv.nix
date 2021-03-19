@@ -67,7 +67,7 @@ buildEnv rec {
         nixpkgs-fmt
         openssl
         pandoc
-        pass-otp
+        (pass-wayland.withExtensions (ext: with ext; [ pass-otp ]))
         python3
         python3Packages.black
         qpdf
@@ -81,41 +81,32 @@ buildEnv rec {
         texlive-env
       ] ++ lib.lists.optionals withGui [
         # GUI
-        arandr
         browserpass
         (chromium.override {
           commandLineArgs = "--disk-cache-dir=/dev/shm/$USER/cache/chromium";
           enableVaapi = true;
         })
         clementine
-        dunst
+        element-desktop
         evince
-        feh
         gnome3.adwaita-icon-theme
         gnome3.evolution
+        gnomeExtensions.appindicator
         libnotify
         networkmanagerapplet
         pavucontrol
-        polybarFull
-        rofi
-        scrot
+        pop-os-shell
         slack
         splatmoji
         vlc
-        xclip
-        xorg.setxkbmap
-        xorg.xbacklight
-        xorg.xmodmap
-        xorg.xsetroot
-        xscreensaver
+        wofi
       ] ++ lib.lists.optionals withUnfree [
         # Proprietary
         dropbox
-        google-chrome
         masterpdfeditor-free
         #mathematica
         skypeforlinux
-        softmaker-office
+        #softmaker-office
         steam
         zoom-us
       ];

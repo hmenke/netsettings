@@ -51,6 +51,8 @@ self: super: {
     };
   };
 
+  pop-os-shell = self.callPackage ../pop-os-shell {};
+
   splatmoji = self.stdenv.mkDerivation rec {
     pname = "splatmoji";
     version = "1.1.0";
