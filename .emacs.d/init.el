@@ -14,13 +14,6 @@
 (add-hook 'emacs-startup-hook 'user/reset-startup-values)
 (add-hook 'focus-out-hook 'garbage-collect)
 
-;; Auto save to emacs state dir
-(setq user/auto-save-directory
-      (file-name-as-directory
-       (concat user-emacs-directory "auto-save-files")))
-(unless (file-directory-p user/auto-save-directory)
-  (make-directory user/auto-save-directory t))
-
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
 (defun narrow-or-widen-dwim (p)
@@ -116,8 +109,7 @@ is already narrowed."
   :config
   (setq-default
    inhibit-startup-screen t
-   initial-scratch-message ""
-   auto-save-list-file-prefix user/auto-save-directory))
+   initial-scratch-message ""))
 
 (use-package mule
   :config
@@ -152,9 +144,14 @@ is already narrowed."
   (setq-default
    backup-by-copying t
    enable-local-eval 'maybe
-   enable-local-variables t
-   backup-directory-alist `(("." . ,user/auto-save-directory))
-   auto-save-file-name-transforms `((".*" ,user/auto-save-directory t))))
+   enable-local-variables t)
+  (let ((auto-save-directory (file-name-as-directory (concat user-emacs-directory "auto-save-files")))
+        (backup-directory (file-name-as-directory (concat user-emacs-directory "backups"))))
+    (make-directory auto-save-directory t)
+    (make-directory backup-directory t)
+    (setq-default
+     backup-directory-alist `(("." . ,backup-directory))
+     auto-save-file-name-transforms `((".*" ,auto-save-directory t)))))
 
 (use-package cus-edit
   :config
@@ -483,6 +480,7 @@ is already narrowed."
 (use-package vc-git
   :bind (("C-x v f" . user/vc-git-grep))
   :config
+  (setq vc-git-grep-template "git --no-pager grep --recurse-submodules -n --break <C> -e <R> -- <F>")
   (defun user/vc-git-grep (regexp)
     (interactive
      (progn
