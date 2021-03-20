@@ -106,7 +106,7 @@ buildEnv rec {
         masterpdfeditor-free
         #mathematica
         skypeforlinux
-        #softmaker-office
+        softmaker-office
         steam
         zoom-us
       ];
