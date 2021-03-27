@@ -83,8 +83,10 @@ buildEnv rec {
         # GUI
         browserpass
         (chromium.override {
-          commandLineArgs = "--disk-cache-dir=/dev/shm/$USER/cache/chromium";
-          enableVaapi = true;
+          commandLineArgs = [
+            "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
+            "--enable-features=VaapiVideoDecoder"
+          ];
         })
         clementine
         element-desktop
