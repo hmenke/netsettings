@@ -591,11 +591,19 @@ is already narrowed."
 
 (use-package xclip
   :unless window-system
-  :if (and (executable-find "xclip")
-           (getenv "DISPLAY"))
   :ensure t
   :config
-  (xclip-mode 1))
+  (setq xclip-method
+        (or (and (executable-find "xclip")
+                 (getenv "DISPLAY")
+                 'xclip)
+            (and (executable-find "wl-copy")
+                 (executable-find "wl-paste")
+                 (string= (getenv "XDG_SESSION_TYPE") "wayland")
+                 'wl-copy)
+            nil))
+  (when xclip-method
+    (xclip-mode 1)))
 
 ;; AUCTeX
 (defun user/align-environment ()
