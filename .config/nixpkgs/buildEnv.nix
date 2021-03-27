@@ -100,6 +100,7 @@ buildEnv rec {
         splatmoji
         vlc
         wofi
+        wl-clipboard
       ] ++ lib.lists.optionals withUnfree [
         # Proprietary
         dropbox
