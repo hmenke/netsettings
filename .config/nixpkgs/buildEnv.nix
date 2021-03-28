@@ -45,7 +45,6 @@ buildEnv rec {
         fzf
         git-lfs
         gitAndTools.delta
-        gitAndTools.diff-highlight
         gitAndTools.gh
         gitAndTools.git-annex
         gitAndTools.git-crypt
@@ -54,7 +53,7 @@ buildEnv rec {
         gitAndTools.pass-git-helper
         gitAndTools.pre-commit
         glib
-        gnuplotGit
+        gnuplot_qt
         gvfs
         isync
         jq
@@ -107,7 +106,6 @@ buildEnv rec {
         # Proprietary
         dropbox
         masterpdfeditor-free
-        #mathematica
         skypeforlinux
         softmaker-office
         steam

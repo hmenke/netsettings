@@ -1,25 +1,4 @@
 self: super: {
-  gnuplotGit = (super.gnuplot.override {
-    withQt = true;
-    withLua = true;
-  }).overrideAttrs (oldAttrs: {
-    version = "5.5+git-fdbde3";
-
-    src = self.fetchgit {
-      url = "https://git.code.sf.net/p/gnuplot/gnuplot-main";
-      rev = "fdbde39fad8f8309468c0351f975a14ae88f5ddb";
-      sha256 = "1fg4h2xzakjrv8df76y2bg5a11k9y8z9plsnpkr4k07jn5iwm5db";
-    };
-
-    nativeBuildInputs = oldAttrs.nativeBuildInputs
-      ++ [ self.autoconf self.automake ];
-
-    postPatch = ''
-      ./prepare
-      ${oldAttrs.postPatch}
-    '';
-  });
-
   mathematica-unwrapped = let
     version = "12.1.1";
     name = "Mathematica_${version}_LINUX.sh";
@@ -92,11 +71,5 @@ self: super: {
         export HOME=$(mktemp -d)
       '';
     };
-
-    diff-highlight = self.linkFarm "diff-highlight" [{
-      name = "bin/diff-highlight";
-      path =
-        "${super.gitAndTools.gitFull}/share/git/contrib/diff-highlight/diff-highlight";
-    }];
   };
 }
