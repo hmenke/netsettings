@@ -236,53 +236,55 @@ is already narrowed."
 (setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
 
 ;; dired
-(require 'dired)
-(setq user/dired-listing-switches " -ahl --group-directories-first")
-(defun user/dired-open-in-terminal ()
-  (interactive)
-  (let ((process-connection-type nil))
-    (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
-(defun user/dired-multi-occur ()
-  ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
-  "Search string in files marked by dired."
-  (interactive
-   (let ((files (dired-get-marked-files)))
-     (if (null files) (error "No files marked")
-       (let ((string (read-string "List lines matching regexp in marked files: ")))
-         (multi-occur (mapcar 'find-file files) string))))))
-(put 'dired-find-alternate-file 'disabled nil)
-(setq
- dired-listing-switches user/dired-listing-switches
- dired-use-ls-dired t
- dired-guess-shell-alist-user '((".*" "1>/dev/null 2>/dev/null nohup xdg-open"))
- dired-auto-revert-buffer t
- dired-dwin-target t)
-(add-hook 'dired-mode-hook 'dired-hide-details-mode)
-(define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
-(define-key dired-mode-map [M-up] 'dired-up-directory)
-(define-key dired-mode-map [M-down] 'dired-find-file)
-(define-key dired-mode-map (kbd "M-s O") 'user/dired-multi-occur)
-(define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
+(autoload 'dired-jump "dired-x")
+(define-key ctl-x-map "\C-j" 'dired-jump)
+(with-eval-after-load "dired"
+  (setq user/dired-listing-switches " -ahl --group-directories-first")
+  (defun user/dired-open-in-terminal ()
+    (interactive)
+    (let ((process-connection-type nil))
+      (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
+  (defun user/dired-multi-occur ()
+    ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
+    "Search string in files marked by dired."
+    (interactive
+     (let ((files (dired-get-marked-files)))
+       (if (null files) (error "No files marked")
+         (let ((string (read-string "List lines matching regexp in marked files: ")))
+           (multi-occur (mapcar 'find-file files) string))))))
+  (put 'dired-find-alternate-file 'disabled nil)
+  (setq
+   dired-listing-switches user/dired-listing-switches
+   dired-use-ls-dired t
+   dired-guess-shell-alist-user '((".*" "1>/dev/null 2>/dev/null nohup xdg-open"))
+   dired-auto-revert-buffer t
+   dired-dwin-target t)
+  (add-hook 'dired-mode-hook 'dired-hide-details-mode)
+  (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
+  (define-key dired-mode-map [M-up] 'dired-up-directory)
+  (define-key dired-mode-map [M-down] 'dired-find-file)
+  (define-key dired-mode-map (kbd "M-s O") 'user/dired-multi-occur)
+  (define-key dired-mode-map (kbd "M-t") 'user/dired-open-in-terminal)
 
-;; dired-x
-(require 'dired-x)
-(setq
- dired-omit-files (concat dired-omit-files "\\|\\`\\.")
- dired-omit-verbose nil)
-(add-hook 'dired-mode-hook 'dired-omit-mode)
+  ;; dired-x
+  (require 'dired-x)
+  (setq
+   dired-omit-files (concat dired-omit-files "\\|\\`\\.")
+   dired-omit-verbose nil)
+  (add-hook 'dired-mode-hook 'dired-omit-mode)
 
-;; dired-aux
-(require 'dired-aux)
-(setq
- dired-isearch-filenames 'dwim
- dired-create-destination-dirs 'ask
- dired-vc-rename-file t)
+  ;; dired-aux
+  (require 'dired-aux)
+  (setq
+   dired-isearch-filenames 'dwim
+   dired-create-destination-dirs 'ask
+   dired-vc-rename-file t)
 
-;; find-dired
-(require 'find-dired)
-(setq
- find-ls-option `("-ls" . ,user/dired-listing-switches)
- find-name-arg "-iname")
+  ;; find-dired
+  (require 'find-dired)
+  (setq
+   find-ls-option `("-ls" . ,user/dired-listing-switches)
+   find-name-arg "-iname"))
 
 ;; ibuffer
 (setq
