@@ -109,7 +109,7 @@ buildEnv rec {
         skypeforlinux
         softmaker-office
         steam
-        zoom-us
+        zoom-us-xcb
       ];
 
       buildEnvHelpers = [

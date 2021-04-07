@@ -72,4 +72,19 @@ self: super: {
       '';
     };
   };
+
+  zoom-us-xcb = self.symlinkJoin {
+    name = "zoom-us-xcb";
+    paths = [ self.zoom-us ];
+    buildInputs = [ self.makeWrapper ];
+    postBuild = ''
+      wrapProgram $out/bin/zoom --set QT_QPA_PLATFORM "xcb"
+      wrapProgram $out/bin/zoom-us --set QT_QPA_PLATFORM "xcb"
+      rm -f "$out/share/applications/Zoom.desktop"
+      substitute \
+        "${self.zoom-us}/share/applications/Zoom.desktop" \
+        "$out/share/applications/Zoom.desktop" \
+        --replace "${self.zoom-us}/bin/zoom" "$out/bin/zoom"
+    '';
+  };
 }
