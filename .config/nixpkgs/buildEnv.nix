@@ -70,6 +70,7 @@ buildEnv rec {
         python3
         python3Packages.black
         qpdf
+        rclone
         tree
         ts
         unison
@@ -104,7 +105,6 @@ buildEnv rec {
         wl-clipboard
       ] ++ lib.lists.optionals withUnfree [
         # Proprietary
-        dropbox
         masterpdfeditor-free
         skypeforlinux
         softmaker-office
