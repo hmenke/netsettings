@@ -37,7 +37,6 @@ buildEnv rec {
       userPackages = localPackages ++ [
         # command line utils
         (aspellWithDicts (dicts: with dicts; [ de en ]))
-        bindfs
         cachix
         direnv
         emacs
@@ -60,7 +59,6 @@ buildEnv rec {
         msmtp
         neomutt
         neovim
-        niv
         nix-direnv
         nix-index
         nixpkgs-fmt
