@@ -566,7 +566,7 @@ is already narrowed."
    TeX-PDF-mode t
    TeX-quote-after-quote t
    TeX-parse-self t
-   TeX-engine 'luatex
+   ;;TeX-engine 'luatex
    TeX-command-Show "LaTeX"
    ;;TeX-view-program-selection '((output-pdf "Zathura"))
    TeX-source-correlate-start-server t
