@@ -92,6 +92,7 @@ buildEnv rec {
         gnome3.adwaita-icon-theme
         gnome3.evolution
         gnomeExtensions.appindicator
+        gnomeExtensions.gsconnect
         libnotify
         networkmanagerapplet
         pavucontrol
