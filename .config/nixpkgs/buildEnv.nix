@@ -14,7 +14,7 @@ let
   default = {
     withUnfree = false;
     withGui = false;
-    withTeXLive = false;
+    withFHSEnv = false;
   };
 
   site = if builtins.pathExists ./buildEnv-config.nix
@@ -22,7 +22,7 @@ let
     else { };
 
   config = default // site;
-  inherit (config) withUnfree withGui withTeXLive;
+  inherit (config) withUnfree withGui withFHSEnv;
 in
 buildEnv rec {
   name = "user-env";
@@ -75,8 +75,9 @@ buildEnv rec {
         unzip
         youtube-dl
         zip
-      ] ++ lib.lists.optionals withTeXLive [
+      ] ++ lib.lists.optionals withFHSEnv [
         texlive-env
+        mathematica-env
       ] ++ lib.lists.optionals withGui [
         # GUI
         browserpass
