@@ -101,8 +101,9 @@ is already narrowed."
 (global-set-key (kbd "M-SPC") 'cycle-spacing)
 (global-set-key (kbd "M-z") 'zap-up-to-char)
 (global-set-key (kbd "M-Z") 'zap-to-char)
-(define-key global-map [remap undo] 'undo-only)
-(global-set-key (kbd "M-_") 'undo-redo) ;; backported from Emacs 28
+;; Clashes with undo-tree
+;;(define-key global-map [remap undo] 'undo-only)
+;;(global-set-key (kbd "M-_") 'undo-redo) ;; backported from Emacs 28
 
 ;; backport undo-redo from Emacs 28
 ;; https://git.savannah.gnu.org/cgit/emacs.git/commit/?id=2645ae1222db1df270276b227e5102884466ecb0
