@@ -727,7 +727,7 @@ is already narrowed."
   :mode "\\.rs\\'")
 (use-package yaml-mode
   :ensure t
-  :mode ("\\.yml\\'" "\\.yaml\\'"))
+  :mode ("\\.yml\\'" "\\.yaml\\'" "\\.sls\\'"))
 
 (use-package rainbow-mode
   :ensure t
