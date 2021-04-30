@@ -98,6 +98,7 @@ buildEnv rec {
         networkmanagerapplet
         pavucontrol
         pop-os-shell
+        signal-desktop
         slack
         splatmoji
         vlc
