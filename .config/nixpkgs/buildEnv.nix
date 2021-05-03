@@ -19,7 +19,7 @@ buildEnv rec {
         (aspellWithDicts (dicts: with dicts; [ de en ]))
         cachix
         direnv
-        emacsPgtkGcc
+        emacs
         file
         fzf
         git-lfs
