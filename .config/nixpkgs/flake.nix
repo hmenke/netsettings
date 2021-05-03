@@ -17,7 +17,10 @@
         then import ./config.nix
         else { };
 
-      overlays = [ modules.overlays.user ];
+      overlays = [
+        modules.overlays.system
+        modules.overlays.user
+      ];
 
       pkgs = import nixpkgs {
         inherit config overlays system;

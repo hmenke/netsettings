@@ -10,7 +10,10 @@
 { pkgs ? import <nixpkgs> {
   overlays = let
     modules = builtins.fetchGit "https://git.henrimenke.de/henri/nixos-modules.git";
-  in [ (import "${modules}/overlays/user.nix") ];
+  in [
+    (import "${modules}/overlays/system.nix")
+    (import "${modules}/overlays/user.nix")
+  ];
 } }:
 let
   site =
