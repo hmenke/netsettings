@@ -6,28 +6,30 @@
 {
   description = "User flake";
 
-  outputs = { self, nixpkgs, ... }:
-    with builtins; 
+  inputs.modules.url = "git+https://git.henrimenke.de/henri/nixos-modules.git";
+
+  outputs = { self, nixpkgs, modules, ... }:
     let
       system = "x86_64-linux";
 
       config =
-        if pathExists ./config.nix
+        if builtins.pathExists ./config.nix
         then import ./config.nix
         else { };
 
-      overlays = let
-        files = attrNames (readDir ./overlays);
-        files' = filter (name: null != match ".*\.nix$" name) files;
-        overlays = map (name: import (./overlays + "/${name}")) files';
-      in overlays;
+      overlays = [ modules.overlays.user ];
 
       pkgs = import nixpkgs {
         inherit config overlays system;
       };
+
+      site =
+        if builtins.pathExists ./site.nix
+        then import ./site.nix
+        else { };
     in
     {
-      packages.${system}.user-env = import ./buildEnv.nix { inherit pkgs; };
+      packages.${system}.user-env = import ./buildEnv.nix ({ inherit pkgs; } // site);
       defaultPackage.${system} = self.packages.${system}.user-env;
     };
 }

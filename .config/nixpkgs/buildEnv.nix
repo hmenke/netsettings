@@ -1,45 +1,25 @@
-# Declarative Package Management
-#
-# https://nixos.org/nixpkgs/manual/#sec-declarative-package-management
-# https://gist.github.com/lheckemann/402e61e8e53f136f239ecd8c17ab1deb
-#
-# Install using
-#
-#    nix-env --set -f ~/.config/nixpkgs/buildEnv.nix
-
-{ pkgs ? import <nixpkgs> { } }:
-
+{ pkgs ? import <nixpkgs> { }
+, withUnfree ? false
+, withGui ? false
+, withFHSEnv ? false
+, extraPackages ? (pkgs: [])
+}:
+  
 with pkgs;
-let
-  default = {
-    withUnfree = false;
-    withGui = false;
-    withFHSEnv = false;
-  };
 
-  site = if builtins.pathExists ./buildEnv-config.nix
-    then import ./buildEnv-config.nix
-    else { };
-
-  config = default // site;
-  inherit (config) withUnfree withGui withFHSEnv;
-in
 buildEnv rec {
   name = "user-env";
   extraOutputsToInstall = [ "bin" "lib" "out" ];
   paths =
     let
-      localPackages =
-        if builtins.pathExists ./local.nix
-        then import ./local.nix pkgs
-        else [ ];
+      localPackages = extraPackages pkgs;
 
       userPackages = localPackages ++ [
         # command line utils
         (aspellWithDicts (dicts: with dicts; [ de en ]))
         cachix
         direnv
-        emacs
+        emacsPgtkGcc
         file
         fzf
         git-lfs
@@ -126,10 +106,10 @@ buildEnv rec {
               PATH="${nix}/bin''${PATH+:$PATH}"
           fi
 
-          if (( $(nix profile info 2>/dev/null | wc -l) > 0 )); then
+          if (( $(nix profile list 2>/dev/null | wc -l) > 0 )); then
               nix profile upgrade '.*' --builders "" --recreate-lock-file --no-write-lock-file --print-build-logs "$@"
           else
-              nix-env --set -f ~/.config/nixpkgs/buildEnv.nix --builders "" "$@"
+              nix-env --set -f ~/.config/nixpkgs/default.nix --builders "" "$@"
           fi
 
           newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
