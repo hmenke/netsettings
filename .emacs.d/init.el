@@ -154,9 +154,9 @@ is already narrowed."
  custom-file (concat user-emacs-directory "custom.el"))
 
 ;;;;comp
-;;(setq-default
-;; comp-deferred-compilation-black-list '("^/usr" "^/nix")
-;; comp-deferred-compilation t)
+(setq-default
+ comp-deferred-compilation-black-list '("^/usr" "^/nix")
+ comp-deferred-compilation t)
 
 ;; autorevert
 (global-auto-revert-mode t)
@@ -461,8 +461,9 @@ is already narrowed."
 (setq use-package-always-demand (daemonp))
 
 ;; project
-(use-package project
-  :ensure t)
+(when (< emacs-major-version 28)
+  (use-package project
+    :ensure t))
 
 ;;;; cross referencing
 ;;(use-package xref
