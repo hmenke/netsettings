@@ -1,21 +1,24 @@
-#!/bin/sh
-
-# Google Chrome is installed under different names for different distributions.
-# Use the GOOGLE_CHROME environment variable to override.
-if [ -z "${GOOGLE_CHROME}" ]; then
-	if command -v google-chrome > /dev/null; then
-		GOOGLE_CHROME="$(readlink -f "$(which google-chrome)")"
-	elif command -v google-chrome-stable > /dev/null; then
-		GOOGLE_CHROME="$(readlink -f "$(which google-chrome-stable)")"
-	else
-		echo "Google Chrome does not seem to be installed"
-		exit 1
-	fi
-fi
+#!/usr/bin/env nix-shell
+#!nix-shell -i bash -p bubblewrap google-chrome
 
 # Extract the major version to download the correct extension version.
 # TODO: Can this be done without launching Chrome?
-GOOGLE_CHROME_VERSION="$(firejail --quiet --private -- "${GOOGLE_CHROME}" --version | sed 's/^.*Google Chrome \([0-9][0-9]*\).*$/\1/g')"
+GOOGLE_CHROME_VERSION="$(
+bwrap \
+	--dev-bind /dev /dev \
+	--proc /proc \
+	--unshare-all \
+	--share-net \
+	--ro-bind /bin /bin \
+	--ro-bind /etc /etc \
+	--ro-bind /nix /nix \
+	--ro-bind /sys /sys \
+	--ro-bind /usr /usr \
+	--ro-bind /var /var \
+	--bind /run /run \
+	-- google-chrome-stable --version |
+sed 's/^.*Google Chrome \([0-9][0-9]*\).*$/\1/g'
+)"
 
 # Directory for extensions
 EXTDIR="${TMPDIR:-/tmp}/goolag"
@@ -49,7 +52,7 @@ if [ -e "${HOME}" ]; then
 fi
 mkdir -p "${HOME}"
 
-# Run in firejail with the following flags:
+# Run in bubblewrap with the following flags:
 # --no-first-run: suppress the “First Run” dialog
 # --no-pings: No hyperlink auditing pings
 # --no-referrers: Don't send referrer when clicking links
@@ -58,10 +61,29 @@ mkdir -p "${HOME}"
 # Other flags to consider:
 # --incognito: Start in incognito mode
 # --disable-translate: Disable automatic Google Translate
-exec firejail --private="${HOME}" -- "${GOOGLE_CHROME}" \
+exec bwrap \
+	--dev-bind /dev /dev \
+	--proc /proc \
+	--unshare-all \
+	--share-net \
+	--ro-bind /bin /bin \
+	--ro-bind /etc /etc \
+	--ro-bind /nix /nix \
+	--ro-bind /sys /sys \
+	--ro-bind /usr /usr \
+	--ro-bind /var /var \
+	--bind /run /run \
+	--bind "${HOME}" "/home/$USER" \
+	-- google-chrome-stable \
+	--disk-cache-dir="/home/$USER/.cache/google-chrome" \
 	--no-first-run \
 	--no-default-browser-check \
 	--no-pings \
 	--no-referrers \
 	--load-extension="${EXTDIR}/ublock" \
+	--enable-features=VaapiVideoDecoder,Vulkan \
+	--ignore-gpu-blocklist \
+	--enable-gpu-rasterization \
+	--enable-zero-copy \
+	--use-vulkan \
 	"$@"
