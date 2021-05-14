@@ -64,7 +64,10 @@ buildEnv rec {
         (chromium.override {
           commandLineArgs = [
             "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
-            "--enable-features=VaapiVideoDecoder"
+            "--enable-features=VaapiVideoDecoder,Vulkan"
+            "--enable-gpu-rasterization"
+            "--enable-zero-copy"
+            "--use-vulkan"
           ];
         })
         clementine
