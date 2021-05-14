@@ -12,6 +12,7 @@
 	exec = "!exec "
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
 	fixup = commit --amend --no-edit
+	update = "!f() { git pull --autostash --rebase \"$@\" && git push --force-with-lease \"$@\"; }; f"
 [pull]
 	ff = only
 [gpg]
