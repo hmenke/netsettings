@@ -603,6 +603,9 @@ is already narrowed."
    reftex-cite-format 'default
    reftex-cite-key-separator ", ")
 
+  ;; LaTeX-math-mode
+  (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+
   ;; Don't fontify math
   (eval-after-load "font-latex"
     '(set-face-foreground 'font-latex-math-face nil))
