@@ -210,7 +210,7 @@ is already narrowed."
    tab-width 8
    sh-basic-offset 8
    backward-delete-char-untabify-method nil))
-(add-hook 'sh-mode 'user/indent-tabs-mode)
+(add-hook 'sh-mode-hook 'user/indent-tabs-mode)
 
 ;; mouse
 (unless window-system
@@ -373,8 +373,10 @@ is already narrowed."
 ;; icomplete-hide-common-prefix nil)
 ;;(icomplete-mode 1)
 ;;(define-key icomplete-minibuffer-map [right] 'icomplete-forward-completions)
+;;(define-key icomplete-minibuffer-map [down] 'icomplete-forward-completions)
 ;;(define-key icomplete-minibuffer-map [left] 'icomplete-backward-completions)
-;;(define-key icomplete-minibuffer-map [return]  'icomplete-force-complete-and-exit)
+;;(define-key icomplete-minibuffer-map [up] 'icomplete-backward-completions)
+;;(define-key icomplete-minibuffer-map [return] 'icomplete-force-complete-and-exit)
 
 ;; window
 (setq display-buffer-alist
