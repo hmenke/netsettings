@@ -233,7 +233,7 @@ is already narrowed."
 ;; https://emacs.stackexchange.com/questions/20206
 (defun user/flyspell-local-vars ()
   (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
-(add-hook 'flyspell-mode 'user/flyspell-local-vars)
+(add-hook 'flyspell-mode-hook 'user/flyspell-local-vars)
 (setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
 
 ;; dired
