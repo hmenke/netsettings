@@ -377,6 +377,7 @@ is already narrowed."
 ;;(define-key icomplete-minibuffer-map [left] 'icomplete-backward-completions)
 ;;(define-key icomplete-minibuffer-map [up] 'icomplete-backward-completions)
 ;;(define-key icomplete-minibuffer-map [return] 'icomplete-force-complete-and-exit)
+;;(define-key icomplete-minibuffer-map [C-j] 'minibuffer-complete-and-exit)
 
 ;; window
 (setq display-buffer-alist
@@ -740,14 +741,6 @@ is already narrowed."
   :commands (rainbow-mode))
 
 ;; Editing plugins
-(use-package expand-region
-  :ensure t
-  :bind
-  (("C-=" . er/expand-region)))
-(use-package iedit
-  :ensure t
-  :bind
-  (("C-;" . iedit-mode)))
 (use-package undo-tree
   :diminish undo-tree-mode
   :ensure t
