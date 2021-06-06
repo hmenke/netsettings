@@ -49,6 +49,7 @@ buildEnv rec {
         python3Packages.black
         qpdf
         rclone
+        sshuttle
         tree
         ts
         unison
@@ -73,8 +74,8 @@ buildEnv rec {
         clementine
         element-desktop
         evince
+        evolution
         gnome3.adwaita-icon-theme
-        gnome3.evolution
         gnomeExtensions.appindicator
         gnomeExtensions.gsconnect
         libnotify
@@ -87,12 +88,14 @@ buildEnv rec {
         vlc
         wofi
         wl-clipboard
+        xournalpp
       ] ++ lib.lists.optionals withUnfree [
         # Proprietary
         masterpdfeditor-free
         skypeforlinux
         softmaker-office
         steam
+        steam-run
         zoom-us-xcb
       ];
 
