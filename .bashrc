@@ -41,7 +41,11 @@ if declare -f _completion_loader &>/dev/null; then
 		. ~/.config/shell/fzf/completion.bash
 	fi
 	_completion_loader git
-	complete -o default -o nospace -F _git netsettings
+	if type __git_wrap__git_main &>/dev/null; then
+		complete -o default -o nospace -F __git_wrap__git_main netsettings
+	elif type _git &>/dev/null; then
+		complete -o default -o nospace -F _git netsettings
+	fi
 fi
 
 # Disable the beep
