@@ -23,44 +23,43 @@ Inbox ~/.local/share/mbsync/gmail/INBOX
 Subfolders Verbatim
 
 Channel gmail
-Master :gmail-remote:
-Slave :gmail-local:
+Far :gmail-remote:
+Near :gmail-local:
 Patterns *
-
 Create Both
 Expunge Both
 SyncState *
 
 Channel sync-backup-default
-Master :gmail-remote:
-Slave :henrimenke-remote:
+Far :gmail-remote:
+Near :henrimenke-remote:
 # Select some mailboxes to sync
 Patterns * ![Gmail]*
-Create Slave
+Create Near
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-sent
-Master :gmail-remote:"[Gmail]/Sent Mail"
-Slave :henrimenke-remote:Sent
-Create Slave
+Far :gmail-remote:"[Gmail]/Sent Mail"
+Near :henrimenke-remote:Sent
+Create Near
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-trash
-Master :gmail-remote:"[Gmail]/Bin"
-Slave :henrimenke-remote:Trash
-Create Slave
+Far :gmail-remote:"[Gmail]/Bin"
+Near :henrimenke-remote:Trash
+Create Near
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-drafts
-Master :gmail-remote:"[Gmail]/Drafts"
-Slave :henrimenke-remote:Drafts
-Create Slave
+Far :gmail-remote:"[Gmail]/Drafts"
+Near :henrimenke-remote:Drafts
+Create Near
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-junk
-Master :gmail-remote:"[Gmail]/Spam"
-Slave :henrimenke-remote:Junk
-Create Slave
+Far :gmail-remote:"[Gmail]/Spam"
+Near :henrimenke-remote:Junk
+Create Near
 SyncState ~/.cache/mbsync/
 
 # Get all the channels together into a group.
