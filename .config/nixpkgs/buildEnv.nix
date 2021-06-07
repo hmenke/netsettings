@@ -18,24 +18,23 @@ buildEnv rec {
         # command line utils
         (aspellWithDicts (dicts: with dicts; [ de en ]))
         cachix
+        delta
         direnv
         emacs
         file
         fzf
+        gh
+        git-annex
+        git-crypt
+        git-filter-repo
         git-lfs
-        gitAndTools.delta
-        gitAndTools.gh
-        gitAndTools.git-annex
-        gitAndTools.git-crypt
-        gitAndTools.git-filter-repo
-        gitAndTools.gitFull
-        gitAndTools.pass-git-helper
-        gitAndTools.pre-commit
+        gitFull
         glib
         gnuplot_qt
         gvfs
         isync
         jq
+        lab
         msmtp
         neomutt
         neovim
@@ -44,7 +43,9 @@ buildEnv rec {
         nixpkgs-fmt
         openssl
         pandoc
+        pass-git-helper
         (pass-wayland.withExtensions (ext: with ext; [ pass-otp ]))
+        pre-commit
         python3
         python3Packages.black
         qpdf
@@ -75,7 +76,8 @@ buildEnv rec {
         element-desktop
         evince
         evolution
-        gnome3.adwaita-icon-theme
+        gimp
+        gnome.adwaita-icon-theme
         gnomeExtensions.appindicator
         gnomeExtensions.gsconnect
         libnotify
