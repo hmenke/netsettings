@@ -70,3 +70,5 @@
 	autoStash = true
 [include]
 	path = ~/.config/git/local
+[init]
+	defaultBranch = master
