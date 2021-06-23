@@ -19,3 +19,6 @@ del history
 del os
 del readline
 del rlcompleter
+
+# use as a calculator
+from math import *
