@@ -6,7 +6,7 @@
 {
   description = "User flake";
 
-  inputs.modules.url = "git+https://git.henrimenke.de/henri/nixos-modules.git?ref=nixos-21.05";
+  inputs.modules.url = "git+https://git.henrimenke.de/henri/nixos-modules.git";
 
   outputs = { self, nixpkgs, modules, ... }:
     let
