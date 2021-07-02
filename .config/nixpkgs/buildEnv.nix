@@ -87,6 +87,7 @@ buildEnv rec {
         signal-desktop
         slack
         splatmoji
+        virt-manager
         vlc
         wofi
         wl-clipboard
