@@ -66,6 +66,7 @@ buildEnv rec {
         (chromium.override {
           commandLineArgs = [
             "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
+            "--disable-gpu-shader-disk-cache"
             "--enable-features=VaapiVideoDecoder,Vulkan"
             "--enable-gpu-rasterization"
             "--enable-zero-copy"
