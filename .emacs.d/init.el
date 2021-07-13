@@ -442,6 +442,11 @@ is already narrowed."
  ediff-merge-split-window-function 'split-window-horizontally
  ediff-window-setup-function 'ediff-setup-windows-plain)
 
+;; gdb
+(setq
+ gdb-many-windows t
+ gdb-show-main t)
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;; PACKAGES ;;;;
