@@ -1,9 +1,13 @@
 # finding files
 ff() {
-	local patt
+	local left right patt
+	left=".*"
+	right=".*"
 	patt="$1"
 	shift
-	find -xdev -type f -not -path '*/\.*' -and -not -path '*/*~' -iregex ".*$patt.*" "$@"
+	case $patt in ^*) left="" ;; esac
+	case $patt in *$) right="" ;; esac
+	find -xdev -iregex "$left$patt$right" "$@" -print -o \( -path "*/.*" -o -path "*/*~" \) -prune
 }
 
 # interactive diff
