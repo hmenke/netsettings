@@ -1,6 +1,14 @@
+# Source environment variables
+. ~/.config/shell/environment.sh
+
+# Exit if not interactive
+case $- in
+	*i*) ;;
+	*) return ;;
+esac
+
 # Source common configuration
 . ~/.config/shell/aliases.sh
-. ~/.config/shell/environment.sh
 . ~/.config/shell/functions.sh
 . ~/.config/shell/prompt.sh
 
