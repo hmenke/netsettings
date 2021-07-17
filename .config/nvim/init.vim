@@ -174,6 +174,5 @@ augroup qs_colors
 augroup END
 
 " Color theme
-if has('termguicolors') && !exists('$TMUX')
-    set termguicolors
-endif
+set termguicolors
+set background=light

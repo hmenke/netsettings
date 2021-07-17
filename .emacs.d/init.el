@@ -447,6 +447,9 @@ is already narrowed."
  gdb-many-windows t
  gdb-show-main t)
 
+;; set proper theme background for tmux
+(setq frame-background-mode 'light)
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;; PACKAGES ;;;;
