@@ -220,6 +220,8 @@ is already narrowed."
 
 ;; frame
 (blink-cursor-mode 0)
+;; set proper theme background for tmux
+(setq frame-background-mode 'light)
 ;; Rebind C-z to avoid freezing
 (defun user/suspend-frame ()
   (interactive)
@@ -361,23 +363,26 @@ is already narrowed."
       (visit-tags-table tags-file t))))
 (add-hook 'find-file-hook 'user/visit-tags-table)
 
-;;;; icomplete (newer Emacs uses selectrum)
-;;(setq
-;; icomplete-delay-completions-threshold 100
-;; icomplete-max-delay-chars 2
-;; icomplete-compute-delay 0.0
-;; icomplete-show-matches-on-no-input t
-;; icomplete-with-completion-tables t
-;; icomplete-in-buffer t
-;; icomplete-tidy-shadowed-file-names nil
-;; icomplete-hide-common-prefix nil)
-;;(icomplete-mode 1)
-;;(define-key icomplete-minibuffer-map [right] 'icomplete-forward-completions)
-;;(define-key icomplete-minibuffer-map [down] 'icomplete-forward-completions)
-;;(define-key icomplete-minibuffer-map [left] 'icomplete-backward-completions)
-;;(define-key icomplete-minibuffer-map [up] 'icomplete-backward-completions)
-;;(define-key icomplete-minibuffer-map [return] 'icomplete-force-complete-and-exit)
-;;(define-key icomplete-minibuffer-map [C-j] 'minibuffer-complete-and-exit)
+;; icomplete
+(setq
+ icomplete-delay-completions-threshold 100
+ icomplete-max-delay-chars 2
+ icomplete-compute-delay 0.0
+ icomplete-show-matches-on-no-input t
+ icomplete-with-completion-tables t
+ icomplete-in-buffer t
+ icomplete-tidy-shadowed-file-names nil
+ icomplete-hide-common-prefix nil)
+(icomplete-mode 1)
+(when (fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode t))
+(define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
+(define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
+(define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions)
+(define-key icomplete-minibuffer-map (kbd "<up>") 'icomplete-backward-completions)
+(define-key icomplete-minibuffer-map (kbd "C-j") 'exit-minibuffer)
+(define-key icomplete-minibuffer-map (kbd "RET") 'icomplete-force-complete-and-exit)
+(define-key icomplete-minibuffer-map (kbd "TAB") 'icomplete-force-complete)
+
 
 ;; window
 (setq display-buffer-alist
@@ -447,8 +452,9 @@ is already narrowed."
  gdb-many-windows t
  gdb-show-main t)
 
-;; set proper theme background for tmux
-(setq frame-background-mode 'light)
+;; warnings
+(setq warning-suppress-types '((comp) (direnv)))
+
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -503,17 +509,6 @@ is already narrowed."
    evil-emacs-state-tag    (propertize " EMACS "    'face '((:weight bold :background "SkyBlue2"    )))
    evil-motion-state-tag   (propertize " MOTION "   'face '((:weight bold :background "plum3"       )))
    evil-operator-state-tag (propertize " OPERATOR " 'face '((:weight bold :background "sandy brown" )))))
-
-;; incremental completion
-(use-package selectrum
-  :ensure t
-  :config
-  (selectrum-mode +1))
-(use-package selectrum-prescient
-  :ensure t
-  :config
-  (selectrum-prescient-mode +1)
-  (prescient-persist-mode +1))
 
 ;; magit
 (use-package magit
@@ -667,7 +662,6 @@ is already narrowed."
   :ensure t
   :config
   (direnv-mode)
-  (setq warning-suppress-types '((direnv)))
   (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
