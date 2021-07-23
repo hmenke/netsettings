@@ -3,14 +3,11 @@
   (error "Emacs is too old!"))
 
 ;; Speed up the startup
-(defvar user/file-name-handler-alist file-name-handler-alist)
 (setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6
-      file-name-handler-alist nil)
+      gc-cons-percentage 0.6)
 (defun user/reset-startup-values ()
   (setq gc-cons-threshold 16777216
-        gc-cons-percentage 0.1
-        file-name-handler-alist user/file-name-handler-alist))
+        gc-cons-percentage 0.1))
 (add-hook 'emacs-startup-hook 'user/reset-startup-values)
 (add-hook 'focus-out-hook 'garbage-collect)
 
@@ -524,13 +521,13 @@ is already narrowed."
   :defer 2
   :after magit
   :config
+  (add-hook 'diff-hl-mode-on-hook
+            (lambda ()
+              (unless (window-system)
+                (diff-hl-margin-local-mode))))
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
-  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
-  (defun user/maybe-diff-hl-margin-mode()
-    (diff-hl-margin-mode (if (window-system) -1 1)))
-  (dolist (it '(post-command-hook before-hack-local-variables-hook))
-    (add-hook it 'user/maybe-diff-hl-margin-mode nil 1)))
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 (use-package xclip
   :unless window-system
