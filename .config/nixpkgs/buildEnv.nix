@@ -78,16 +78,11 @@ buildEnv rec {
         evince
         evolution
         gimp
-        gnome.adwaita-icon-theme
         gnomeExtensions.appindicator
         gnomeExtensions.gsconnect
         libnotify
-        networkmanagerapplet
-        pavucontrol
         pop-os-shell
         signal-desktop
-        slack
-        splatmoji
         virt-manager
         vlc
         wofi
@@ -97,6 +92,7 @@ buildEnv rec {
         # Proprietary
         masterpdfeditor-free
         skypeforlinux
+        slack
         softmaker-office
         steam
         steam-run
