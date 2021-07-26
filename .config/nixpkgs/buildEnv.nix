@@ -96,7 +96,7 @@ buildEnv rec {
         softmaker-office
         steam
         steam-run
-        zoom-us-xcb
+        zoom-us
       ];
 
       buildEnvHelpers = [
