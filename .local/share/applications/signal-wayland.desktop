@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Signal (Wayland)
+Exec=signal-desktop --enable-features=UseOzonePlatform --ozone-platform=wayland %u
+Terminal=false
+Type=Application
+Icon=signal-desktop
+StartupWMClass=Signal
+Comment=Private messaging from your desktop
+MimeType=x-scheme-handler/sgnl;x-scheme-handler/signalcaptcha;
+Categories=Network;InstantMessaging;Chat;

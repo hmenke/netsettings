@@ -1,0 +1,11 @@
+[Desktop Entry]
+Categories=Network;InstantMessaging;Chat;
+Comment=A feature-rich client for Matrix.org
+Exec=element-desktop --profile matrix-org --enable-features=UseOzonePlatform --ozone-platform=wayland --hidden %u
+GenericName=Matrix Client
+Icon=element
+Name=Element (matrix-org)
+Terminal=false
+Type=Application
+StartupWMClass=element
+MimeType=x-scheme-handler/element;
