@@ -9,10 +9,12 @@
 
 { pkgs ? import <nixpkgs> {
   overlays = let
-    modules = builtins.fetchGit "https://git.henrimenke.de/henri/nixos-modules.git";
+    modules = builtins.fetchTarball "https://git.henrimenke.de/henri/nixos-modules/archive/master.tar.gz";
+    emacs-overlay = builtins.fetchTarball "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz";
   in [
     (import "${modules}/overlays/system.nix")
     (import "${modules}/overlays/user.nix")
+    (import "${emacs-overlay}/default.nix")
   ];
 } }:
 let

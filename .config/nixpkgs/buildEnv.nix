@@ -20,7 +20,7 @@ buildEnv rec {
         cachix
         delta
         direnv
-        emacs
+        emacsPgtkGcc
         file
         fzf
         gh
