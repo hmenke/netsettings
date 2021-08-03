@@ -80,6 +80,7 @@ buildEnv rec {
         gimp
         gnomeExtensions.appindicator
         gnomeExtensions.gsconnect
+        gnomeExtensions.sound-output-device-chooser
         libnotify
         pop-os-shell
         signal-desktop
