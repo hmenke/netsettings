@@ -24,7 +24,6 @@
 	submodulesummary = true
 [grep]
 	lineNumber = true
-	patternType = perl
 	fallbackToNoIndex = true
 [pager]
 	grep = false
