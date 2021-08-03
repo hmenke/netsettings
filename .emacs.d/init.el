@@ -406,6 +406,8 @@ is already narrowed."
 (define-key icomplete-minibuffer-map (kbd "C-j") 'exit-minibuffer)
 (define-key icomplete-minibuffer-map (kbd "RET") 'icomplete-force-complete-and-exit)
 (define-key icomplete-minibuffer-map (kbd "TAB") 'icomplete-force-complete)
+(unless (fboundp 'icomplete-force-complete)
+  (defalias 'icomplete-force-complete 'minibuffer-force-complete))
 
 
 ;; window
