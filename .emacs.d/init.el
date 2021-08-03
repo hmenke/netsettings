@@ -210,10 +210,37 @@ is already narrowed."
 (add-hook 'sh-mode-hook 'user/indent-tabs-mode)
 
 ;; mouse
-(unless window-system
-  (defun track-mouse (e))
-  (xterm-mouse-mode t)
-  (setq mouse-sel-mode t))
+(xterm-mouse-mode t)
+(defun track-mouse (e))
+(setq mouse-sel-mode t)
+(setq mouse-wheel-scroll-amount
+      '(5
+        ((shift) . hscroll)
+        ((meta) . nil)
+        ((control) . text-scale)))
+;; FIXME: pgtk messes with scrolling
+;; https://github.com/masm11/emacs/issues/108
+(when (featurep 'pgtk)
+  (defun user/mwheel-scroll (&rest args)
+    "Wraps `mwheel-scroll' for use with <mouse-4> and <mouse-5>."
+    (interactive (advice-eval-interactive-spec
+                  (cadr (interactive-form 'mwheel-scroll))))
+    (let ((mouse-wheel-down-event 'mouse-4)
+          (mouse-wheel-up-event 'mouse-5))
+      (apply 'mwheel-scroll args)))
+  (defun user/mouse-wheel-text-scale (&rest args)
+    "Wraps `mouse-wheel-text-scale' for use with <mouse-4> and <mouse-5>."
+    (interactive (advice-eval-interactive-spec
+                  (cadr (interactive-form 'mouse-wheel-text-scale))))
+    (let ((mouse-wheel-down-event 'mouse-4)
+          (mouse-wheel-up-event 'mouse-5))
+      (apply 'mouse-wheel-text-scale args)))
+  (global-set-key (kbd "<mouse-4>") 'user/mwheel-scroll)
+  (global-set-key (kbd "<mouse-5>") 'user/mwheel-scroll)
+  (global-set-key (kbd "<C-mouse-4>") 'user/mouse-wheel-text-scale)
+  (global-set-key (kbd "<C-mouse-5>") 'user/mouse-wheel-text-scale)
+  (global-set-key (kbd "<S-mouse-4>") 'user/mwheel-scroll)
+  (global-set-key (kbd "<S-mouse-5>") 'user/mwheel-scroll))
 
 ;; frame
 (blink-cursor-mode 0)
