@@ -775,8 +775,7 @@ is already narrowed."
   :config
   (setq
    undo-tree-auto-save-history t
-   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo")))
-   undo-tree-visualizer-diff nil)
+   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo"))))
   (global-undo-tree-mode t))
 
 ;; Show suggestions for incomplete key chords
