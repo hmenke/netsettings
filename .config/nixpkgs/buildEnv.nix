@@ -82,6 +82,7 @@ buildEnv rec {
         gnomeExtensions.gsconnect
         gnomeExtensions.sound-output-device-chooser
         libnotify
+        onlyoffice-bin
         pop-os-shell
         signal-desktop
         virt-manager
@@ -94,7 +95,6 @@ buildEnv rec {
         masterpdfeditor-free
         skypeforlinux
         slack
-        softmaker-office
         steam
         steam-run
         zoom-us
