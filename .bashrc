@@ -13,7 +13,7 @@ esac
 . ~/.config/shell/prompt.sh
 
 # Set the prompt
-if [ "$TERM" != "dumb" -o -n "$INSIDE_EMACS" ]; then
+if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
 	__setup_prompt "\h" "\w" "\\$"
 	__timer_reset;
 	__prompt_posthook() { history -a; }
@@ -38,14 +38,14 @@ HISTFILESIZE=
 # Keybindings
 bind '"\e[A": history-search-backward' &>/dev/null
 bind '"\e[B": history-search-forward' &>/dev/null
-if command -v fzf > /dev/null; then
+if [ "$TERM" != "dumb" ] && command -v fzf > /dev/null; then
 	. ~/.config/shell/fzf/key-bindings.bash
 fi
 
 # bash completion
 export COMP_KNOWN_HOSTS_WITH_HOSTFILE=""
 if declare -f _completion_loader &>/dev/null; then
-	if command -v fzf > /dev/null; then
+	if [ "$TERM" != "dumb" ] && command -v fzf > /dev/null; then
 		. ~/.config/shell/fzf/completion.bash
 	fi
 	_completion_loader git
