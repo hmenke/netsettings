@@ -586,32 +586,43 @@ is already narrowed."
 (use-package tex-keywords
   :load-path "lisp")
 
-(use-package auctex
-  :ensure t
-  :mode (("\\.cls\\'" . LaTeX-mode)
-         ("\\.dtx\\'" . LaTeX-mode)
-         ("\\.sty\\'" . LaTeX-mode)
-         ("\\.tex\\'" . LaTeX-mode)
-         ("\\.mk\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . ConTeXt-mode)
-         ("\\.mp\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . metapost-mode))
-  :init
-  ;; TeX mode enhancements
-  (setq
+(use-package tex
+  :ensure auctex
+  :config
+  (setq-default
    TeX-PDF-mode t
    TeX-quote-after-quote t
    TeX-parse-self t
-   ;;TeX-engine 'luatex
+   ;;TeX-auto-local nil
+   ;;TeX-auto-save t
    TeX-command-Show "LaTeX"
    ;;TeX-view-program-selection '((output-pdf "Zathura"))
    TeX-source-correlate-start-server t
-   TeX-parse-all-errors t
-   ;;TeX-error-overview-open-after-TeX-run t
    TeX-debug-bad-boxes t
    TeX-debug-warnings t
-   TeX-display-help 'expert
-   ;; TeX-auto-local nil
-   ;; TeX-auto-save t
-   LaTeX-reftex-cite-format-auto-activate nil)
+   TeX-display-help 'expert))
+
+(use-package tex-buf
+  :ensure auctex
+  :config
+  (setq-default
+   ;;TeX-error-overview-open-after-TeX-run t
+   TeX-parse-all-errors t))
+
+(use-package tex-style
+  :ensure auctex
+  :config
+  (setq-default
+   LaTeX-reftex-cite-format-auto-activate nil))
+
+(use-package latex
+  :ensure auctex
+  :mode (("\\.cls\\'" . LaTeX-mode)
+         ("\\.dtx\\'" . LaTeX-mode)
+         ("\\.sty\\'" . LaTeX-mode)
+         ("\\.tex\\'" . LaTeX-mode))
+  :config
+  ;; TeX mode enhancements
 
   ;; Key bindings
   (defun user/LaTeX-mode-hook ()
@@ -623,17 +634,6 @@ is already narrowed."
 
   ;; SyncTeX
   (add-hook 'LaTeX-mode-hook 'TeX-source-correlate-mode)
-
-  ;; RefTeX
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
-  (setq
-   reftex-plug-into-AUCTeX t
-   reftex-label-alist '(AMSTeX)
-   reftex-insert-label-flags '("s" t)
-   reftex-cite-format 'default
-   reftex-cite-key-separator ", ")
 
   ;; LaTeX-math-mode
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
@@ -654,17 +654,33 @@ is already narrowed."
     (("verbatim" current-indentation)
      ("verbatim*" current-indentation)
      ("filecontents" current-indentation)
-     ("filecontents*" current-indentation))))
+     ("filecontents*" current-indentation)
+     ("lstlisting" current-indentation))))
+  (add-to-list 'LaTeX-verbatim-environments "lstlisting"))
 
-  ;; ConTeXt mode
+(use-package context
+  :ensure auctex
+  :mode (("\\.mk\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . ConTeXt-mode)
+         ("\\.mp\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . metapost-mode))
+  :config
   (setq ConTeXt-Mark-version "IV")
-  (with-eval-after-load "context"
-    (add-to-list 'TeX-file-extensions "mkiv" t)
-    (add-to-list 'TeX-file-extensions "mkvi" t))
   (add-hook 'ConTeXt-mode-hook
             (lambda()
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
+
+(use-package reftex
+  :init
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  :config
+  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
+  (setq-default
+   reftex-plug-into-AUCTeX t
+   reftex-label-alist '(AMSTeX)
+   reftex-insert-label-flags '("s" t)
+   reftex-cite-format 'default
+   reftex-cite-key-separator ", "))
 
 (use-package bibref
   :load-path "lisp"
