@@ -67,7 +67,7 @@ buildEnv rec {
           commandLineArgs = [
             "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
             "--disable-gpu-shader-disk-cache"
-            "--enable-features=VaapiVideoDecoder,Vulkan"
+            "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecoder,Vulkan"
             "--enable-gpu-rasterization"
             "--enable-zero-copy"
             "--use-vulkan"
@@ -77,6 +77,7 @@ buildEnv rec {
         element-desktop
         evince
         evolution
+        gajim
         gimp
         gnomeExtensions.appindicator
         gnomeExtensions.gsconnect
