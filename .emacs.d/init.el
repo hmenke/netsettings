@@ -260,7 +260,6 @@ is already narrowed."
 (defun user/flyspell-local-vars ()
   (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
 (add-hook 'flyspell-mode-hook 'user/flyspell-local-vars)
-(setq-default flyspell-auto-correct-binding [ignore]) ;; default C-; is iedit
 
 ;; dired
 (autoload 'dired-jump "dired-x")
@@ -495,7 +494,13 @@ is already narrowed."
   (package-initialize))
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
-                         ("melpa" . "https://melpa.org/packages/")))
+                         ("nongnu" . "https://elpa.nongnu.org/nongnu/")
+                         ("melpa" . "https://melpa.org/packages/")
+                         ("melpa-stable" . "https://stable.melpa.org/packages/")))
+(setq package-archive-priorities '(("gnu" . 30)
+                                   ("nongnu" . 20)
+                                   ("melpa" . 10)
+                                   ("melpa-stable" . 0)))
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -773,6 +778,8 @@ is already narrowed."
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
+(use-package proof-general
+  :ensure t)
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
