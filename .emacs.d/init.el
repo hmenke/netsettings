@@ -511,7 +511,13 @@ is already narrowed."
 ;; project
 (when (< emacs-major-version 28)
   (use-package project
-    :ensure t))
+    :ensure t)
+
+  (use-package icomplete-vertical
+    :ensure t
+    :pin melpa-stable
+    :config
+    (icomplete-vertical-mode)))
 
 ;;;; cross referencing
 ;;(use-package xref
