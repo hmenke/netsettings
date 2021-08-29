@@ -145,6 +145,8 @@ is already narrowed."
   (setq-default
    backup-directory-alist `(("." . ,backup-directory))
    auto-save-file-name-transforms `((".*" ,auto-save-directory t))))
+;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=31908
+(setq-default create-lockfiles nil)
 
 ;; cus-edit
 (setq-default
