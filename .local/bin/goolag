@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p bubblewrap google-chrome
+#!nix-shell -i bash -p bubblewrap "google-chrome.overrideAttrs (_: { preferLocalBuild = true; })"
 
 # Extract the major version to download the correct extension version.
 # TODO: Can this be done without launching Chrome?
