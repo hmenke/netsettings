@@ -1,7 +1,7 @@
 [Desktop Entry]
 Categories=Network;InstantMessaging;Chat;
 Comment=A feature-rich client for Matrix.org
-Exec=element-desktop --profile qryddemo --enable-features=UseOzonePlatform --ozone-platform=wayland --hidden %u
+Exec=element-desktop --profile qryddemo --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland --hidden %u
 GenericName=Matrix Client
 Icon=element
 Name=Element (qryddemo)
