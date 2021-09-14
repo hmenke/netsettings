@@ -16,6 +16,15 @@ SSLType IMAPS
 IMAPStore henrimenke-remote
 Account henrimenke
 
+IMAPAccount fau
+Host groupware.fau.de
+User og85ixak
+PassCmd "pass show AGMM/IdM | head -n 1"
+SSLType IMAPS
+
+IMAPStore fau-remote
+Account fau
+
 MaildirStore gmail-local
 Subfolders Verbatim
 Path ~/.local/share/mbsync/gmail/
@@ -36,30 +45,35 @@ Near :henrimenke-remote:
 # Select some mailboxes to sync
 Patterns * ![Gmail]*
 Create Near
+Sync Pull
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-sent
 Far :gmail-remote:"[Gmail]/Sent Mail"
 Near :henrimenke-remote:Sent
 Create Near
+Sync Pull
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-trash
 Far :gmail-remote:"[Gmail]/Bin"
 Near :henrimenke-remote:Trash
 Create Near
+Sync Pull
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-drafts
 Far :gmail-remote:"[Gmail]/Drafts"
 Near :henrimenke-remote:Drafts
 Create Near
+Sync Pull
 SyncState ~/.cache/mbsync/
 
 Channel sync-backup-junk
 Far :gmail-remote:"[Gmail]/Spam"
 Near :henrimenke-remote:Junk
 Create Near
+Sync Pull
 SyncState ~/.cache/mbsync/
 
 # Get all the channels together into a group.
@@ -73,3 +87,11 @@ Channel sync-backup-junk
 # sync only spam
 Group spam
 Channel sync-backup-junk
+
+# pull sent messages from FAU mailbox
+Channel fau
+Far :fau-remote:"Sent Items"
+Near :henrimenke-remote:Sent
+Create None
+Sync Pull
+SyncState ~/.cache/mbsync/
