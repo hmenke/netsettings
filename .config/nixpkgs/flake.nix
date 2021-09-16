@@ -6,37 +6,16 @@
 {
   description = "User flake";
 
-  inputs = {
-    modules.url = "git+https://git.henrimenke.de/henri/nixos-modules.git";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
+  inputs.user-env = {
+    url = "path:./user-env";
+    inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, modules, emacs-overlay, ... }:
-    let
-      system = "x86_64-linux";
-
-      config =
-        if builtins.pathExists ./config.nix
-        then import ./config.nix
-        else { };
-
-      overlays = [
-        modules.overlays.system
-        modules.overlays.user
-        emacs-overlay.overlay
-      ];
-
-      pkgs = import nixpkgs {
-        inherit config overlays system;
-      };
-
-      site =
-        if builtins.pathExists ./site.nix
-        then import ./site.nix
-        else { };
-    in
-    {
-      packages.${system}.user-env = import ./buildEnv.nix ({ inherit pkgs; } // site);
-      defaultPackage.${system} = self.packages.${system}.user-env;
+  outputs = { self, nixpkgs, user-env, ... }@inputs: {
+    defaultPackage.x86_64-linux = user-env.lib.userEnvironment {
+      _module.args.inputs = inputs;
+      imports = [ ./configuration.nix ];
+      nixpkgs.config = import ./config.nix;
     };
+  };
 }
