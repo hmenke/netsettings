@@ -47,7 +47,8 @@ let
          in
          lib.concatMap recurse pkgs;
        versions = map (pkg: pkg.name) (collect cfg.paths);
-       versionText = lib.strings.concatMapStrings (s: s + "\n") versions;
+       versionsSorted = lib.sort builtins.lessThan versions;
+       versionText = lib.strings.concatMapStrings (s: s + "\n") versionsSorted;
      in
      pkgs.writeTextFile {
        name = "package-versions";
