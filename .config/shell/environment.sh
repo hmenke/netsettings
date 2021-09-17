@@ -76,3 +76,6 @@ elif command -v diff-highlight > /dev/null; then
 else
 	export GIT_PAGER="less"
 fi
+
+# rclone
+export RCLONE_PASSWORD_COMMAND="pass rclone/config"
