@@ -1,7 +1,7 @@
 IMAPAccount gmail
 Host imap.gmail.com
 User henrimenke@gmail.com
-PassCmd "python -c 'from netrc import netrc; print(netrc().hosts[\"imap.gmail.com\"][2])'"
+PassCmd "pass Accounts/Google/imap"
 SSLType IMAPS
 
 IMAPStore gmail-remote
@@ -10,7 +10,7 @@ Account gmail
 IMAPAccount henrimenke
 Host henrimenke.de
 User henri@henrimenke.de
-PassCmd "python -c 'from netrc import netrc; print(netrc().hosts[\"henrimenke.de\"][2])'"
+PassCmd "pass Server/Mail"
 SSLType IMAPS
 
 IMAPStore henrimenke-remote

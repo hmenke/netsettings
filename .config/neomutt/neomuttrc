@@ -3,7 +3,7 @@
 ####################
 
 set imap_user = "henri@henrimenke.de";
-source "python -c 'from netrc import netrc; print(\"set imap_pass = {}\".format(netrc().hosts[\"henrimenke.de\"][2]))' |"
+source 'echo "set imap_pass = $(pass Server/Mail | head -n 1)" |'
 set folder = "imaps://henrimenke.de/"
 
 set spoolfile = +INBOX
