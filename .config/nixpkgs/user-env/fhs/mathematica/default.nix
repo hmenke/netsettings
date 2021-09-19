@@ -7,7 +7,7 @@ in
 {
   options.fhs.mathematica = {
     enable = mkOption {
-      default = false;
+      default = config.fhs.enable;
       type = types.bool;
       description = "Whether to enable Mathematica FHS";
     };

@@ -7,7 +7,7 @@ in
 {
   options.fhs.texlive = {
     enable = mkOption {
-      default = false;
+      default = config.fhs.enable;
       type = types.bool;
       description = "Whether to enable TeX Live FHS";
     };
