@@ -25,13 +25,11 @@ let
         };
       }
       configuration
-      ./apps
-      ./fhs
       ./modules
-      ./tools
-      ./unfree
     ];
+    specialArgs = { modulesPath = builtins.toString ./modules; };
   };
+
   # From nixpkgs/nixos/modules/system/activation/top-level.nix
   failedAssertions = map (x: x.message) (lib.filter (x: !x.assertion) eval.config.assertions);
 
