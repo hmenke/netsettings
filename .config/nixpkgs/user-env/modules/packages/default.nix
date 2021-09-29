@@ -6,11 +6,11 @@ let
   inherit (lib) mkOption types;
 in
 {
-  options.extraPackages = mkOption {
+  options.userPackages = mkOption {
     default = [];
     type = types.listOf types.package;
     description = "List of extra packages to add to the environment.";
   };
 
-  config.build-env.paths = config.extraPackages;
+  config.build-env.paths = config.userPackages;
 }

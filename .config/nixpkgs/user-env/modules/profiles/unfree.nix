@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  extraPackages = with pkgs; [
+  userPackages = with pkgs; [
     masterpdfeditor-free
     skypeforlinux
     slack

@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  extraPackages = with pkgs; [
+  userPackages = with pkgs; [
     (aspellWithDicts (dicts: with dicts; [ de en ]))
     cachix
     delta

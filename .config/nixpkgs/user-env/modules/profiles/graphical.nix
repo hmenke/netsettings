@@ -1,7 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  extraPackages = with pkgs; [
+  userPackages = with pkgs; [
     browserpass
     (chromium.override {
       commandLineArgs = [
