@@ -389,6 +389,13 @@ is already narrowed."
       (visit-tags-table tags-file t))))
 (add-hook 'find-file-hook 'user/visit-tags-table)
 
+;; xref
+(when (> emacs-major-version 27)
+  (setq
+   xref-show-definitions-function #'xref-show-definitions-completing-read
+   xref-show-xrefs-function #'xref-show-definitions-buffer
+   xref-file-name-display 'project-relative))
+
 ;; icomplete
 (setq
  icomplete-delay-completions-threshold 100
@@ -493,8 +500,7 @@ is already narrowed."
 ;; package archives
 (setq package-enable-at-startup nil
       package--init-file-ensured t)
-(when (< emacs-major-version 27)
-  (package-initialize))
+(package-initialize)
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -521,16 +527,6 @@ is already narrowed."
     :pin melpa-stable
     :config
     (icomplete-vertical-mode)))
-
-;;;; cross referencing
-;;(use-package xref
-;;  :ensure t
-;;  :after project
-;;  :config
-;;  (setq
-;;   xref-show-definitions-function #'xref-show-definitions-completing-read
-;;   xref-show-xrefs-function #'xref-show-definitions-buffer
-;;   xref-file-name-display 'project-relative))
 
 (use-package diminish
   :ensure t)
