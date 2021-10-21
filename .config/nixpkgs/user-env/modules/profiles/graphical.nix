@@ -14,6 +14,7 @@
       ];
     })
     clementine
+    discord
     element-desktop
     evince
     evolution
@@ -25,6 +26,7 @@
     libnotify
     onlyoffice-bin
     pop-os-shell
+    pulseeffects-pw
     signal-desktop
     virt-manager
     vlc

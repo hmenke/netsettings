@@ -36,7 +36,9 @@
     python3Packages.black
     qpdf
     rclone
+    sshpass
     sshuttle
+    syncthing
     tree
     ts
     unison
