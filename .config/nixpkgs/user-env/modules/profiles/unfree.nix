@@ -7,6 +7,5 @@
     slack
     steam
     steam-run
-    zoom-us
   ];
 }
