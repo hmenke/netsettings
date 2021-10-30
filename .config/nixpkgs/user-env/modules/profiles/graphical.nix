@@ -13,7 +13,6 @@
         "--use-vulkan"
       ];
     })
-    clementine
     discord
     element-desktop
     evince
@@ -28,6 +27,7 @@
     pop-os-shell
     pulseeffects-pw
     signal-desktop
+    strawberry
     virt-manager
     vlc
     wl-clipboard
