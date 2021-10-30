@@ -1,73 +1,72 @@
-[user]
-	name = Henri Menke
-	email = henri@henrimenke.de
-	signingkey = D65C9AFB4C224DA3
+[advice]
+	detachedHead = false
 [alias]
-	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
 	changelog = log --date=short --pretty=format:'%ad %an\n\n    - %s\n'
+	fixup = commit --amend --no-edit
+	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
+	root = rev-parse --show-toplevel
+	setup = !git init && git commit --allow-empty -m \"Initial commit\"
+	unstage = reset HEAD --
 	# An unsigned version of stash
 	ustash = -c commit.gpgsign=false stash
-	unstage = reset HEAD --
-	root = rev-parse --show-toplevel
-	exec = "!exec "
-	setup = !git init && git commit --allow-empty -m \"Initial commit\"
-	fixup = commit --amend --no-edit
-	update = "!f() { git pull --autostash --rebase \"$@\" && git push --force-with-lease \"$@\"; }; f"
-[pull]
-	ff = only
-[gpg]
-	program = gpg2
-[log]
-	decorate = true
-[status]
-	showUntrackedFiles = no
-	submodulesummary = true
-[grep]
-	lineNumber = true
-	fallbackToNoIndex = true
-[pager]
-	grep = false
-[diff]
-	algorithm = histogram
-	ignoreSubmodules = dirty
-	wsErrorHighlight = all
-	colorMoved = default
-[credential]
-	helper= !pass-git-helper $@
-[rerere]
-	enabled = true
+[branch]
+	autosetupmerge = true
 [color "grep"]
 	filename = magenta
 	lineNumber = green
+[diff]
+	algorithm = histogram
+	colorMoved = default
+	ignoreSubmodules = dirty
+	wsErrorHighlight = all
+[diff "gpg"]
+	binary = true
+	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent
+[fetch]
+	prune = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	process = git-lfs filter-process
+	required = true
+	smudge = git-lfs smudge -- %f
+[gpg]
+	program = gpg2
+[grep]
+	fallbackToNoIndex = true
+	lineNumber = true
 [gui]
 	displayuntracked = false
 	spellingdictionary = none
-[sendemail]
-	confirm = always
-	annotate = yes
-[push]
-	default = current
-[diff "gpg"]
-	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent
-	binary = true
-[branch]
-	autosetupmerge = true
-[fetch]
-	prune = true
-[rebase]
-	autosquash = true
-	autoStash = true
-[filter "lfs"]
-	required = true
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-[ps1]
-	timeout = 0.5
-[merge]
-	conflictStyle = diff3
-	autoStash = true
 [include]
 	path = ~/.config/git/local
 [init]
 	defaultBranch = master
+[log]
+	decorate = true
+	excludeDecoration = refs/branchless/*
+[merge]
+	autoStash = true
+	conflictStyle = diff3
+[pager]
+	grep = false
+[ps1]
+	timeout = 0.5
+[pull]
+	ff = only
+[push]
+	default = current
+[rebase]
+	autosquash = true
+	autoStash = true
+[rerere]
+	enabled = true
+[sendemail]
+	annotate = yes
+	confirm = always
+[status]
+	showUntrackedFiles = no
+	submodulesummary = true
+[user]
+	email = henri@henrimenke.de
+	name = Henri Menke
+	signingkey = D65C9AFB4C224DA3
