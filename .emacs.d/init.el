@@ -193,7 +193,7 @@ is already narrowed."
 (global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; cc-mode
-(add-hook 'c++-mode-hook (lambda() (c-set-offset 'innamespace 0)))
+(add-hook 'c-mode-common-hook (lambda() (c-set-offset 'innamespace 0)))
 (setq
  c-default-style "linux"
  c-basic-offset 4)
@@ -357,7 +357,6 @@ is already narrowed."
   (interactive)
   (let ((files (mapcar 'abbreviate-file-name recentf-list)))
     (find-file (completing-read "Open recent: " files nil t))))
-:config
 (setq
  recentf-max-menu-items 25
  recentf-max-saved-items 25
