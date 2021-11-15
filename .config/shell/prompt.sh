@@ -33,12 +33,13 @@ __setup_prompt() {
 __timer_reset() {
 	__timer_diff=0
 	__timer_ready=true
+	unset __timer
 }
 
 __timer_start() {
 	local prev_last_arg="$1"
-	if [ "$__timer_ready" = true ]; then
-		__timer_ready=false
+	if [ -n ${__timer_ready+x} ]; then
+		unset __timer_ready
 		__timer=${__timer:-$SECONDS}
 	fi
 	: "$prev_last_arg"
@@ -64,6 +65,13 @@ __show_status() {
 	if [ $__last_status -ne 0 ]; then
 		echo -ne " exit $__last_status"
 	fi
+}
+
+# Fix VTE prompt command to preserve exit status
+__vte_prompt_command_() {
+	local previous_exit_status=$?
+	__vte_prompt_command
+	return $previous_exit_status
 }
 
 # git-prompt
@@ -102,12 +110,13 @@ export GIT_PS1_TIMEOUT_VERBOSE=1
 
 # The main prompt drawing function
 __draw_prompt() {
-	__last_status="$?"
+	__last_status=$?
 	__timer_stop
 	__git_ps1 "╭╴${__prompt_host} ${__prompt_dir}" "$(__timer_show)$(__show_status)
 ╰╴${__prompt_prompt} "
-	__timer_reset
 	__prompt_posthook
+	__timer_reset
+	return $last_status
 }
 
 __prompt_posthook() { return; }
