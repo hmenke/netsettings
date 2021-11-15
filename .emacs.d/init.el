@@ -5,7 +5,8 @@
 ;; Speed up the startup
 (setq gc-cons-threshold 402653184
       gc-cons-percentage 0.6
-      max-lisp-eval-depth 1600)
+      max-lisp-eval-depth 1600
+      max-specpdl-size 2500)
 (defun user/reset-startup-values ()
   (setq gc-cons-threshold 16777216
         gc-cons-percentage 0.1))
