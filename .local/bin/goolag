@@ -37,7 +37,7 @@ download_extension() {
 		echo "Fetching ${EXTNAMEPRETTY}..."
 		curl --silent --location --output "${EXTDIR}/${EXTNAME}.crx" \
 			"https://clients2.google.com/service/update2/crx?response=redirect&acceptformat=crx2,crx3&x=id%3D${EXTID}%26uc&prodversion=${GOOGLE_CHROME_VERSION:-80}"
-		unzip -q "${EXTDIR}/${EXTNAME}.crx" -d "${EXTDIR}/${EXTNAME}"
+		unzip -q "${EXTDIR}/${EXTNAME}.crx" -d "${EXTDIR}/${EXTNAME}" || true
 		rm "${EXTDIR}/${EXTNAME}.crx"
 	fi
 }
