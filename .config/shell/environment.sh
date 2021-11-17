@@ -18,7 +18,9 @@ if [ -d "/nix" ]; then
 fi
 
 # Prefer nvim but fall back to vim
-if command -v nvim > /dev/null; then
+if command -v emacsclient > /dev/null; then
+    export EDITOR='emacsclient -c -a "" -t'
+elif command -v nvim > /dev/null; then
     export EDITOR=nvim
 elif command -v vim > /dev/null; then
     export EDITOR=vim
