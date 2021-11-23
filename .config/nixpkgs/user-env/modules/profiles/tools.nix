@@ -11,6 +11,7 @@
     file
     fzf
     gh
+    ghostscript
     git-annex
     git-crypt
     git-filter-repo
