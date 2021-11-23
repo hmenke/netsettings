@@ -19,6 +19,10 @@
 	colorMoved = default
 	ignoreSubmodules = dirty
 	wsErrorHighlight = all
+[difftool]
+	prompt = false
+[difftool "diffoscope"]
+	cmd = "if [ $LOCAL = /dev/null ]; then diffoscope --new $REMOTE; else diffoscope $LOCAL $REMOTE; fi"
 [diff "gpg"]
 	binary = true
 	textconv = gpg -d -q --yes --compress-algo=none --no-encrypt-to --batch --use-agent

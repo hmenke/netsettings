@@ -5,6 +5,7 @@
     (aspellWithDicts (dicts: with dicts; [ de en ]))
     cachix
     delta
+    diffoscope
     direnv
     emacsPgtkGcc
     file
