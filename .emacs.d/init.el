@@ -467,12 +467,19 @@ is already narrowed."
 ;; warnings
 (setq warning-suppress-types '((comp) (direnv)))
 
+;; re-builder
+(setq-default reb-re-syntax 'string)
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;; PACKAGES ;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
+
+;;;; This might be necessary on older Emacs
+;; $ mkdir -m 0700 -p ~/.emacs.d/elpa/gnupg
+;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.emacs.d/elpa/gnupg --recv-keys 066DAFCB81E42C40
+;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
 
 ;; package archives
 (setq package-enable-at-startup nil
@@ -540,7 +547,9 @@ is already narrowed."
   (add-hook 'diff-hl-mode-on-hook
             (lambda ()
               (unless (window-system)
-                (diff-hl-margin-local-mode))))
+                (if (fboundp 'diff-hl-margin-local-mode)
+                    (diff-hl-margin-local-mode)
+                  (diff-hl-margin-mode)))))
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
@@ -688,6 +697,7 @@ is already narrowed."
 
 ;; direnv
 (use-package direnv
+  :if (executable-find "direnv")
   :ensure t
   :config
   (direnv-mode)
