@@ -19,7 +19,7 @@ if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
 	__prompt_posthook() { history -a; }
 	trap '__timer_start "$_"' DEBUG
 	PROMPT_COMMAND="${PROMPT_COMMAND//__vte_prompt_command/__vte_prompt_command_}"
-	PROMPT_COMMAND="${PROMPT_COMMAND+${PROMPT_COMMAND//;__draw_prompt/};}__draw_prompt;"
+	PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND//;__draw_prompt/};}__draw_prompt;"
 fi
 
 # shell optional behavior
