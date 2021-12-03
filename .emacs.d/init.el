@@ -555,7 +555,6 @@ is already narrowed."
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
 
 (use-package xclip
-  :unless window-system
   :ensure t
   :config
   (setq xclip-method
@@ -772,13 +771,6 @@ is already narrowed."
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
-(use-package tree-sitter
-  :ensure t
-  :config (global-tree-sitter-mode))
-(use-package tree-sitter-langs
-  :ensure t
-  :after tree-sitter
-  :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 (use-package yaml-mode
   :ensure t
   :mode ("\\.yml\\'" "\\.yaml\\'" "\\.sls\\'"))
@@ -786,6 +778,16 @@ is already narrowed."
 (use-package rainbow-mode
   :ensure t
   :commands (rainbow-mode))
+
+;; Tree-sitter needs dynamic module loading
+(when (and (functionp 'module-load) (bound-and-true-p module-file-suffix))
+  (use-package tree-sitter
+    :ensure t
+    :config (global-tree-sitter-mode))
+  (use-package tree-sitter-langs
+    :ensure t
+    :after tree-sitter
+    :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)))
 
 ;; Editing plugins
 (use-package undo-tree
