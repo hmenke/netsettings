@@ -1,6 +1,6 @@
 [Desktop Entry]
 Categories=Network;InstantMessaging;
-Exec=Discord --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland
+Exec=Discord --enable-features=UseOzonePlatform,WebRTCPipeWireCapturer --ozone-platform=wayland --start-minimized
 GenericName=All-in-one cross-platform voice and text chat for gamers
 Icon=discord
 MimeType=x-scheme-handler/discord
