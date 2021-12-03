@@ -764,9 +764,6 @@ is already narrowed."
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
-(use-package modern-cpp-font-lock
-  :ensure t
-  :hook (c++-mode . modern-c++-font-lock-mode))
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
@@ -775,6 +772,13 @@ is already narrowed."
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
+(use-package tree-sitter
+  :ensure t
+  :config (global-tree-sitter-mode))
+(use-package tree-sitter-langs
+  :ensure t
+  :after tree-sitter
+  :config (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode))
 (use-package yaml-mode
   :ensure t
   :mode ("\\.yml\\'" "\\.yaml\\'" "\\.sls\\'"))
