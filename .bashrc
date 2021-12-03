@@ -7,6 +7,10 @@ case $- in
 	*) return ;;
 esac
 
+# Exit if already sourced
+if [ -n "${__BASHRC_PROFILE_SOURCED+x}" ]; then return; fi
+__BASHRC_PROFILE_SOURCED=1
+
 # Source common configuration
 . ~/.config/shell/aliases.sh
 . ~/.config/shell/functions.sh
