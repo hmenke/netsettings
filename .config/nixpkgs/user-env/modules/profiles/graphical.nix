@@ -15,6 +15,7 @@
     })
     discord
     element-desktop
+    easyeffects
     evince
     evolution
     gajim
@@ -25,7 +26,6 @@
     libnotify
     onlyoffice-bin
     pop-os-shell
-    pulseeffects-pw
     signal-desktop
     strawberry
     virt-manager
