@@ -557,17 +557,9 @@ is already narrowed."
 (use-package xclip
   :ensure t
   :config
-  (setq xclip-method
-        (or (and (executable-find "xclip")
-                 (getenv "DISPLAY")
-                 'xclip)
-            (and (executable-find "wl-copy")
-                 (executable-find "wl-paste")
-                 (string= (getenv "XDG_SESSION_TYPE") "wayland")
-                 'wl-copy)
-            nil))
-  (when xclip-method
-    (xclip-mode 1)))
+  (condition-case err
+      (xclip-mode 1)
+    (file-error (message "file-error: %S" err))))
 
 ;; AUCTeX
 (defun user/align-environment ()
