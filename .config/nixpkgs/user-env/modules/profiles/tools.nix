@@ -13,6 +13,7 @@
     gh
     ghostscript
     git-annex
+    git-branchless
     git-crypt
     git-filter-repo
     git-lfs
