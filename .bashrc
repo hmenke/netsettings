@@ -11,6 +11,11 @@ esac
 if [ -n "${__BASHRC_PROFILE_SOURCED+x}" ]; then return; fi
 __BASHRC_PROFILE_SOURCED=1
 
+# Load the Git completion eagerly (this has to be done before setting up aliases)
+if declare -F _completion_loader >/dev/null && ! declare -F __git_complete __git_main >/dev/null; then
+	_completion_loader git
+fi
+
 # Source common configuration
 . ~/.config/shell/aliases.sh
 . ~/.config/shell/functions.sh
@@ -46,31 +51,28 @@ bind '"\e[B": history-search-forward' &>/dev/null
 bind '"\ew": copy-region-as-kill' &>/dev/null
 bind '"\C-w": kill-region' &>/dev/null
 bind '"\eq": kill-whole-line' &>/dev/null
-if [ "$TERM" != "dumb" ] && command -v fzf > /dev/null; then
+if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 	. ~/.config/shell/fzf/key-bindings.bash
 fi
 
 # bash completion
 export COMP_KNOWN_HOSTS_WITH_HOSTFILE=""
-if declare -f _completion_loader &>/dev/null; then
-	if [ "$TERM" != "dumb" ] && command -v fzf > /dev/null; then
+if declare -F _completion_loader >/dev/null; then
+	if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 		. ~/.config/shell/fzf/completion.bash
 	fi
-	_completion_loader git
-	if type __git_wrap__git_main &>/dev/null; then
-		complete -o default -o nospace -F __git_wrap__git_main netsettings
-	elif type _git &>/dev/null; then
-		complete -o default -o nospace -F _git netsettings
+	if declare -F __git_complete __git_main >/dev/null; then
+		__git_complete netsettings __git_main
 	fi
 fi
 
 # Disable the beep
-if command -v xset > /dev/null && [ -n "${DISPLAY}" ]; then
+if command -v xset >/dev/null && [ -n "${DISPLAY}" ]; then
 	xset -b 2>/dev/null;
 fi
 
 # direnv
-if command -v direnv > /dev/null; then
+if command -v direnv >/dev/null; then
 	eval "$(direnv hook bash | sed 's!"/nix/store/[^/]*/bin/direnv"!direnv!g')"
 fi
 
