@@ -691,7 +691,6 @@ is already narrowed."
   :if (executable-find "direnv")
   :ensure t
   :config
-  (direnv-mode)
   (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
