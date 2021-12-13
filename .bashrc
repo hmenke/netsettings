@@ -73,7 +73,7 @@ fi
 
 # direnv
 if command -v direnv >/dev/null; then
-	eval "$(direnv hook bash | sed 's!"/nix/store/[^/]*/bin/direnv"!direnv!g')"
+	eval "$(timeout -v 0.5 direnv hook bash | sed 's!"/nix/store/[^/]*/bin/direnv"!direnv!g')"
 fi
 
 if [ -f ~/.bashrc.local ]; then
