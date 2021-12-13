@@ -113,10 +113,12 @@ __git_ps1_set_timeout ()
 	: "${__git_ps1_timeout:=0.5}"
 }
 
-__git_with_timeout ()
-{
-	timeout ${GIT_PS1_TIMEOUT_VERBOSE+-v} "$__git_ps1_timeout" git "$@"
-}
+# check for the -v option
+if timeout -v 0 true 2>&1 >/dev/null; then
+	__git_with_timeout() { timeout ${GIT_PS1_TIMEOUT_VERBOSE+-v} "$__git_ps1_timeout" git "$@"; }
+else
+	__git_with_timeout() { timeout "$__git_ps1_timeout" git "$@"; }
+fi
 
 # check whether printf supports -v
 __git_printf_supports_v=
