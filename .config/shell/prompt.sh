@@ -93,8 +93,8 @@ __git_ps1 () {
 }
 
 # try to find git-prompt.sh
-if [ -f ~/.config/shell/git-prompt/git-prompt.sh ]; then
-	. ~/.config/shell/git-prompt/git-prompt.sh
+if [ -f ~/.config/shell/git-prompt.sh ]; then
+	. ~/.config/shell/git-prompt.sh
 elif [ -f /etc/bash_completion.d/git-prompt ]; then
 	. /etc/bash_completion.d/git-prompt
 elif [ -f /usr/lib/git-core/git-sh-prompt ]; then

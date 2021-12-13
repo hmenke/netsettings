@@ -114,7 +114,7 @@ __git_ps1_set_timeout ()
 }
 
 # check for the -v option
-if timeout -v 0 true 2>&1 >/dev/null; then
+if timeout -v 0 true >/dev/null 2>&1; then
 	__git_with_timeout() { timeout ${GIT_PS1_TIMEOUT_VERBOSE+-v} "$__git_ps1_timeout" git "$@"; }
 else
 	__git_with_timeout() { timeout "$__git_ps1_timeout" git "$@"; }
