@@ -11,7 +11,20 @@
   (setq gc-cons-threshold 16777216
         gc-cons-percentage 0.1))
 (add-hook 'emacs-startup-hook 'user/reset-startup-values)
-(add-hook 'focus-out-hook 'garbage-collect)
+
+;; Focus hooks
+(defun user/focus-in-hook())
+(defun user/focus-out-hook()
+  (garbage-collect))
+(if (< emacs-major-version 27)
+    (progn
+      (add-hook 'focus-in-hook 'user/focus-in-hook)
+      (add-hook 'focus-out-hook 'user/focus-out-hook))
+  (add-function :after after-focus-change-function
+                (lambda ()
+                    (if (frame-focus-state)
+                        (user/focus-in-hook)
+                      (user/focus-out-hook)))))
 
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
