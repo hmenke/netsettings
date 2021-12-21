@@ -6,7 +6,7 @@ let
 
   # Script to rebuild the environment from this file.
   nix-rebuild = pkgs.writeShellScriptBin "nix-rebuild" ''
-     set -e
+     set -euo pipefail
 
      oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
      oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
@@ -17,9 +17,9 @@ let
      fi
 
      if (( $(nix profile list 2>/dev/null | wc -l) > 0 )); then
-         nix profile upgrade '.*' --builders "" --recreate-lock-file --print-build-logs "$@"
+         nix profile upgrade '.*' --recreate-lock-file --print-build-logs "$@"
      else
-         nix-env --set -f ~/.config/nixpkgs/default.nix --builders "" "$@"
+         nix-env --set -f ~/.config/nixpkgs/default.nix "$@"
      fi
 
      newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
