@@ -158,7 +158,7 @@ is already narrowed."
   (make-directory auto-save-directory t)
   (make-directory backup-directory t)
   (setq-default
-   backup-directory-alist `(("." . ,backup-directory))
+   backup-directory-alist `(("\\`/dev/shm") ("." . ,backup-directory))
    auto-save-file-name-transforms `((".*" ,auto-save-directory t))))
 ;; https://debbugs.gnu.org/cgi/bugreport.cgi?bug=31908
 (setq-default create-lockfiles nil)
@@ -322,7 +322,6 @@ is already narrowed."
 (add-hook 'ibuffer-mode-hook (lambda ()
                                (ibuffer-switch-to-saved-filter-groups "user")))
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-
 
 ;; minibuffer
 (setq
@@ -800,7 +799,7 @@ is already narrowed."
   :config
   (setq
    undo-tree-auto-save-history t
-   undo-tree-history-directory-alist `(("." . ,(concat user-emacs-directory "undo"))))
+   undo-tree-history-directory-alist `(("\\`/dev/shm") ("." . ,(concat user-emacs-directory "undo"))))
   (global-undo-tree-mode t))
 
 ;; Show suggestions for incomplete key chords
