@@ -60,9 +60,9 @@ is already narrowed."
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
 ;; disable useless bars
-(when (fboundp 'tool-bar-mode) (tool-bar-mode -1))
-(when (fboundp 'menu-bar-mode) (menu-bar-mode -1))
-(when (fboundp 'scroll-bar-mode) (scroll-bar-mode -1))
+(when (bound-and-true-p tool-bar-mode) (tool-bar-mode -1))
+(when (bound-and-true-p menu-bar-mode) (menu-bar-mode -1))
+(when (bound-and-true-p scroll-bar-mode) (scroll-bar-mode -1))
 (tooltip-mode 0)
 
 ;; Enable some disabled commands
@@ -95,12 +95,9 @@ is already narrowed."
  inhibit-startup-screen t
  initial-scratch-message "")
 
-;; mule
-(prefer-coding-system 'utf-8)
-(set-default-coding-systems 'utf-8)
-(set-terminal-coding-system 'utf-8)
-(set-keyboard-coding-system 'utf-8)
-(set-buffer-file-coding-system 'utf-8)
+;; mule (from Doom Emacs)
+(set-language-environment "UTF-8")
+(setq default-input-method nil)
 
 ;; simple
 (setq-default
@@ -491,12 +488,16 @@ is already narrowed."
 ;;;; This might be necessary on older Emacs
 ;; $ mkdir -m 0700 -p ~/.emacs.d/elpa/gnupg
 ;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.emacs.d/elpa/gnupg --recv-keys 066DAFCB81E42C40
-;;(setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3")
+
+;; Work around Emacs bug https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
+(when (and (gnutls-available-p)
+           (>= libgnutls-version 30603)
+           (version<= emacs-version "26.2"))
+  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
 ;; package archives
 (setq package-enable-at-startup nil
       package--init-file-ensured t)
-(package-initialize)
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -506,6 +507,7 @@ is already narrowed."
                                    ("nongnu" . 20)
                                    ("melpa" . 10)
                                    ("melpa-stable" . 0)))
+(package-initialize)
 
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
