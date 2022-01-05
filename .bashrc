@@ -51,6 +51,7 @@ bind '"\e[B": history-search-forward' &>/dev/null
 bind '"\ew": copy-region-as-kill' &>/dev/null
 bind '"\C-w": kill-region' &>/dev/null
 bind '"\eq": kill-whole-line' &>/dev/null
+bind '"\e/": dabbrev-expand' &>/dev/null
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 	. ~/.config/shell/fzf/key-bindings.bash
 fi
