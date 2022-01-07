@@ -1,0 +1,7 @@
+[Unit]
+Description="Forwarding to Syncthing GUI socket"
+Requires=syncthing.service
+After=syncthing.service
+
+[Service]
+ExecStart=/run/current-system/sw/lib/systemd/systemd-socket-proxyd /run/user/%U/syncthing-0
