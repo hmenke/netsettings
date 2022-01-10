@@ -27,7 +27,6 @@
     libnotify
     onlyoffice-bin
     pop-os-shell
-    signal-desktop
     strawberry
     virt-manager
     vlc

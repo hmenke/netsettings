@@ -5,7 +5,5 @@
     masterpdfeditor-free
     skypeforlinux
     slack
-    steam
-    steam-run
   ];
 }
