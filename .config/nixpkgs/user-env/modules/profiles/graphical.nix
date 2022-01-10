@@ -11,6 +11,7 @@
         "--enable-gpu-rasterization"
         "--enable-zero-copy"
         "--use-vulkan"
+        "--ozone-platform-hint=auto"
       ];
     })
     discord
