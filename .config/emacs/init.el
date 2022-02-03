@@ -511,6 +511,9 @@ is already narrowed."
            (version<= emacs-version "26.2"))
   (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
 
+;; Always load the latest file (ignore outdated bytecode)
+(setq load-prefer-newer t)
+
 ;; package archives
 (setq package-enable-at-startup nil
       package--init-file-ensured t)
