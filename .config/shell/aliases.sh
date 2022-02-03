@@ -58,7 +58,7 @@ alias gpgsign="gpg --armor --output '-' --detach-sig"
 alias netsettings='git --git-dir="$XDG_DATA_HOME/netsettings/git" --work-tree="${HOME}"'
 
 # unison
-alias unison="unison -ui text"
+alias unison="env -u DISPLAY unison -ui text"
 
 # SSH
 alias ssh-exit-all='\ls -1q ~/.ssh/control-*.sock 2>/dev/null | xargs -I{} echo "Exiting {}"'
