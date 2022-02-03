@@ -488,6 +488,13 @@ is already narrowed."
 ;; re-builder
 (setq-default reb-re-syntax 'string)
 
+;; sort
+(defun sort-lines-nocase ()
+  (interactive)
+  (defvar sort-fold-case)
+  (let ((sort-fold-case t))
+    (call-interactively 'sort-lines)))
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;; PACKAGES ;;;;
