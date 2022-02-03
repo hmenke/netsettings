@@ -56,6 +56,11 @@ let
        text = versionText;
      };
 
+   # Add a link to the nixpkgs checkout we built from
+   link-nixpkgs = pkgs.linkFarm "nixpkgs" [
+     { name = "nixpkgs";
+       path = pkgs.path; }
+   ];
 in
 {
   options.build-env = {
@@ -86,6 +91,6 @@ in
 
   config.build-env.toplevel = pkgs.buildEnv {
     inherit (cfg) name extraOutputsToInstall;
-    paths = cfg.paths ++ [ nix-rebuild package-versions ];
+    paths = cfg.paths ++ [ nix-rebuild package-versions link-nixpkgs ];
   };
 }
