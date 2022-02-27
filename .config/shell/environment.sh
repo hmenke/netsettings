@@ -17,7 +17,7 @@ if [ -d "/nix" ]; then
 	fi
 fi
 
-# Prefer nvim but fall back to vim
+# Editor
 if command -v emacsclient > /dev/null; then
     export EDITOR='emacsclient -c -a "" -t'
 elif command -v nvim > /dev/null; then
@@ -69,8 +69,9 @@ export LESS_TERMCAP_us="$(printf "\001\033[01;32m\002")"
 # Disable less history
 export LESSHISTFILE=-
 
-# git pager
+# pager
 export LESS=FR
+export SYSTEMD_LESS=FR
 if command -v delta > /dev/null; then
 	export GIT_PAGER="delta --light --color-only --max-line-length=4000"
 elif command -v diff-highlight > /dev/null; then
