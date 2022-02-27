@@ -14,7 +14,6 @@
         "--ozone-platform-hint=auto"
       ];
     })
-    discord
     element-desktop
     easyeffects
     evince

@@ -2,6 +2,7 @@
 
 {
   userPackages = with pkgs; [
+    discord
     masterpdfeditor-free
     skypeforlinux
     slack
