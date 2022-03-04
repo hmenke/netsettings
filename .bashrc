@@ -84,7 +84,7 @@ if command -v direnv >/dev/null; then
 	_direnv_hook() {
 		local previous_exit_status=$?
 		trap -- '' SIGINT
-		eval "$(__timeout_v 0.5 direnv export bash)"
+		eval "$(__timeout_v "${DIRENV_TIMEOUT:-0.5}" direnv export bash)"
 		trap - SIGINT
 		return $previous_exit_status
 	}
