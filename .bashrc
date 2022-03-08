@@ -69,7 +69,7 @@ fi
 
 # Disable the beep
 if command -v xset >/dev/null && [ -n "${DISPLAY}" ]; then
-	xset -b 2>/dev/null;
+	xset -b &>/dev/null;
 fi
 
 # inline direnv hook to avoid calling direnv during shell startup
