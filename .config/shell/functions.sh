@@ -1,13 +1,6 @@
 # finding files
 ff() {
-	local left right patt
-	left=".*"
-	right=".*"
-	patt="$1"
-	shift
-	case $patt in ^*) left="" ;; esac
-	case $patt in *$) right="" ;; esac
-	find -xdev -iregex "$left$patt$right" "$@" -print -o \( -path "*/.*" -o -path "*/*~" \) -prune
+	find -xdev -iname "$@" -print -o \( -path "*/.*" -o -path "*/*~" \) -prune
 }
 
 # interactive diff
