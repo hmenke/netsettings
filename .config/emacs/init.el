@@ -179,7 +179,7 @@ is already narrowed."
  comp-deferred-compilation t)
 
 ;; autorevert
-(global-auto-revert-mode t)
+(global-auto-revert-mode 1)
 (setq
  auto-revert-interval 2
  auto-revert-check-vc-info t
@@ -233,7 +233,7 @@ is already narrowed."
 (add-hook 'sh-mode-hook 'user/indent-tabs-mode)
 
 ;; mouse
-(xterm-mouse-mode t)
+(xterm-mouse-mode 1)
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
 (setq mouse-wheel-scroll-amount
@@ -241,6 +241,10 @@ is already narrowed."
         ((shift) . hscroll)
         ((meta) . nil)
         ((control) . text-scale)))
+
+;; pixel-scroll
+(when (fboundp 'pixel-scroll-precision-mode)
+  (pixel-scroll-precision-mode 1))
 
 ;; frame
 (blink-cursor-mode 0)
@@ -364,7 +368,7 @@ is already narrowed."
 (global-set-key (kbd "C-x C-r") 'user/complete-recentf)
 
 ;; saveplace
-(save-place-mode t)
+(save-place-mode 1)
 
 ;; isearch
 (setq
@@ -402,7 +406,7 @@ is already narrowed."
  icomplete-tidy-shadowed-file-names nil
  icomplete-hide-common-prefix nil)
 (icomplete-mode 1)
-(when (fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode t))
+(when (fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode 1))
 (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions)
@@ -821,11 +825,11 @@ is already narrowed."
   (setq
    undo-tree-auto-save-history t
    undo-tree-history-directory-alist `(("\\`/dev/shm") ("." . ,(concat user-emacs-directory "undo"))))
-  (global-undo-tree-mode t))
+  (global-undo-tree-mode 1))
 
 ;; Show suggestions for incomplete key chords
 (use-package which-key
   :diminish which-key-mode
   :ensure t
   :defer 2
-  :config (which-key-mode))
+  :config (which-key-mode 1))
