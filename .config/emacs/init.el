@@ -824,7 +824,8 @@ is already narrowed."
   :config
   (setq
    undo-tree-auto-save-history t
-   undo-tree-history-directory-alist `(("\\`/dev/shm") ("." . ,(concat user-emacs-directory "undo"))))
+   undo-tree-history-directory-alist `(("\\`/dev/shm") ("." . ,(concat user-emacs-directory "undo")))
+   undo-tree-enable-undo-in-region t)
   (global-undo-tree-mode 1))
 
 ;; Show suggestions for incomplete key chords
