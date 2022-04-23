@@ -7,8 +7,9 @@
     delta
     diffoscope
     direnv
-    emacsPgtkGcc
+    emacsPgtkNativeComp
     file
+    ffmpeg
     fzf
     gh
     ghostscript
@@ -46,7 +47,7 @@
     ts
     unison
     unzip
-    youtube-dl
+    yt-dlp
     zip
   ];
 }
