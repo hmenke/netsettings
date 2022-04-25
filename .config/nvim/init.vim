@@ -131,7 +131,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'unblevable/quick-scope'
 Plug 'direnv/direnv.vim'
-if has("nvim")
+if has("nvim-0.7")
     Plug 'nvim-treesitter/nvim-treesitter'
 end
 
@@ -180,7 +180,7 @@ augroup END
 set termguicolors
 set background=light
 
-if has("nvim")
+if has("nvim-0.7")
 lua <<EOF
 require'nvim-treesitter.configs'.setup {
   highlight = {
