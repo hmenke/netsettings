@@ -45,7 +45,7 @@
     syncthing
     tree
     ts
-    unison
+    unison-bin
     unzip
     yt-dlp
     zip
