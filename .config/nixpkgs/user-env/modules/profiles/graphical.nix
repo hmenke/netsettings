@@ -22,10 +22,10 @@
     gimp
     gnomeExtensions.appindicator
     gnomeExtensions.gsconnect
+    gnomeExtensions.pop-shell
     gnomeExtensions.sound-output-device-chooser
     libnotify
     onlyoffice-bin
-    pop-os-shell
     strawberry
     virt-manager
     vlc

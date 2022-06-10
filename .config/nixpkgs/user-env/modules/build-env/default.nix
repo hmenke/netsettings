@@ -8,27 +8,62 @@ let
   nix-rebuild = pkgs.writeShellScriptBin "nix-rebuild" ''
      set -euo pipefail
 
-     oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
-     oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
-
      if ! command -v nix-env &>/dev/null; then
          >&2 echo "warning: nix-env was not found in PATH, add nix to user environment"
          PATH="${pkgs.nix}/bin''${PATH+:$PATH}"
      fi
 
-     if (( $(nix profile list 2>/dev/null | wc -l) > 0 )); then
-         nix profile upgrade '.*' --recreate-lock-file --print-build-logs "$@"
-     else
-         nix-env --set -f ~/.config/nixpkgs/default.nix "$@"
-     fi
+     isFlake=$(( $(nix profile list 2>/dev/null | wc -l) > 0 ))
 
-     newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
-     newVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
+     instantiate() {
+         case "$isFlake" in
+             1) nix eval ~/.config/nixpkgs#defaultPackage.x86_64-linux.drvPath "$@" ;;
+             0) nix-instantiate ~/.config/nixpkgs/default.nix "$@" ;;
+         esac
+     }
 
-     ${pkgs.diffutils}/bin/diff --color -u \
-     --label "generation $oldGeneration" "$oldVersions" \
-     --label "generation $newGeneration" "$newVersions" \
-     || true
+     build() {
+         case "$isFlake" in
+             1) nix build --print-build-logs ~/.config/nixpkgs "$@" ;;
+             0) nix-build ~/.config/nixpkgs/default.nix "$@" ;;
+         esac
+     }
+
+     lock() {
+         case "$isFlake" in
+             1) nix flake lock ~/.config/nixpkgs "$@" ;;
+             0) echo "lock has no effect for non-Flakes" ;;
+         esac
+     }
+
+     switch() {
+         oldGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
+         oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
+
+         case "$isFlake" in
+             1) nix profile upgrade '.*' --print-build-logs "$@" ;;
+             0) nix-env --set -f ~/.config/nixpkgs/default.nix "$@" ;;
+         esac
+
+         newGeneration=$(readlink "$(readlink ~/.nix-profile)" | cut -d '-' -f 2)
+         newVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
+
+         ${pkgs.diffutils}/bin/diff --color -u \
+         --label "generation $oldGeneration" "$oldVersions" \
+         --label "generation $newGeneration" "$newVersions" \
+         || true
+     }
+
+     case "''${1-}" in
+         eval) shift; instantiate "$@" ;;
+         build) shift; build "$@" ;;
+         lock) shift; lock "$@" ;;
+         switch) shift; switch "$@" ;;
+         *) case "$isFlake" in
+                1) switch "--recreate-lock-file" "$@" ;;
+                0) switch "$@" ;;
+            esac ;;
+     esac
    '';
 
    # Since you can't see the versions with nix-env -q anymore, we write them
