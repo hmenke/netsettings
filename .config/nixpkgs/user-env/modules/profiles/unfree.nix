@@ -2,7 +2,7 @@
 
 {
   userPackages = with pkgs; [
-    (discord.overrideAttrs (_: rec lib.optionalAttrs (lib.versionOlder discord.version "0.0.18") {
+    (discord.overrideAttrs (_: lib.optionalAttrs (lib.versionOlder discord.version "0.0.18") rec {
       pname = "discord";
       version = "0.0.18";
       name = "${pname}-${version}";
