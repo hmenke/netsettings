@@ -12,7 +12,7 @@
       };
     }))
     masterpdfeditor4
-    skypeforlinux
     slack
+    zoom-us
   ];
 }

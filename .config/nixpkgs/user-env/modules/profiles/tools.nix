@@ -13,7 +13,6 @@
     fzf
     gh
     ghostscript
-    git-annex
     git-branchless
     git-crypt
     git-filter-repo
@@ -25,6 +24,7 @@
     isync
     jq
     lab
+    libarchive
     msmtp
     neomutt
     neovim
@@ -35,7 +35,7 @@
     pandoc
     pass-git-helper
     (pass-wayland.withExtensions (ext: with ext; [ pass-otp ]))
-    pre-commit
+    pv
     python3
     python3Packages.black
     qpdf

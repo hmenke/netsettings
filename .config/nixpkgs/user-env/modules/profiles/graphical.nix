@@ -15,10 +15,8 @@
       ];
     })
     element-desktop
-    easyeffects
     evince
     evolution
-    gajim
     gimp
     gnomeExtensions.appindicator
     gnomeExtensions.gsconnect
