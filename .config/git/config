@@ -14,6 +14,9 @@
 [color "grep"]
 	filename = magenta
 	lineNumber = green
+[core]
+	fsmonitor = true
+	untrackedcache = true
 [credential]
 	helper = libsecret
 [diff]
