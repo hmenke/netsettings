@@ -1,6 +1,6 @@
 # finding files
 ff() {
-	find -xdev -iname "$@" -print -o \( -path "*/.*" -o -path "*/*~" \) -prune
+	find . -xdev -iname "$@" -print -o \( -path "*/.*" -o -path "*/*~" \) -prune
 }
 
 # interactive diff

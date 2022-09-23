@@ -5,18 +5,24 @@ if command -v dircolors >/dev/null; then
 	else
 		eval "$(dircolors -b)"
 	fi
-	alias ls="ls -F --color=auto"
-	alias grep="grep --color=auto"
-	alias fgrep="fgrep --color=auto"
-	alias egrep="egrep --color=auto"
 fi
-alias l="ls -lh --hide='*~' --group-directories-first"
-alias ll="ls -lah --group-directories-first"
+if 2>&1 ls --version | grep -qF GNU; then
+	alias ls="ls -F --color=auto"
+	alias l="ls -lh --hide='*~' --group-directories-first"
+	alias ll="ls -lah --group-directories-first"
+else
+	alias ls="ls -FG"
+	alias l="ls -lh"
+	alias ll="ls -lah"
+fi
+alias grep="grep --color=auto"
 
 alias ..="cd .."
 alias ...="cd ../.."
 
-alias rm="rm -I"
+if 2>&1 rm --version | grep -qF GNU; then
+	alias rm="rm -I"
+fi
 
 # Emacs
 alias emacs='emacsclient -a "" -c -t'

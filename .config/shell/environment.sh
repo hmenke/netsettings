@@ -3,6 +3,9 @@ if ! echo "${PATH}" | grep -E -q "(^|:)${HOME}/.local/bin($|:)"; then
     export PATH="${HOME}/.local/bin${PATH:+:${PATH}}"
 fi
 
+# Terminal colors
+export COLORTERM=1
+
 # TeXLive
 export PDFVIEWER=xdg-open
 
