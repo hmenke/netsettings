@@ -13,7 +13,6 @@
     fzf
     gh
     ghostscript
-    git-branchless
     git-crypt
     git-filter-repo
     git-lfs
