@@ -131,9 +131,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'airblade/vim-gitgutter'
 Plug 'unblevable/quick-scope'
 Plug 'direnv/direnv.vim'
-if has("nvim-0.7")
-    Plug 'nvim-treesitter/nvim-treesitter'
-end
 
 call plug#end()
 
@@ -179,18 +176,3 @@ augroup END
 " Color theme
 set termguicolors
 set background=light
-
-if has("nvim-0.7")
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,
-    disable = { "vim" },
-    additional_vim_regex_highlighting = false,
-  },
-  indent = {
-    enable = true,
-  }
-}
-EOF
-end
