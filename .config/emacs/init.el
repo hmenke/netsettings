@@ -213,7 +213,10 @@ is already narrowed."
 (global-set-key (kbd "M-/") 'hippie-expand)
 
 ;; cc-mode
-(add-hook 'c-mode-common-hook (lambda() (c-set-offset 'innamespace 0)))
+(add-hook 'c-mode-common-hook
+          (lambda()
+            (local-set-key (kbd "C-c o") 'ff-find-other-file)
+            (c-set-offset 'innamespace 0)))
 (setq
  c-default-style "linux"
  c-basic-offset 4)
@@ -264,6 +267,9 @@ is already narrowed."
 (defun user/flyspell-local-vars ()
   (add-hook 'hack-local-variables-hook #'flyspell-buffer nil 'local))
 (add-hook 'flyspell-mode-hook 'user/flyspell-local-vars)
+
+;; shell
+(setq-default shell-kill-buffer-on-exit t)
 
 ;; dired
 (autoload 'dired-jump "dired-x")
