@@ -15,7 +15,6 @@
 	filename = magenta
 	lineNumber = green
 [core]
-	fsmonitor = true
 	untrackedcache = true
 [credential]
 	helper = libsecret
@@ -46,8 +45,6 @@
 [gui]
 	displayuntracked = false
 	spellingdictionary = none
-[include]
-	path = ~/.config/git/local
 [init]
 	defaultBranch = master
 [log]
@@ -79,3 +76,5 @@
 	email = henri@henrimenke.de
 	name = Henri Menke
 	signingkey = D65C9AFB4C224DA3
+[include]
+	path = ~/.config/git/local
