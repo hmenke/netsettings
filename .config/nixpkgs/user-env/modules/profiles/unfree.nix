@@ -12,7 +12,6 @@
       };
     }))
     masterpdfeditor4
-    slack
     (softmaker-office.override {
       officeVersion = {
         version = "976";
@@ -20,6 +19,5 @@
         hash = "sha256-A45q/irWxKTLszyd7Rv56WeqkwHtWg4zY9YVxqA/KmQ=";
       };
     })
-    zoom-us
   ];
 }
