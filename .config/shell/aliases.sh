@@ -7,7 +7,7 @@ if command -v dircolors >/dev/null; then
 	fi
 fi
 if 2>&1 ls --version | grep -qF GNU; then
-	alias ls="ls -F --color=auto"
+	alias ls="ls -F --color=auto --hyperlink=auto"
 	alias l="ls -lh --hide='*~' --group-directories-first"
 	alias ll="ls -lah --group-directories-first"
 else
