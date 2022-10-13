@@ -505,6 +505,12 @@ is already narrowed."
   (let ((sort-fold-case t))
     (call-interactively 'sort-lines)))
 
+;; time-stamp
+(setq-default
+ time-stamp-format "%Y-%02m-%02d %02H:%02M:%02S"
+ time-stamp-time-zone t)
+(add-hook 'before-save-hook 'time-stamp)
+
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
 ;;;; PACKAGES ;;;;
@@ -788,7 +794,7 @@ is already narrowed."
   :mode "\\.jl\\'")
 (use-package lua-mode
   :ensure t
-  :mode "\\.lua\\'"
+  :mode ("\\.lua\\'" "\\.Quanty\\'")
   :config (setq lua-indent-level 4))
 (use-package markdown-mode
   :ensure t
