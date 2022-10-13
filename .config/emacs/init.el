@@ -104,6 +104,10 @@ is already narrowed."
  inhibit-startup-screen t
  initial-scratch-message "")
 
+;; indent
+(setq-default
+ tab-always-indent 'complete)
+
 ;; mule (from Doom Emacs)
 (set-language-environment "UTF-8")
 (setq default-input-method nil)
