@@ -3,6 +3,8 @@ $include /etc/inputrc
 # Color files by types
 # Note that this may cause completion text blink in some terminals (e.g. xterm).
 set colored-stats On
+# Ignore case for completions
+set completion-ignore-case On
 # Append char to indicate type
 set visible-stats On
 # Mark symlinked directories
