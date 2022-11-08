@@ -21,5 +21,3 @@ set menu-complete-display-prefix On
 "\ew": copy-region-as-kill
 "\C-w": kill-region
 "\eq": kill-whole-line
-
-"\e/": dabbrev-expand
