@@ -107,6 +107,7 @@ export GIT_PS1_SHOWSTASHSTATE=1
 export GIT_PS1_SHOWCOLORHINTS=1
 export GIT_PS1_SHOWUPSTREAM=auto
 export GIT_PS1_TIMEOUT_VERBOSE=1
+export GIT_PS1_SHOWCONFLICTSTATE=yes
 
 # The main prompt drawing function
 __draw_prompt() {
