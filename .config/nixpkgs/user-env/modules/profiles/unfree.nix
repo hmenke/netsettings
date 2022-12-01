@@ -2,13 +2,13 @@
 
 {
   userPackages = with pkgs; [
-    (discord.overrideAttrs (_: lib.optionalAttrs (lib.versionOlder discord.version "0.0.20") rec {
+    (discord.overrideAttrs (_: lib.optionalAttrs (lib.versionOlder discord.version "0.0.21") rec {
       pname = "discord";
-      version = "0.0.20";
+      version = "0.0.21";
       name = "${pname}-${version}";
       src = fetchurl {
         url = "https://dl.discordapp.net/apps/linux/${version}/discord-${version}.tar.gz";
-        sha256 = "3f7yuxigEF3e8qhCetCHKBtV4XUHsx/iYiaCCXjspYw=";
+        sha256 = "KDKUssPRrs/D10s5GhJ23hctatQmyqd27xS9nU7iNaM=";
       };
     }))
     masterpdfeditor4
