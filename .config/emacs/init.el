@@ -415,8 +415,11 @@ is already narrowed."
  icomplete-in-buffer t
  icomplete-tidy-shadowed-file-names nil
  icomplete-hide-common-prefix nil)
-(icomplete-mode 1)
-(when (fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode 1))
+(cond
+ ((fboundp 'fido-vertical-mode) (fido-vertical-mode 1))
+ ((fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode 1))
+ ((fboundp 'fido-mode) (fido-mode 1))
+ (t icomplete-mode 1))
 (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions)
