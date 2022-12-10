@@ -790,6 +790,11 @@ is already narrowed."
   :ensure t
   :mode ("\\.gnuplot\\'" . gnuplot-mode)
   :config (setq gnuplot-display-process nil))
+(use-package go-mode
+  :ensure t
+  :mode "\\.go\\'"
+  :config
+  (add-hook 'before-save-hook 'gofmt-before-save))
 (use-package haskell-mode
   :ensure t
   :mode "\\.hs\\'")
