@@ -7,7 +7,7 @@
     delta
     diffoscope
     direnv
-    emacsPgtkNativeComp
+    emacsPgtk
     file
     ffmpeg
     fzf
@@ -29,6 +29,7 @@
     neovim
     nix-direnv
     nix-index
+    nix-output-monitor
     nixpkgs-fmt
     openssl
     pandoc
