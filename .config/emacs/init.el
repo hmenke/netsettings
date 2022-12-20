@@ -419,7 +419,7 @@ is already narrowed."
  ((fboundp 'fido-vertical-mode) (fido-vertical-mode 1))
  ((fboundp 'icomplete-vertical-mode) (icomplete-vertical-mode 1))
  ((fboundp 'fido-mode) (fido-mode 1))
- (t icomplete-mode 1))
+ (t (icomplete-mode 1)))
 (define-key icomplete-minibuffer-map (kbd "<right>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<down>") 'icomplete-forward-completions)
 (define-key icomplete-minibuffer-map (kbd "<left>") 'icomplete-backward-completions)
