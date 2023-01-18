@@ -5,7 +5,7 @@
     (aspellWithDicts (dicts: with dicts; [ de en ]))
     cachix
     delta
-    diffoscope
+    (diffoscope.override { enableBloat = false; })
     direnv
     emacsPgtk
     file
