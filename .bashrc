@@ -16,8 +16,18 @@ if declare -F _completion_loader >/dev/null && ! declare -F __git_complete __git
 	_completion_loader git
 fi
 
+# source
+__try_source() {
+	if [[ -f "$1" ]]; then
+		. "$1"
+		return $?
+	fi
+	return 1
+}
+
 # Source common configuration
 . ~/.config/shell/aliases.sh
+. ~/.config/shell/bash-preexec.sh
 . ~/.config/shell/functions.sh
 . ~/.config/shell/prompt.sh
 
@@ -26,9 +36,8 @@ if [ "$TERM" != "dumb" ] || [ -n "$INSIDE_EMACS" ]; then
 	__setup_prompt "\h" "\w" "\\$"
 	__timer_reset;
 	__prompt_posthook() { history -a; }
-	trap '__timer_start "$_"' DEBUG
-	PROMPT_COMMAND="${PROMPT_COMMAND//__vte_prompt_command/__vte_prompt_command_}"
-	PROMPT_COMMAND="${PROMPT_COMMAND:+${PROMPT_COMMAND//;__draw_prompt/};}__draw_prompt;"
+	preexec_functions+=(__timer_start)
+	precmd_functions+=(__draw_prompt)
 fi
 
 # shell optional behavior
@@ -47,14 +56,16 @@ HISTFILESIZE=
 
 # Keybindings
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
-	. ~/.config/shell/fzf/key-bindings.bash
+	__try_source ~/.nix-profile/share/fzf/key-bindings.bash ||
+		. ~/.config/shell/fzf/key-bindings.bash
 fi
 
 # bash completion
 export COMP_KNOWN_HOSTS_WITH_HOSTFILE=""
 if declare -F _completion_loader >/dev/null; then
 	if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
-		. ~/.config/shell/fzf/completion.bash
+		__try_source ~/.nix-profile/share/fzf/completion.bash ||
+			. ~/.config/shell/fzf/completion.bash
 	fi
 	if declare -F __git_complete __git_main >/dev/null; then
 		__git_complete netsettings __git_main
@@ -73,6 +84,5 @@ if command -v direnv >/dev/null; then
 	. ~/.config/shell/direnv.bash
 fi
 
-if [ -f ~/.bashrc.local ]; then
-	. ~/.bashrc.local
-fi
+__try_source ~/.bashrc.local || true
+unset __try_source
