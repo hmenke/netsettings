@@ -219,6 +219,7 @@ is already narrowed."
 ;; cc-mode
 (add-hook 'c-mode-common-hook
           (lambda()
+            (setq indent-tabs-mode nil)
             (local-set-key (kbd "C-c o") 'ff-find-other-file)
             (c-set-offset 'innamespace 0)))
 (setq
