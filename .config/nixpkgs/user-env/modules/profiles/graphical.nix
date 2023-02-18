@@ -29,6 +29,7 @@
     vlc
     wl-clipboard
     wofi
+    xdragon
     xournalpp
   ];
 }
