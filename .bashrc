@@ -50,7 +50,6 @@ shopt -s histappend
 shopt -s lithist
 HISTCONTROL=ignoreboth:erasedups
 HISTTIMEFORMAT="%F %T %z "
-HISTFILE=~/.cache/bash_history
 HISTSIZE=
 HISTFILESIZE=
 
