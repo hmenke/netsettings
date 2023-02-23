@@ -12,14 +12,14 @@ if ! [ -f "$nix_direnvrc" ]; then
 fi
 
 # https://github.com/nix-community/nix-direnv#storing-direnv-outside-the-project-directory
-: ${XDG_CACHE_HOME:=$HOME/.cache}
+: ${XDG_DATA_HOME:=$HOME/.local/share}
 declare -A direnv_layout_dirs
 direnv_layout_dir() {
 	echo "${direnv_layout_dirs[$PWD]:=$(
-		echo -n "$XDG_CACHE_HOME/direnv/layouts/$(systemd-escape -p "$PWD")"
+		echo -n "$XDG_DATA_HOME/direnv/layouts/$(systemd-escape -p "$PWD")"
 	)}"
 }
-mkdir -p "$XDG_CACHE_HOME/direnv/layouts/"
+mkdir -p "$XDG_DATA_HOME/direnv/layouts/"
 
 echo "direnv: using $nix_direnvrc"
 . "$nix_direnvrc"
