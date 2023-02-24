@@ -48,10 +48,13 @@ shopt -s extglob
 shopt -s cmdhist
 shopt -s histappend
 shopt -s lithist
-HISTCONTROL=ignoreboth:erasedups
+declare -r HISTCONTROL=ignoreboth:erasedups
 HISTTIMEFORMAT="%F %T %z "
 HISTSIZE=
 HISTFILESIZE=
+
+# Bash preexec overrides HISTCONTROL by default
+__bp_adjust_histcontrol() { :; }
 
 # Keybindings
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
