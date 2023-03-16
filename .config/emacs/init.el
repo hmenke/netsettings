@@ -242,6 +242,7 @@ is already narrowed."
 
 ;; mouse
 (xterm-mouse-mode 1)
+(if (load "mwheel" t) (mwheel-install))
 (defun track-mouse (e))
 (setq mouse-sel-mode t)
 (setq mouse-wheel-scroll-amount
