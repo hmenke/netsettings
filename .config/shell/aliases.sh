@@ -21,6 +21,7 @@ else
 fi
 alias grep="grep --color=auto"
 
+alias cd='cd -P'
 alias ..="cd .."
 alias ...="cd ../.."
 

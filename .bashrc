@@ -86,5 +86,12 @@ if command -v direnv >/dev/null; then
 	. ~/.config/shell/direnv.bash
 fi
 
+# Bookmark paths
+export CDPATH=":$XDG_DATA_HOME/cdpath${CDPATH:+:$CDPATH}"
+mark() {
+	mkdir -p "$XDG_DATA_HOME/cdpath"
+	ln -sv "$PWD" "$XDG_DATA_HOME/cdpath/${1:-@${PWD##*/}}"
+}
+
 __try_source ~/.bashrc.local || true
 unset __try_source
