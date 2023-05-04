@@ -4,6 +4,19 @@
 (require 'dom)
 
 ;;;###autoload
+(defun bibref-from-aps (doi)
+  "Download a BibTeX record from the APS journals"
+  (interactive "sAPS DOI: ")
+  (let ((url (concat "https://journals.aps.org/prl/export/" doi "?type=bibtex&download=true")))
+    (insert
+     (with-current-buffer (url-retrieve-synchronously url)
+       (let* ((start url-http-end-of-headers)
+              (end (point-max))
+              (all (buffer-string))
+              (body (buffer-substring start end)))
+         (url-unhex-string body))))))
+
+;;;###autoload
 (defun bibref-from-doi (doi)
   "Load a BibTeX record by DOI from https://doi.org/"
   (interactive "sDOI: ")

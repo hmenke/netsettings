@@ -735,12 +735,14 @@ is already narrowed."
 
 (use-package bibref
   :load-path "lisp"
-  :commands (bibref-from-doi
+  :commands (bibref-from-aps
+             bibref-from-doi
              bibref-from-arxiv))
 
 ;; bibtex
 (use-package bibtex
   :bind (:map bibtex-mode-map
+              ("C-c a" . bibref-from-aps)
               ("C-c d" . bibref-from-doi)
               ("C-c x" . bibref-from-arxiv)
               ("C-c v" . bibtex-validate)
