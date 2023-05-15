@@ -489,7 +489,8 @@ is already narrowed."
 (global-set-key (kbd "C-x v f") 'user/vc-git-grep)
 
 ;; grep
-(add-hook 'grep-mode-hook (lambda () (switch-to-buffer-other-window "*grep*")))
+(add-hook 'grep-mode-hook (lambda ()
+                            (switch-to-buffer-other-window "*grep*")))
 
 ;; ediff
 (setq
@@ -520,6 +521,10 @@ is already narrowed."
  time-stamp-format "%Y-%02m-%02d %02H:%02M:%02S"
  time-stamp-time-zone t)
 (add-hook 'before-save-hook 'time-stamp)
+
+;; whitespace
+(add-hook 'prog-mode-hook (lambda ()
+                            (setq show-trailing-whitespace t)))
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
