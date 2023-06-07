@@ -7,9 +7,10 @@
     delta
     (diffoscope.override { enableBloat = false; })
     direnv
-    emacsPgtk
+    emacs29-pgtk
     file
     ffmpeg
+    fq
     fzf
     gh
     ghostscript
@@ -21,7 +22,6 @@
     gnuplot_qt
     gvfs
     isync
-    jq
     lab
     libarchive
     msmtp

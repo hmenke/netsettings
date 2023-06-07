@@ -23,7 +23,6 @@
     gnomeExtensions.pop-shell
     libnotify
     newsflash
-    onlyoffice-bin
     strawberry
     virt-manager
     vlc
