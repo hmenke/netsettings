@@ -214,7 +214,7 @@ is already narrowed."
  hippie-expand-dabbrev-skip-space nil
  hippie-expand-dabbrev-as-symbol t
  hippie-expand-no-restriction t)
-(global-set-key (kbd "M-/") 'hippie-expand)
+(global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; cc-mode
 (add-hook 'c-mode-common-hook
@@ -387,7 +387,10 @@ is already narrowed."
  search-highlight t
  isearch-lax-whitespace t
  isearch-regexp-lax-whitespace nil
- isearch-lazy-highlight t)
+ isearch-lazy-highlight t
+ isearch-lazy-count t
+ lazy-count-prefix-format "(%s/%s) "
+ lazy-count-suffix-format nil)
 
 ;; ffap
 (ffap-bindings)
