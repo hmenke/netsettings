@@ -1,14 +1,6 @@
 { configuration
 , pkgs ? import <nixpkgs> { }
-, overlays ? (
-    let
-      modules = builtins.fetchTarball "https://git.henrimenke.de/henri/nixos-modules/archive/master.tar.gz";
-    in
-    [
-      (import "${modules}/overlays/system.nix")
-      (import "${modules}/overlays/user.nix")
-    ]
-  )
+, overlays ? [ ]
 }:
 
 let
