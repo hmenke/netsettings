@@ -13,7 +13,6 @@
         "--use-vulkan"
       ];
     })
-    element-desktop
     evince
     evolution
     gimp
