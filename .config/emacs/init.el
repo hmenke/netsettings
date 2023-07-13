@@ -654,19 +654,9 @@ is already narrowed."
    TeX-source-correlate-start-server t
    TeX-debug-bad-boxes t
    TeX-debug-warnings t
-   TeX-display-help 'expert))
-
-(use-package tex-buf
-  :ensure auctex
-  :config
-  (setq-default
+   TeX-display-help 'expert
    ;;TeX-error-overview-open-after-TeX-run t
-   TeX-parse-all-errors t))
-
-(use-package tex-style
-  :ensure auctex
-  :config
-  (setq-default
+   TeX-parse-all-errors t
    LaTeX-reftex-cite-format-auto-activate nil))
 
 (use-package latex
