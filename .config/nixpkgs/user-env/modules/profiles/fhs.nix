@@ -127,7 +127,7 @@ let
 
       fhs = buildFHSUserEnvBubblewrap {
         name = "texlive-fhs";
-        targetPkgs = pkgs: with pkgs; [ fontconfig freetype perl tk wget ];
+        targetPkgs = pkgs: with pkgs; [ fontconfig freetype libxcrypt-legacy perl tk wget ];
         runScript = "";
         dieWithParent = false;
         profile = ''
