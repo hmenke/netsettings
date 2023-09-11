@@ -4,13 +4,12 @@ let
   unison-bin = with pkgs;
     stdenv.mkDerivation rec {
       pname = "unison-bin";
-      version = "2.53.0";
-      ocamlVersion = "4.10.2";
-      name = "${pname}-${version}+ocaml-${ocamlVersion}";
+      version = "2.53.3";
+      name = "${pname}-${version}";
 
       src = fetchurl {
-        url = "https://github.com/bcpierce00/unison/releases/download/v${version}/unison-v${version}+ocaml-${ocamlVersion}+x86_64.linux.tar.gz";
-        sha256 = "sha256-iWAt/Y813ZC2zoaT7rezJYNFBkea/smz0UJx7cMl/T0=";
+        url = "https://github.com/bcpierce00/unison/releases/download/v${version}/unison-${version}-ubuntu-x86_64.tar.gz";
+        sha256 = "sha256-b7jpwwEb//UeWK7J1Xs6H0ngs7NaJZ94OLFqEAfg63Q=";
       };
       sourceRoot = ".";
 

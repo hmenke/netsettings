@@ -20,6 +20,7 @@
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
     gnomeExtensions.pop-shell
+    inkscape
     libnotify
     newsflash
     strawberry
