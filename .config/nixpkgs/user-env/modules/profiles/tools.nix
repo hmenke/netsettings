@@ -70,14 +70,13 @@ in
     python3Packages.black
     qpdf
     rclone
+    restic
     sshpass
     sshuttle
     syncthing
     tree
     ts
     unison-bin
-    unzip
     yt-dlp
-    zip
   ];
 }
