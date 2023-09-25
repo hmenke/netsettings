@@ -53,6 +53,7 @@ in
     gvfs
     isync
     lab
+    lemonade
     libarchive
     msmtp
     neomutt
