@@ -1,5 +1,5 @@
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p bubblewrap "google-chrome.overrideAttrs (_: { preferLocalBuild = true; })"
+#!nix-shell -i bash -p bubblewrap "google-chrome.overrideAttrs (_: { preferLocalBuild = true; })" unzip
 
 set -euo pipefail
 
