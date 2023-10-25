@@ -19,6 +19,7 @@ else
 	alias l="ls -lh"
 	alias ll="ls -lah"
 fi
+alias lq="\ls -1Q"
 alias grep="grep --color=auto"
 
 alias cd='cd -P'
