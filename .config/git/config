@@ -1,8 +1,9 @@
 [advice]
 	detachedHead = false
 [alias]
+	amend = commit --amend --no-edit
 	changelog = log --date=short --pretty=format:'%ad %an\n\n    - %s\n'
-	fixup = commit --amend --no-edit
+	fixup = "!f() { git log -n 50 --pretty=format:'%h %s' --no-merges | fzf --ansi --bind \"enter:become(git commit --fixup={1} $@)\"; }; f"
 	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
 	root = rev-parse --show-toplevel
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
