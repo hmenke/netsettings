@@ -487,7 +487,7 @@ is already narrowed."
    (progn
      (grep-compute-defaults)
      (list (grep-read-regexp))))
-  (let (root (vc-git-root default-directory))
+  (let ((root (vc-git-root default-directory)))
     (vc-git-grep regexp "" (if root root default-directory))))
 (global-set-key (kbd "C-x v f") 'user/vc-git-grep)
 
