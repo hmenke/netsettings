@@ -601,10 +601,8 @@ is already narrowed."
 (use-package magit
   :ensure t
   :defer 2
-  :bind
-  (("C-x g" . magit-status)
-   ("C-x M-g" . magit-dispatch)
-   ("C-c g" . magit-file-dispatch)))
+  :init
+  (setq magit-define-global-key-bindings 'recommended))
 
 (use-package diff-hl
   :ensure t
