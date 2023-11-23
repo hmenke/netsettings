@@ -19,6 +19,10 @@
 	untrackedcache = true
 [credential]
 	helper = libsecret
+[delta]
+	light = true
+	color-only = true
+	max-line-length = 4000
 [diff]
 	algorithm = histogram
 	colorMoved = default
@@ -48,6 +52,9 @@
 	spellingdictionary = none
 [init]
 	defaultBranch = master
+[instaweb]
+	local = true
+	httpd = python
 [log]
 	decorate = true
 	excludeDecoration = refs/branchless/*
