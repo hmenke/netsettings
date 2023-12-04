@@ -68,10 +68,10 @@ in
     (pass-wayland.withExtensions (ext: with ext; [ pass-otp ]))
     pv
     python3
-    python3Packages.black
     qpdf
     rclone
     restic
+    ruff
     sshpass
     sshuttle
     syncthing
