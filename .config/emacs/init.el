@@ -560,6 +560,42 @@ is already narrowed."
                                    ("nongnu" . 20)
                                    ("melpa" . 10)
                                    ("melpa-stable" . 0)))
+(custom-set-variables
+ '(package-selected-packages
+   '(auctex
+     cdlatex
+     clang-format
+     cmake-mode
+     csv-mode
+     cuda-mode
+     cython-mode
+     d-mode
+     diff-hl
+     diminish
+     direnv
+     dockerfile-mode
+     evil
+     gnuplot
+     go-mode
+     haskell-mode
+     json-mode
+     julia-mode
+     keycast
+     lua-mode
+     magit
+     markdown-mode
+     modern-cpp-font-lock
+     nix-mode
+     proof-general
+     rainbow-mode
+     rust-mode
+     tree-sitter-langs
+     undo-tree
+     use-package
+     which-key
+     xclip
+     yaml-mode)))
+
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -751,11 +787,6 @@ is already narrowed."
   (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
-(use-package blacken
-  :ensure t
-  :after python
-  :bind (:map python-mode-map ("C-M-<tab>" . blacken-buffer))
-  :commands blacken-buffer)
 (use-package clang-format
   :ensure t
   :bind (:map c++-mode-map ("C-M-<tab>" . user/clang-format))
@@ -787,6 +818,9 @@ is already narrowed."
 (use-package d-mode
   :ensure t
   :mode "\\.d\\'")
+(use-package dockerfile-mode
+  :ensure t
+  :mode ("\\dockerfile\\'"))
 (use-package gnuplot
   :ensure t
   :mode ("\\.gnuplot\\'" . gnuplot-mode)
@@ -859,3 +893,6 @@ is already narrowed."
   :ensure t
   :defer 2
   :config (which-key-mode 1))
+
+(use-package keycast
+  :ensure t)
