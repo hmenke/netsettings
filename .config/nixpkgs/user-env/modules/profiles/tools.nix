@@ -1,35 +1,5 @@
 { config, lib, pkgs, ... }:
 
-let
-  unison-bin = with pkgs;
-    stdenv.mkDerivation rec {
-      pname = "unison-bin";
-      version = "2.53.3";
-      name = "${pname}-${version}";
-
-      src = fetchurl {
-        url = "https://github.com/bcpierce00/unison/releases/download/v${version}/unison-${version}-ubuntu-x86_64.tar.gz";
-        sha256 = "sha256-b7jpwwEb//UeWK7J1Xs6H0ngs7NaJZ94OLFqEAfg63Q=";
-      };
-      sourceRoot = ".";
-
-      nativeBuildInputs = [ autoPatchelfHook ];
-      buildInputs = [ gtk3 pango ];
-
-      dontConfigure = true;
-      dontBuild = true;
-
-      outputs = [ "out" "doc" ];
-
-      installPhase = ''
-        runHook preInstall
-        mkdir -p $out/bin $doc/share/${pname}
-        cp -r bin/* $out/bin/
-        cp unison-manual.* $doc/share/${pname}/
-        runHook postInstall
-      '';
-    };
-in
 {
   userPackages = with pkgs; [
     (aspellWithDicts (dicts: with dicts; [ de en ]))
@@ -77,7 +47,7 @@ in
     syncthing
     tree
     ts
-    unison-bin
+    unison
     yt-dlp
   ];
 }
