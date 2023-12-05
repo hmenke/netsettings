@@ -578,17 +578,19 @@ is already narrowed."
      gnuplot
      go-mode
      haskell-mode
+     icomplete-vertical
      json-mode
      julia-mode
      keycast
      lua-mode
      magit
      markdown-mode
-     modern-cpp-font-lock
      nix-mode
+     project
      proof-general
      rainbow-mode
      rust-mode
+     tree-sitter
      tree-sitter-langs
      undo-tree
      use-package
