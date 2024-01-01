@@ -22,7 +22,9 @@
     gnomeExtensions.pop-shell
     inkscape
     libnotify
+    mousai
     newsflash
+    songrec
     strawberry
     virt-manager
     vlc

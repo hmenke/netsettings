@@ -8,6 +8,7 @@
     (diffoscope.override { enableBloat = false; })
     direnv
     emacs29-pgtk
+    expect
     file
     ffmpeg
     fq
