@@ -16,6 +16,7 @@
     evince
     evolution
     gimp
+    gnome-frog
     gnomeExtensions.appindicator
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect

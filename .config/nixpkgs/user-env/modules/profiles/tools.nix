@@ -19,11 +19,11 @@
     git-filter-repo
     git-lfs
     gitFull
+    glab
     glib
     gnuplot_qt
     gvfs
     isync
-    lab
     lemonade
     libarchive
     msmtp
