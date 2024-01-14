@@ -1,16 +1,20 @@
 { config, lib, pkgs, ... }:
 
 {
-  userPackages = with pkgs; [
-    (aspellWithDicts (dicts: with dicts; [ de en ]))
+  userPackages = with pkgs; let
+    aspell' = aspellWithDicts (dicts: with dicts; [ de en ]);
+    diffoscope' = diffoscope.override { enableBloat = false; };
+    pass-wayland' = pass-wayland.withExtensions (ext: with ext; [ pass-otp ]);
+  in [
+    aspell'
     cachix
     delta
-    (diffoscope.override { enableBloat = false; })
+    diffoscope'
     direnv
     emacs29-pgtk
     expect
-    file
     ffmpeg
+    file
     fq
     fzf
     gh
@@ -36,7 +40,7 @@
     openssl
     pandoc
     pass-git-helper
-    (pass-wayland.withExtensions (ext: with ext; [ pass-otp ]))
+    pass-wayland'
     pv
     python3
     qpdf

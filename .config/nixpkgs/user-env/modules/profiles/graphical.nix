@@ -1,9 +1,8 @@
 { config, lib, pkgs, ... }:
 
 {
-  userPackages = with pkgs; [
-    browserpass
-    (chromium.override {
+  userPackages = with pkgs; let
+    chromium' = chromium.override {
       commandLineArgs = [
         "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
         "--disable-gpu-shader-disk-cache"
@@ -12,7 +11,10 @@
         "--enable-zero-copy"
         "--use-vulkan"
       ];
-    })
+    };
+  in [
+    browserpass
+    chromium'
     evince
     evolution
     gimp
