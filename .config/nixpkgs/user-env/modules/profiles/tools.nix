@@ -7,12 +7,14 @@
     pass-wayland' = pass-wayland.withExtensions (ext: with ext; [ pass-otp ]);
   in [
     aspell'
+    bat
     cachix
     delta
     diffoscope'
     direnv
     emacs29-pgtk
     expect
+    fd
     ffmpeg
     file
     fq
@@ -46,6 +48,7 @@
     qpdf
     rclone
     restic
+    ripgrep
     ruff
     sshpass
     sshuttle
