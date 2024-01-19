@@ -80,7 +80,6 @@ __git_ps1 () {
 	local exit=$?
 	local ps1pc_start='\u@\h:\w '
 	local ps1pc_end='\$ '
-	local printf_format=' (%s)'
 
 	case "$#" in
 		2|3)	ps1pc_start="$1"
@@ -116,7 +115,7 @@ __draw_prompt() {
 ╰╴${__prompt_prompt} "
 	__prompt_posthook
 	__timer_reset
-	return $last_status
+	return $__last_status
 }
 
 __prompt_posthook() { return; }

@@ -20,7 +20,7 @@ crop() {
 
 # Search ConTeXt source tree
 ctxgrep() {
-    local CTXPATH CTXMODULES SEARCHPATH
+    local CTXPATH CTXMODULES
     if [ -z "$(mtxrun --resolve-path "\$TEXMFCONTEXT")" ]; then
         CTXPATH="$(mtxrun --resolve-path "\$TEXMFDIST")/tex/context"
     else
