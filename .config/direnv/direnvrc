@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# https://github.com/direnv/direnv/wiki/Customizing-cache-location
+: "${XDG_DATA_HOME:=$HOME/.local/share}"
+declare -A direnv_layout_dirs
+
+direnv_layout_dir() {
+	local hash path
+	hash=$(echo "$PWD" | sha1sum - | head -c 40)
+	path=${PWD//[^a-zA-Z0-9]/-}
+	echo "${direnv_layout_dirs[$PWD]:="$XDG_DATA_HOME/direnv/layouts/${hash}${path}"}"
+}
+mkdir -p "$XDG_DATA_HOME/direnv/layouts/"
+
 # Check if Nix is available
 if ! command -v nix > /dev/null; then
 	return
@@ -10,16 +22,6 @@ nix_direnvrc=$(readlink -e "$HOME/.nix-profile/share/nix-direnv/direnvrc")
 if ! [ -f "$nix_direnvrc" ]; then
 	return
 fi
-
-# https://github.com/nix-community/nix-direnv#storing-direnv-outside-the-project-directory
-: ${XDG_DATA_HOME:=$HOME/.local/share}
-declare -A direnv_layout_dirs
-direnv_layout_dir() {
-	echo "${direnv_layout_dirs[$PWD]:=$(
-		echo -n "$XDG_DATA_HOME/direnv/layouts/$(systemd-escape -p "$PWD")"
-	)}"
-}
-mkdir -p "$XDG_DATA_HOME/direnv/layouts/"
 
 echo "direnv: using $nix_direnvrc"
 . "$nix_direnvrc"
