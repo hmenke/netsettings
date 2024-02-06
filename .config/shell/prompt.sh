@@ -25,7 +25,8 @@ __setup_prompt() {
 		__prompt_host="$b_green$1$f_reset"
 	fi
 	__prompt_host="$__prompt_host\${IN_NIX_SHELL:+ in ${b_yellow}\$IN_NIX_SHELL shell$f_reset}"
-	__prompt_host="$__prompt_host\${VIRTUAL_ENV:+ in ${b_yellow}\${VIRTUAL_ENV##*/} venv$f_reset}"
+	__prompt_host="$__prompt_host\${VIRTUAL_ENV:+ in ${b_yellow}venv(\${VIRTUAL_ENV##*/})$f_reset}"
+	__prompt_host="$__prompt_host\${SPACK_ROOT:+ in ${b_yellow}spack\${SPACK_ENV:+(\${SPACK_ENV##*/})}$f_reset}"
 	__prompt_dir="$b_red$2$f_reset"
 	__prompt_prompt="$n_blue$3$f_reset"
 }
