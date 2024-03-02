@@ -6,6 +6,7 @@
     diffoscope' = diffoscope.override { enableBloat = false; };
     pass-wayland' = pass-wayland.withExtensions (ext: with ext; [ pass-otp ]);
   in [
+    age
     aspell'
     bat
     cachix
@@ -50,6 +51,7 @@
     restic
     ripgrep
     ruff
+    sops
     sshpass
     sshuttle
     syncthing
