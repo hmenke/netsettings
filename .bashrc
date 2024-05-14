@@ -1,3 +1,7 @@
+# Exit if already sourced
+if [ -n "${__BASHRC_PROFILE_SOURCED+x}" ]; then return; fi
+__BASHRC_PROFILE_SOURCED=1
+
 # Source environment variables
 . ~/.config/shell/environment.sh
 
@@ -6,10 +10,6 @@ case $- in
 	*i*) ;;
 	*) return ;;
 esac
-
-# Exit if already sourced
-if [ -n "${__BASHRC_PROFILE_SOURCED+x}" ]; then return; fi
-__BASHRC_PROFILE_SOURCED=1
 
 # Load the Git completion eagerly (this has to be done before setting up aliases)
 if declare -F _completion_loader >/dev/null && ! declare -F __git_complete __git_main >/dev/null; then
@@ -26,6 +26,8 @@ __try_source() {
 }
 
 # Source common configuration
+__try_source /etc/bashrc
+__try_source /etc/bash.bashrc
 . ~/.config/shell/aliases.sh
 . ~/.config/shell/bash-preexec.sh
 . ~/.config/shell/functions.sh
