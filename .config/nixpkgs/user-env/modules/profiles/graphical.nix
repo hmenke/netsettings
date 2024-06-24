@@ -23,6 +23,7 @@
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
     gnomeExtensions.pop-shell
+    gnucash
     inkscape
     libnotify
     mousai
