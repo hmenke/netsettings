@@ -536,8 +536,10 @@ is already narrowed."
 ;;;;;;;;;;;;;;;;;;
 
 ;;;; This might be necessary on older Emacs
-;; $ mkdir -m 0700 -p ~/.emacs.d/elpa/gnupg
-;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.emacs.d/elpa/gnupg --recv-keys 066DAFCB81E42C40
+;; $ mkdir -pm0700 ~/.config/emacs/elpa/gnupg
+;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.config/emacs/elpa/gnupg --recv-keys 066DAFCB81E42C40
+;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.config/emacs/elpa/gnupg --recv-keys 645357D2883A0966
+
 
 ;; Work around Emacs bug https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
 (when (and (gnutls-available-p)
