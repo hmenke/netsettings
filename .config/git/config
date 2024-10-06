@@ -85,6 +85,7 @@
 [rebase]
 	autosquash = true
 	autoStash = true
+	updateRefs = true
 [rerere]
 	enabled = true
 [sendemail]
