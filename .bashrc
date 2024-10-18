@@ -26,6 +26,7 @@ __try_source() {
 }
 
 # Source common configuration
+__try_source /etc/profile
 __try_source /etc/bashrc
 __try_source /etc/bash.bashrc
 . ~/.config/shell/aliases.sh
