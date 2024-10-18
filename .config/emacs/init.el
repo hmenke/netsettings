@@ -562,7 +562,6 @@ is already narrowed."
  '(package-selected-packages
    '(auctex
      cdlatex
-     clang-format
      cmake-mode
      csv-mode
      cuda-mode
@@ -573,6 +572,7 @@ is already narrowed."
      direnv
      dockerfile-mode
      evil
+     format-all
      gnuplot
      go-mode
      haskell-mode
@@ -861,22 +861,6 @@ is already narrowed."
   (advice-add 'executable-find :before #'direnv-update-environment))
 
 ;; Language modes
-(use-package clang-format
-  :ensure t
-  :bind (:map c++-mode-map ("C-M-<tab>" . user/clang-format))
-  :init
-  (defun user/clang-format (&optional style)
-    (interactive)
-    (let ((start (if (use-region-p) (region-beginning) (point-min)))
-          (end (if (use-region-p) (region-end) (point-max)))
-          (assume-file-name
-           (if (file-remote-p buffer-file-name)
-               (let ((local-file (file-local-name buffer-file-name)))
-                 (if (file-readable-p local-file)
-                     local-file
-                   (expand-file-name (file-name-nondirectory buffer-file-name) "~")))
-             buffer-file-name)))
-      (clang-format-region start end style assume-file-name))))
 (use-package cmake-mode
   :ensure t
   :mode ("\\`CMakeLists\\.txt\\'" "\\.cmake\\'"))
@@ -895,6 +879,20 @@ is already narrowed."
 (use-package dockerfile-mode
   :ensure t
   :mode ("\\dockerfile\\'"))
+(use-package format-all
+  :ensure t
+  :commands format-all-mode
+  :hook (prog-mode . format-all-mode)
+  :config
+  (define-format-all-formatter
+   findent-octopus
+   (:executable "findent-octopus")
+   (:install)
+   (:languages "Fortran Free Form")
+   (:features)
+   (:format (format-all--buffer-easy executable)))
+  (setq-default format-all-formatters
+                '(("Fortran Free Form" (findent-octopus "-i2" "-c2")))))
 (use-package gnuplot
   :ensure t
   :mode ("\\.gnuplot\\'" . gnuplot-mode)
