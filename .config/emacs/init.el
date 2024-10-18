@@ -851,6 +851,7 @@ is already narrowed."
               ([down-mouse-3] . imenu))
   :config
   (setq
+   bibtex-align-at-equal-sign t
    bibtex-maintain-sorted-entries t))
 
 ;; direnv

@@ -21,14 +21,19 @@
   "Load a BibTeX record by DOI from https://doi.org/"
   (interactive "sDOI: ")
   (let* ((url (concat "https://doi.org/" doi))
-         (url-mime-accept-string "application/x-bibtex"))
+         (url-mime-accept-string "application/x-bibtex")
+         (pnt (point)))
     (insert
      (with-current-buffer (url-retrieve-synchronously url)
        (let* ((start url-http-end-of-headers)
               (end (point-max))
               (all (buffer-string))
               (body (buffer-substring start end)))
-         (replace-regexp-in-string "^\t" "  " (url-unhex-string body)))))))
+         (url-unhex-string body))))
+    (set-mark pnt)
+    (activate-mark)
+    (call-interactively 'bibtex-reformat)
+    (call-interactively 'bibtex-end-of-entry)))
 
 (defvar bibref/arxiv-format-string "@electronic{%s,
   title = {%s},
