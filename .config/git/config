@@ -6,6 +6,7 @@
 	changelog = log --date=short --pretty=format:'%ad %an\n\n    - %s\n'
 	fake-rebase = rebase --exec='env NAME=\"$(git log -1 --format=%an)\" EMAIL=\"$(git log -1 --format=%ae)\" DATE=\"$(git log -1 --format=%ad)\" sh -c '\\''env GIT_AUTHOR_NAME=\"$NAME\" GIT_AUTHOR_EMAIL=\"$EMAIL\" GIT_AUTHOR_DATE=\"$DATE\" GIT_COMMITTER_NAME=\"$NAME\" GIT_COMMITTER_EMAIL=\"$EMAIL\" GIT_COMMITTER_DATE=\"$DATE\" git commit --amend --no-edit'\\'
 	fixup = "!f() { git log -n 50 --pretty=format:'%h %s' --no-merges | fzf --ansi --bind \"enter:become(git commit --fixup={1} $@)\"; }; f"
+	force-push = push --force-with-lease --force-if-includes
 	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
 	root = rev-parse --show-toplevel
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
