@@ -57,6 +57,7 @@ export NOTMUCH_CONFIG="${XDG_CONFIG_HOME}/notmuch/notmuchrc"
 export UNISON="${XDG_DATA_HOME}/unison"
 export PASSWORD_STORE_DIR="${XDG_DATA_HOME}/password-store"
 export MATHEMATICA_USERBASE="${XDG_CONFIG_HOME}/Mathematica"
+export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/ripgrep/ripgreprc"
 
 # Colors in less (https://github.com/shibumi/hikari-zsh)
 export LESS_TERMCAP_mb="$(printf "\001\033[01;31m\002")"
