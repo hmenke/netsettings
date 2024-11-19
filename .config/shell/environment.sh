@@ -76,6 +76,9 @@ export SYSTEMD_LESS="--RAW-CONTROL-CHARS --quit-if-one-screen --mouse"
 if command -v delta > /dev/null; then
 	export GIT_PAGER="delta"
 fi
+if command -v lesspipe.sh > /dev/null; then
+	export LESSOPEN="|lesspipe.sh %s"
+fi
 
 # rclone
 export RCLONE_PASSWORD_COMMAND="pass rclone/config"
