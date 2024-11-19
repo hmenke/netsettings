@@ -96,6 +96,10 @@
 [status]
 	showUntrackedFiles = no
 	submodulesummary = true
+[url "ssh://git@github.com/"]
+	pushInsteadOf = https://github.com/
+[url "ssh://git@gitlab.com/"]
+	pushInsteadOf = https://gitlab.com/
 [user]
 	email = henri@henrimenke.de
 	name = Henri Menke
