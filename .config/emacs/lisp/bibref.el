@@ -29,7 +29,7 @@
               (end (point-max))
               (all (buffer-string))
               (body (buffer-substring start end)))
-         (url-unhex-string body))))
+         (decode-coding-string (url-unhex-string body)'utf-8))))
     (set-mark pnt)
     (activate-mark)
     (call-interactively 'bibtex-reformat)
