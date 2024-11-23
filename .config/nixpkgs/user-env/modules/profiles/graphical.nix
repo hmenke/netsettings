@@ -15,6 +15,7 @@
   in [
     browserpass
     chromium'
+    eduvpn-client
     evince
     evolution
     gimp
