@@ -6,10 +6,9 @@
       commandLineArgs = [
         "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
         "--disable-gpu-shader-disk-cache"
-        "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecoder,Vulkan"
+        "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecoder"
         "--enable-gpu-rasterization"
         "--enable-zero-copy"
-        "--use-vulkan"
       ];
     };
   in [

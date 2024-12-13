@@ -16,7 +16,7 @@ let
             bashInteractive
             coreutils
           ] ++ [
-            alsaLib
+            alsa-lib
             fontconfig
             libGL
             openjdk11
