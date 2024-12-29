@@ -9,10 +9,13 @@
     age
     aspell'
     bat
+    bfs
+    bubblewrap
     cachix
     delta
     diffoscope'
     direnv
+    dive
     emacs29-pgtk
     expect
     fd
@@ -29,11 +32,19 @@
     glab
     glib
     gnuplot_qt
+    gocryptfs
     gvfs
+    hdf5.bin
+    httm
+    hyperfine
     isync
     lemonade
     libarchive
+    lsof
+    mg
     msmtp
+    mtr
+    ncdu
     neomutt
     neovim
     nix-direnv
@@ -42,8 +53,11 @@
     nixpkgs-fmt
     openssl
     pandoc
+    par2cmdline
     pass-git-helper
     pass-wayland'
+    patchelf
+    progress
     pv
     python3
     qpdf
@@ -51,13 +65,19 @@
     restic
     ripgrep
     ruff
+    rustic
+    sccache
     sops
+    sqlite
     sshpass
     sshuttle
     syncthing
+    tailspin
+    taskspooler
     tree
-    ts
     unison
+    upterm
+    uv
     yt-dlp
   ];
 }

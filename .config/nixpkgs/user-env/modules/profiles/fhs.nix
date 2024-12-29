@@ -9,29 +9,24 @@ let
         "wolfram" "WolframKernel" "wolframscript" ];
 
       fhs =
-        buildFHSUserEnvBubblewrap {
+        buildFHSEnv {
           name = "mathematica-fhs";
           targetPkgs = pkgs: with pkgs; [
             # only needed during installtion
             bashInteractive
             coreutils
-          ] ++ [
-            alsa-lib
-            fontconfig
-            libGL
-            openjdk11
+          ] ++ mathematica.buildInputs ++ [
+            dbus
+            gcc-unwrapped.lib
             zlib
-          ] ++ (with xorg; [
-            libX11
-            libXext
-          ]);
+          ];
           unshareNet = true;
+          extraOutputsToInstall = [ "out" "lib" ];
           runScript = "";
           profile = ''
-            export PATH="/opt/Wolfram/Mathematica/12.1/Executables''${PATH:+:$PATH}"
+            export PATH="/opt/Wolfram/Mathematica/14.0/Executables''${PATH:+:$PATH}"
             export USE_WOLFRAM_LD_LIBRARY_PATH=1
-            export QT_QPA_PLATFORM=xcb
-            export QT_XCB_GL_INTEGRATION=none
+            export QT_QPA_PLATFORM="wayland;xcb"
           '';
         };
 
@@ -72,7 +67,7 @@ let
         "fragmaster" "gbklatex" "gbkpdflatex" "getmapdl" "gftodvi" "gftopk"
         "gftype" "git-latexdiff" "gregorio" "gsftopk" "hbf2gf" "ht" "htcontext"
         "htlatex" "htmex" "httex" "httexi" "htxelatex" "htxetex"
-        "hyperxmp-add-bytecount" "includeres" "inimf" "initex" "installfont-tl"
+        "hyperxmp-add-bytecount" "includeres" "inimSehr geehrte Frau Kaiser,f" "initex" "installfont-tl"
         "jadetex" "jamo-normalize" "jfmutil" "kanji-config-updmap"
         "kanji-config-updmap-sys" "kanji-config-updmap-user"
         "kanji-fontmap-creator" "ketcindy" "komkindex" "kpseaccess" "kpsepath"
@@ -125,7 +120,7 @@ let
         "xelatex" "xelatex-dev" "xetex" "xhlatex" "xindex" "xindy" "xindy.mem"
         "xindy.run" "xmltex" "yplan" ];
 
-      fhs = buildFHSUserEnvBubblewrap {
+      fhs = buildFHSEnv {
         name = "texlive-fhs";
         targetPkgs = pkgs: with pkgs; [ fontconfig freetype libxcrypt-legacy perl tk wget ];
         runScript = "";

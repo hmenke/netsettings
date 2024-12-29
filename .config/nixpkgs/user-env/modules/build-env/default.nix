@@ -41,7 +41,7 @@ let
          oldVersions=$(readlink ~/.nix-profile/package-versions || echo "/dev/null")
 
          case "$isFlake" in
-             1) nix profile upgrade '.*' --print-build-logs "$@" ;;
+             1) nix profile upgrade --all --print-build-logs "$@" ;;
              0) nix-env --set -f ~/.config/nixpkgs/default.nix "$@" ;;
          esac
 
