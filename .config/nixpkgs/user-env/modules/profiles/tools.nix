@@ -10,6 +10,7 @@
     aspell'
     bat
     bfs
+    binutils
     bubblewrap
     cachix
     delta
@@ -32,6 +33,7 @@
     glab
     glib
     gnuplot_qt
+    gobuster
     gocryptfs
     gvfs
     hdf5.bin
@@ -51,6 +53,7 @@
     nix-index
     nix-output-monitor
     nixpkgs-fmt
+    nmap
     openssl
     pandoc
     par2cmdline
@@ -71,6 +74,7 @@
     sqlite
     sshpass
     sshuttle
+    subfinder
     syncthing
     tailspin
     taskspooler

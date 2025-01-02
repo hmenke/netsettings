@@ -29,10 +29,10 @@ let
          esac
      }
 
-     lock() {
+     update() {
          case "$isFlake" in
-             1) nix flake lock ~/.config/nixpkgs "$@" ;;
-             0) echo "lock has no effect for non-Flakes" ;;
+             1) nix flake update --flake ~/.config/nixpkgs "$@" ;;
+             0) echo "update has no effect for non-Flakes" ;;
          esac
      }
 
@@ -57,10 +57,10 @@ let
      case "''${1-}" in
          eval) shift; instantiate "$@" ;;
          build) shift; build "$@" ;;
-         lock) shift; lock "$@" ;;
+         update) shift; update "$@" ;;
          switch) shift; switch "$@" ;;
          *) case "$isFlake" in
-                1) switch "--recreate-lock-file" "$@" ;;
+                1) update "$@"; switch "$@" ;;
                 0) switch "$@" ;;
             esac ;;
      esac

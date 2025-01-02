@@ -11,6 +11,11 @@
         "--enable-zero-copy"
       ];
     };
+    mpv' = mpv.override {
+      scripts = with mpvScripts; [
+        inhibit-gnome
+      ];
+    };
   in [
     browserpass
     chromium'
@@ -20,12 +25,14 @@
     gimp
     gnome-frog
     gnomeExtensions.appindicator
+    gnomeExtensions.battery-health-charging
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
     gnomeExtensions.pop-shell
     gnucash
     inkscape
     libnotify
+    mpv'
     mousai
     songrec
     strawberry
