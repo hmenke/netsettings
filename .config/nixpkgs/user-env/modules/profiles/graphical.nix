@@ -25,7 +25,6 @@
     gimp
     gnome-frog
     gnomeExtensions.appindicator
-    gnomeExtensions.battery-health-charging
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
     gnomeExtensions.pop-shell
