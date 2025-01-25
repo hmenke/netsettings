@@ -176,3 +176,4 @@ augroup END
 " Color theme
 set termguicolors
 set background=light
+silent! colorscheme vim
