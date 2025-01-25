@@ -67,6 +67,7 @@
     rclone
     restic
     ripgrep
+    ripgrep-all
     ruff
     rustic
     sccache
