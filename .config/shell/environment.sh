@@ -82,3 +82,7 @@ fi
 
 # rclone
 export RCLONE_PASSWORD_COMMAND="pass rclone/config"
+
+# Work around intentionally stunted OpenSSH client on NixOS
+# https://github.com/NixOS/nixpkgs/pull/302688
+export GIT_SSH=ssh
