@@ -71,6 +71,7 @@
     ruff
     rustic
     sccache
+    shellcheck
     sops
     sqlite
     sshpass
