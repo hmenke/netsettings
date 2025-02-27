@@ -1,6 +1,5 @@
 [Unit]
 Description=Update ConTeXt LMTX
-OnFailure=notify-send@%i.service
 Wants=network-online.target
 After=network-online.target
 

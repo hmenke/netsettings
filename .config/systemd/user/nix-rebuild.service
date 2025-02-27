@@ -1,6 +1,5 @@
 [Unit]
 Description=Nix User Environment Upgrade
-OnFailure=notify-send@%N.service
 Wants=network-online.target
 After=network-online.target
 ConditionACPower=true
