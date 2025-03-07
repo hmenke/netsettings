@@ -17,7 +17,7 @@
     diffoscope'
     direnv
     dive
-    emacs29-pgtk
+    emacs-pgtk
     expect
     fd
     ffmpeg
