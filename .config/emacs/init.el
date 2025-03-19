@@ -178,6 +178,10 @@ is already narrowed."
  comp-deferred-compilation-black-list '("^/usr" "^/nix")
  comp-deferred-compilation t)
 
+;; completion
+(when (fboundp 'global-completion-preview-mode)
+  (global-completion-preview-mode 1))
+
 ;; autorevert
 (global-auto-revert-mode 1)
 (setq
@@ -398,6 +402,8 @@ is already narrowed."
       (message "Loading tags file: %s" tags-file)
       (visit-tags-table tags-file t))))
 (add-hook 'find-file-hook 'user/visit-tags-table)
+(when (fboundp 'etags-regen-mode)
+  (add-hook 'prog-mode-hook 'etags-regen-mode))
 
 ;; xref
 (when (> emacs-major-version 27)
