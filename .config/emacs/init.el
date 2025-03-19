@@ -821,6 +821,17 @@ is already narrowed."
               (setq TeX-command-default "ConTeXt Full"
                     TeX-command-Show "ConTeXt Full"))))
 
+(use-package cdlatex
+  :ensure t
+  :commands turn-on-cdlatex
+  :init
+  (setq
+   cdlatex-takeover-parenthesis nil
+   cdlatex-takeover-dollar nil
+   cdlatex-takeover-subsuperscript nil)
+  (add-hook 'cdlatex-tab-hook #'indent-for-tab-command)
+  (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex))
+
 (use-package reftex
   :init
   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
