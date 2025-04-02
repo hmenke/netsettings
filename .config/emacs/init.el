@@ -876,7 +876,10 @@ is already narrowed."
   :if (executable-find "direnv")
   :ensure t
   :config
-  (advice-add 'executable-find :before #'direnv-update-environment))
+  (defun user/direnv-update-environment (&optional file-name force-summary)
+    (unless (file-remote-p default-directory)
+      (direnv-update-environment file-name force-summary)))
+  (advice-add 'executable-find :before #'user/direnv-update-environment))
 
 ;; Language modes
 (use-package cmake-mode
