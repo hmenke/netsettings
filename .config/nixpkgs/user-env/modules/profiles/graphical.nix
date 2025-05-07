@@ -29,6 +29,7 @@
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
     gnomeExtensions.pop-shell
+    gnomeExtensions.xwayland-indicator
     gnucash
     inkscape
     libnotify

@@ -37,6 +37,7 @@
     gocryptfs
     gvfs
     hdf5.bin
+    helix
     httm
     hyperfine
     isync
