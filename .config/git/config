@@ -12,6 +12,7 @@
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
 	unstage = reset HEAD --
 	ustash = -c commit.gpgsign=false stash
+	dft = -c diff.external=difft diff
 [branch]
 	autosetupmerge = true
 [color "grep"]
