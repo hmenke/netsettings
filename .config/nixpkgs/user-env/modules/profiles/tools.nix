@@ -15,6 +15,7 @@
     cachix
     delta
     diffoscope'
+    difftastic
     direnv
     dive
     emacs-pgtk
@@ -41,8 +42,10 @@
     httm
     hyperfine
     isync
+    jq
     lemonade
     libarchive
+    libtree
     lsof
     mg
     msmtp
@@ -74,7 +77,7 @@
     sccache
     shellcheck
     sops
-    sqlite
+    sqlite-interactive
     sshpass
     sshuttle
     subfinder
@@ -82,9 +85,13 @@
     tailspin
     taskspooler
     tree
+    ugrep
     unison
+    (lib.meta.hiPrio universal-ctags)
     upterm
     uv
+    watchexec
     yt-dlp
+    zstd
   ];
 }
