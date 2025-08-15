@@ -62,7 +62,7 @@ __bp_adjust_histcontrol() { :; }
 # Keybindings
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 	__try_source ~/.nix-profile/share/fzf/key-bindings.bash ||
-		. ~/.config/shell/fzf/key-bindings.bash
+		__try_source ~/.local/share/fzf/key-bindings.bash
 fi
 
 # bash completion
@@ -70,7 +70,7 @@ export COMP_KNOWN_HOSTS_WITH_HOSTFILE=""
 if declare -F _completion_loader >/dev/null; then
 	if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 		__try_source ~/.nix-profile/share/fzf/completion.bash ||
-			. ~/.config/shell/fzf/completion.bash
+			__try_source ~/.local/share/fzf/completion.bash
 	fi
 	if declare -F __git_complete __git_main >/dev/null; then
 		__git_complete netsettings __git_main
