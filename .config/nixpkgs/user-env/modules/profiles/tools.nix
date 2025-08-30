@@ -48,6 +48,7 @@
     libtree
     lsof
     mg
+    mitmproxy
     msmtp
     mtr
     ncdu
