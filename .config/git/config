@@ -7,12 +7,14 @@
 	fake-rebase = rebase --exec='env NAME=\"$(git log -1 --format=%an)\" EMAIL=\"$(git log -1 --format=%ae)\" DATE=\"$(git log -1 --format=%ad)\" sh -c '\\''env GIT_AUTHOR_NAME=\"$NAME\" GIT_AUTHOR_EMAIL=\"$EMAIL\" GIT_AUTHOR_DATE=\"$DATE\" GIT_COMMITTER_NAME=\"$NAME\" GIT_COMMITTER_EMAIL=\"$EMAIL\" GIT_COMMITTER_DATE=\"$DATE\" git commit --amend --no-edit'\\'
 	fixup = "!f() { git log -n 50 --pretty=format:'%h %s' --no-merges | fzf --ansi --bind \"enter:become(git commit --fixup={1} $@)\"; }; f"
 	force-push = push --force-with-lease --force-if-includes
+	fzf = !fzf --disabled --bind 'start:reload:git grep -in --color=always {q} || :' --bind 'change:reload:git grep -in --color=always {q} || :' --ansi --delimiter : --nth 3 --preview 'bat --style=full --color=always --highlight-line {2} {1}' --preview-window '~4,+{2}+4/2'
 	graph = log --graph --pretty=format:'%C(yellow)%h%C(cyan)%d%Creset %s %C(white)- %an, %ai%Creset'
 	root = rev-parse --show-toplevel
 	setup = !git init && git commit --allow-empty -m \"Initial commit\"
 	unstage = reset HEAD --
 	ustash = -c commit.gpgsign=false stash
 	dft = -c diff.external=difft diff
+	idiff = difftool --tool idiff
 [branch]
 	autosetupmerge = true
 [color "grep"]
@@ -107,3 +109,5 @@
 	signingkey = D65C9AFB4C224DA3
 [include]
 	path = ~/.config/git/local
+[difftool "idiff"]
+	cmd = diff --unified --ignore-case --ignore-space-change --ignore-blank-lines --ignore-all-space $LOCAL $REMOTE
