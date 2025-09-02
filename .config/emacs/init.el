@@ -402,6 +402,12 @@ is already narrowed."
       (message "Loading tags file: %s" tags-file)
       (visit-tags-table tags-file t))))
 (add-hook 'find-file-hook 'user/visit-tags-table)
+(setq tags-add-tables nil)
+(setq etags-regen-tags-file
+      (lambda (proj)
+        (let* ((tags-directory (concat user-emacs-directory "tags"))
+               (backup-directory-alist `(("." . ,tags-directory))))
+          (make-backup-file-name-1 (concat proj "TAGS")))))
 (when (fboundp 'etags-regen-mode)
   (add-hook 'prog-mode-hook 'etags-regen-mode))
 
