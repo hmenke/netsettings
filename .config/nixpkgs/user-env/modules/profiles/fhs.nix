@@ -85,7 +85,7 @@ let
         "luacsplain" "luafindfont" "luahbtex" "luajithbtex" "luajittex" "lualatex"
         "lualatex-dev" "luametatex" "luaotfload-tool" "luatex" "luatools"
         "lwarpmk" "mag" "make4ht" "makedtx" "makeglossaries" "makeglossaries-lite"
-        "makeindex" "makejvf" "man" "markdown2tex" "match_parens" "mathspic"
+        "makeindex" "makejvf" "markdown2tex" "match_parens" "mathspic"
         "memoize-clean.pl" "memoize-clean.py" "memoize-extract.pl"
         "memoize-extract.py" "mendex" "mex" "mf" "mf2pt1" "mflua" "mfluajit"
         "mfluajit-nowin" "mflua-nowin" "mf-nowin" "mfplain" "mft" "mk4ht"
