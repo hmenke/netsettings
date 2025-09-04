@@ -28,13 +28,18 @@
     gnomeExtensions.appindicator
     gnomeExtensions.bing-wallpaper-changer
     gnomeExtensions.gsconnect
+    gnomeExtensions.launch-new-instance
     gnomeExtensions.pop-shell
+    gnomeExtensions.removable-drive-menu
+    gnomeExtensions.vitals
     gnomeExtensions.xwayland-indicator
     gnucash
     inkscape
+    libgtop
     libnotify
-    mpv'
+    lm_sensors
     mousai
+    mpv'
     songrec
     strawberry
     virt-manager
