@@ -6,6 +6,7 @@
       commandLineArgs = [
         "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
         "--disable-gpu-shader-disk-cache"
+        "--disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled"
         "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecoder"
         "--enable-gpu-rasterization"
         "--enable-zero-copy"
