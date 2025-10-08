@@ -24,6 +24,7 @@
     ffmpeg
     file
     fq
+    fuc
     fzf
     gh
     ghostscript
