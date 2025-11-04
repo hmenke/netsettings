@@ -224,7 +224,7 @@ is already narrowed."
             (c-set-offset 'innamespace 0)))
 (setq
  c-default-style "linux"
- c-basic-offset 4)
+ c-basic-offset 2)
 
 ;; Use tabs for indentation in sh-mode
 ;; That play better with heredocs
@@ -536,6 +536,8 @@ is already narrowed."
 ;; whitespace
 (add-hook 'prog-mode-hook (lambda ()
                             (setq show-trailing-whitespace t)))
+(add-hook 'f90-mode (lambda ()
+                      (highlight-lines-matching-regexp ".\\{133\\}" 'whitespace-line)))
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -997,3 +999,16 @@ is already narrowed."
 
 (use-package keycast
   :ensure t)
+
+;; GPT
+
+(unless (< emacs-major-version 27)
+  (use-package gptel
+    :ensure t
+    :config
+    (setq
+     gptel-backend (gptel-make-openai "SAIA"
+                     :protocol "https"
+                     :host "chat-ai.academiccloud.de"
+                     :key (auth-source-pick-first-password :host "chat-ai.academiccloud.de")
+                     :models '("openai-gpt-oss-120b")))))
