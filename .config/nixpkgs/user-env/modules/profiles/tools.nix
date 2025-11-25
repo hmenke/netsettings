@@ -37,17 +37,21 @@
     gnuplot_qt
     gobuster
     gocryptfs
+    gotty
     gvfs
     hdf5.bin
     helix
+    htop
     httm
     hyperfine
     isync
     jq
+    jujutsu
     lemonade
     libarchive
     libtree
     lsof
+    mergiraf
     mg
     mitmproxy
     msmtp
@@ -71,6 +75,7 @@
     python3
     qpdf
     rclone
+    reptyr
     restic
     ripgrep
     ripgrep-all
@@ -80,6 +85,7 @@
     shellcheck
     sops
     sqlite-interactive
+    ssh-to-age
     sshpass
     sshuttle
     subfinder
@@ -92,7 +98,9 @@
     (lib.meta.hiPrio universal-ctags)
     upterm
     uv
+    vtm
     watchexec
+    wireproxy
     yt-dlp
     zstd
   ];
