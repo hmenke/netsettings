@@ -14,7 +14,6 @@
     };
     mpv' = mpv.override {
       scripts = with mpvScripts; [
-        autocrop
         inhibit-gnome
       ];
     };
