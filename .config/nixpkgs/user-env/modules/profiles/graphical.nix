@@ -20,6 +20,7 @@
   in [
     browserpass
     chromium'
+    dragon-drop
     eduvpn-client
     evince
     evolution
@@ -46,7 +47,6 @@
     vlc
     wl-clipboard
     wofi
-    xdragon
     xournalpp
   ];
 }

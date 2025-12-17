@@ -27,7 +27,7 @@ in
     };
 
     system = mkOption {
-      default = cfg.pkgs.system;
+      default = cfg.pkgs.stdenv.hostPlatform.system;
       type = types.str;
       description = "Specifies the platform on which to build.";
     };
