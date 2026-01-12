@@ -35,8 +35,9 @@ export PASSWORD_STORE_ENABLE_EXTENSIONS=true
 export FZF_DEFAULT_OPTS="--layout=reverse --height 40%"
 
 # Python
-export PYTHONSTARTUP="${HOME}/.config/cpython/pythonrc"
+export PYTHONDONTWRITEBYTECODE=1
 export PYTHONFAULTHANDLER=1
+export PYTHONSTARTUP="${HOME}/.config/cpython/pythonrc"
 
 # GPG TTY
 GPG_TTY="$(tty)"
