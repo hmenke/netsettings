@@ -2,3 +2,8 @@ theme = "github_light"
 
 [editor]
 true-color = true
+undercurl = true
+color-modes = true
+
+[editor.statusline]
+right = ["diagnostics", "selections", "register", "position", "position-percentage", "file-encoding"]
