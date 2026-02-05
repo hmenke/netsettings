@@ -41,6 +41,7 @@
     lm_sensors
     mousai
     mpv'
+    mupdf
     songrec
     strawberry
     virt-manager

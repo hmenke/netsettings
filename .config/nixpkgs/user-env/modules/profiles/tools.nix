@@ -48,6 +48,7 @@
     jq
     jujutsu
     lemonade
+    lesspipe
     libarchive
     libtree
     lsof
