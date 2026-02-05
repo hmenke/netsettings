@@ -536,8 +536,8 @@ is already narrowed."
 ;; whitespace
 (add-hook 'prog-mode-hook (lambda ()
                             (setq show-trailing-whitespace t)))
-(add-hook 'f90-mode (lambda ()
-                      (highlight-lines-matching-regexp ".\\{133\\}" 'whitespace-line)))
+(add-hook 'f90-mode-hook (lambda ()
+                           (highlight-lines-matching-regexp ".\\{133\\}" 'whitespace-line)))
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
