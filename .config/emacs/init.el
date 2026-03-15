@@ -179,8 +179,12 @@ is already narrowed."
  comp-deferred-compilation t)
 
 ;; completion
+(when (fboundp 'dabbrev-capf)
+  (add-hook 'completion-at-point-functions #'dabbrev-capf))
 (when (fboundp 'global-completion-preview-mode)
-  (global-completion-preview-mode 1))
+  (global-completion-preview-mode 1)
+  (define-key completion-preview-active-mode-map [M-n] #'completion-preview-next-candidate)
+  (define-key completion-preview-active-mode-map [M-p] #'completion-preview-prev-candidate))
 
 ;; autorevert
 (global-auto-revert-mode 1)
