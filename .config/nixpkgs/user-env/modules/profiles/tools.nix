@@ -63,7 +63,8 @@
     nix-direnv
     nix-index
     nix-output-monitor
-    nixpkgs-fmt
+    nix-update
+    nixfmt-tree
     nmap
     openssl
     pandoc
