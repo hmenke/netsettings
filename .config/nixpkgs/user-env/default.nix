@@ -11,7 +11,12 @@ let
       {
         config.nixpkgs = {
           pkgs = lib.mkDefault pkgs;
-          inherit overlays;
+          overlays = [
+            (final: prev: lib.filesystem.packagesFromDirectoryRecursive {
+              inherit (prev) callPackage newScope;
+              directory = ./pkgs;
+            })
+          ] ++ overlays;
         };
       }
       configuration
