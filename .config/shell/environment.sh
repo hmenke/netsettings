@@ -87,3 +87,9 @@ export RCLONE_PASSWORD_COMMAND="pass rclone/config"
 # Work around intentionally stunted OpenSSH client on NixOS
 # https://github.com/NixOS/nixpkgs/pull/302688
 export GIT_SSH=ssh
+
+# Disable telemetry
+export DO_NOT_TRACK=1
+export GOTELEMETRY=off
+export CHECKPOINT_DISABLE=1
+export GH_TELEMETRY=false
