@@ -74,6 +74,7 @@ if declare -F _completion_loader >/dev/null; then
 	fi
 	if declare -F __git_complete __git_main >/dev/null; then
 		__git_complete netsettings __git_main
+		__git_complete agentconfig __git_main
 	fi
 fi
 
