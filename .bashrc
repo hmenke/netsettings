@@ -11,11 +11,6 @@ case $- in
 	*) return ;;
 esac
 
-# Load the Git completion eagerly (this has to be done before setting up aliases)
-if declare -F _completion_loader >/dev/null && ! declare -F __git_complete __git_main >/dev/null; then
-	_completion_loader git
-fi
-
 # source
 __try_source() {
 	if [[ -f "$1" ]]; then
@@ -63,6 +58,11 @@ __bp_adjust_histcontrol() { :; }
 if [ "$TERM" != "dumb" ] && command -v fzf >/dev/null; then
 	__try_source ~/.nix-profile/share/fzf/key-bindings.bash ||
 		__try_source ~/.local/share/fzf/key-bindings.bash
+fi
+
+# Load the Git completion eagerly (this has to be done before setting up aliases)
+if declare -F _completion_loader >/dev/null && ! declare -F __git_complete __git_main >/dev/null; then
+	_completion_loader git
 fi
 
 # bash completion
