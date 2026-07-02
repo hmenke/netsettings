@@ -4,7 +4,8 @@
   userPackages = with pkgs; let
     aspell' = aspellWithDicts (dicts: with dicts; [ de en ]);
     diffoscope' = diffoscope.override { enableBloat = false; };
-    pass-wayland' = pass-wayland.withExtensions (ext: with ext; [ pass-otp ]);
+    pass-wayland' = (pass-wayland.override { openssh = null; }).withExtensions (ext: with ext; [ pass-otp ]);
+    sshuttle' = sshuttle.override { openssh = null; };
   in [
     age
     aspell'
@@ -89,7 +90,7 @@
     sqlite-interactive
     ssh-to-age
     sshpass
-    sshuttle
+    sshuttle'
     subfinder
     syncthing
     tailspin
