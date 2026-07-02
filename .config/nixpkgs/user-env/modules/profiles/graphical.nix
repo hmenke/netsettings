@@ -28,6 +28,7 @@
     gnome-frog
     gnomeExtensions.appindicator
     gnomeExtensions.bing-wallpaper-changer
+    gnomeExtensions.bluetooth-battery-meter
     gnomeExtensions.gsconnect
     gnomeExtensions.launch-new-instance
     gnomeExtensions.removable-drive-menu
