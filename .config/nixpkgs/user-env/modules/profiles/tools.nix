@@ -101,6 +101,7 @@
     (lib.meta.hiPrio universal-ctags)
     upterm
     uv
+    voe-dl
     vtm
     watchexec
     wireproxy

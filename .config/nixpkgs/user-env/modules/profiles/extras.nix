@@ -4,6 +4,7 @@
   extraDependencies = (with pkgs; [
     autoconf
     automake
+    bison
     boost
     ccache
     cgal
@@ -28,7 +29,6 @@
     netcdf
     nfft
     ninja
-    openblasCompat
     openblasCompat
     openmpi
     perl
