@@ -50,6 +50,15 @@ declare -r HISTCONTROL=ignoreboth:erasedups
 HISTTIMEFORMAT="%F %T %z "
 HISTSIZE=
 HISTFILESIZE=
+HISTFILE="${XDG_DATA_HOME}/bash/history"
+# migration
+if [[ ! -d "${XDG_DATA_HOME}/bash" ]]; then
+	mkdir -pm0700 "${XDG_DATA_HOME}/bash"
+fi
+if [[ ! -f "${HISTFILE}" && -e ~/.bash_history ]]; then
+	cp ~/.bash_history "${HISTFILE}"
+	chmod 0600 "${HISTFILE}"
+fi
 
 # Bash preexec overrides HISTCONTROL by default
 __bp_adjust_histcontrol() { :; }
