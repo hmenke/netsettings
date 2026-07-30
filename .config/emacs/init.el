@@ -704,6 +704,8 @@ is already narrowed."
    cdlatex-takeover-dollar nil
    cdlatex-takeover-subsuperscript nil)
   (add-hook 'cdlatex-tab-hook #'indent-for-tab-command)
+  (when (fboundp 'completion-preview-insert)
+    (add-hook 'cdlatex-tab-hook #'completion-preview-insert))
   (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex))
 
 (use-package reftex
