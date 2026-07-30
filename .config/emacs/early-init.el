@@ -1,5 +1,16 @@
 ;; -*- lexical-binding: t; -*-
 
+(setq gc-cons-threshold 402653184
+      gc-cons-percentage 0.6
+      max-lisp-eval-depth 1600)
+(when (< emacs-major-version 29)
+  (with-no-warnings
+    (setq max-specpdl-size 2500)))
+(defun user/reset-startup-values ()
+  (setq gc-cons-threshold 16777216
+        gc-cons-percentage 0.1))
+(add-hook 'emacs-startup-hook #'user/reset-startup-values)
+
 ;; disable useless bars (from Doom Emacs)
 (push '(menu-bar-lines . 0)   default-frame-alist)
 (push '(tool-bar-lines . 0)   default-frame-alist)
@@ -16,4 +27,5 @@
   (setq x-gtk-use-system-tooltips nil))
 
 ;; package
-(setq package-enable-at-startup nil)
+(setq package-enable-at-startup nil
+      package-quickstart t)

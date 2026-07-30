@@ -1,30 +1,16 @@
 ;; -*- lexical-binding: t; -*-
-(when (< emacs-major-version 25)
+(when (< emacs-major-version 27)
   (error "Emacs is too old!"))
-
-;; Speed up the startup
-(setq gc-cons-threshold 402653184
-      gc-cons-percentage 0.6
-      max-lisp-eval-depth 1600
-      max-specpdl-size 2500)
-(defun user/reset-startup-values ()
-  (setq gc-cons-threshold 16777216
-        gc-cons-percentage 0.1))
-(add-hook 'emacs-startup-hook 'user/reset-startup-values)
 
 ;; Focus hooks
 (defun user/focus-in-hook())
 (defun user/focus-out-hook()
   (garbage-collect))
-(if (< emacs-major-version 27)
-    (progn
-      (add-hook 'focus-in-hook 'user/focus-in-hook)
-      (add-hook 'focus-out-hook 'user/focus-out-hook))
-  (add-function :after after-focus-change-function
-                (lambda ()
-                    (if (frame-focus-state)
-                        (user/focus-in-hook)
-                      (user/focus-out-hook)))))
+(defun user/after-focus-change-function ()
+  (if (frame-focus-state)
+      (user/focus-in-hook)
+    (user/focus-out-hook)))
+(add-function :after after-focus-change-function #'user/after-focus-change-function)
 
 ;; Narrow/widen dwim
 ;; http://endlessparentheses.com/emacs-narrow-or-widen-dwim.html
@@ -36,8 +22,8 @@ org-src-block actually calls `org-edit-src-code'.
 
 With prefix P, don't widen, just narrow even if buffer
 is already narrowed."
+  (declare (interactive-only t))
   (interactive "P")
-  (declare (interactive-only))
   (cond ((and (buffer-narrowed-p) (not p)) (widen))
         ((region-active-p)
          (narrow-to-region (region-beginning)
@@ -59,21 +45,6 @@ is already narrowed."
 ;; copy it if that's what you want.
 (define-key ctl-x-map "n" #'narrow-or-widen-dwim)
 
-;; disable useless bars (from Doom Emacs)
-(push '(menu-bar-lines . 0)   default-frame-alist)
-(push '(tool-bar-lines . 0)   default-frame-alist)
-(push '(vertical-scroll-bars) default-frame-alist)
-(setq menu-bar-mode nil
-      tool-bar-mode nil
-      scroll-bar-mode nil)
-
-;; disable tooltips (from Doom Emacs)
-(setq use-dialog-box nil)
-(when (bound-and-true-p tooltip-mode)
-  (tooltip-mode -1))
-(when (eq system-type 'gnu/linux)
-  (setq x-gtk-use-system-tooltips nil))
-
 ;; Enable some disabled commands
 (put 'upcase-region 'disabled nil)
 (put 'downcase-region 'disabled nil)
@@ -81,8 +52,7 @@ is already narrowed."
 
 (setq-default
  indent-tabs-mode nil
- fill-column 80
- use-dialog-box nil)
+ fill-column 80)
 (setq frame-title-format
       '((:eval (if (buffer-file-name)
                    (abbreviate-file-name (buffer-file-name))
@@ -90,14 +60,15 @@ is already narrowed."
         " - Emacs"))
 
 ;; Don't write message to the minibuffer when it's active
-(when (boundp 'inhibit-message)
-  (defun user/inhibit-message-in-minibuffer (f &rest args)
-    (let ((inhibit-message (or inhibit-message (active-minibuffer-window))))
-      (apply f args)))
-  (advice-add 'message :around #'user/inhibit-message-in-minibuffer))
+(defun user/inhibit-message-in-minibuffer (f &rest args)
+  (let ((inhibit-message (or inhibit-message (active-minibuffer-window))))
+    (apply f args)))
+(advice-add 'message :around #'user/inhibit-message-in-minibuffer)
 
 ;; I don't like typing
-(defalias 'yes-or-no-p 'y-or-n-p)
+(if (boundp 'use-short-answers)         ; 28+
+    (setq use-short-answers t)
+  (defalias 'yes-or-no-p 'y-or-n-p))
 
 ;; startup
 (setq-default
@@ -150,19 +121,14 @@ is already narrowed."
         (setq pending-undo-list new-pul)
         (setq buffer-undo-list new-ul))))))
 
-;; select
-(setq-default
- x-select-enable-clipboard t)
-
 ;; files
-(setq-default
- backup-by-copying t
- enable-local-eval 'maybe
- enable-local-variables t)
-(let ((auto-save-directory (file-name-as-directory (concat user-emacs-directory "auto-save-files")))
-      (backup-directory (file-name-as-directory (concat user-emacs-directory "backups"))))
-  (make-directory auto-save-directory t)
-  (make-directory backup-directory t)
+(setq-default backup-by-copying t)
+(let ((auto-save-directory (file-name-as-directory (locate-user-emacs-file "auto-save-files")))
+      (backup-directory (file-name-as-directory (locate-user-emacs-file "backups"))))
+  (unless (file-directory-p auto-save-directory)
+    (make-directory auto-save-directory t))
+  (unless (file-directory-p backup-directory)
+    (make-directory backup-directory t))
   (setq-default
    backup-directory-alist `(("\\`/dev/shm") ("." . ,backup-directory))
    auto-save-file-name-transforms `((".*" ,auto-save-directory t))))
@@ -170,29 +136,33 @@ is already narrowed."
 (setq-default create-lockfiles nil)
 
 ;; cus-edit
-(setq-default
- custom-file (concat user-emacs-directory "custom.el"))
+(setq custom-file (locate-user-emacs-file "custom.el"))
 
-;;;;comp
-(setq-default
- comp-deferred-compilation-black-list '("^/usr" "^/nix")
- comp-deferred-compilation t)
+;; comp
+(if (boundp 'native-comp-jit-compilation)
+    (setq native-comp-jit-compilation t
+          native-comp-jit-compilation-deny-list '("^/usr" "^/nix"))
+  (with-no-warnings
+    (setq comp-deferred-compilation t
+          comp-deferred-compilation-black-list '("^/usr" "^/nix"))))
 
 ;; completion
-(when (fboundp 'dabbrev-capf)
-  (add-hook 'completion-at-point-functions #'dabbrev-capf))
+(with-eval-after-load 'dabbrev
+  (when (fboundp 'dabbrev-capf)
+    (add-hook 'completion-at-point-functions #'dabbrev-capf 100)))
 (when (fboundp 'global-completion-preview-mode)
   (global-completion-preview-mode 1)
-  (define-key completion-preview-active-mode-map [M-n] #'completion-preview-next-candidate)
-  (define-key completion-preview-active-mode-map [M-p] #'completion-preview-prev-candidate))
+  (define-key completion-preview-active-mode-map (kbd "M-n") #'completion-preview-next-candidate)
+  (define-key completion-preview-active-mode-map (kbd "M-p") #'completion-preview-prev-candidate))
 
 ;; autorevert
-(global-auto-revert-mode 1)
 (setq
  auto-revert-interval 2
+ auto-revert-avoid-polling t
  auto-revert-check-vc-info t
  global-auto-revert-non-file-buffers t
  auto-revert-verbose nil)
+(global-auto-revert-mode 1)
 
 ;; delsel
 (delete-selection-mode 1)
@@ -221,39 +191,43 @@ is already narrowed."
 (global-set-key [remap dabbrev-expand] 'hippie-expand)
 
 ;; cc-mode
-(add-hook 'c-mode-common-hook
-          (lambda()
-            (setq indent-tabs-mode nil)
-            (local-set-key (kbd "C-c o") 'ff-find-other-file)
-            (c-set-offset 'innamespace 0)))
+(defun user/c-mode-common-hook ()
+  (setq indent-tabs-mode nil)
+  (local-set-key (kbd "C-c o") 'ff-find-other-file)
+  (c-set-offset 'innamespace 0))
+(add-hook 'c-mode-common-hook #'user/c-mode-common-hook)
 (setq
  c-default-style "linux"
  c-basic-offset 2)
 
 ;; Use tabs for indentation in sh-mode
 ;; That play better with heredocs
+;; NOTE: `sh-basic-offset' and `backward-delete-char-untabify-method' are not
+;; automatically buffer-local, hence `setq-local'.
 (define-minor-mode user/indent-tabs-mode
   "Use tabs for indentation"
   :init-value nil
-  :global nil
   :lighter " Tabs"
-  (setq
-   indent-tabs-mode t
-   tab-width 8
-   sh-basic-offset 8
-   backward-delete-char-untabify-method nil))
+  (if user/indent-tabs-mode
+      (setq-local indent-tabs-mode t
+                  tab-width 8
+                  sh-basic-offset 8
+                  backward-delete-char-untabify-method nil)
+    (kill-local-variable 'indent-tabs-mode)
+    (kill-local-variable 'tab-width)
+    (kill-local-variable 'sh-basic-offset)
+    (kill-local-variable 'backward-delete-char-untabify-method)))
 (add-hook 'sh-mode-hook 'user/indent-tabs-mode)
 
 ;; mouse
+;; `mouse-wheel-scroll-amount' has a :set function that reinstalls the bindings,
+;; so it needs `customize-set-variable' rather than `setq'.
 (xterm-mouse-mode 1)
-(if (load "mwheel" t) (mwheel-install))
-(defun track-mouse (e))
-(setq mouse-sel-mode t)
-(setq mouse-wheel-scroll-amount
-      '(5
-        ((shift) . hscroll)
-        ((meta) . nil)
-        ((control) . text-scale)))
+(customize-set-variable 'mouse-wheel-scroll-amount
+                        '(5
+                          ((shift) . hscroll)
+                          ((meta) . nil)
+                          ((control) . text-scale)))
 
 ;; pixel-scroll
 (when (fboundp 'pixel-scroll-precision-mode)
@@ -284,27 +258,27 @@ is already narrowed."
 ;; dired
 (autoload 'dired-jump "dired-x")
 (define-key ctl-x-map "\C-j" 'dired-jump)
+(defvar user/dired-listing-switches "-ahl --group-directories-first")
+
 (with-eval-after-load "dired"
-  (setq user/dired-listing-switches " -ahl --group-directories-first")
   (defun user/dired-open-in-terminal ()
     (interactive)
     (let ((process-connection-type nil))
       (start-process-shell-command "xterm" "*Terminal*" "nohup xterm & exit")))
-  (defun user/dired-multi-occur ()
+  (defun user/dired-multi-occur (regexp)
+    "Show lines matching REGEXP in the files marked in dired."
     ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2009-12/msg00112.html
-    "Search string in files marked by dired."
-    (interactive
-     (let ((files (dired-get-marked-files)))
-       (if (null files) (error "No files marked")
-         (let ((string (read-string "List lines matching regexp in marked files: ")))
-           (multi-occur (mapcar 'find-file files) string))))))
+    (interactive "sList lines matching regexp in marked files: ")
+    (let ((files (dired-get-marked-files)))
+      (unless files (user-error "No files marked"))
+      (multi-occur (mapcar #'find-file files) regexp)))
   (put 'dired-find-alternate-file 'disabled nil)
   (setq
    dired-listing-switches user/dired-listing-switches
    dired-use-ls-dired t
    dired-guess-shell-alist-user '((".*" "1>/dev/null 2>/dev/null nohup xdg-open"))
    dired-auto-revert-buffer t
-   dired-dwin-target t)
+   dired-dwim-target t)
   (add-hook 'dired-mode-hook 'dired-hide-details-mode)
   (define-key dired-mode-map [mouse-2] 'dired-mouse-find-file)
   (define-key dired-mode-map [M-up] 'dired-up-directory)
@@ -344,9 +318,10 @@ is already narrowed."
                                           (name . "^magit")))
                                 ("Emacs" (name . "^\\*.*\\*$"))))
  ibuffer-expert t)
+(defun user/ibuffer-mode-hook ()
+  (ibuffer-switch-to-saved-filter-groups "user"))
 (add-hook 'ibuffer-mode-hook 'ibuffer-auto-mode)
-(add-hook 'ibuffer-mode-hook (lambda ()
-                               (ibuffer-switch-to-saved-filter-groups "user")))
+(add-hook 'ibuffer-mode-hook #'user/ibuffer-mode-hook)
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 
 ;; minibuffer
@@ -356,9 +331,8 @@ is already narrowed."
  completion-category-defaults nil
  read-file-name-completion-ignore-case t
  read-buffer-completion-ignore-case t
- completion-ignore-case t)
-(add-to-list 'completion-styles 'substring)
-(add-to-list 'completion-styles 'initials)
+ completion-ignore-case t
+ completion-styles '(basic partial-completion substring initials))
 
 ;; savehist
 (setq
@@ -376,9 +350,10 @@ is already narrowed."
 (setq
  recentf-max-menu-items 25
  recentf-max-saved-items 25
- recentf-exclude '((expand-file-name package-user-dir)
-                   "ido.*" "recentf"
-                   ".gz" ".xz" ".zip")
+ recentf-exclude (list (concat "\\`" (regexp-quote (expand-file-name package-user-dir)))
+                       "ido\\.last\\'"
+                       "recentf\\'"
+                       "\\.\\(?:gz\\|xz\\|zip\\)\\'")
  recentf-filename-handlers '(abbreviate-file-name))
 (add-hook 'after-init-hook 'recentf-mode)
 (global-set-key (kbd "C-x C-r") 'user/complete-recentf)
@@ -388,23 +363,22 @@ is already narrowed."
 
 ;; isearch
 (setq
- search-highlight t
- isearch-lax-whitespace t
- isearch-regexp-lax-whitespace nil
- isearch-lazy-highlight t
  isearch-lazy-count t
  lazy-count-prefix-format "(%s/%s) "
  lazy-count-suffix-format nil)
 
 ;; ffap
-(ffap-bindings)
+(global-set-key [remap find-file] #'find-file-at-point)
+(with-eval-after-load 'ffap
+  (ffap-bindings))
 
 ;; etags
 (defun user/visit-tags-table ()
-  (let ((tags-file (locate-dominating-file buffer-file-name "TAGS")))
-    (when tags-file
-      (message "Loading tags file: %s" tags-file)
-      (visit-tags-table tags-file t))))
+  (when (and buffer-file-name (not (file-remote-p buffer-file-name)))
+    (let ((tags-file (locate-dominating-file buffer-file-name "TAGS")))
+      (when tags-file
+        (message "Loading tags file: %s" tags-file)
+        (visit-tags-table tags-file t)))))
 (add-hook 'find-file-hook 'user/visit-tags-table)
 (setq tags-add-tables nil)
 (setq etags-regen-tags-file
@@ -504,8 +478,9 @@ is already narrowed."
 (global-set-key (kbd "C-x v f") 'user/vc-git-grep)
 
 ;; grep
-(add-hook 'grep-mode-hook (lambda ()
-                            (switch-to-buffer-other-window "*grep*")))
+(defun user/grep-mode-hook ()
+  (switch-to-buffer-other-window "*grep*"))
+(add-hook 'grep-mode-hook #'user/grep-mode-hook)
 
 ;; ediff
 (setq
@@ -525,9 +500,9 @@ is already narrowed."
 (setq-default reb-re-syntax 'string)
 
 ;; sort
+(defvar sort-fold-case)
 (defun sort-lines-nocase ()
   (interactive)
-  (defvar sort-fold-case)
   (let ((sort-fold-case t))
     (call-interactively 'sort-lines)))
 
@@ -538,10 +513,12 @@ is already narrowed."
 (add-hook 'before-save-hook 'time-stamp)
 
 ;; whitespace
-(add-hook 'prog-mode-hook (lambda ()
-                            (setq show-trailing-whitespace t)))
-(add-hook 'f90-mode-hook (lambda ()
-                           (highlight-lines-matching-regexp ".\\{133\\}" 'whitespace-line)))
+(defun user/show-trailing-whitespace ()
+  (setq show-trailing-whitespace t))
+(add-hook 'prog-mode-hook #'user/show-trailing-whitespace)
+(defun user/f90-highlight-long-lines ()
+  (highlight-lines-matching-regexp ".\\{133\\}" 'whitespace-line))
+(add-hook 'f90-mode-hook #'user/f90-highlight-long-lines)
 
 ;;;;;;;;;;;;;;;;;;
 ;;;;;;;;;;;;;;;;;;
@@ -555,18 +532,10 @@ is already narrowed."
 ;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.config/emacs/elpa/gnupg --recv-keys 645357D2883A0966
 
 
-;; Work around Emacs bug https://debbugs.gnu.org/cgi/bugreport.cgi?bug=36725
-(when (and (gnutls-available-p)
-           (>= libgnutls-version 30603)
-           (version<= emacs-version "26.2"))
-  (setq gnutls-algorithm-priority "NORMAL:-VERS-TLS1.3"))
-
 ;; Always load the latest file (ignore outdated bytecode)
 (setq load-prefer-newer t)
 
 ;; package archives
-(setq package-enable-at-startup nil
-      package--init-file-ensured t)
 (require 'package)
 (setq package-archives '(("gnu" . "https://elpa.gnu.org/packages/")
                          ("nongnu" . "https://elpa.nongnu.org/nongnu/")
@@ -576,46 +545,6 @@ is already narrowed."
                                    ("nongnu" . 20)
                                    ("melpa" . 10)
                                    ("melpa-stable" . 0)))
-(custom-set-variables
- '(package-selected-packages
-   '(auctex
-     cdlatex
-     cmake-mode
-     csv-mode
-     cuda-mode
-     cython-mode
-     d-mode
-     diff-hl
-     diminish
-     direnv
-     dockerfile-mode
-     evil
-     format-all
-     gnuplot
-     go-mode
-     haskell-mode
-     icomplete-vertical
-     json-mode
-     julia-mode
-     keycast
-     lua-mode
-     magit
-     markdown-mode
-     nix-mode
-     project
-     proof-general
-     rainbow-mode
-     rust-mode
-     terraform-mode
-     transient
-     tree-sitter
-     tree-sitter-langs
-     undo-tree
-     use-package
-     which-key
-     xclip
-     yaml-mode)))
-
 (package-initialize)
 
 (unless (package-installed-p 'use-package)
@@ -652,80 +581,6 @@ is already narrowed."
    evil-motion-state-tag   (propertize " MOTION "   'face '((:weight bold :background "plum3"       )))
    evil-operator-state-tag (propertize " OPERATOR " 'face '((:weight bold :background "sandy brown" )))))
 
-(use-package transient
-  :ensure t
-  :config
-  ;; http://yummymelon.com/devnull/improving-emacs-isearch-usability-with-transient.html
-  (transient-define-prefix cc/isearch-menu ()
-    "isearch Menu"
-    [["Edit Search String"
-      ("e"
-       "Edit the search string (recursive)"
-       isearch-edit-string
-       :transient nil)
-      ("w"
-       "Pull next word or character word from buffer"
-       isearch-yank-word-or-char
-       :transient nil)
-      ("s"
-       "Pull next symbol or character from buffer"
-       isearch-yank-symbol-or-char
-       :transient nil)
-      ("l"
-       "Pull rest of line from buffer"
-       isearch-yank-line
-       :transient nil)
-      ("y"
-       "Pull string from kill ring"
-       isearch-yank-kill
-       :transient nil)
-      ("t"
-       "Pull thing from buffer"
-       isearch-forward-thing-at-point
-       :transient nil)]
-
-     ["Replace"
-      ("q"
-       "Start ‘query-replace’"
-       isearch-query-replace
-       :if-nil buffer-read-only
-       :transient nil)
-      ("x"
-       "Start ‘query-replace-regexp’"
-       isearch-query-replace-regexp
-       :if-nil buffer-read-only
-       :transient nil)]]
-
-    [["Toggle"
-      ("X"
-       "Toggle regexp searching"
-       isearch-toggle-regexp
-       :transient nil)
-      ("S"
-       "Toggle symbol searching"
-       isearch-toggle-symbol
-       :transient nil)
-      ("W"
-       "Toggle word searching"
-       isearch-toggle-word
-       :transient nil)
-      ("F"
-       "Toggle case fold"
-       isearch-toggle-case-fold
-       :transient nil)
-      ("L"
-       "Toggle lax whitespace"
-       isearch-toggle-lax-whitespace
-       :transient nil)]
-
-     ["Misc"
-      ("o"
-       "occur"
-       isearch-occur
-       :transient nil)]])
-
-  (define-key isearch-mode-map (kbd "C-c s") 'cc/isearch-menu))
-
 (use-package magit
   :ensure t
   :defer 2
@@ -737,12 +592,12 @@ is already narrowed."
   :defer 2
   :after magit
   :config
-  (add-hook 'diff-hl-mode-on-hook
-            (lambda ()
-              (unless (window-system)
-                (if (fboundp 'diff-hl-margin-local-mode)
-                    (diff-hl-margin-local-mode)
-                  (diff-hl-margin-mode)))))
+  (defun user/diff-hl-mode-on-hook ()
+    (unless (window-system)
+      (if (fboundp 'diff-hl-margin-local-mode)
+          (diff-hl-margin-local-mode)
+        (diff-hl-margin-mode))))
+  (add-hook 'diff-hl-mode-on-hook #'user/diff-hl-mode-on-hook)
   (global-diff-hl-mode)
   (add-hook 'magit-pre-refresh-hook 'diff-hl-magit-pre-refresh)
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh))
@@ -764,10 +619,12 @@ is already narrowed."
     (pop-mark)))
 
 (use-package tex-keywords
-  :load-path "lisp")
+  :load-path "lisp"
+  :defer t)
 
 (use-package tex
   :ensure auctex
+  :defer t
   :config
   (setq-default
    TeX-PDF-mode t
@@ -809,11 +666,12 @@ is already narrowed."
   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
 
   ;; Don't fontify math
-  (eval-after-load "font-latex"
-    '(set-face-foreground 'font-latex-math-face nil))
+  (with-eval-after-load 'font-latex
+    (set-face-foreground 'font-latex-math-face nil))
   (setq font-latex-fontify-script nil)
 
   ;; Fontify primitives
+  (require 'tex-keywords)
   (setq font-latex-match-function-keywords
         (mapcar #'(lambda (primitive) (list primitive ""))
                 tex-keywords/primitives))
@@ -834,10 +692,10 @@ is already narrowed."
          ("\\.mp\\(ii\\|iv\\|vi\\|xl\\|lx\\)\\'" . metapost-mode))
   :config
   (setq ConTeXt-Mark-version "IV")
-  (add-hook 'ConTeXt-mode-hook
-            (lambda()
-              (setq TeX-command-default "ConTeXt Full"
-                    TeX-command-Show "ConTeXt Full"))))
+  (defun user/ConTeXt-mode-hook ()
+    (setq TeX-command-default "ConTeXt Full"
+          TeX-command-Show "ConTeXt Full"))
+  (add-hook 'ConTeXt-mode-hook #'user/ConTeXt-mode-hook))
 
 (use-package cdlatex
   :ensure t
@@ -851,17 +709,18 @@ is already narrowed."
   (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex))
 
 (use-package reftex
+  :defer t
   :init
-  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
-  :config
-  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
-  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index)
   (setq-default
    reftex-plug-into-AUCTeX t
    reftex-label-alist '(AMSTeX)
    reftex-insert-label-flags '("s" t)
    reftex-cite-format 'default
-   reftex-cite-key-separator ", "))
+   reftex-cite-key-separator ", ")
+  (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+  :config
+  (add-hook 'reftex-load-hook 'imenu-add-menubar-index)
+  (add-hook 'reftex-mode-hook 'imenu-add-menubar-index))
 
 (use-package bibref
   :load-path "lisp"
@@ -888,34 +747,26 @@ is already narrowed."
   :if (executable-find "direnv")
   :ensure t
   :config
-  (defun user/direnv-update-environment (&optional file-name force-summary)
-    (unless (file-remote-p default-directory)
-      (direnv-update-environment file-name force-summary)))
-  (advice-add 'executable-find :before #'user/direnv-update-environment))
+  (direnv-mode))
 
 ;; Language modes
 (use-package cmake-mode
   :ensure t
-  :mode ("\\`CMakeLists\\.txt\\'" "\\.cmake\\'"))
+  :mode ("/CMakeLists\\.txt\\'" "\\.cmake\\'"))
 (use-package csv-mode
   :ensure t
   :mode "\\.csv\\'")
 (use-package cuda-mode
   :ensure t
   :mode "\\.cu\\'")
-(use-package cython-mode
-  :ensure t
-  :mode ("\\.pxd\\'" "\\.pyx\\'"))
-(use-package d-mode
-  :ensure t
-  :mode "\\.d\\'")
 (use-package dockerfile-mode
   :ensure t
-  :mode ("\\dockerfile\\'"))
+  :mode ("/[Dd]ockerfile\\'" "\\.dockerfile\\'"))
 (use-package format-all
   :ensure t
   :commands format-all-mode
-  :hook (prog-mode . format-all-mode)
+  ;; Only Fortran has a formatter configured below.
+  :hook (f90-mode . format-all-mode)
   :config
   (define-format-all-formatter
    findent-octopus
@@ -934,16 +785,15 @@ is already narrowed."
   :ensure t
   :mode "\\.go\\'"
   :config
-  (add-hook 'before-save-hook 'gofmt-before-save))
+  (defun user/go-mode-hook ()
+    (add-hook 'before-save-hook #'gofmt-before-save nil t))
+  (add-hook 'go-mode-hook #'user/go-mode-hook))
 (use-package haskell-mode
   :ensure t
   :mode "\\.hs\\'")
 (use-package json-mode
   :ensure t
   :mode "\\.json\\'")
-(use-package julia-mode
-  :ensure t
-  :mode "\\.jl\\'")
 (use-package lua-mode
   :ensure t
   :mode ("\\.lua\\'" "\\.Quanty\\'")
@@ -951,15 +801,13 @@ is already narrowed."
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
-  :mode (("\\`README\\.md\\'" . gfm-mode)
-         ("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode))
+  :mode (("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode)
+         ("/README\\.md\\'" . gfm-mode))
   :init (setq markdown-command "pandoc"))
 (use-package nix-mode
   :ensure t
   :mode "\\.nix\\'")
-(use-package proof-general
-  :ensure t)
 (use-package rust-mode
   :ensure t
   :mode "\\.rs\\'")
@@ -987,6 +835,7 @@ is already narrowed."
 (use-package undo-tree
   :diminish undo-tree-mode
   :ensure t
+  :defer 1
   :config
   (setq
    undo-tree-auto-save-history t
@@ -1002,17 +851,6 @@ is already narrowed."
   :config (which-key-mode 1))
 
 (use-package keycast
-  :ensure t)
-
-;; GPT
-
-(unless (< emacs-major-version 27)
-  (use-package gptel
-    :ensure t
-    :config
-    (setq
-     gptel-backend (gptel-make-openai "SAIA"
-                     :protocol "https"
-                     :host "chat-ai.academiccloud.de"
-                     :key (auth-source-pick-first-password :host "chat-ai.academiccloud.de")
-                     :models '("openai-gpt-oss-120b")))))
+  :ensure t
+  :commands (keycast-mode-line-mode keycast-header-line-mode
+             keycast-tab-bar-mode keycast-log-mode))
