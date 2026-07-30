@@ -326,13 +326,26 @@ is already narrowed."
 
 ;; minibuffer
 (setq
- enable-recursive-minibuffers t
- completions-format 'vertical
+ completion-auto-help t
+ completion-auto-select nil
  completion-category-defaults nil
- read-file-name-completion-ignore-case t
- read-buffer-completion-ignore-case t
+ completion-eager-display t
+ completion-eager-update t
  completion-ignore-case t
- completion-styles '(basic partial-completion substring initials))
+ completion-show-help nil
+ completion-show-inline-help nil
+ completion-styles '(basic partial-completion substring initials flex)
+ completion-category-overrides '((file . ((styles partial-completion))))
+ completions-detailed t
+ completions-format 'one-column
+ completions-max-height 12
+ completions-sort 'historical
+ enable-recursive-minibuffers t
+ minibuffer-visible-completions t
+ read-buffer-completion-ignore-case t
+ read-file-name-completion-ignore-case t
+ read-minibuffer-restore-windows nil)
+(minibuffer-depth-indicate-mode 1)
 
 ;; savehist
 (setq
@@ -343,20 +356,8 @@ is already narrowed."
 (savehist-mode 1)
 
 ;; recentf
-(defun user/complete-recentf ()
-  (interactive)
-  (let ((files (mapcar 'abbreviate-file-name recentf-list)))
-    (find-file (completing-read "Open recent: " files nil t))))
-(setq
- recentf-max-menu-items 25
- recentf-max-saved-items 25
- recentf-exclude (list (concat "\\`" (regexp-quote (expand-file-name package-user-dir)))
-                       "ido\\.last\\'"
-                       "recentf\\'"
-                       "\\.\\(?:gz\\|xz\\|zip\\)\\'")
- recentf-filename-handlers '(abbreviate-file-name))
 (add-hook 'after-init-hook 'recentf-mode)
-(global-set-key (kbd "C-x C-r") 'user/complete-recentf)
+(define-key global-map (kbd "C-x C-r") #'recentf-open)
 
 ;; saveplace
 (save-place-mode 1)
@@ -644,10 +645,7 @@ is already narrowed."
 
 (use-package latex
   :ensure auctex
-  :mode (("\\.cls\\'" . LaTeX-mode)
-         ("\\.dtx\\'" . LaTeX-mode)
-         ("\\.sty\\'" . LaTeX-mode)
-         ("\\.tex\\'" . LaTeX-mode))
+  :defer t
   :config
   ;; TeX mode enhancements
 
@@ -752,16 +750,16 @@ is already narrowed."
 ;; Language modes
 (use-package cmake-mode
   :ensure t
-  :mode ("/CMakeLists\\.txt\\'" "\\.cmake\\'"))
+  :defer t)
 (use-package csv-mode
   :ensure t
-  :mode "\\.csv\\'")
+  :defer t)
 (use-package cuda-mode
   :ensure t
-  :mode "\\.cu\\'")
+  :defer t)
 (use-package dockerfile-mode
   :ensure t
-  :mode ("/[Dd]ockerfile\\'" "\\.dockerfile\\'"))
+  :defer t)
 (use-package format-all
   :ensure t
   :commands format-all-mode
@@ -783,39 +781,38 @@ is already narrowed."
   :config (setq gnuplot-display-process nil))
 (use-package go-mode
   :ensure t
-  :mode "\\.go\\'"
+  :defer t
   :config
   (defun user/go-mode-hook ()
     (add-hook 'before-save-hook #'gofmt-before-save nil t))
   (add-hook 'go-mode-hook #'user/go-mode-hook))
 (use-package haskell-mode
   :ensure t
-  :mode "\\.hs\\'")
+  :defer t)
 (use-package json-mode
   :ensure t
-  :mode "\\.json\\'")
+  :defer t)
 (use-package lua-mode
   :ensure t
-  :mode ("\\.lua\\'" "\\.Quanty\\'")
+  :mode "\\.Quanty\\'"
   :config (setq lua-indent-level 4))
 (use-package markdown-mode
   :ensure t
   :commands (markdown-mode gfm-mode)
-  :mode (("\\.md\\'" . markdown-mode)
-         ("\\.markdown\\'" . markdown-mode)
-         ("/README\\.md\\'" . gfm-mode))
+  :mode ("/README\\.md\\'" . gfm-mode)
   :init (setq markdown-command "pandoc"))
 (use-package nix-mode
   :ensure t
-  :mode "\\.nix\\'")
+  :defer t)
 (use-package rust-mode
   :ensure t
-  :mode "\\.rs\\'")
+  :defer t)
 (use-package terraform-mode
-  :ensure t)
+  :ensure t
+  :defer t)
 (use-package yaml-mode
   :ensure t
-  :mode ("\\.yml\\'" "\\.yaml\\'" "\\.sls\\'"))
+  :defer t)
 
 (use-package rainbow-mode
   :ensure t
