@@ -7,14 +7,14 @@
 
 python3Packages.buildPythonApplication (finalAttrs: {
   pname = "voe-dl";
-  version = "1.8.2";
+  version = "1.9.0";
   pyproject = true;
 
   src = fetchFromGitHub {
     owner = "p4ul17";
     repo = "voe-dl";
     tag = "v${finalAttrs.version}";
-    hash = "sha256-agX3TjEQ9uDy6z3ZMHU73uyCRhRlhQKR0y1sDwZlB0M=";
+    hash = "sha256-0O9DGCpssaq/FB/+MgTpOmUswNJ4/SFWehwmXremEy0=";
   };
 
   build-system = with python3Packages; [ hatchling ];
