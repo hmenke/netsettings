@@ -223,6 +223,7 @@ is already narrowed."
 ;; `mouse-wheel-scroll-amount' has a :set function that reinstalls the bindings,
 ;; so it needs `customize-set-variable' rather than `setq'.
 (xterm-mouse-mode 1)
+(if (load "mwheel" t) (mouse-wheel-mode 1))
 (customize-set-variable 'mouse-wheel-scroll-amount
                         '(5
                           ((shift) . hscroll)
