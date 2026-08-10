@@ -17,6 +17,7 @@
     delta
     diffoscope'
     difftastic
+    dig
     direnv
     dive
     emacs-pgtk
