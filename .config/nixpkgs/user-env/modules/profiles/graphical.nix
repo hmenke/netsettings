@@ -2,16 +2,6 @@
 
 {
   userPackages = with pkgs; let
-    chromium' = chromium.override {
-      commandLineArgs = [
-        "--disk-cache-dir=/dev/shm/$USER/cache/chromium"
-        "--disable-gpu-shader-disk-cache"
-        "--disable-features=ExtensionManifestV2Unsupported,ExtensionManifestV2Disabled"
-        "--enable-features=WebRTCPipeWireCapturer,VaapiVideoDecoder"
-        "--enable-gpu-rasterization"
-        "--enable-zero-copy"
-      ];
-    };
     mpv' = mpv.override {
       scripts = with mpvScripts; [
         inhibit-gnome
@@ -19,11 +9,11 @@
     };
   in [
     browserpass
-    chromium'
     dragon-drop
     eduvpn-client
     evince
     evolution
+    firefox
     gimp
     gnome-frog
     gnomeExtensions.appindicator
