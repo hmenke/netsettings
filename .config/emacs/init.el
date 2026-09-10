@@ -530,9 +530,8 @@ is already narrowed."
 
 ;;;; This might be necessary on older Emacs
 ;; $ mkdir -pm0700 ~/.config/emacs/elpa/gnupg
-;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.config/emacs/elpa/gnupg --recv-keys 066DAFCB81E42C40
-;; $ gpg --keyserver keyserver.ubuntu.com --homedir ~/.config/emacs/elpa/gnupg --recv-keys 645357D2883A0966
-
+;; $ curl -sSfL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x066DAFCB81E42C40' | gpg --homedir ~/.config/emacs/elpa/gnupg --import
+;; $ curl -sSfL 'https://keyserver.ubuntu.com/pks/lookup?op=get&search=0x645357D2883A0966' | gpg --homedir ~/.config/emacs/elpa/gnupg --import
 
 ;; Always load the latest file (ignore outdated bytecode)
 (setq load-prefer-newer t)
@@ -695,19 +694,6 @@ is already narrowed."
     (setq TeX-command-default "ConTeXt Full"
           TeX-command-Show "ConTeXt Full"))
   (add-hook 'ConTeXt-mode-hook #'user/ConTeXt-mode-hook))
-
-(use-package cdlatex
-  :ensure t
-  :commands turn-on-cdlatex
-  :init
-  (setq
-   cdlatex-takeover-parenthesis nil
-   cdlatex-takeover-dollar nil
-   cdlatex-takeover-subsuperscript nil)
-  (add-hook 'cdlatex-tab-hook #'indent-for-tab-command)
-  (when (fboundp 'completion-preview-insert)
-    (add-hook 'cdlatex-tab-hook #'completion-preview-insert))
-  (add-hook 'LaTeX-mode-hook #'turn-on-cdlatex))
 
 (use-package reftex
   :defer t
