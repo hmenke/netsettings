@@ -20,6 +20,7 @@
     dig
     direnv
     dive
+    doggo
     emacs-pgtk
     expect
     fd
@@ -107,6 +108,7 @@
     watchexec
     wireproxy
     yt-dlp
+    zellij
     zstd
   ];
 }
