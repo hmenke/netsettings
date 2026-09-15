@@ -1,0 +1,13 @@
+attach_to_session true
+default_layout "custom"
+default_mode "locked"
+keybinds {
+    locked {
+        unbind "Ctrl g"
+        bind "Ctrl z" { SwitchToMode "Normal"; }
+    }
+}
+scroll_buffer_size 100000
+session_name "0"
+simplified-ui true
+theme "catppuccin-latte"
