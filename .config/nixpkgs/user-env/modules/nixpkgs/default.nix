@@ -1,4 +1,9 @@
-{ config, options, lib, ... }:
+{
+  config,
+  options,
+  lib,
+  ...
+}:
 
 with lib;
 
@@ -15,13 +20,13 @@ in
     };
 
     config = mkOption {
-      default = {};
+      default = { };
       type = types.attrsOf types.unspecified;
       description = "The configuration of the Nix Packages collection.";
     };
 
     overlays = mkOption {
-      default = [];
+      default = [ ];
       type = types.listOf types.unspecified;
       description = "List of overlays to use with the Nix Packages collection.";
     };
@@ -34,12 +39,14 @@ in
   };
 
   config = {
-    _module.args = let
-      finalPkgs = import cfg.pkgs.path {
-        inherit (cfg) config overlays system;
+    _module.args =
+      let
+        finalPkgs = import cfg.pkgs.path {
+          inherit (cfg) config overlays system;
+        };
+      in
+      {
+        inherit (finalPkgs) lib pkgs;
       };
-    in {
-      inherit (finalPkgs) lib pkgs;
-    };
   };
 }

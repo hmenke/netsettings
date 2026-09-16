@@ -11,11 +11,18 @@
     inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, nixpkgs, user-env, ... }@inputs: {
-    defaultPackage.x86_64-linux = user-env.lib.userEnvironment {
-      _module.args.inputs = inputs;
-      imports = [ ./configuration.nix ];
-      nixpkgs.config = import ./config.nix;
+  outputs =
+    {
+      self,
+      nixpkgs,
+      user-env,
+      ...
+    }@inputs:
+    {
+      defaultPackage.x86_64-linux = user-env.lib.userEnvironment {
+        _module.args.inputs = inputs;
+        imports = [ ./configuration.nix ];
+        nixpkgs.config = import ./config.nix;
+      };
     };
-  };
 }
