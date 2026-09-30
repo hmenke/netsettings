@@ -20,6 +20,16 @@
         ext: with ext; [ pass-otp ]
       );
       sshuttle' = sshuttle.override { openssh = null; };
+      rdiff-backup' = rdiff-backup.overridePythonAttrs (oa: {
+        dependencies =
+          (oa.dependencies or [ ])
+          ++ (with python3Packages; [
+            psutil
+            pylibacl
+            pyxattr
+          ]);
+      });
+      universal-ctags' = lib.meta.hiPrio universal-ctags;
     in
     [
       age
@@ -95,6 +105,7 @@
       python3
       qpdf
       rclone
+      rdiff-backup'
       reptyr
       restic
       ripgrep
@@ -115,7 +126,7 @@
       tree
       ugrep
       unison
-      (lib.meta.hiPrio universal-ctags)
+      universal-ctags'
       upterm
       uv
       voe-dl
