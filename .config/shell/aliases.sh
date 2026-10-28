@@ -80,3 +80,9 @@ alias ssh-exit-all='\ls -1q ~/.ssh/control-*.sock 2>/dev/null | xargs -I{} echo 
 if command -v git-branchless &>/dev/null; then
 	alias git="git-branchless wrap --"
 fi
+
+# https://reproducible-builds.org/docs/archives/
+alias rtar='tar --sort=name \
+	--mtime="@${SOURCE_DATE_EPOCH:-315532800}" \
+	--owner=0 --group=0 --numeric-owner \
+	--pax-option=exthdr.name=%d/PaxHeaders/%f,delete=atime,delete=ctime'
