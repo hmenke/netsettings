@@ -803,10 +803,6 @@ is already narrowed."
   :ensure t
   :defer t)
 
-(use-package rainbow-mode
-  :ensure t
-  :commands (rainbow-mode))
-
 ;; Tree-sitter needs dynamic module loading
 (when (and (functionp 'module-load) (bound-and-true-p module-file-suffix))
   (use-package tree-sitter
@@ -835,8 +831,3 @@ is already narrowed."
   :ensure t
   :defer 2
   :config (which-key-mode 1))
-
-(use-package keycast
-  :ensure t
-  :commands (keycast-mode-line-mode keycast-header-line-mode
-             keycast-tab-bar-mode keycast-log-mode))
