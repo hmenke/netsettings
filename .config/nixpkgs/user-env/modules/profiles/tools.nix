@@ -93,6 +93,8 @@
       nix-output-monitor
       nix-update
       nixfmt-tree
+      nixos-shell
+      nixpkgs-review
       nmap
       openssl
       pandoc
